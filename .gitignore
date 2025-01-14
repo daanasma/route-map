@@ -1,0 +1,47 @@
+# Node modules
+/node_modules/
+
+# Dependency directory for Yarn users
+/.pnp/
+
+# Build output
+/dist/
+/build/
+
+# Vite cache
+/.vite/
+
+# Production
+/.prod/
+
+# Logs
+/logs
+*.log
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# IDE and editor directories and files
+/.idea/
+/.vscode/
+/*.sublime-workspace
+
+# NPM/Yarn lock files
+package-lock.json
+yarn.lock
+
+# env files (exclude local environment files)
+.env
+.env.local
+.env.*.local
+
+# Coverage reports
+/coverage/
+
+# Vercel and Netlify folders (deployment)
+.vercel/
+/netlify/
+
+# GitHub Pages folder (generated when using gh-pages deploy)
+gh-pages/
