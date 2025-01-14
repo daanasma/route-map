@@ -10,6 +10,11 @@ jobs:
     runs-on: ubuntu-latest  # Use the latest Ubuntu environment for the build
 
     steps:
+      - name: Set up Git user
+        run: |
+          git config --global user.name "daanasma"
+          git config --global user.email "daanasma@gmail.com"
+
       - name: Checkout repository
         uses: actions/checkout@v2  # Checkout the code from the repository
 
