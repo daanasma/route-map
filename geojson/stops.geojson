@@ -1,0 +1,65 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-0.3763, 39.4699]
+      },
+      "properties": {
+        "name": "Stop 1: Valencia Cathedral"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-0.3770, 39.4715]
+      },
+      "properties": {
+        "name": "Stop 2: Plaza de la Virgen"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-0.3790, 39.4725]
+      },
+      "properties": {
+        "name": "Stop 3: Plaza del Ayuntamiento"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-0.3815, 39.4735]
+      },
+      "properties": {
+        "name": "Stop 4: Mercado Central"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-0.3840, 39.4740]
+      },
+      "properties": {
+        "name": "Stop 5: Torres de Quart"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-0.3890, 39.4750]
+      },
+      "properties": {
+        "name": "Stop 6: Jardines del Turia"
+      }
+    }
+  ]
+}
