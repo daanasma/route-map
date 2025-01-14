@@ -29,6 +29,7 @@ export default defineConfig({
             fs.writeFileSync(filePath, minifiedContent); // Write back the minified content
             console.log(`Minified: ${file}`);
           }
+
         });
       },
     },
