@@ -30,6 +30,7 @@ jobs:
           npm run build  # Build the project (outputs to 'dist' folder)
 
       - name: Deploy to GitHub Pages
+        working-directory: ./app
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages  # This is the branch where the 'dist' folder will be deployed
