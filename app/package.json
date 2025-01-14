@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "go": "vite build && vite preview",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
@@ -18,6 +19,7 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.1",
     "gh-pages": "^6.3.0",
+    "jsonminify": "^0.4.2",
     "unocss": "^65.4.0",
     "vite": "^6.0.5"
   }

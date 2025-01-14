@@ -1,4 +1,5 @@
 <script >
+console.log('jow')
 export default {
   name: 'App',
 };
