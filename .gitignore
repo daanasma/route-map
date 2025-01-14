@@ -28,7 +28,6 @@ Thumbs.db
 /*.sublime-workspace
 
 # NPM/Yarn lock files
-package-lock.json
 yarn.lock
 
 # env files (exclude local environment files)
