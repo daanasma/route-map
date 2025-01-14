@@ -27,3 +27,7 @@ jobs:
         working-directory: ./app
         run: |
           npm run build  # Build the project (outputs to 'dist' folder)
+
+      - name: Deploy to GitHub Pages
+        working-directory: ./app
+        run: npm run deploy
