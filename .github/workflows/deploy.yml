@@ -31,7 +31,6 @@ jobs:
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
-        working-directory: ./app
         with:
           branch: gh-pages  # This is the branch where the 'dist' folder will be deployed
           folder: dist  # This is the folder that contains the build artifacts (change if necessary)
