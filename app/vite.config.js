@@ -14,4 +14,6 @@ export default defineConfig({
   server: {
     port: 6999,
   },
-  base: '/route-map/'});
+base: process.env.NODE_ENV === 'production' ? '/route-map/' : '/',
+
+});
