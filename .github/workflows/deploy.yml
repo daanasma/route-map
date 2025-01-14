@@ -19,9 +19,11 @@ jobs:
           node-version: '22'  # Specify the version of Node.js (adjust as needed)
 
       - name: Install dependencies
+        working-directory: ./app
         run: |
-          npm install # Use 'npm ci' to install dependencies from package-lock.json
+          npm ci # Use 'npm ci' to install dependencies from package-lock.json
 
       - name: Build the project
+        working-directory: ./app
         run: |
           npm run build  # Build the project (outputs to 'dist' folder)
