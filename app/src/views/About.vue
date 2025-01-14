@@ -1,8 +1,7 @@
-<script setup lang="ts">
+<script setup >
 import { ref } from 'vue'
-import { useRouteStatusStore } from "../stores/routestatus.ts";
+import { useRouteStatusStore } from "../stores/routestatus.js";
 
-defineProps<{ msg: string }>()
 
 const count = ref(0)
 

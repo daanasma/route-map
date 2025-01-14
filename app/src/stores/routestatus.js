@@ -1,21 +1,16 @@
-// src/stores/counter.ts
+// src/stores/counter.js
 import { defineStore } from 'pinia';
 
-// Define the state type
-interface CounterState {
-  count: number;
-}
-
 export const useRouteStatusStore = defineStore('counter', {
-  state: (): CounterState => ({
+  state: () => ({
     count: 0,
   }),
   getters: {
-    doubled: (state:any): number => state.count * 2,
+    doubled: (state) => state.count * 2,
   },
   actions: {
     increment() {
-      console.log(this.count)
+      console.log(this.count);
       this.count++;
     },
     decrement() {

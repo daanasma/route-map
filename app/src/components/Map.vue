@@ -1,43 +1,50 @@
-<script lang="ts">
-import { onMounted, ref } from 'vue';
+<script>
+import {onMounted, ref} from 'vue';
 import maplibre from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+
 
 export default {
   name: 'Map',
   setup() {
-    const mapContainer = ref<HTMLElement | null>(null); // Reference to map container
-
-    onMounted(() => {
+    const mapContainer = ref(null); // Reference to map container
+    onMounted(async () => {
       if (!mapContainer.value) return;
 
       // Initialize the map
       const map = new maplibre.Map({
         container: mapContainer.value, // The div to render the map in
-        style: 'https://demotiles.maplibre.org/style.json', // Map style (you can change it to a different one)
-        center: [-72.5, 42], // Initial map center [lng, lat]
-        zoom: 6, // Initial zoom level
+        style: {
+          version: 8,
+          sources: {
+            'satellite': {
+              type: 'raster',
+              tiles: [
+                'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+              ],
+              tileSize: 256,
+            }
+          },
+          layers: [{
+            id: 'satellite-layer',
+            type: 'raster',
+            source: 'satellite',
+            paint: {}
+          }],
+        }, center: [-0.3815, 39.4735], // Coordinates for Valencia, Spain
+        zoom: 14,
       });
 
-      // Define the route coordinates (as an example, New York to Boston)
-      const routeCoordinates = [
-        [-74.5, 40],
-        [-73.6, 41],
-        [-72.5, 42],
-        [-71.1, 42.4],
-      ];
+      // Load GeoJSON data for the route
+      const routeData = await fetch('/geojson/route.geojson').then((res) => res.json());
+      const stopsData = await fetch('/geojson/stops.geojson').then((res) => res.json());
 
-      // Add the route as a line on the map
+      // Add the route to the map
       map.on('load', () => {
+        // Add the route as a GeoJSON source
         map.addSource('route', {
           type: 'geojson',
-          data: {
-            type: 'Feature',
-            geometry: {
-              type: 'LineString',
-              coordinates: routeCoordinates,
-            },
-          },
+          data: routeData,
         });
 
         // Add a line layer for the route
@@ -50,8 +57,26 @@ export default {
             'line-width': 5, // Route line width
           },
         });
+
+        // Add the stops as a GeoJSON source
+        map.addSource('stops', {
+          type: 'geojson',
+          data: stopsData,
+        });
+
+        // Add a point layer for the stops
+        map.addLayer({
+          id: 'stops-layer',
+          type: 'circle',
+          source: 'stops',
+          paint: {
+            'circle-radius': 8,
+            'circle-color': '#00ff00', // Stop color
+          },
+        });
       });
     });
+
 
     return {
       mapContainer,
