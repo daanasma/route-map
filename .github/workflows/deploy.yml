@@ -25,10 +25,3 @@ jobs:
       - name: Build the project
         run: |
           npm run build  # Build the project (outputs to 'dist' folder)
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3  # Action to deploy to GitHub Pages
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}  # This token is automatically provided by GitHub
-          publish_dir: ./dist  # Path to the build output directory
-          publish_branch: deploy  # Name of the branch to deploy to
