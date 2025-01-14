@@ -1,0 +1,11 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ],
+    "include": [
+    "src/**/*",
+    "node_modules/pinia" // Ensure Pinia module is being included
+  ]
+}
