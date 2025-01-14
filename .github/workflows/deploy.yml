@@ -10,10 +10,6 @@ jobs:
     runs-on: ubuntu-latest  # Use the latest Ubuntu environment for the build
 
     steps:
-      - name: Set up Git user
-        run: |
-          git config --global user.name "daanasma"
-          git config --global user.email "daanasma@gmail.com"
 
       - name: Checkout repository
         uses: actions/checkout@v2  # Checkout the code from the repository
@@ -34,5 +30,8 @@ jobs:
           npm run build  # Build the project (outputs to 'dist' folder)
 
       - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
         working-directory: ./app
-        run: npm run deploy
+        with:
+          branch: gh-pages  # This is the branch where the 'dist' folder will be deployed
+          folder: dist  # This is the folder that contains the build artifacts (change if necessary)
