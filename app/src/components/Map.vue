@@ -1,92 +1,118 @@
 <script>
-import {onMounted, ref} from 'vue';
-import { useCorrectBasePath } from '@/composables/useCorrectBasePath.js';
-
-
+import {onMounted, ref, watch} from 'vue';
+import {useRoute} from 'vue-router';
 import maplibre from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-const { getFilePath } = useCorrectBasePath();
+import {useCorrectBasePath} from '@/composables/useCorrectBasePath.js';
 
-// Form correct path for GeoJSON files
-const routeGeoJsonPath = getFilePath('geojson/route.geojson');  // Form path for route GeoJSON
-const stopsGeoJsonPath = getFilePath('geojson/stops.geojson');  // Form path for stops GeoJSON
+const {getFilePath} = useCorrectBasePath();
+import { useRouteStatusStore } from '../stores/routestatus.js';
+
+
+
+    // Load GeoJSON data asynchronously
+const loadGeoJsonData = async () => {
+  // Form correct path for GeoJSON files
+  const routeGeoJsonPath = getFilePath('geojson/route.geojson');
+  const stopsGeoJsonPath = getFilePath('geojson/stops.geojson');
+
+  try {
+    const routeData = await fetch(routeGeoJsonPath).then((res) => res.json());
+    const stopsData = await fetch(stopsGeoJsonPath).then((res) => res.json());
+
+    return { routeData, stopsData };
+  } catch (err) {
+    console.error('Error loading GeoJSON data', err);
+    return { routeData: null, stopsData: null };
+  }
+};
 
 
 export default {
   name: 'Map',
   setup() {
     const mapContainer = ref(null);
-          console.log('in map before mount')
+    const route = useRoute(); // Get the current route (with query params)
+    const map = ref(null); // The map instance
+    const mapLoaded = ref(false); // Flag to check if map and component are fully loaded
+    const routeStatus = useRouteStatusStore();
 
+    // Initialize the map when the component is mounted
     onMounted(async () => {
-      console.log('in map')
-      if (mapContainer.value) {
-      // Initialize the map
-      const map = new maplibre.Map({
-        container: mapContainer.value, // The div to render the map in
+      // Load GeoJSON data for the route and stops
+      const { routeData, stopsData } = await loadGeoJsonData();
+      console.log('routeData')
+      console.log(routeData)
+        if (mapContainer.value) {
+          // Initialize the map
+          map.value = new maplibre.Map({
+            container: mapContainer.value,
+            style: 'https://tiles.openfreemap.org/styles/positron',
+            center: [-0.3815, 39.4735], // Coordinates for Valencia, Spain
+            zoom: 14,
+          });
 
-      style: 'https://tiles.openfreemap.org/styles/positron',
-        center: [-0.3815, 39.4735], // Coordinates for Valencia, Spain
-        zoom: 14,
-      });
-  // Log the paths to verify
-    console.log('Route GeoJSON Path:', routeGeoJsonPath);
-    console.log('Stops GeoJSON Path:', stopsGeoJsonPath);
-      // Load GeoJSON data for the route
-      const routeData = await fetch(routeGeoJsonPath).then((res) => res.json());
-      const stopsData = await fetch(stopsGeoJsonPath).then((res) => res.json());
 
-      // Add the route to the map
-      map.on('load', () => {
-        // Add the route as a GeoJSON source
-        map.addSource('route', {
-          type: 'geojson',
-          data: routeData,
-        });
+          // Add the route as a GeoJSON source
+          map.value.on('load', () => {
+            // Add route source and layer
+            map.value.addSource('route', {type: 'geojson', data: routeData});
+            map.value.addLayer({
+              id: 'route-layer',
+              type: 'line',
+              source: 'route',
+              paint: {
+                'line-color': '#ff0000',
+                'line-width': 5,
+              },
+            });
 
-        // Add a line layer for the route
-        map.addLayer({
-          id: 'route-layer',
-          type: 'line',
-          source: 'route',
-          paint: {
-            'line-color': '#ff0000', // Route line color
-            'line-width': 5, // Route line width
-          },
-        });
+            // Add stops source and layer
+            map.value.addSource('stops', {type: 'geojson', data: stopsData});
+            map.value.addLayer({
+              id: 'stops-layer',
+              type: 'circle',
+              source: 'stops',
+              paint: {
+                'circle-radius': 8,
+                'circle-color': '#00ff00', // Green color for stops
+              },
+            })
+            mapLoaded.value = true;
+          });
+        }
+      })
 
-        // Add the stops as a GeoJSON source
-        map.addSource('stops', {
-          type: 'geojson',
-          data: stopsData,
-        });
-
-        // Add a point layer for the stops
-        map.addLayer({
-          id: 'stops-layer',
-          type: 'circle',
-          source: 'stops',
-          paint: {
-            'circle-radius': 8,
-            'circle-color': '#00ff00', // Stop color
-          },
-        });
-      });
-    }}
+    // Watch for changes in the query parameters (stopId)
+    watch(
+      () => routeStatus.stopId, // Watch the stopId in the Pinia store
+      (newStopId, oldStopId) => {
+        console.log(`Stop ID changed from ${oldStopId} to ${newStopId}`);
+        console.log('Do something in the map')
+        // Handle any side effects or actions you need based on stopId change
+      }
     );
 
-
+    // Function to find a stop by its ID
+    function findStopById(stopId) {
+      console.log('going to stop!')
+      //const stopsData = map.value.getSource('stops')
+      console.log(stopsData)
+      return stopsData.find((stop) => stop.properties.id === stopId);
+    }
     return {
       mapContainer,
     };
-
   },
 };
 </script>
 
 <template>
   <div ref="mapContainer" class="w-full h-full bg-blue-200 flex items-center justify-center">
+    <!-- Map container remains the same -->
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+/* Kept the original CSS intact */
+</style>

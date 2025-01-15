@@ -1,6 +1,25 @@
 <script setup >
 import Map from '../components/Map.vue';
 import Content from '../components/Content.vue';
+import {watch} from "vue";
+import {useRoute} from "vue-router";
+import { useRouteStatusStore } from '../stores/routestatus.js';
+
+const route = useRoute(); // Get the current route (with query params)
+const routeStatus = useRouteStatusStore();
+watch(
+    () => route.query.stop,
+    (newStopId) => {
+      if (newStopId) {
+        console.log(`new stop! ${newStopId}`)
+        // Find the stop based on the stopId
+        routeStatus.setStop(newStopId)
+      }
+    },
+    {immediate: true} // Call immediately on initial load
+);
+
+
 </script>
 
 <template>

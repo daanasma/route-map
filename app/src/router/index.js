@@ -4,9 +4,17 @@ import About from '../views/About.vue';  // About page in the views folder
 
 const routes = [
   {
-    path: "/",
-    name: "Home",
+    path: '/',  // Root path also redirects to /route-map
+    redirect: '/map',  // Redirects to the map view
+  },
+  {
+    path: '/map',  // The map view is available at /route-map
+    name: 'Home',
     component: Home,
+    props: (route) => ({
+      stop: route.query.stop,
+      segment: route.query.segment,
+    }),
   },
   {
     path: "/about",
