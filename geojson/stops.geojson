@@ -1,1 +1,65 @@
-{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[-0.3763,39.4699]},"properties":{"name":"Stop 1: Valencia Cathedral"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[-0.3770,39.4715]},"properties":{"name":"Stop 2: Plaza de la Virgen"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[-0.3790,39.4725]},"properties":{"name":"Stop 3: Plaza del Ayuntamiento"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[-0.3815,39.4735]},"properties":{"name":"Stop 4: Mercado Central"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[-0.3840,39.4740]},"properties":{"name":"Stop 5: Torres de Quart"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[-0.3890,39.4750]},"properties":{"name":"Stop 6: Jardines del Turia"}}]}
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-0.3780, 39.4720]
+      },
+      "properties": {
+        "id": "stop_1",
+        "index": 1,
+        "name": "Plaza del Ayuntamiento",
+        "description": "The main square of Valencia, surrounded by beautiful buildings.",
+        "route_to": "stage_1",
+        "route_from": null
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-0.3805, 39.4730]
+      },
+      "properties": {
+        "id": "stop_2",
+        "index": 2,
+        "name": "Market Area",
+        "description": "A bustling area near the Mercado Central and shops.",
+        "route_to": "stage_2",
+        "route_from": "stage_1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-0.3845, 39.4745]
+      },
+      "properties": {
+        "id": "stop_3",
+        "index": 3,
+        "name": "Jardines del Turia",
+        "description": "A long park that was once a riverbed, great for walking and cycling.",
+        "route_to": "stage_3",
+        "route_from": "stage_2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-0.4000, 39.4785]
+      },
+      "properties": {
+        "id": "stop_4",
+        "index": 4,
+        "name": "City of Arts and Sciences",
+        "description": "A modern architectural complex and one of Valencia's main attractions.",
+        "route_to": null,
+        "route_from": "stage_3"
+      }
+    }
+  ]
+}
