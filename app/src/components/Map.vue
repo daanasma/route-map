@@ -24,24 +24,9 @@ export default {
       // Initialize the map
       const map = new maplibre.Map({
         container: mapContainer.value, // The div to render the map in
-        style: {
-          version: 8,
-          sources: {
-            'satellite': {
-              type: 'raster',
-              tiles: [
-                'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
-              ],
-              tileSize: 256,
-            }
-          },
-          layers: [{
-            id: 'satellite-layer',
-            type: 'raster',
-            source: 'satellite',
-            paint: {}
-          }],
-        }, center: [-0.3815, 39.4735], // Coordinates for Valencia, Spain
+
+      style: 'https://tiles.openfreemap.org/styles/positron',
+        center: [-0.3815, 39.4735], // Coordinates for Valencia, Spain
         zoom: 14,
       });
   // Log the paths to verify
