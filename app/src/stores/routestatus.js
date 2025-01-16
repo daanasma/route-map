@@ -6,6 +6,7 @@ export const useRouteStatusStore = defineStore('counter', {
     count: 0,
     stopId: null,      // New state for stopId
     segmentId: null,   // New state for segmentId
+    urlReadyToUpdate: false
   }),
   getters: {
     doubled: (state) => state.count * 2,
@@ -28,6 +29,11 @@ export const useRouteStatusStore = defineStore('counter', {
     },
     setSegment(segmentId) {
       this.segmentId = segmentId;
+    },
+        // Action to allow URL updates once the router is ready
+    setUrlReadyToUpdate() {
+      this.urlReadyToUpdate = true;
+      console.log('URL is ready to update');
     },
   },
 });

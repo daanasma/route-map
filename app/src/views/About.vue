@@ -6,6 +6,8 @@ import { useRouteStatusStore } from "../stores/routestatus.js";
 const count = ref(0)
 
 const routeStatusStore = useRouteStatusStore();
+
+
 </script>
 
 <template>
