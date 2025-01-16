@@ -13,6 +13,7 @@ export function useUpdateQueryParam() {
   const updateQueryParam = (key, value) => {
     console.log('trying to update url', store)
     if (!store.urlReadyToUpdate) {
+
       console.log('Router is not ready. Query parameter update skipped.');
       return;
     }

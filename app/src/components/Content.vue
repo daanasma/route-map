@@ -31,7 +31,7 @@ export default {
     </main>
 
     <!-- Footer Navigation -->
-    <footer v-if="!isMobile" class="h-16 bg-gray-800 text-white flex items-center justify-around">
+    <footer  class="h-16 bg-gray-800 text-white flex items-center justify-around">
       <button class="p-2 bg-blue-500 rounded" @click="handleClick">Nav 1</button>
       <button class="p-2 bg-blue-500 rounded">Nav 2</button>
       <button class="p-2 bg-blue-500 rounded">Nav 3</button>

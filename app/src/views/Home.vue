@@ -29,7 +29,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="w-full h-screen flex flex-col md:flex-row">
+    <div class="w-full h-dvh flex flex-col md:flex-row">
     <!-- Map Component Section -->
     <div class="w-full md:w-7/10 h-7/10 md:h-full">
       <Map />

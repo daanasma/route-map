@@ -148,10 +148,10 @@ export default {
 
 <template>
   <div ref="mapContainer" class="w-full h-full bg-blue-200 flex items-center justify-center">
-    <!-- Map container remains the same -->
+
   </div>
 </template>
 
 <style scoped>
-/* Kept the original CSS intact */
+
 </style>
