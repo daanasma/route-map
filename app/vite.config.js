@@ -6,7 +6,7 @@ import fs from 'fs';
 import path from 'path';
 import jsonminify from 'jsonminify';
 
-// const jsonminify = require("jsonminify");
+
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -26,7 +26,7 @@ export default defineConfig({
           if (path.extname(file) === '.geojson') {
             const content = fs.readFileSync(filePath, 'utf8');
             const minifiedContent = jsonminify(content); // Minify the content
-            fs.writeFileSync(filePath, minifiedContent); // Write back the minified content
+            fs.writeFileSync(`${filePath}.min`, minifiedContent); // Write back the minified content`
             console.log(`Minified: ${file}`);
           }
 

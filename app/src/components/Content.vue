@@ -1,18 +1,23 @@
 <script >
 import { useIsMobile } from "../composables/useIsMobile";
-import {useRouteStatusStore} from "@/stores/routestatus.js";
+import {useRouteInfoStore} from "@/stores/routestatus.js";
 
 export default {
   setup() {
     const { isMobile } = useIsMobile(); // Call the composable
-    const routeStatus = useRouteStatusStore();
-    const handleClick = () => {
+    const routeStatus = useRouteInfoStore();
+    const activatePreviousStop = () => {
       console.log('Button was clicked!');
-      routeStatus.setStop(3)
+      routeStatus.previousStop()
+    };
+    const activateNextStop = () => {
+      console.log('Button was clicked!');
+      routeStatus.nextStop()
     };
     return {
       isMobile,
-      handleClick,
+      activatePreviousStop,
+      activateNextStop,
     };
   },
 };
@@ -21,8 +26,8 @@ export default {
 <template>
   <div class="flex flex-col h-full">
     <!-- Header -->
-    <header v-if="!isMobile"  class="h-16 bg-gray-800 text-white flex items-center justify-center">
-      Header
+    <header v-if="!isMobile"  class="h-16 bg-gray-800 text-white subsection-title flex items-center justify-center">
+      Carretera Austral Explorer
     </header>
 
     <!-- Content -->
@@ -32,9 +37,8 @@ export default {
 
     <!-- Footer Navigation -->
     <footer  class="h-16 bg-gray-800 text-white flex items-center justify-around">
-      <button class="p-2 bg-blue-500 rounded" @click="handleClick">Nav 1</button>
-      <button class="p-2 bg-blue-500 rounded">Nav 2</button>
-      <button class="p-2 bg-blue-500 rounded">Nav 3</button>
+      <button class="p-2 bg-blue-500 rounded" @click="activatePreviousStop">Previous</button>
+      <button class="p-2 bg-blue-500 rounded" @click="activateNextStop">Next</button>
     </footer>
   </div>
 </template>

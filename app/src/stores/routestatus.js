@@ -1,11 +1,11 @@
 // src/stores/counter.js
 import { defineStore } from 'pinia';
 
-export const useRouteStatusStore = defineStore('counter', {
+export const useRouteInfoStore = defineStore('counter', {
   state: () => ({
     count: 0,
-    stopId: null,      // New state for stopId
-    segmentId: null,   // New state for segmentId
+    stopId: 0,      // New state for stopId
+    segmentId: 0,   // New state for segmentId
     urlReadyToUpdate: false
   }),
   getters: {
@@ -16,12 +16,12 @@ export const useRouteStatusStore = defineStore('counter', {
     },
   },
   actions: {
-    increment() {
+    nextStop() {
       console.log(this.count);
-      this.count++;
+      this.stopId++;
     },
-    decrement() {
-      this.count--;
+    previousStop() {
+      this.stopId--;
     },
     setStop(stopId) {
       this.stopId = stopId;

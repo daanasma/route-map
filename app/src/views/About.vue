@@ -1,11 +1,11 @@
 <script setup >
 import { ref } from 'vue'
-import { useRouteStatusStore } from "../stores/routestatus.js";
+import { useRouteInfoStore } from "../stores/routestatus.js";
 
 
 const count = ref(0)
 
-const routeStatusStore = useRouteStatusStore();
+const routeStatusStore = useRouteInfoStore();
 
 
 </script>
@@ -16,8 +16,8 @@ const routeStatusStore = useRouteStatusStore();
   <div class="card">
     <div>
       <p>Count: {{ routeStatusStore.count }}</p>
-      <button @click="routeStatusStore.increment">Increment</button>
-      <button @click="routeStatusStore.decrement">Decrement</button>
+      <button @click="routeStatusStore.nextStop">Increment</button>
+      <button @click="routeStatusStore.previousStop">Decrement</button>
     </div>
 
     <button type="button" @click="count++">count is {{ count }}</button>

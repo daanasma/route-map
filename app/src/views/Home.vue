@@ -3,10 +3,10 @@ import Map from '../components/Map.vue';
 import Content from '../components/Content.vue';
 import {watch, onMounted} from "vue";
 import {useRoute, useRouter} from "vue-router";
-import { useRouteStatusStore } from '../stores/routestatus.js';
+import { useRouteInfoStore } from '../stores/routestatus.js';
 const route = useRoute(); // Get the current route (with query params)
 const router = useRouter();
-const routeStatus = useRouteStatusStore();
+const routeStatus = useRouteInfoStore();
 watch(
     () => route.query.stop,
     (newStopId) => {
