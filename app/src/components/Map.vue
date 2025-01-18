@@ -37,15 +37,13 @@ export default {
     const map = ref(null); // The map instance
     const mapLoaded = ref(false); // Flag to check if map and component are fully loaded
     const routeStatus = useRouteInfoStore();
-    const routeData = ref(null);
-    const stopsData = ref(null);
     let hoveredStateId = null;
     // Get the function from the composable
     const { updateQueryParam } = useUpdateQueryParam();
 
     function findStopById(stopId) {
       return new Promise((resolve, reject) => {
-        const stop = stopsData.value.features.find((stop) => stop.properties.index == stopId);
+        const stop = routeStatus.stopData.features.find((stop) => stop.properties.index == stopId);
         if (stop) {
           resolve(stop); // Resolve with the stop
         } else {
@@ -63,7 +61,8 @@ export default {
       });
     }
 
-    function goToActiveStop(activeStop) {
+    function goToActiveStop() {
+      let activeStop = routeStatus.stopId
       if (activeStop) {
         findStopById(activeStop)
             .then(zoomToFeature)
@@ -76,10 +75,13 @@ export default {
     onMounted(async () => {
       // Load GeoJSON data for the route and stops
       const allData = await loadGeoJsonData();
-      console.log('routeData')
-      console.log(allData)
-      routeData.value = allData.routeData
-      stopsData.value = allData.stopsData
+      console.log('routeData', allData)
+
+      // Set store
+      routeStatus.segmentData = allData.routeData
+      routeStatus.stopData = allData.stopsData
+      routeStatus.calculateMaxIds();
+
       if (mapContainer.value) {
         // Initialize the map
         map.value = new maplibre.Map({
@@ -94,7 +96,7 @@ export default {
         // Add the route as a GeoJSON source
         map.value.on('load', () => {
           // Add route source and layer
-          map.value.addSource('route', {type: 'geojson', data: routeData.value});
+          map.value.addSource('route', {type: 'geojson', data: routeStatus.segmentData});
           map.value.addLayer({
             id: 'route-layer',
             type: 'line',
@@ -117,7 +119,7 @@ export default {
           });
 
           // Add stops source and layer
-          map.value.addSource('stops', {type: 'geojson', data: stopsData.value});
+          map.value.addSource('stops', {type: 'geojson', data: routeStatus.stopData});
           map.value.addLayer({
             id: 'stops-layer',
             type: 'circle',
@@ -133,7 +135,8 @@ export default {
           mapLoaded.value = true;
 
           if (routeStatus.stopId) {
-            goToActiveStop(routeStatus.stopId, stopsData.value)
+            console.log('routeStatus.stopId', routeStatus.stopId)
+            goToActiveStop()
           }
         });
         map.value.on('mousemove', 'route-layer', (e) => {
@@ -203,7 +206,7 @@ export default {
           console.log(`Stop ID changed from ${oldStopId} to ${newStopId}`);
           updateQueryParam('stop', newStopId)
           console.log('Do something in the map')
-          goToActiveStop(routeStatus.stopId)
+          goToActiveStop()
 
           // Handle any side effects or actions you need based on stopId change
         }
