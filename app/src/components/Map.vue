@@ -1,14 +1,13 @@
 <script>
 import {onMounted, ref, watch} from 'vue';
 import {useRoute} from 'vue-router';
-import maplibre, {GeolocateControl, GlobeControl, TerrainControl} from 'maplibre-gl';
+import maplibre, {GeolocateControl, GlobeControl, LngLatBounds, Popup, TerrainControl} from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import {useCorrectBasePath} from '@/composables/useCorrectBasePath.js';
 
 const {getFilePath} = useCorrectBasePath();
 import {useRouteInfoStore} from '../stores/routestatus.js';
-import { useUpdateQueryParam } from '../composables/useQueryParams';
-
+import {useUpdateQueryParam} from '../composables/useQueryParams';
 
 
 // Load GeoJSON data asynchronously
@@ -39,7 +38,7 @@ export default {
     const routeStatus = useRouteInfoStore();
     let hoveredStateId = null;
     // Get the function from the composable
-    const { updateQueryParam } = useUpdateQueryParam();
+    const {updateQueryParam} = useUpdateQueryParam();
 
     function findStopById(stopId) {
       return new Promise((resolve, reject) => {
@@ -71,8 +70,65 @@ export default {
             .then(zoomToFeature)
             .catch(error => console.error(error.message));
       }
-
     }
+
+/**
+ * Calculate the bounding box for a FeatureCollection
+ * @param {object} featureCollection - A GeoJSON FeatureCollection
+ * @returns {maplibregl.LngLatBounds} - The bounding box for the collection
+ */
+function getFeatureCollectionBoundingBox(featureCollection) {
+    // Extract all coordinates from all features
+    const allCoordinates = featureCollection.features.flatMap(feature =>
+        feature.geometry.coordinates
+    );
+
+  // Create a 'LngLatBounds' with both corners at the first coordinate.
+  const bounds = new LngLatBounds(
+      allCoordinates[0],
+      allCoordinates[0]
+  );
+  // Extend the 'LngLatBounds' to include every coordinate in the bounds result.
+  for (const coord of allCoordinates) {
+    bounds.extend(coord);
+  }
+
+    return bounds;
+}
+
+/**
+ * Calculate the bounding box for a single feature
+ * @param {object} feature - A GeoJSON Feature
+ * @returns {maplibregl.LngLatBounds} - The bounding box for the feature
+ */
+function getFeatureBoundingBox(feature) {
+    const coordinates = feature.geometry.coordinates.flat(); // Extract coordinates
+    const bounds = coordinates.reduce((bounds, coord) => {
+        if (Array.isArray(coord) && coord.length === 2) {
+            return bounds.extend(coord); // Pass valid [lng, lat]
+        }
+        return bounds;
+    }, new LngLatBounds(coordinates[0], coordinates[0]));
+
+    return bounds;
+}
+
+/**
+ * Zoom the map to fit the entire route
+ */
+function zoomToFullRoute() {
+    if (routeStatus.segmentData && routeStatus.stopData) {
+        // Get bounding box for the full route
+        const bounds = getFeatureCollectionBoundingBox(routeStatus.segmentData);
+
+        // Fit the map to the calculated bounds
+        map.value.fitBounds(bounds, {
+            padding: 20, // Add padding around the route
+            maxZoom: 12  // Optional: Set a max zoom level
+        });
+        console.log("Zoomed to full route!")
+    }
+}
 
     // Initialize the map when the component is mounted
     onMounted(async () => {
@@ -107,17 +163,17 @@ export default {
             paint: {
               'line-color': '#082305',
               'line-width': [
-                    'case',
-                    ['boolean', ['feature-state', 'hover'], false],
-                    8,
-                    5
-                ],
+                'case',
+                ['boolean', ['feature-state', 'hover'], false],
+                8,
+                5
+              ],
               'line-opacity': [
-                    'case',
-                    ['boolean', ['feature-state', 'hover'], false],
-                    0.6,
-                    0.4
-                ]
+                'case',
+                ['boolean', ['feature-state', 'hover'], false],
+                0.6,
+                0.4
+              ]
             },
           });
 
@@ -134,37 +190,76 @@ export default {
           })
 
 
-
           mapLoaded.value = true;
-
+          if (routeStatus.activeTopic === 'overview') {
+            zoomToFullRoute()
+          }
 
           if (routeStatus.stopId) {
             console.log('routeStatus.stopId', routeStatus.stopId)
             goToActiveStop()
           }
         });
-        map.value.on('mousemove', 'route-layer', (e) => {
-          if (e.features.length > 0) {
-            if (hoveredStateId) {
-              map.value.setFeatureState( {source: 'route', id: hoveredStateId},
-                  {hover: true}
-              );
-            }
-            hoveredStateId = e.features[0].id;
-            map.value.setFeatureState(
-                    {source: 'route', id: hoveredStateId},
-                    {hover: true}
-                );
+
+        // Change the cursor to a pointer when the mouse is over the places layer.
+        map.value.on('mouseenter', 'stops-layer', () => {
+          map.value.getCanvas().style.cursor = 'pointer';
+        });
+
+        const layers = ['stops-layer', 'route-layer']; // List of layer IDs
+
+        layers.forEach(layer => {
+          // Change the cursor to a pointer when the mouse is over the places layer.
+          map.value.on('mouseenter', layer, () => {
+            map.value.getCanvas().style.cursor = 'pointer'; });
+          // Change it back to a pointer when it leaves.
+          map.value.on('mouseleave', layer, () => {
+            map.value.getCanvas().style.cursor = ''; });
+
+        map.value.on('click', layer, (e) => {
+          console.log('Clicked on', e.features[0])
+          if (layer == 'route-layer') {
+          const featuresAtPoint = map.value.queryRenderedFeatures(e.point, {
+              layers: ['stops-layer'], // Replace with your points layer name
+          });
+          // If there are any features in the 'points-layer', skip handling route clicks
+          if (featuresAtPoint.length > 0) {
+              console.log('Clicked near a point, ignoring route click handler');
+              return;
           }
-        })
-        map.value.on('mouseleave', 'route-layer', () => {
-            if (hoveredStateId) {
-                map.value.setFeatureState(
-                    {source: 'route', id: hoveredStateId},
-                    {hover: false}
-                );
-            }
-            hoveredStateId = null;
+          console.log('handle route here!')
+          }
+          if (layer == 'stops-layer') {
+            routeStatus.setStop(e.features[0].id + 1)
+          }
+        });
+
+        // map.value.on('mousemove', layer, (e) => {
+        //   if (e.features.length > 0) {
+        //     if (hoveredStateId) {
+        //       map.value.setFeatureState({source: 'route', id: hoveredStateId},
+        //           {hover: true}
+        //       );
+        //     }
+        //     hoveredStateId = e.features[0].id;
+        //     map.value.setFeatureState(
+        //         {source: 'route', id: hoveredStateId},
+        //         {hover: true}
+        //     );
+        //   }
+        // })
+
+        // map.value.on('mouseleave', layer, () => {
+        //   if (hoveredStateId) {
+        //     map.value.setFeatureState(
+        //         {source: 'route', id: hoveredStateId},
+        //         {hover: false}
+        //     );
+        //   }
+        //   hoveredStateId = null;
+        // });
+
+
         });
 
         // Add controls
@@ -203,6 +298,7 @@ export default {
       }
     })
 
+    
     // Watch for changes in the query parameters (stopId)
     watch(
         () => routeStatus.stopId, // Watch the stopId in the Pinia store
@@ -215,6 +311,7 @@ export default {
           // Handle any side effects or actions you need based on stopId change
         }
     );
+
 
     return {
       mapContainer,

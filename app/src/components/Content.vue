@@ -78,6 +78,8 @@ export default {
     <!-- Footer Navigation -->
     <footer  class="h-16 bg-gray-800 text-white flex items-center justify-around">
       <button class="p-2 bg-blue-500 rounded" @click="activatePreviousStop">Previous</button>
+      <button class="p-2 bg-blue-500 rounded" @click="activatePreviousStop">Show </button>
+
       <button class="p-2 bg-blue-500 rounded" @click="activateNextStop">Next</button>
     </footer>
   </div>
