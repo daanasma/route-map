@@ -87,8 +87,8 @@ export default {
         map.value = new maplibre.Map({
           container: mapContainer.value,
           style: 'https://tiles.openfreemap.org/styles/positron',
-          center: [-72.4200, -48.4800], // Coordinates for Valencia, Spain
-          zoom: 9,
+          center: [-72.4200, -47.4800], // Coordinates for Valencia, Spain
+          zoom: 7,
 
         });
         map.value.style.cursor = 'pointer'

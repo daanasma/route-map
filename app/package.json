@@ -8,7 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "go": "vite build && vite preview",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "git": "vite build & gh-pages -d dist"
   },
   "dependencies": {
     "maplibre-gl": "^5.0.1",
