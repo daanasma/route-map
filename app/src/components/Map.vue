@@ -62,7 +62,10 @@ export default {
     }
 
     function goToActiveStop() {
-      let activeStop = routeStatus.stopId
+      let activeStop = routeStatus.stopId;
+      routeStatus.activeTopic = 'stop';
+      routeStatus.setStop(routeStatus.stopId)
+
       if (activeStop) {
         findStopById(activeStop)
             .then(zoomToFeature)
@@ -133,6 +136,7 @@ export default {
 
 
           mapLoaded.value = true;
+
 
           if (routeStatus.stopId) {
             console.log('routeStatus.stopId', routeStatus.stopId)

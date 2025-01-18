@@ -1,12 +1,120 @@
 {
-"type": "FeatureCollection",
-"name": "stops",
-"features": [
-{ "type": "Feature", "properties": { "id": 0, "index": 1, "name": "Villa O'Higgins", "description": "The southernmost town of the Carretera Austral, surrounded by pristine wilderness.", "route_to": "stage_1", "route_from": null }, "geometry": { "type": "Point", "coordinates": [ -72.561205492565051, -48.469739916356886 ] } },
-{ "type": "Feature", "properties": { "id": 1, "index": 2, "name": "Puerto Rio Bravo", "description": "Taking the boat", "route_to": "Puerto Yungay", "route_from": "Villa O Higgins" }, "geometry": { "type": "Point", "coordinates": [ -73.223578777736051, -47.967843944731719 ] } },
-{ "type": "Feature", "properties": { "id": 2, "index": 3, "name": "Caleta Yungay", "description": "A ferry crossing on the Carretera Austral, connecting remote areas.", "route_to": "stage_2", "route_from": "stage_1" }, "geometry": { "type": "Point", "coordinates": [ -73.3263698408458, -47.93475752744542 ] } },
-{ "type": "Feature", "properties": { "id": 3, "index": 4, "name": "Cochrane", "description": "A charming small town offering access to Patagonia National Park.", "route_to": "stage_3", "route_from": "stage_2" }, "geometry": { "type": "Point", "coordinates": [ -72.574309024163597, -47.254029060902582 ] } },
-{ "type": "Feature", "properties": { "id": 4, "index": 5, "name": "Puerto Bertrand", "description": "The gateway to Lago General Carrera, famous for its turquoise waters.", "route_to": "stage_4", "route_from": "stage_3" }, "geometry": { "type": "Point", "coordinates": [ -72.828312794493556, -47.015094351910925 ] } },
-{ "type": "Feature", "properties": { "id": 5, "index": 6, "name": "Puerto Rio Tranquilo", "description": "Known for the Marble Caves and a must-visit stop on the Carretera Austral.", "route_to": null, "route_from": "stage_4" }, "geometry": { "type": "Point", "coordinates": [ -72.67557475429841, -46.624240573448994 ] } }
-]
+  "type":"FeatureCollection",
+  "name":"stops",
+  "features":[
+    {
+      "type":"Feature",
+      "id":0,
+      "properties":{
+        "id":0,
+        "index":1,
+        "name":"Villa O'Higgins",
+        "description":"The southernmost town of the Carretera Austral, surrounded by pristine wilderness.",
+        "route_to":"stage_1",
+        "route_from":null
+      },
+      "geometry":{
+        "type":"Point",
+        "coordinates":[
+          -72.56120549256505,
+          -48.469739916356886
+        ]
+      }
+    },
+    {
+      "type":"Feature",
+      "id":1,
+      "properties":{
+        "id":1,
+        "index":2,
+        "name":"Puerto Rio Bravo",
+        "description":"Taking the boat",
+        "route_to":"Puerto Yungay",
+        "route_from":"Villa O Higgins"
+      },
+      "geometry":{
+        "type":"Point",
+        "coordinates":[
+          -73.22357877773605,
+          -47.96784394473172
+        ]
+      }
+    },
+    {
+      "type":"Feature",
+      "id":2,
+      "properties":{
+        "id":2,
+        "index":3,
+        "name":"Caleta Yungay",
+        "description":"A ferry crossing on the Carretera Austral, connecting remote areas.",
+        "route_to":"stage_2",
+        "route_from":"stage_1"
+      },
+      "geometry":{
+        "type":"Point",
+        "coordinates":[
+          -73.3263698408458,
+          -47.93475752744542
+        ]
+      }
+    },
+    {
+      "type":"Feature",
+      "id":3,
+      "properties":{
+        "id":3,
+        "index":4,
+        "name":"Cochrane",
+        "description":"A charming small town offering access to Patagonia National Park.",
+        "route_to":"stage_3",
+        "route_from":"stage_2"
+      },
+      "geometry":{
+        "type":"Point",
+        "coordinates":[
+          -72.5743090241636,
+          -47.25402906090258
+        ]
+      }
+    },
+    {
+      "type":"Feature",
+      "id":4,
+      "properties":{
+        "id":4,
+        "index":5,
+        "name":"Puerto Bertrand",
+        "description":"The gateway to Lago General Carrera, famous for its turquoise waters.",
+        "route_to":"stage_4",
+        "route_from":"stage_3"
+      },
+      "geometry":{
+        "type":"Point",
+        "coordinates":[
+          -72.82831279449356,
+          -47.015094351910925
+        ]
+      }
+    },
+    {
+      "type":"Feature",
+      "id":5,
+      "properties":{
+        "id":5,
+        "index":6,
+        "name":"Puerto Rio Tranquilo",
+        "description":"Known for the Marble Caves and a must-visit stop on the Carretera Austral.",
+        "route_to":null,
+        "route_from":"stage_4"
+      },
+      "geometry":{
+        "type":"Point",
+        "coordinates":[
+          -72.67557475429841,
+          -46.62424057344899
+        ]
+      }
+    }
+  ]
 }

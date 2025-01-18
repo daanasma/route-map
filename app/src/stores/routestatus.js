@@ -10,7 +10,9 @@ export const useRouteInfoStore = defineStore('counter', {
     segmentData: null,
     stopData: null,
     maxSegmentId: 0,
-    maxStopId: 0
+    maxStopId: 0,
+    activeTopic: 'overview',
+    activeFeature: null
   }),
   getters: {
     doubled: (state) => state.count * 2,
@@ -24,35 +26,42 @@ export const useRouteInfoStore = defineStore('counter', {
       console.log(this.count);
       if (this.maxStopId) {
         if (this.stopId == this.maxStopId) {
-          this.stopId = 1
+          this.setStop(1)
           return
         }
       }
       this.calculateMaxIds()
-      this.stopId++;
+      this.setStop(Number(this.stopId) + 1)
     },
+
     previousStop() {
       if (this.maxStopId) {
         if (this.stopId == 1) {
-          this.stopId = this.maxStopId
+          this.setStop(this.maxStopId)
           return
         }
       }
       else {
         this.calculateMaxIds()
       }
-      this.stopId--;
+      this.setStop(Number(this.stopId) - 1)
+      },
 
-
-      this.stopId--;
-    },
     setStop(stopId) {
       this.stopId = stopId;
+      if (this.stopData) {
+        this.activeFeature = this.stopData.features[stopId-1]
+      }
+      else {
+        console.log('tried to set active Feature but there was no stopData in store.')
+      }
       console.log(`Set stop to store! ${stopId}`)
     },
+
     setSegment(segmentId) {
       this.segmentId = segmentId;
     },
+
     calculateMaxIds(){
       if (this.stopData) {
         this.maxStopId = this.stopData.features.length

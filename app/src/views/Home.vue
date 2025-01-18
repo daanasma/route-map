@@ -14,6 +14,8 @@ watch(
         console.log(`new stop! ${newStopId}`)
         // Find the stop based on the stopId
         routeStatus.setStop(newStopId)
+        routeStatus.activeTopic = 'stop'
+        console.log('routeStatus.activeTopic', routeStatus.activeTopic)
       }
     },
     {immediate: true} // Call immediately on initial load
