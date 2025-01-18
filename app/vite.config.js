@@ -42,7 +42,7 @@ export default defineConfig({
   server: {
     port: 6999,
   },
-// base: './',
-base: process.env.NODE_ENV === 'production' ? './map' : '/',
+ base: '/',
+//base: process.env.NODE_ENV === 'production' ? './map' : '/',
 
 });
