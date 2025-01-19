@@ -307,8 +307,25 @@ function zoomToFullRoute() {
           updateQueryParam('stop', newStopId)
           console.log('Do something in the map')
           goToActiveStop()
-
           // Handle any side effects or actions you need based on stopId change
+        }
+    );
+
+    watch(
+        () => routeStatus.refreshNeeded,
+        (before, now) => {
+          console.log('refreshHeeded', routeStatus.refreshNeeded, routeStatus.activeTopic, before, now)
+          if (routeStatus.refreshNeeded === true) {
+            if (routeStatus.activeTopic === 'overview') {
+            console.log('Refresh needed and routeStatus = overview.');
+            zoomToFullRoute()
+            }
+            else{
+              console.log('not overview.')
+            }
+            routeStatus.refreshNeeded = false
+          // Handle any side effects or actions you need based on stopId change
+          }
         }
     );
 
