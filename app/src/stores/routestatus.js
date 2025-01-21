@@ -9,8 +9,8 @@ export const useRouteInfoStore = defineStore('counter', {
     urlReadyToUpdate: false,
     segmentData: null,
     stopData: null,
-    maxSegmentId: 0,
-    maxStopId: 0,
+    maxSegmentId: null,
+    maxStopId: null,
     activeTopic: 'overview',
     activeFeature: null,
     refreshNeeded: false,
@@ -23,60 +23,98 @@ export const useRouteInfoStore = defineStore('counter', {
     },
   },
   actions: {
-    nextStop() {
-      console.log(this.count);
-      if (this.maxStopId) {
-        if (this.stopId == this.maxStopId) {
-          this.setStop(1)
-          return
-        }
-      }
-      this.calculateMaxIds()
-      this.setStop(Number(this.stopId) + 1, 1)
-    },
+  nextStop() {
+    console.log('nextStop called', {
+      currentStopId: this.stopId,
+      maxStopId: this.maxStopId
+    });
 
-    previousStop() {
-      if (this.maxStopId) {
-        if (this.stopId == 1) {
-          this.setStop(this.maxStopId)
-          return
-        }
-      }
-      else {
-        this.calculateMaxIds()
-      }
-      this.setStop(Number(this.stopId) - 1)
-      },
+    if (!this.maxStopId) {
+      this.calculateMaxIds();
+    }
 
-    setStop(stopId) {
+    if (this.stopId === null) {
+      this.setStop(1);
+      return;
+    }
+
+    if (this.stopId >= this.maxStopId) {
+      this.setStop(1);
+    } else {
+      this.setStop(Number(this.stopId) + 1);
+    }
+  },
+  previousStop() {
+    console.log('previousStop called', {
+      currentStopId: this.stopId,
+      maxStopId: this.maxStopId
+    });
+
+    if (!this.maxStopId) {
+      this.calculateMaxIds();
+    }
+
+    if (this.stopId === null) {
+      this.setStop(this.maxStopId);
+      return;
+    }
+
+    if (this.stopId <= 1) {
+      this.setStop(this.maxStopId);
+    } else {
+      this.setStop(Number(this.stopId) - 1);
+    }
+  },
+  setStop(stopId) {
+    console.debug(`Store: try setting stop id ${stopId} to store + activate!`, 'max:', this.maxStopId)
+    this.stopId = Math.max(stopId, 1)
+    if (this.maxStopId) {
       this.stopId = Math.min(Math.max(stopId, 1), this.maxStopId);
-      if (this.stopData) {
-        this.activeFeature = this.stopData.features[this.stopId-1]
-      }
-      else {
-        console.log('tried to set active Feature but there was no stopData in store.')
-      }
-      console.log(`Set stop to store! ${this.stopId}`)
-    },
+      console.debug(`Store: set stop id ${this.stopId} to store`)
+    }
 
-    setSegment(segmentId) {
-      this.segmentId = segmentId;
-    },
+    if (this.stopData) {
+      this.activeFeature = this.stopData.features[this.stopId - 1]
+    }
+    else {
+      console.debug('Store: tried to set active Feature but there was no stopData in store.')
+    }
+  },
 
-    calculateMaxIds(){
+  setSegment(segmentId) {
+    this.segmentId = segmentId;
+  },
+  setSegmentData(data) {
+    this.segmentData = data;
+    console.log('Store: set segmentdata:', this.segmentData)
+    this.setRefreshNeeded(true);
+  },
+  setStopData(data) {
+    this.stopData = data;
+    console.log('Store: set stopdata:', this.stopData)
+    this.setRefreshNeeded(true);
+  },
+    setRefreshNeeded(value) {
+      if (typeof this.segmentData == 'object' && typeof this.stopData == 'object') {
+        this.refreshNeeded = value;
+        return
+      }
+      this.refreshNeeded = false;
+    },
+    calculateMaxIds() {
       if (this.stopData) {
         this.maxStopId = this.stopData.features.length
       }
       if (this.segmentData) {
         this.maxSegmentId = this.stopData.features.length
       }
-      console.log('Set max ids', 'maxStopId:', this.maxStopId, 'maxSegmentId:', this.maxSegmentId)
-      console.log('this.stopId', this.stopId)
+      console.log('Store: Set max ids', 'maxStopId:', this.maxStopId, 'maxSegmentId:', this.maxSegmentId)
+      console.log('Store: this.stopId', this.stopId)
     },
-        // Action to allow URL updates once the router is ready
-    setUrlReadyToUpdate() {
-      this.urlReadyToUpdate = true;
-      console.log('URL is ready to update');
-    },
+      // Action to allow URL updates once the router is ready
+  setUrlReadyToUpdate() {
+    this.urlReadyToUpdate = true;
+    console.log('Store: URL is ready to update');
+  },
   },
 });

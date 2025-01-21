@@ -11,7 +11,7 @@ import {useUpdateQueryParam} from '../composables/useQueryParams';
 
 
 // Load GeoJSON data asynchronously
-const loadGeoJsonData = async () => {
+const loadGeoJsonDataPROD = async () => {
   // Form correct path for GeoJSON files
   const routeGeoJsonPath = getFilePath('geojson/route.geojson.min');
   const stopsGeoJsonPath = getFilePath('geojson/stops.geojson.min');
@@ -24,6 +24,32 @@ const loadGeoJsonData = async () => {
   } catch (err) {
     console.error('Error loading GeoJSON data', err);
     return {routeData: null, stopsData: null};
+  }
+};
+
+const loadGeoJsonData = async () => {
+  // Form correct path for GeoJSON files
+  const routeGeoJsonPath = getFilePath('geojson/route.geojson.min');
+  const stopsGeoJsonPath = getFilePath('geojson/stops.geojson.min');
+
+  // Timeout utility
+  const withTimeout = (promise, timeout) =>
+    Promise.race([
+      promise,
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Request timed out')), timeout)
+      ),
+    ]);
+
+  try {
+    // Fetch with timeout
+    const routeData = await withTimeout(fetch(routeGeoJsonPath).then((res) => res.json()), 500);
+    const stopsData = await withTimeout(fetch(stopsGeoJsonPath).then((res) => res.json()), 500);
+
+    return { routeData, stopsData };
+  } catch (err) {
+    console.error('Error loading GeoJSON data', err);
+    return { routeData: null, stopsData: null };
   }
 };
 
@@ -117,6 +143,7 @@ function getFeatureBoundingBox(feature) {
  * Zoom the map to fit the entire route
  */
 function zoomToFullRoute() {
+    console.debug('Map: zooming to full route.')
     if (routeStatus.segmentData && routeStatus.stopData) {
         // Get bounding box for the full route
         const bounds = getFeatureCollectionBoundingBox(routeStatus.segmentData);
@@ -134,11 +161,11 @@ function zoomToFullRoute() {
     onMounted(async () => {
       // Load GeoJSON data for the route and stops
       const allData = await loadGeoJsonData();
-      console.log('routeData', allData)
+      console.log('Map: finished loading routeData', allData)
 
       // Set store
-      routeStatus.segmentData = allData.routeData
-      routeStatus.stopData = allData.stopsData
+      routeStatus.setSegmentData((allData.routeData))
+      routeStatus.setStopData((allData.stopsData))
       routeStatus.calculateMaxIds();
 
       if (mapContainer.value) {
@@ -303,9 +330,8 @@ function zoomToFullRoute() {
     watch(
         () => routeStatus.stopId, // Watch the stopId in the Pinia store
         (newStopId, oldStopId) => {
-          console.log(`Stop ID changed from ${oldStopId} to ${newStopId}`);
+          console.log(`Map: Stop ID changed from ${oldStopId} to ${newStopId}`);
           updateQueryParam('stop', newStopId)
-          console.log('Do something in the map')
           goToActiveStop()
           // Handle any side effects or actions you need based on stopId change
         }
@@ -313,15 +339,16 @@ function zoomToFullRoute() {
 
     watch(
         () => routeStatus.refreshNeeded,
-        (before, now) => {
-          console.log('refreshHeeded', routeStatus.refreshNeeded, routeStatus.activeTopic, before, now)
+        (now, before) => {
           if (routeStatus.refreshNeeded === true) {
+             console.debug('Map: refreshNeeded changed', routeStatus.activeTopic, before, '-->', now)
+
             if (routeStatus.activeTopic === 'overview') {
-            console.log('Refresh needed and routeStatus = overview.');
+            console.debug('Map: Refresh needed and routeStatus = overview.');
             zoomToFullRoute()
             }
             else{
-              console.log('not overview.')
+              console.log('Map: do stuff')
             }
             routeStatus.refreshNeeded = false
           // Handle any side effects or actions you need based on stopId change

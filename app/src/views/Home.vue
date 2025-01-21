@@ -11,11 +11,11 @@ watch(
     () => route.query.stop,
     (newStopId) => {
       if (newStopId) {
-        console.log(`new stop! ${newStopId}`)
+        console.log(`Home: new stop! ${newStopId}`)
         // Find the stop based on the stopId
         routeStatus.setStop(newStopId)
         routeStatus.activeTopic = 'stop'
-        console.log('routeStatus.activeTopic', routeStatus.activeTopic)
+        console.log('Home: set routeStatus.activeTopic', routeStatus.activeTopic)
       }
     },
     {immediate: true} // Call immediately on initial load
