@@ -12,6 +12,7 @@
       @touchstart="handleTouchStart"
       @touchend="handleTouchEnd"
     >
+      <div class="overview-card bg-gray-800 text-white subsection-title"><h1>Route title</h1> </div>
       <div
         v-for="card in cards"
         :key="card.id"
@@ -30,6 +31,8 @@
           ✕
         </button>
       </div>
+            <div class="overview-card bg-gray-800 text-white subsection-title"><h1>The end</h1> </div>
+
     </div>
   </div>
 </template>
@@ -46,6 +49,8 @@ const cards = ref([
   { id: 5 }
 ])
 const expandedCard = ref(null)
+const cardWidth = 44 // Set to 44% width as per your requirement
+const gap = 3 // 3% gap between cards
 
 const toggleCard = (cardId) => {
   if (expandedCard.value === cardId) {
@@ -57,7 +62,10 @@ const toggleCard = (cardId) => {
 
 const scroll = (direction) => {
   const cardsContainer = document.querySelector('.cards-container')
-  const scrollAmount = cardsContainer.offsetWidth * 0.94
+  const cardWidthPx = cardsContainer.offsetWidth * (cardWidth / 100)
+  const scrollAmount = cardWidthPx + (cardsContainer.offsetWidth * (gap / 100))
+
+  // Scroll by the calculated amount, ensuring smooth scroll behavior
   cardsContainer.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' })
 }
 
@@ -115,7 +123,6 @@ const handleTouchEnd = () => {
   overflow-x: scroll;
   scroll-snap-type: x mandatory;
   gap: 3%;
-  padding: 1rem 0;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -123,9 +130,9 @@ const handleTouchEnd = () => {
 .card {
   flex-shrink: 0;
   scroll-snap-align: center;
-  width: 94%;
-  margin: 0 3%;
-  height: 200px;
+  width: 44%;
+  margin: 1rem 3%;
+  height: 160px;
   background-color: white;
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -140,7 +147,7 @@ const handleTouchEnd = () => {
   position: fixed;
   bottom: 0;
   left: 0;
-  width: 100vw;
+  width: 95%;
   height: 70vh;
   z-index: 100;
   transition: all 0.3s ease;
@@ -156,6 +163,20 @@ const handleTouchEnd = () => {
   border-radius: 50%;
   width: 32px;
   height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.overview-card {
+
+  flex-shrink: 0;
+  scroll-snap-align: center;
+  width: 80%;
+  height: 250px;
+  //border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;

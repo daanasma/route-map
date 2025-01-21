@@ -98,7 +98,7 @@ export default {
 <template>
   <div class="flex flex-col h-full">
     <!-- Header -->
-    <header class="h-16 bg-gray-800 text-white subsection-title flex items-center justify-center">
+    <header v-if="!isMobile" class="h-16 bg-gray-800 text-white subsection-title flex items-center justify-center">
       Carretera Austral Explorer
     </header>
   <CardSlider
