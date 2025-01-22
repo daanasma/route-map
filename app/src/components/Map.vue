@@ -1,7 +1,15 @@
 <script>
 import {onMounted, ref, watch} from 'vue';
 import {useRoute} from 'vue-router';
-import maplibre, {GeolocateControl, GlobeControl, LngLatBounds, Popup, TerrainControl} from 'maplibre-gl';
+import maplibre, {
+  AttributionControl,
+  GeolocateControl,
+  GlobeControl,
+  LngLatBounds,
+  NavigationControl,
+  Popup,
+  TerrainControl
+} from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import {useCorrectBasePath} from '@/composables/useCorrectBasePath.js';
 
@@ -175,6 +183,7 @@ function zoomToFullRoute() {
           style: 'https://tiles.openfreemap.org/styles/positron',
           center: [-72.4200, -47.4800], // Coordinates for Valencia, Spain
           zoom: 7,
+          attributionControl: false
 
         });
         map.value.style.cursor = 'pointer'
@@ -297,6 +306,17 @@ function zoomToFullRoute() {
           trackUserLocation: true
         }));
 
+        map.value.addControl(new NavigationControl({
+          visualizePitch: true,
+          visualizeRoll: true,
+          showZoom: true,
+          showCompass: false,
+
+        }), 'bottom-right');
+        map.value.addControl(new AttributionControl({
+        compact: true,
+
+    }), "bottom-left");
         // Experiment
         /*
                 map.value.addControl(new GlobeControl())

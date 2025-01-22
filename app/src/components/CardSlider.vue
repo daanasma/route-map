@@ -96,7 +96,7 @@ const handleTouchEnd = () => {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 10;
+  z-index: 1;
   background-color: #f0f0f0;
   border: none;
   border-radius: 50%;
