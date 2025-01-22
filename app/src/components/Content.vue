@@ -1,5 +1,5 @@
 <script>
-import {useIsMobile} from "../composables/useIsMobile";
+import {useIsTablet} from "../composables/useIsTablet.js";
 import {useRouteInfoStore} from "@/stores/routestatus.js";
 import {watch, ref, onMounted} from "vue";
 import {useSwipe} from "@vueuse/core";
@@ -12,7 +12,7 @@ export default {
     CardSlider,
   },
   setup() {
-    const { isMobile } = useIsMobile(); // Call the composable
+    const { isTablet } = useIsTablet(); // Call the composable
 
     const showWhat = ref('overview');
     const routeStatus = useRouteInfoStore();
@@ -26,6 +26,8 @@ export default {
       { id: 3, title: "Card 3", content: "This is card 3" },
       { id: 4, title: "Card 4", content: "This is card 4" },
       { id: 5, title: "Card 5", content: "This is card 5" },
+      { id: 6, title: "Card 5", content: "This is card 5" },
+      { id: 7, title: "Card 5", content: "This is card 5" },
     ]);
 
     const activatePreviousStop = () => {
@@ -83,7 +85,7 @@ export default {
     );
 
     return {
-      isMobile,
+      isMobile: isTablet,
       routeStatus,
       dataReady,
       activatePreviousStop,
@@ -168,63 +170,4 @@ export default {
   </div>
 </template>
 
-<style scoped>
-
-.cards-wrapper {
-  position: relative;
-}
-
-.navigation-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 50;
-  background: gray;
-  color: white;
-  padding: 0.5rem 1rem;
-  border: none;
-  cursor: pointer;
-}
-
-#prevBtn {
-  left: 0;
-}
-
-#nextBtn {
-  right: 0;
-}
-
-#cardsContainer {
-  display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  gap: 1rem;
-  padding: 1rem;
-  position: relative;
-}
-
-.scroll-snap-center {
-  scroll-snap-align: center;
-}
-
-.card-transition {
-  transition: all 0.3s ease-in-out;
-}
-
-.expanded {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100vw;
-  height: 70vh;
-  z-index: 100;
-}
-
-.minimize-btn {
-  display: none;
-}
-
-.expanded .minimize-btn {
-  display: flex;
-}
-</style>
+<style scoped></style>

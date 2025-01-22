@@ -1,11 +1,11 @@
 // src/composables/useIsMobile.ts
 import { ref, onMounted, onUnmounted } from "vue";
 
-export function useIsMobile(breakpoint= 768) {
-  const isMobile = ref(false);
+export function useIsTablet(breakpoint= 1024) {
+  const isTablet = ref(false);
 
   const checkScreenSize = () => {
-    isMobile.value = window.innerWidth <= breakpoint;
+    isTablet.value = window.innerWidth <= breakpoint;
   };
 
   onMounted(() => {
@@ -18,6 +18,6 @@ export function useIsMobile(breakpoint= 768) {
   });
 
   return {
-    isMobile,
+    isTablet,
   };
 }

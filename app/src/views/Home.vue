@@ -31,14 +31,14 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="w-full h-dvh flex flex-col md:flex-row">
+    <div class="w-full h-dvh flex flex-col lg:flex-row">
     <!-- Map Component Section -->
-    <div class="w-full md:w-7/10 h-7/10 md:h-full">
+    <div class="w-full lg:w-7/10 h-7/10 lg:h-full ">
       <Map />
     </div>
 
     <!-- Content Component Section -->
-    <div class="w-full md:w-3/10 h-3/10 md:h-full">
+    <div class="w-full lg:w-3/10 h-3/10 lg:h-full">
       <Content />
     </div>
   </div>
