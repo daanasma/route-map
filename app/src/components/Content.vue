@@ -14,21 +14,12 @@ export default {
   setup() {
     const { isTablet } = useIsTablet(); // Call the composable
 
-    const showWhat = ref('overview');
     const routeStatus = useRouteInfoStore();
     const dataReady = ref(false)
 
 
     // const cards = ref(Array.from({ length: 5 }, (_, i) => ({ id: i + 1 })));
-    const cards = ref([
-      { id: 1, title: "Card 1", content: "This is card 1" },
-      { id: 2, title: "Card 2", content: "This is card 2" },
-      { id: 3, title: "Card 3", content: "This is card 3" },
-      { id: 4, title: "Card 4", content: "This is card 4" },
-      { id: 5, title: "Card 5", content: "This is card 5" },
-      { id: 6, title: "Card 5", content: "This is card 5" },
-      { id: 7, title: "Card 5", content: "This is card 5" },
-    ]);
+    const cards = ref([]);
 
     const activatePreviousStop = () => {
       console.log('Button was clicked!');
@@ -40,8 +31,8 @@ export default {
     };
 
     const activateOverview = () => {
-      routeStatus.activeTopic = 'overview';
-      routeStatus.refreshNeeded = true;
+      routeStatus.setActiveTopic('overview')
+      // routeStatus.refreshNeeded = true;
       console.log('set routestatus to overview and refresh!', routeStatus.refreshNeeded)
     }
 
@@ -55,8 +46,7 @@ export default {
         () => (routeStatus.stopId), // Watch the stopId in the Pinia store
         (newStopId, oldStopId) => {
           console.log(`content: Stop ID changed from ${oldStopId} to ${newStopId}`);
-          routeStatus.activeTopic = 'stop'
-          showWhat.value = 'stop'
+
           // Handle any side effects or actions you need based on stopId change
         }
     );
@@ -66,7 +56,6 @@ export default {
         (newStopId, oldStopId) => {
           console.log(`content: Stop ID changed from ${oldStopId} to ${newStopId}`);
           routeStatus.activeTopic = 'stop'
-          showWhat.value = 'stop'
           dataReady.value = true
           // Handle any side effects or actions you need based on stopId change
         }
@@ -78,14 +67,23 @@ export default {
           }, {immediate:true}
     );
     watch(
-        () => (routeStatus.refreshNeeded), // Watch the stopId in the Pinia store
+        () => (routeStatus.stopData), // Watch the stopId in the Pinia store
         (newValue, oldValue) => {
-          console.log(`content: refresh needed: ${newValue}`);
-          }
+          console.log('stopdata: refresh needed:',  newValue.features);
+          cards.value = [
+            { id: 1, title: "Card 1", content: "This is card 1" },
+            { id: 2, title: "Card 2", content: "This is card 2" },
+            { id: 3, title: "Card 3", content: "This is card 3" },
+            { id: 4, title: "Card 4", content: "This is card 4" },
+            { id: 5, title: "Card 5", content: "This is card 5" },
+            { id: 6, title: "Card 6", content: "This is card 6" },
+          ]
+          //cards.value = newValue.features
+                }
     );
 
     return {
-      isMobile: isTablet,
+      isTablet,
       routeStatus,
       dataReady,
       activatePreviousStop,
@@ -100,11 +98,11 @@ export default {
 <template>
   <div class="flex flex-col h-full">
     <!-- Header -->
-    <header v-if="!isMobile" class="h-16 bg-gray-800 text-white subsection-title flex items-center justify-center">
+    <header v-if="!isTablet" class="h-16 bg-gray-800 text-white subsection-title flex items-center justify-center">
       Carretera Austral Explorer
     </header>
   <CardSlider
-    v-if="isMobile"
+    v-if="isTablet"
     :cards="cards"
     :isMobile="true"
   />
@@ -148,7 +146,7 @@ export default {
 
 <!--  </div>-->
     <!-- Content -->
-    <main v-if="!isMobile" class="flex-grow bg-gray-100 flex items-center justify-center ">
+    <main v-if="!isTablet" class="flex-grow bg-gray-100 flex items-center justify-center ">
   <div v-if="(routeStatus.activeTopic === 'stop') && (dataReady == true)" class="w-full max-w-lg h-full ml-4">
     <h2 class=" text-xl font-bold text-gray-800 mb-4  ">{{ routeStatus.activeFeature.properties.name }}</h2>
 
@@ -159,7 +157,7 @@ export default {
     </main>
 
     <!-- Footer Navigation -->
-    <footer v-if="!isMobile"  class="h-16 bg-gray-800 text-white flex items-center justify-around">
+    <footer v-if="!isTablet"  class="h-16 bg-gray-800 text-white flex items-center justify-around">
       <button class="p-2 bg-blue-500 rounded"
               @click="activatePreviousStop">Previous</button>
       <button class="p-2 bg-blue-500 rounded"

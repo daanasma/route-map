@@ -11,10 +11,10 @@ export function useUpdateQueryParam() {
   // Enable URL update when explicitly called
 
   const updateQueryParam = (key, value) => {
-    console.log('trying to update url', store)
+    console.log('QueryComp: trying to update url', store)
     if (!store.urlReadyToUpdate) {
 
-      console.log('Router is not ready. Query parameter update skipped.');
+      console.log('QueryComp: Router is not ready. Query parameter update skipped.');
       return;
     }
 
@@ -24,12 +24,25 @@ export function useUpdateQueryParam() {
     // Check if the query actually needs to be updated
     if (JSON.stringify(currentQuery) !== JSON.stringify(router.currentRoute.value.query)) {
       router.push({ query: currentQuery }).catch((err) => {
-        console.error('Error updating query parameter:', err);
+        console.error('QueryComp: Error updating query parameter:', err);
       });
     }
   };
+  const clearQueryParams = () => {
+    console.log('QueryComp: Trying to clear all query params', store);
+    if (!store.urlReadyToUpdate) {
+      console.log('QueryComp: Router is not ready. Query parameter clearing skipped.');
+      return;
+    }
 
+    router.push({ query: {} }).catch((err) => {
+      console.error('QueryComp: Error clearing query parameters:', err);
+      return
+    });
+    console.debug('QueryComp: finished clearQueryParams')
+  };
   return {
-    updateQueryParam
+    updateQueryParam,
+    clearQueryParams
   };
 }

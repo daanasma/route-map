@@ -1,9 +1,8 @@
 <template>
-  <button @click="goToCardById(5)">click</button>
-  <div v-if="isMobile" class="cards-wrapper">
+  <div class="cards-wrapper">
     <!-- Navigation Buttons -->
-    <button id="prevBtn" @click="scrollWithButton(-1)" class="navigation-btn">‹</button>
-    <button id="nextBtn" @click="scrollWithButton(1)" class="navigation-btn">›</button>
+    <button v-if="!isFirstCard" id="prevBtn" @click="scrollWithButton(-1)" class="navigation-btn">‹</button>
+    <button v-if="!isLastCard"id="nextBtn" @click="scrollWithButton(1)" class="navigation-btn">›</button>
 
     <!-- Cards Container -->
     <div
@@ -13,7 +12,7 @@
       @touchstart="handleTouchStart"
       @touchend="handleTouchEnd"
     >
-      <div class="overview-card bg-gray-800 text-white subsection-title"><h1>Route title</h1> </div>
+      <div data-key="overview" class="overview-card bg-gray-800 text-white subsection-title" ><h1>Carretera Austral</h1> </div>
       <div
         v-for="card in cards"
         :key="card.id"
@@ -23,17 +22,16 @@
       >
         <div class="text-center">
           <h3 class="text-xl font-bold">Card {{ card.id }}</h3>
+          <p>card.properties</p>
           <p class="text-gray-600">Click to expand</p>
         </div>
         <button
           class="minimize-btn"
-          v-show="expandedCard === card.id"
-          @click.stop="toggleCard(card.id, $event)"
-        >
+          v-show="expandedCard === card.id">
           ✕
         </button>
       </div>
-      <div class="overview-card bg-gray-800 text-white subsection-title"><h1>The end</h1> </div>
+      <div data-key="breakdown" class="overview-card bg-gray-800 text-white subsection-title"><h1>The end</h1> </div>
 
     </div>
   </div>
@@ -41,6 +39,8 @@
 
 <script setup>
 import {ref, onMounted, watch, onUnmounted} from 'vue'
+import {useRouteInfoStore} from "@/stores/routestatus.js";
+
 
 const props = defineProps({
   cards: {
@@ -48,8 +48,7 @@ const props = defineProps({
     required: true
   }
 })
-
-const isMobile = ref(true)
+const routeStatus = useRouteInfoStore();
 const expandedCard = ref(null)
 const currentCard = ref(null)
 const cardsContainer = ref(null)
@@ -65,37 +64,48 @@ const isElementInCenter = (element, container) => {
   return Math.abs(elementRect.left + elementRect.width / 2 - containerCenter) < elementRect.width / 3
 }
 const handleScroll = () => {
+  console.debug('Cardslider: handle scroll')
   if (!cardsContainer.value) return
 
   const cards = Array.from(cardsContainer.value.children)
   const centeredCard = cards.find(card => isElementInCenter(card, cardsContainer.value))
-
   if (centeredCard) {
+    console.log('centeredCard', centeredCard)
     const cardId = centeredCard.getAttribute('data-key')
     const cardIndex = cards.indexOf(centeredCard)
+    console.log('cardId', cardId, 'index', cardIndex)
+    isFirstCard.value = cardId === 'overview'
+    isLastCard.value = cardId === 'breakdown'
+    console.log(isFirstCard.value)
 
-    isFirstCard.value = cardIndex === 0
-    isLastCard.value = cardIndex === cards.length - 1
+    if (isFirstCard.value) {
+        console.log('route start')
+        emit('route-start')
+        routeStatus.setActiveTopic('overview')
 
-    if (currentCard.value !== cardId) {
+        currentCard.value = null;
+      }
+    else if (isLastCard.value) {
+        console.log('route end')
+        routeStatus.setActiveTopic('overview')
+        emit('route-end')
+        currentCard.value = 'breakdown';
+      }
+
+    else if (currentCard.value !== cardId) {
+      routeStatus.setActiveTopic('stop')
+
       currentCard.value = cardId
       console.log('going to ', cardId)
       emit('card-changed', cardId)
+      routeStatus.setStop(cardId)
 
-      if (isFirstCard.value) {
-        console.log('route start')
-        emit('route-start')
-      }
-      if (isLastCard.value) {
-        console.log('route end')
-
-        emit('route-end')
-      }
     }
   }
 }
 
 const goToCardById = (cardId) => {
+  console.log('Cardslider: go to card by id', cardId)
   if (!cardsContainer.value) return
 
   const targetCard = Array.from(cardsContainer.value.children)
@@ -127,28 +137,41 @@ const goToEnd = () => {
   }
 }
 const scrollWithButton = (direction) => {
+  console.log('scroll with button', cardsContainer.value)
   if (!cardsContainer.value) return
 
   const currentIndex = parseInt(currentCard.value) || 0
-  const nextIndex = currentIndex + direction
+  let nextIndex = currentIndex + direction
   const cards = Array.from(cardsContainer.value.children)
-
+  if (currentCard.value === 'breakdown' & direction == -1) {
+    nextIndex = cards.length - 2 // because the end card is also in the container.
+  }
   if (nextIndex >= 0 && nextIndex < cards.length) {
     goToCardById(cards[nextIndex].getAttribute('data-key'))
   }
 }
 
 const toggleCard = (cardId) => {
-  expandedCard.value = expandedCard.value === cardId ? null : cardId
+  console.log('togglecard', cardId, routeStatus.stopId)
+  if (cardId === routeStatus.stopId) {
+      expandedCard.value = expandedCard.value === cardId ? null : cardId
+  }
+  else {
+    goToCardById(cardId)
+  }
 }
 
 onMounted(() => {
   if (cardsContainer.value) {
+    console.log('cardsContainer.value', cardsContainer.value)
     handleScroll()
     cardsContainer.value.addEventListener('scroll', () => {
       clearTimeout(window.scrollTimeout)
       window.scrollTimeout = setTimeout(handleScroll, 150)
     })
+  }
+  if (routeStatus.activeTopic === 'stop') {
+    goToCardById(routeStatus.stopId)
   }
 })
 
@@ -168,6 +191,7 @@ onUnmounted(() => {
   height: 100%;
   margin: 0 auto;
   overflow: hidden;
+  background-color: #f0f0f0;
 
 }
 

@@ -4,9 +4,13 @@ import Content from '../components/Content.vue';
 import {watch, onMounted} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import { useRouteInfoStore } from '../stores/routestatus.js';
+import { useUpdateQueryParam } from "@/composables/useQueryParams.js";
+
 const route = useRoute(); // Get the current route (with query params)
 const router = useRouter();
 const routeStatus = useRouteInfoStore();
+const { clearQueryParams } = useUpdateQueryParam();
+
 watch(
     () => route.query.stop,
     (newStopId) => {
@@ -14,12 +18,23 @@ watch(
         console.log(`Home: new stop! ${newStopId}`)
         // Find the stop based on the stopId
         routeStatus.setStop(newStopId)
-        routeStatus.activeTopic = 'stop'
-        console.log('Home: set routeStatus.activeTopic', routeStatus.activeTopic)
       }
     },
     {immediate: true} // Call immediately on initial load
 );
+
+watch(
+    () => (routeStatus.activeTopic), // Watch the stopId in the Pinia store
+    (newValue, oldValue) => {
+      if (oldValue !== newValue) {
+        console.log(`Home: refresh needed because active topic changed to: ${newValue}`);
+        if (newValue === 'overview') {
+          clearQueryParams()
+        }
+      }
+    }
+);
+
 
 
 onMounted(() => {

@@ -96,7 +96,7 @@ export default {
 
     function goToActiveStop() {
       let activeStop = routeStatus.stopId;
-      routeStatus.activeTopic = 'stop';
+      // routeStatus.activeTopic = 'stop';
       routeStatus.setStop(routeStatus.stopId)
 
       if (activeStop) {
@@ -351,11 +351,27 @@ function zoomToFullRoute() {
         () => routeStatus.stopId, // Watch the stopId in the Pinia store
         (newStopId, oldStopId) => {
           console.log(`Map: Stop ID changed from ${oldStopId} to ${newStopId}`);
+          if (newStopId){
           updateQueryParam('stop', newStopId)
           goToActiveStop()
+          }
           // Handle any side effects or actions you need based on stopId change
         }
     );
+
+
+    watch(
+        () => (routeStatus.activeTopic), // Watch the stopId in the Pinia store
+        (newValue, oldValue) => {
+          if (oldValue !== newValue) {
+            console.log(`Home: refresh needed because active topic changed to: ${newValue}`);
+            if (newValue === 'overview') {
+              zoomToFullRoute()
+            }
+          }
+        }
+    );
+
 
     watch(
         () => routeStatus.refreshNeeded,
@@ -385,7 +401,7 @@ function zoomToFullRoute() {
 </script>
 
 <template>
-  <div ref="mapContainer" class="w-full h-full bg-blue-200 flex items-center justify-center">
+  <div ref="mapContainer" class="w-full h-full flex items-center justify-center">
 
   </div>
 </template>
