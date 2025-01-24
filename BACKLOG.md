@@ -15,6 +15,7 @@
 
 ## Bugs
 ### High Prio
+- maximized card -> if you close, it scrolls to next one. shouldn't happen.
 
 ### Low Prio
 - when moving a lot between screen sizes, the isTablet composable gets overwhelmed. shouldnt happen.
