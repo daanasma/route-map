@@ -77,10 +77,7 @@ export const useRouteInfoStore = defineStore('counter', {
         },
         setStop(stopId) {
             console.debug(`Store: try setting stop id ${stopId} to store + activate!`, 'max:', this.maxStopId, "topic:", this.activeTopic)
-            console.debug(stopId == null)
-            console.debug(this.activeTopic === 'overview')
             if (this.activeTopic === 'overview' && stopId === null) {
-                console.log('inoverviewz')
                 this.stopId = stopId;
                 return
             }
