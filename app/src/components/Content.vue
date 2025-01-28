@@ -70,14 +70,6 @@ export default {
         () => (routeStatus.stopData), // Watch the stopId in the Pinia store
         (newValue, oldValue) => {
           console.log('stopdata: refresh needed:',  newValue.features);
-          cards.value = [
-            { id: 1, title: "Card 1", content: "This is card 1" },
-            { id: 2, title: "Card 2", content: "This is card 2" },
-            { id: 3, title: "Card 3", content: "This is card 3" },
-            { id: 4, title: "Card 4", content: "This is card 4" },
-            { id: 5, title: "Card 5", content: "This is card 5" },
-            { id: 6, title: "Card 6", content: "This is card 6" },
-          ]
           cards.value = newValue.features
                 }
     );

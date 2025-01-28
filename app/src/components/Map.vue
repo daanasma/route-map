@@ -266,7 +266,7 @@ function zoomToFullRoute() {
           console.log('handle route here!')
           }
           if (layer == 'stops-layer') {
-            routeStatus.setStop(e.features[0].id + 1)
+            routeStatus.setStop(e.features[0].id)
           }
         });
 
