@@ -24,9 +24,8 @@
       >
 <!--        todo: click on start and end let it scroll!-->
         <div class="text-center">
-          <h3 class="text-xl font-bold">Card {{ card.id }}</h3>
-          <p>Card properties here</p>
-          <p class="text-gray-600">Click to expand</p>
+          <h3 class="text-xl font-bold">{{ card.properties.name }}</h3>
+          <p class="text-gray-400">Click to expand</p>
         </div>
       </div>
 
@@ -39,7 +38,8 @@
     >
       <div class="expanded-card">
         <button class="minimize-btn" @click.stop="closeExpandedCard">✕</button>
-        <h2>Expanded Card {{ expandedCardData.id }}</h2>
+        <h2>{{ expandedCardData.properties.name }}</h2>
+        <p>{{ expandedCardData.properties.description }}</p>
         <p>More details about the card...</p>
         <div class="carousel-container">
           <img :src="currentImageSrc" alt="Carousel Image" class="carousel-image"/>

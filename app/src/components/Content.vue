@@ -78,7 +78,7 @@ export default {
             { id: 5, title: "Card 5", content: "This is card 5" },
             { id: 6, title: "Card 6", content: "This is card 6" },
           ]
-          //cards.value = newValue.features
+          cards.value = newValue.features
                 }
     );
 
