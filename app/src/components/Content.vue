@@ -32,6 +32,7 @@ export default {
 
     const activateOverview = () => {
       routeStatus.setActiveTopic('overview')
+      routeStatus.setRefreshNeeded();
       // routeStatus.refreshNeeded = true;
       console.log('set routestatus to overview and refresh!', routeStatus.refreshNeeded)
     }
@@ -130,7 +131,7 @@ export default {
 <!--  </div>-->
     <!-- Content -->
     <main  class="flex-grow bg-gray-100 flex items-center justify-center ">
-  <div v-if="(routeStatus.activeTopic === 'route') && routeStatus.routeData" class="w-full max-w-lg h-full ml-4">
+  <div v-if="(!isTablet && routeStatus.activeTopic === 'route') && routeStatus.routeData" class="w-full max-w-lg h-full ml-4">
     <h2 class=" text-xl font-bold text-gray-800 mb-4  ">{{ routeStatus.activeFeature.properties.title }}</h2>
 
     <p class="text-gray-600 mb-2">{{ routeStatus.activeFeature.properties.description }}</p>

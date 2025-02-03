@@ -11,9 +11,7 @@ import maplibre, {
   TerrainControl
 } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import {useCorrectBasePath} from '@/composables/useCorrectBasePath.js';
 
-const {getFilePath} = useCorrectBasePath();
 import {useRouteInfoStore} from '../stores/routestatus.js';
 import {useUpdateQueryParam} from '../composables/useQueryParams';
 
@@ -196,8 +194,9 @@ export default {
      * @returns {maplibregl.LngLatBounds} - The bounding box for the collection
      */
     function getFeatureCollectionBoundingBox(featureCollection) {
+      console.log('featureCollection', featureCollection)
       // Extract all coordinates from all features
-      const allCoordinates = featureCollection.features.flatMap(feature =>
+      const allCoordinates = featureCollection.flatMap(feature =>
           feature.geometry.coordinates
       );
 
@@ -257,9 +256,11 @@ export default {
 
     function zoomToFullRoute() {
       console.debug('Map: zooming to full route.')
-      if (routeStatus.segmentData && routeStatus.stopData) {
+      if (routeStatus.routeData) {
         // Get bounding box for the full route
-        const bounds = getFeatureCollectionBoundingBox(routeStatus.segmentData);
+        const routeFeatures = routeStatus.routeData.features.route;
+        const bounds = getFeatureCollectionBoundingBox(routeFeatures.line);
+        // todo this might be a problem if there are points outside.
         fitMapToBounds(bounds, {
           padding: 20, // Add padding around the route
           maxZoom: 12  // Optional: Set a max zoom level
@@ -340,35 +341,18 @@ export default {
 
 
     watch(
-        () => (routeStatus.activeTopic), // Watch the stopId in the Pinia store
-        (newValue, oldValue) => {
-          if (oldValue !== newValue) {
-            console.log(`Home: refresh needed because active topic changed to: ${newValue}`);
-            if (newValue === 'overview') {
+        () => ([routeStatus.activeTopic, routeStatus.refreshNeeded]), // Watch the stopId in the Pinia store
+        ([newtopic, refreshneeded], [oldtopic, oldrefreshneeded]) => {
+          if (oldtopic !== newtopic || refreshneeded) {
+            console.log(`Map: refresh needed because active topic changed to: ${newtopic}`);
+            if (newtopic === 'overview' & refreshneeded) {
               zoomToFullRoute()
+              routeStatus.refreshNeeded = false;
             }
           }
         }
     );
 
-
-    // watch(
-    //     () => routeStatus.refreshNeeded,
-    //     (now, before) => {
-    //       if (routeStatus.refreshNeeded === true) {
-    //         console.debug('Map: refreshNeeded changed', routeStatus.activeTopic, before, '-->', now)
-    //
-    //         if (routeStatus.activeTopic === 'overview') {
-    //           console.debug('Map: Refresh needed and routeStatus = overview.');
-    //           zoomToFullRoute()
-    //         } else {
-    //           console.log('Map: do stuff')
-    //         }
-    //         routeStatus.refreshNeeded = false
-    //         // Handle any side effects or actions you need based on stopId change
-    //       }
-    //     }
-    // );
 
     watch(
         () => ([routeStatus.routeData, map.value]),

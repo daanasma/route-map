@@ -1,5 +1,7 @@
-// src/stores/counter.js
+
+import {useCorrectBasePath} from '@/composables/useCorrectBasePath.js';
 import {defineStore} from 'pinia';
+const {getFilePath} = useCorrectBasePath();
 
 function isNumericNumber(str) {
   return !Number.isNaN(parseFloat(str));
@@ -15,7 +17,6 @@ export const useRouteInfoStore = defineStore('counter', {
         stopData: null,
         maxSegmentId: null,
         maxStopId: null,
-        refreshNeeded: false,
         // --------------------
         routeData: null,
         loading: false,
@@ -23,7 +24,8 @@ export const useRouteInfoStore = defineStore('counter', {
         activeStep: null, // This is the index in the sequence. It is 1-based, so to get the actual data do - 1
         activeFeature: null,
         activeTopic: 'overview', // This can be 'overview', 'route' or 'extra'
-        maxStepId: null
+        maxStepId: null,
+        refreshNeeded: false,
 
     }),
     getters: {
@@ -109,13 +111,6 @@ export const useRouteInfoStore = defineStore('counter', {
             console.log('Store: set stopdata:', this.stopData)
             this.setRefreshNeeded(true);
         },
-        setRefreshNeeded(value) {
-            if (typeof this.segmentData == 'object' && typeof this.stopData == 'object') {
-                this.refreshNeeded = value;
-                return
-            }
-            this.refreshNeeded = false;
-        },
         calculateMaxIds() {
             if (this.stopData) {
                 this.maxStopId = this.stopData.features.length
@@ -135,7 +130,7 @@ export const useRouteInfoStore = defineStore('counter', {
             this.loading = true;
             this.error = null;
             try {
-                const response = await fetch('dist/geojson/bundled_route_data.json.min');
+                const response = await fetch(getFilePath('geojson/bundled_route_data.json.min'));
                 if (!response.ok) {
                     throw new Error(`Failed to fetch route data: ${response.status}`);
                 }
@@ -149,7 +144,7 @@ export const useRouteInfoStore = defineStore('counter', {
                 this.maxStepId = this.routeData.sequence.length
                 if (this.activeStep) {
                     console.log('Store. After data load. There is a step', this.activeStep, 'Setting active feature!')
-                    this.setActiveRouteFeatureFromStepId(this.activeStep, 'route')
+                    this.setActiveRouteFeatureFromStepId(this.activeStep)
                 }
             }
         },
@@ -161,9 +156,14 @@ export const useRouteInfoStore = defineStore('counter', {
           }
         },
         setActiveRouteFeatureFromStepId(stepId, topic) {
-            const sequenceInfo = this.routeData.sequence[stepId - 1]
-            console.log("--> Setting active feature to ", sequenceInfo)
-            this.setActiveFeature('route', sequenceInfo.type, sequenceInfo.id)
+            if (stepId)  {
+                const sequenceInfo = this.routeData.sequence[stepId - 1]
+                console.log("--> Setting active feature to ", sequenceInfo)
+                this.setActiveFeature('route', sequenceInfo.type, sequenceInfo.id)
+            }
+            else {
+                this.activeFeature = null;
+            }
         },
         setActiveStep(stepId) {
             console.log("Setting Active step to ", stepId)
@@ -196,8 +196,10 @@ export const useRouteInfoStore = defineStore('counter', {
             return matchingEntry ? matchingEntry.id : null;
         },
         setActiveTopic(newtopic) {
-          if (this.activeTopic === newtopic) return
           this.activeTopic = newtopic
+            // if (newtopic === 'overview') {
+            //     this.setActiveStep(null)
+            // }
         },
         nextStep() {
             console.log('nextStep called', {
@@ -225,6 +227,13 @@ export const useRouteInfoStore = defineStore('counter', {
             else {
                 this.setActiveStep(this.activeStep - 1);
             }
+        },
+        setRefreshNeeded() {
+            if (this.routeData) {
+                this.refreshNeeded = true;
+                return
+            }
+            this.refreshNeeded = false;
         },
 
 
