@@ -317,7 +317,6 @@ onUnmounted(() => {
 /* Expanded Card */
 .expanded-card {
   background-color: white;
-  //border-radius: 12px 12px 0 0; /* Rounded corners on the top */
   width: 100%; /* Set width to 95% */
   height: 70vh;
   padding: 1rem;
@@ -363,7 +362,6 @@ onUnmounted(() => {
   width: 80%;
   max-width: 600px;
   height: 100%;
-  //border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;

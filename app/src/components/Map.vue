@@ -42,160 +42,57 @@ const loadGeoJsonData = async () => {
 
   // Timeout utility
   const withTimeout = (promise, timeout) =>
-    Promise.race([
-      promise,
-      new Promise((_, reject) =>
-        setTimeout(() => reject(new Error('Request timed out')), timeout)
-      ),
-    ]);
+      Promise.race([
+        promise,
+        new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('Request timed out')), timeout)
+        ),
+      ]);
 
   try {
     // Fetch with timeout
     const routeData = await withTimeout(fetch(routeGeoJsonPath).then((res) => res.json()), 500);
     const stopsData = await withTimeout(fetch(stopsGeoJsonPath).then((res) => res.json()), 500);
 
-    return { routeData, stopsData };
+    return {routeData, stopsData};
   } catch (err) {
     console.error('Error loading GeoJSON data', err);
-    return { routeData: null, stopsData: null };
+    return {routeData: null, stopsData: null};
   }
 };
 
+
+// Helper function to convert feature arrays to a GeoJSON FeatureCollection
+const ArrayToGeoJSON = (featuresArray) => {
+  return {
+    type: 'FeatureCollection',
+    features: featuresArray
+  };
+}
 
 export default {
   name: 'Map',
   setup() {
     const mapContainer = ref(null);
     const route = useRoute(); // Get the current route (with query params)
+    const startedLayerLoad = ref(false);
     const map = ref(null); // The map instance
-    const mapLoaded = ref(false); // Flag to check if map and component are fully loaded
     const routeStatus = useRouteInfoStore();
     let hoveredStateId = null;
-    // Get the function from the composable
-    const {updateQueryParam} = useUpdateQueryParam();
 
-    function findStopById(stopId) {
-      return new Promise((resolve, reject) => {
-        const stop = routeStatus.stopData.features.find((stop) => stop.properties.index == stopId);
-        if (stop) {
-          resolve(stop); // Resolve with the stop
-        } else {
-          reject(new Error(`Stop with ID ${stopId} not found`)); // Reject if not found
-        }
-      })
-    }
+    const renderLayers = (data) => {
+      if (!startedLayerLoad.value) {
+        startedLayerLoad.value = true;
 
-    function zoomToFeature(feature) {
-      const coordinates = feature.geometry.coordinates; // Get feature coordinates
-      map.value.flyTo({
-        center: coordinates,
-        zoom: 10, // Adjust zoom level as needed
-        essential: true, // This ensures the animation respects user preferences
-      });
-    }
-
-    function goToActiveStop() {
-      let activeStop = routeStatus.stopId;
-      // routeStatus.activeTopic = 'stop';
-      routeStatus.setStop(routeStatus.stopId)
-
-      if (activeStop) {
-        findStopById(activeStop)
-            .then(zoomToFeature)
-            .catch(error => console.error(error.message));
-      }
-    }
-
-/**
- * Calculate the bounding box for a FeatureCollection
- * @param {object} featureCollection - A GeoJSON FeatureCollection
- * @returns {maplibregl.LngLatBounds} - The bounding box for the collection
- */
-function getFeatureCollectionBoundingBox(featureCollection) {
-    // Extract all coordinates from all features
-    const allCoordinates = featureCollection.features.flatMap(feature =>
-        feature.geometry.coordinates
-    );
-
-  // Create a 'LngLatBounds' with both corners at the first coordinate.
-  const bounds = new LngLatBounds(
-      allCoordinates[0],
-      allCoordinates[0]
-  );
-  // Extend the 'LngLatBounds' to include every coordinate in the bounds result.
-  for (const coord of allCoordinates) {
-    bounds.extend(coord);
-  }
-
-    return bounds;
-}
-
-/**
- * Calculate the bounding box for a single feature
- * @param {object} feature - A GeoJSON Feature
- * @returns {maplibregl.LngLatBounds} - The bounding box for the feature
- */
-function getFeatureBoundingBox(feature) {
-    const coordinates = feature.geometry.coordinates.flat(); // Extract coordinates
-    const bounds = coordinates.reduce((bounds, coord) => {
-        if (Array.isArray(coord) && coord.length === 2) {
-            return bounds.extend(coord); // Pass valid [lng, lat]
-        }
-        return bounds;
-    }, new LngLatBounds(coordinates[0], coordinates[0]));
-
-    return bounds;
-}
-
-/**
- * Zoom the map to fit the entire route
- */
-function zoomToFullRoute() {
-    console.debug('Map: zooming to full route.')
-    if (routeStatus.segmentData && routeStatus.stopData) {
-        // Get bounding box for the full route
-        const bounds = getFeatureCollectionBoundingBox(routeStatus.segmentData);
-
-        // Fit the map to the calculated bounds
-        map.value.fitBounds(bounds, {
-            padding: 20, // Add padding around the route
-            maxZoom: 12  // Optional: Set a max zoom level
-        });
-        console.log("Zoomed to full route!")
-    }
-}
-
-    // Initialize the map when the component is mounted
-    onMounted(async () => {
-      // Load GeoJSON data for the route and stops
-      const allData = await loadGeoJsonData();
-      console.log('Map: finished loading routeData', allData)
-
-      // Set store
-      routeStatus.setSegmentData((allData.routeData))
-      routeStatus.setStopData((allData.stopsData))
-      routeStatus.calculateMaxIds();
-
-      if (mapContainer.value) {
-        // Initialize the map
-        map.value = new maplibre.Map({
-          container: mapContainer.value,
-          style: 'https://tiles.openfreemap.org/styles/positron',
-          center: [-72.4200, -47.4800], // Coordinates for Valencia, Spain
-          zoom: 7,
-          attributionControl: false
-
-        });
-        map.value.style.cursor = 'pointer'
-
+        console.log("Start rendering all layers", data.features)
         // Add the route as a GeoJSON source
         map.value.on('load', () => {
           // Add route source and layer
-          map.value.addSource('route', {type: 'geojson', data: routeStatus.segmentData});
+          map.value.addSource('routelines', {type: 'geojson', data: ArrayToGeoJSON(data.features.route.line)});
           map.value.addLayer({
-            id: 'route-layer',
+            id: 'route-line',
             type: 'line',
-            source: 'route',
+            source: 'routelines',
             paint: {
               'line-color': '#082305',
               'line-width': [
@@ -214,109 +111,204 @@ function zoomToFullRoute() {
           });
 
           // Add stops source and layer
-          map.value.addSource('stops', {type: 'geojson', data: routeStatus.stopData});
+          map.value.addSource('routepoints', {type: 'geojson', data: ArrayToGeoJSON(data.features.route.point)});
           map.value.addLayer({
-            id: 'stops-layer',
+            id: 'route-point',
             type: 'circle',
-            source: 'stops',
+            source: 'routepoints',
             paint: {
               'circle-radius': 8,
               'circle-color': '#065809', // Green color for stops
             },
           })
 
+          const layers = ['route-point', 'route-line']; // List of layer IDs
 
-          mapLoaded.value = true;
-          if (routeStatus.activeTopic === 'overview') {
-            zoomToFullRoute()
-          }
+          layers.forEach(layer => {
+            // Change the cursor to a pointer when the mouse is over the places layer.
+            map.value.on('mouseenter', layer, () => {
+              map.value.getCanvas().style.cursor = 'pointer';
+            });
+            // Change it back to a pointer when it leaves.
+            map.value.on('mouseleave', layer, () => {
+              map.value.getCanvas().style.cursor = '';
+            });
 
-          if (routeStatus.stopId) {
-            console.log('routeStatus.stopId', routeStatus.stopId)
-            goToActiveStop()
-          }
-        });
+            map.value.on('click', layer, (e) => {
+              console.log('Map: Clicked on', e.features[0])
+              if (layer == 'route-line') {
+                const featuresAtPoint = map.value.queryRenderedFeatures(e.point, {
+                  layers: ['route-point'],
+                });
+                // If there are any features in the 'points-layer', skip handling route clicks
+                if (featuresAtPoint.length > 0) {
+                  console.log('Map: Clicked near a point, ignoring route click handler');
+                  return;
+                }
+                routeStatus.setActiveStepFromFeature(e.features[0].id, 'line', 'route')
+              }
+              if (layer == 'route-point') {
+                routeStatus.setActiveStepFromFeature(e.features[0].id, 'point', 'route')
+              }
+            });
 
-        // Change the cursor to a pointer when the mouse is over the places layer.
-        map.value.on('mouseenter', 'stops-layer', () => {
-          map.value.getCanvas().style.cursor = 'pointer';
-        });
+            map.value.on('mousemove', layer, (e) => {
+              if (e.features.length > 0) {
+                if (hoveredStateId) {
+                  map.value.setFeatureState({source: 'routelines', id: hoveredStateId},
+                      {hover: true}
+                  );
+                }
+                hoveredStateId = e.features[0].id;
+                map.value.setFeatureState(
+                    {source: 'routelines', id: hoveredStateId},
+                    {hover: true}
+                );
+              }
+            })
 
-        const layers = ['stops-layer', 'route-layer']; // List of layer IDs
-
-        layers.forEach(layer => {
-          // Change the cursor to a pointer when the mouse is over the places layer.
-          map.value.on('mouseenter', layer, () => {
-            map.value.getCanvas().style.cursor = 'pointer'; });
-          // Change it back to a pointer when it leaves.
-          map.value.on('mouseleave', layer, () => {
-            map.value.getCanvas().style.cursor = ''; });
-
-        map.value.on('click', layer, (e) => {
-          console.log('Clicked on', e.features[0])
-          if (layer == 'route-layer') {
-          const featuresAtPoint = map.value.queryRenderedFeatures(e.point, {
-              layers: ['stops-layer'], // Replace with your points layer name
-          });
-          // If there are any features in the 'points-layer', skip handling route clicks
-          if (featuresAtPoint.length > 0) {
-              console.log('Clicked near a point, ignoring route click handler');
-              return;
-          }
-          console.log('handle route here!')
-          }
-          if (layer == 'stops-layer') {
-            routeStatus.setStop(e.features[0].id)
-          }
-        });
-
-        // map.value.on('mousemove', layer, (e) => {
-        //   if (e.features.length > 0) {
-        //     if (hoveredStateId) {
-        //       map.value.setFeatureState({source: 'route', id: hoveredStateId},
-        //           {hover: true}
-        //       );
-        //     }
-        //     hoveredStateId = e.features[0].id;
-        //     map.value.setFeatureState(
-        //         {source: 'route', id: hoveredStateId},
-        //         {hover: true}
-        //     );
-        //   }
-        // })
-
-        // map.value.on('mouseleave', layer, () => {
-        //   if (hoveredStateId) {
-        //     map.value.setFeatureState(
-        //         {source: 'route', id: hoveredStateId},
-        //         {hover: false}
-        //     );
-        //   }
-        //   hoveredStateId = null;
-        // });
+            map.value.on('mouseleave', layer, () => {
+              if (hoveredStateId) {
+                map.value.setFeatureState(
+                    {source: 'routelines', id: hoveredStateId},
+                    {hover: false}
+                );
+              }
+              hoveredStateId = null;
+            });
 
 
-        });
 
-        // Add controls
-        map.value.addControl(new GeolocateControl({
+          })
+        })
+       if (routeStatus.activeFeature) {
+         fitMapToFeature(routeStatus.activeFeature)
+       }
+       else {
+         console.log("Map: there is no active feature..")
+       }
+      }
+    }
+
+    /**
+     * Calculate the bounding box for a FeatureCollection
+     * @param {object} featureCollection - A GeoJSON FeatureCollection
+     * @returns {maplibregl.LngLatBounds} - The bounding box for the collection
+     */
+    function getFeatureCollectionBoundingBox(featureCollection) {
+      // Extract all coordinates from all features
+      const allCoordinates = featureCollection.features.flatMap(feature =>
+          feature.geometry.coordinates
+      );
+
+      // Create a 'LngLatBounds' with both corners at the first coordinate.
+      const bounds = new LngLatBounds(
+          allCoordinates[0],
+          allCoordinates[0]
+      );
+      // Extend the 'LngLatBounds' to include every coordinate in the bounds result.
+      for (const coord of allCoordinates) {
+        bounds.extend(coord);
+      }
+
+      return bounds;
+    }
+
+    /**
+     * Calculate the bounding box for a single feature
+     * @param {object} feature - A GeoJSON Feature
+     * @returns {maplibregl.LngLatBounds} - The bounding box for the feature
+     */
+    function getFeatureBoundingBox(feature) {
+      const coordinates = feature.geometry.coordinates; // Extract coordinates
+      // Initialize an empty LngLatBounds object
+  // Initialize an empty bounds object
+  const bounds = new LngLatBounds();
+
+  if (feature.geometry.type === "Point") {
+    // Directly extend the bounds with the single point
+    bounds.extend(coordinates);
+  } else {
+    // Reduce for multi-coordinate features
+    coordinates.forEach((coord) => {
+      if (Array.isArray(coord) && coord.length === 2) {
+        bounds.extend(coord);
+      }
+    });
+  }      return bounds;
+    }
+
+
+    /**
+     * Zoom the map to fit the entire route
+     */
+
+    function fitMapToBounds(bounds, options) {
+      console.log("fitting map to bounds", bounds)
+      map.value.fitBounds(bounds, options);
+
+    }
+    function fitMapToFeature(feature) {
+      console.log("Fitting map to feature", feature)
+        const bounds = getFeatureBoundingBox(feature);
+      console.log("GOT BOUNDS", bounds)
+      fitMapToBounds(bounds, {padding: 20, maxZoom: 12})
+    }
+
+    function zoomToFullRoute() {
+      console.debug('Map: zooming to full route.')
+      if (routeStatus.segmentData && routeStatus.stopData) {
+        // Get bounding box for the full route
+        const bounds = getFeatureCollectionBoundingBox(routeStatus.segmentData);
+        fitMapToBounds(bounds, {
+          padding: 20, // Add padding around the route
+          maxZoom: 12  // Optional: Set a max zoom level
+        })
+        // Fit the map to the calculated bounds
+        console.log("Zoomed to full route!")
+      }
+    }
+
+    function addMapControls(map) {
+      map.addControl(new GeolocateControl({
           positionOptions: {
             enableHighAccuracy: true
           },
           trackUserLocation: true
         }));
-
-        map.value.addControl(new NavigationControl({
+        map.addControl(new NavigationControl({
           visualizePitch: true,
           visualizeRoll: true,
           showZoom: true,
           showCompass: false,
 
         }), 'bottom-right');
-        map.value.addControl(new AttributionControl({
-        compact: true,
+        map.addControl(new AttributionControl({
+          compact: true,
 
-    }), "bottom-left");
+        }), "bottom-left");
+
+    }
+
+    // Initialize the map when the component is mounted
+    onMounted(async () => {
+      console.log('mounted', mapContainer.value)
+      if (mapContainer.value) {
+        // Initialize the map
+        map.value = new maplibre.Map({
+          container: mapContainer.value,
+          style: 'https://tiles.openfreemap.org/styles/positron',
+          center: [-72.4200, -47.4800], // Coordinates for Valencia, Spain
+          zoom: 7,
+          attributionControl: false
+
+        });
+        console.log("Map: created map")
+        map.value.style.cursor = 'pointer'
+        addMapControls(map.value);// Add controls
+
+
+
         // Experiment
         /*
                 map.value.addControl(new GlobeControl())
@@ -345,19 +337,6 @@ function zoomToFullRoute() {
       }
     })
 
-    
-    // Watch for changes in the query parameters (stopId)
-    watch(
-        () => routeStatus.stopId, // Watch the stopId in the Pinia store
-        (newStopId, oldStopId) => {
-          console.log(`Map: Stop ID changed from ${oldStopId} to ${newStopId}`);
-          if (newStopId){
-          updateQueryParam('stop', newStopId)
-          goToActiveStop()
-          }
-          // Handle any side effects or actions you need based on stopId change
-        }
-    );
 
 
     watch(
@@ -373,24 +352,47 @@ function zoomToFullRoute() {
     );
 
 
-    watch(
-        () => routeStatus.refreshNeeded,
-        (now, before) => {
-          if (routeStatus.refreshNeeded === true) {
-             console.debug('Map: refreshNeeded changed', routeStatus.activeTopic, before, '-->', now)
+    // watch(
+    //     () => routeStatus.refreshNeeded,
+    //     (now, before) => {
+    //       if (routeStatus.refreshNeeded === true) {
+    //         console.debug('Map: refreshNeeded changed', routeStatus.activeTopic, before, '-->', now)
+    //
+    //         if (routeStatus.activeTopic === 'overview') {
+    //           console.debug('Map: Refresh needed and routeStatus = overview.');
+    //           zoomToFullRoute()
+    //         } else {
+    //           console.log('Map: do stuff')
+    //         }
+    //         routeStatus.refreshNeeded = false
+    //         // Handle any side effects or actions you need based on stopId change
+    //       }
+    //     }
+    // );
 
-            if (routeStatus.activeTopic === 'overview') {
-            console.debug('Map: Refresh needed and routeStatus = overview.');
-            zoomToFullRoute()
-            }
-            else{
-              console.log('Map: do stuff')
-            }
-            routeStatus.refreshNeeded = false
-          // Handle any side effects or actions you need based on stopId change
+    watch(
+        () => ([routeStatus.routeData, map.value]),
+        ([newData, newMap], oldValue) => {
+          console.log('Map: map or routedata changed.')
+          if (newData && newMap) {
+            console.log('Map: there is a map so we can add the routeData')
+            renderLayers(newData)
           }
         }
-    );
+    )
+    watch(
+        () => (routeStatus.activeFeature),
+        (newValue, oldValue) => {
+          console.log('Map: active feature changed.')
+          if (newValue) {
+            console.log('Map: zooming to active feature. Step feature:', newValue)
+            fitMapToFeature(routeStatus.activeFeature)
+            // zoomToFeature(routeStatus.activeFeature)
+            //renderLayers(newValue)
+          }
+        }
+    )
+    ;
 
 
     return {

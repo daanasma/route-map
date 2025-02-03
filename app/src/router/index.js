@@ -13,6 +13,7 @@ const routes = [
     component: Home,
     props: (route) => ({
       stop: route.query.stop,
+      step: route.query.step,
       segment: route.query.segment,
     }),
   },

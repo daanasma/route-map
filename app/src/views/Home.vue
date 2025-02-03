@@ -9,7 +9,7 @@ import { useUpdateQueryParam } from "@/composables/useQueryParams.js";
 const route = useRoute(); // Get the current route (with query params)
 const router = useRouter();
 const routeStatus = useRouteInfoStore();
-const { clearQueryParams } = useUpdateQueryParam();
+const { clearQueryParams, updateQueryParam } = useUpdateQueryParam();
 
 watch(
     () => route.query.stop,
@@ -35,7 +35,29 @@ watch(
     }
 );
 
-
+watch(
+    () => route.query.step,
+    (newStepId) => {
+      if (newStepId) {
+        console.log(`Home: new route step! ${newStepId}`)
+        // Find the stop based on the stopId
+        routeStatus.setActiveStep(newStepId);
+      }
+    },
+    {immediate: true} // Call immediately on initial load
+);
+    watch(
+        () => (routeStatus.activeStep),
+        (newValue, oldValue) => {
+          console.log('Map: active step changed.')
+          if (newValue) {
+            console.log('Map: zooming to active feature. Step id:', newValue)
+            updateQueryParam('step', routeStatus.activeStep)
+            // zoomToFeature(routeStatus.activeFeature)
+            //renderLayers(newValue)
+          }
+        }
+    )
 
 onMounted(() => {
   router.isReady().then(() => {

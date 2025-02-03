@@ -22,12 +22,12 @@ export default {
     const cards = ref([]);
 
     const activatePreviousStop = () => {
-      console.log('Button was clicked!');
-      routeStatus.previousStop()
+      console.log('Swipe or Button: Previous Stop activated!');
+      routeStatus.previousStep()
     };
     const activateNextStop = () => {
       console.log("Swipe or Button: Next Stop activated!");
-      routeStatus.nextStop()
+      routeStatus.nextStep()
     };
 
     const activateOverview = () => {
@@ -51,15 +51,6 @@ export default {
         }
     );
 
-    watch(
-        () => (routeStatus.activeFeature), // Watch the stopId in the Pinia store
-        (newStopId, oldStopId) => {
-          console.log(`content: Stop ID changed from ${oldStopId} to ${newStopId}`);
-          routeStatus.activeTopic = 'stop'
-          dataReady.value = true
-          // Handle any side effects or actions you need based on stopId change
-        }
-    );
     watch(
         () => (routeStatus.activeTopic), // Watch the stopId in the Pinia store
         (newTopic, oldTopic) => {
@@ -90,8 +81,8 @@ export default {
 <template>
   <div class="flex flex-col h-full">
     <!-- Header -->
-    <header v-if="!isTablet" class="h-16 bg-gray-800 text-white subsection-title flex items-center justify-center">
-      Carretera Austral Explorer
+    <header v-if="!isTablet && routeStatus.routeData" class="h-16 bg-gray-800 text-white subsection-title flex items-center justify-center">
+      {{ routeStatus.routeMetadata.title }}
     </header>
   <CardSlider
     v-if="isTablet"
@@ -138,9 +129,9 @@ export default {
 
 <!--  </div>-->
     <!-- Content -->
-    <main v-if="!isTablet" class="flex-grow bg-gray-100 flex items-center justify-center ">
-  <div v-if="(routeStatus.activeTopic === 'stop') && (dataReady == true)" class="w-full max-w-lg h-full ml-4">
-    <h2 class=" text-xl font-bold text-gray-800 mb-4  ">{{ routeStatus.activeFeature.properties.name }}</h2>
+    <main  class="flex-grow bg-gray-100 flex items-center justify-center ">
+  <div v-if="(routeStatus.activeTopic === 'route') && routeStatus.routeData" class="w-full max-w-lg h-full ml-4">
+    <h2 class=" text-xl font-bold text-gray-800 mb-4  ">{{ routeStatus.activeFeature.properties.title }}</h2>
 
     <p class="text-gray-600 mb-2">{{ routeStatus.activeFeature.properties.description }}</p>
   </div>
