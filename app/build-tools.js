@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync, readdirSync, unlinkSync, existsSync } from 'fs';
+import { readFileSync, writeFileSync, readdirSync, unlinkSync, existsSync, mkdirSync} from 'fs';
 import path, { resolve } from 'path';
 import jsonminify from 'jsonminify';
 
@@ -11,9 +11,9 @@ function bundleRouteData() {
         console.log("Start combining route.");
 
         // Load data files from the public/geojson/ directory
-        const points = JSON.parse(readFileSync(resolve('public/geojson/stops.geojson'), 'utf8'));
-        const lines = JSON.parse(readFileSync(resolve('public/geojson/route.geojson'), 'utf8'));
-        const sequence = JSON.parse(readFileSync(resolve('public/geojson/route_info.json'), 'utf8'));
+        const points = JSON.parse(readFileSync(resolve('src/data/geojson/stops.geojson'), 'utf8'));
+        const lines = JSON.parse(readFileSync(resolve('src/data/geojson/route.geojson'), 'utf8'));
+        const sequence = JSON.parse(readFileSync(resolve('src/data/geojson/route_info.json'), 'utf8'));
 
         const sequenceIds = new Set(sequence.sequence.map(entry => entry.id));
 
@@ -52,7 +52,7 @@ function bundleRouteData() {
           }
         };
 
-        const outputPath = resolve('public/geojson', 'bundled_route_data.json');
+        const outputPath = resolve('src/data/geojson', 'bundled_route_data.json');
         writeFileSync(outputPath, JSON.stringify(bundledData, null, 2));
         console.log(`Bundled route data written to: ${outputPath}`);
       } catch (error) {
@@ -68,25 +68,23 @@ function minifyJsonFiles() {
     apply: 'build',
     writeBundle() {
       return new Promise((resolve, reject) => {
-        const dir = './public/geojson';
+        const dir = './src/data/geojson';
+        const outputDir = './dist/geojson';
         const files = readdirSync(dir);
-
+        if (!existsSync(outputDir)){
+            mkdirSync(outputDir);
+}
         // Loop through the files and minify them asynchronously
         Promise.all(files.map(async (file) => {
           const filePath = path.join(dir, file);
+          const newFilePath = path.join(outputDir, `${file}.min`);
           if (['.geojson', '.json'].includes(path.extname(file))) {
             try {
               const content = readFileSync(filePath, 'utf8');
               const minifiedContent = jsonminify(content);
-              const newFilename = `${filePath}.min`;
 
-              // Remove existing .min file if it exists
-              if (existsSync(newFilename)) {
-                unlinkSync(newFilename);
-                console.log(`Removed existing minified file: ${newFilename}`);
-              }
 
-              writeFileSync(newFilename, minifiedContent);
+              writeFileSync(newFilePath, minifiedContent);
               console.log(`Minified: ${file}`);
             } catch (error) {
               console.error(`Error minifying file ${file}:`, error);

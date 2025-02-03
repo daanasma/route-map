@@ -1,0 +1,446 @@
+{
+  "metadata": {
+    "title": "Carretera Austral",
+    "description": "A road through the pristine Chilean Patagonia.",
+    "banner": "/img/overview/voh_air_view.JPG",
+    "version": "1.0",
+    "created": "2025-01-01",
+    "last_edit": "2025-02-01"
+  },
+  "sequence": [
+    {
+      "id": 1,
+      "type": "point"
+    },
+    {
+      "id": 1,
+      "type": "line"
+    },
+    {
+      "id": 2,
+      "type": "point"
+    },
+    {
+      "id": 2,
+      "type": "line"
+    },
+    {
+      "id": 3,
+      "type": "point"
+    },
+    {
+      "id": 3,
+      "type": "line"
+    },
+    {
+      "id": 4,
+      "type": "point"
+    },
+    {
+      "id": 4,
+      "type": "line"
+    },
+    {
+      "id": 5,
+      "type": "point"
+    },
+    {
+      "id": 5,
+      "type": "line"
+    },
+    {
+      "id": 6,
+      "type": "point"
+    }
+  ],
+  "settings": {},
+  "features": {
+    "route": {
+      "point": [
+        {
+          "id": 1,
+          "type": "Feature",
+          "properties": {
+            "id": 1,
+            "description": "The southernmost town of the Carretera Austral, surrounded by pristine wilderness.",
+            "title": "Villa O'Higgins"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -72.56120549256505,
+              -48.469739916356886
+            ]
+          }
+        },
+        {
+          "id": 2,
+          "type": "Feature",
+          "properties": {
+            "id": 2,
+            "description": "Taking the boat",
+            "title": "Puerto Rio Bravo"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -73.22357877773605,
+              -47.96784394473172
+            ]
+          }
+        },
+        {
+          "id": 3,
+          "type": "Feature",
+          "properties": {
+            "id": 3,
+            "description": "A ferry crossing on the Carretera Austral, connecting remote areas.",
+            "title": "Puerto Yungay"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -73.3263698408458,
+              -47.93475752744542
+            ]
+          }
+        },
+        {
+          "id": 4,
+          "type": "Feature",
+          "properties": {
+            "id": 4,
+            "description": "A charming small town offering access to Patagonia National Park.",
+            "title": "Cochrane"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -72.5743090241636,
+              -47.25402906090258
+            ]
+          }
+        },
+        {
+          "id": 5,
+          "type": "Feature",
+          "properties": {
+            "id": 5,
+            "description": "The gateway to Lago General Carrera, famous for its turquoise waters.",
+            "title": "Puerto Bertrand"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -72.82831279449356,
+              -47.015094351910925
+            ]
+          }
+        },
+        {
+          "id": 6,
+          "type": "Feature",
+          "properties": {
+            "id": 6,
+            "description": "Known for the Marble Caves and a must-visit stop on the Carretera Austral.",
+            "title": "Puerto Rio Tranquilo"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -72.67557475429841,
+              -46.62424057344899
+            ]
+          }
+        }
+      ],
+      "line": [
+        {
+          "id": 1,
+          "type": "Feature",
+          "properties": {
+            "id": 1,
+            "distance_km": 70,
+            "transport_type": "road",
+            "title": "Leaving Villa o Higgins",
+            "description": "Travel along a winding road departing from the remote town of Villa O'Higgins, surrounded by untouched Patagonian wilderness. The journey offers dramatic landscapes with rugged mountains and pristine valleys."
+          },
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -72.56132833817391,
+                -48.46954541080981
+              ],
+              [
+                -72.55100930704008,
+                -48.41647610783583
+              ],
+              [
+                -72.57852672339699,
+                -48.420407167315375
+              ],
+              [
+                -72.61783731819254,
+                -48.44857976025218
+              ],
+              [
+                -72.67090662116654,
+                -48.36340680486184
+              ],
+              [
+                -72.66173414904758,
+                -48.32475138664622
+              ],
+              [
+                -72.69383780146393,
+                -48.246785373635056
+              ],
+              [
+                -72.80521782005131,
+                -48.14326747400679
+              ],
+              [
+                -72.92298581029294,
+                -48.10805173283578
+              ],
+              [
+                -72.97130508306248,
+                -48.05711175374656
+              ],
+              [
+                -73.11937499012569,
+                -48.00142174445287
+              ],
+              [
+                -73.22391660316009,
+                -47.96890860667405
+              ]
+            ]
+          }
+        },
+        {
+          "id": 2,
+          "type": "Feature",
+          "properties": {
+            "id": 2,
+            "distance_km": 30,
+            "transport_type": "ferry",
+            "title": "Taking the ferry.",
+            "description": "Board the ferry to cross scenic waterways. The tranquil ferry ride provides stunning views of the surrounding fjords and glacial landscapes, a unique way to experience the heart of Patagonia."
+          },
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -73.22357877773605,
+                -47.96784394473172
+              ],
+              [
+                -73.22457177973999,
+                -47.96489565012206
+              ],
+              [
+                -73.30253779275115,
+                -47.939016175214995
+              ],
+              [
+                -73.31564132434967,
+                -47.935740292315366
+              ],
+              [
+                -73.3263698408458,
+                -47.93475752744542
+              ]
+            ]
+          }
+        },
+        {
+          "id": 3,
+          "type": "Feature",
+          "properties": {
+            "id": 3,
+            "distance_km": 140,
+            "transport_type": "road",
+            "title": "Long ride to Cochrane",
+            "description": "A long but rewarding stretch through the breathtaking Chilean wilderness. This segment features rolling hills, dense forests, and panoramic views of distant mountains as you approach the charming town of Cochrane."
+          },
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -73.3263698408458,
+                -47.93475752744542
+              ],
+              [
+                -73.29549464451695,
+                -47.787506591107174
+              ],
+              [
+                -73.21949416124556,
+                -47.716747520475195
+              ],
+              [
+                -73.12449355715633,
+                -47.702988812296766
+              ],
+              [
+                -72.84931939358752,
+                -47.59816055950865
+              ],
+              [
+                -72.85194009990722,
+                -47.50643583831904
+              ],
+              [
+                -72.70255983968416,
+                -47.409469704490036
+              ],
+              [
+                -72.5743090241636,
+                -47.25402906090258
+              ]
+            ]
+          }
+        },
+        {
+          "id": 4,
+          "type": "Feature",
+          "properties": {
+            "id": 4,
+            "distance_km": 100,
+            "transport_type": "road",
+            "title": "Towards Puerto Bertrand",
+            "description": "Travel through an enchanting landscape of crystal-clear rivers and lush greenery. This section guides you toward the vibrant blue waters of Puerto Bertrand, a beautiful lake region surrounded by impressive natural scenery."
+          },
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -72.5743090241636,
+                -47.25402906090258
+              ],
+              [
+                -72.60493852927527,
+                -47.23322720449005
+              ],
+              [
+                -72.62197312035333,
+                -47.20964084761272
+              ],
+              [
+                -72.60755923559498,
+                -47.11398506694356
+              ],
+              [
+                -72.64818018355037,
+                -47.12184718590267
+              ],
+              [
+                -72.71369784154294,
+                -47.131019658021636
+              ],
+              [
+                -72.77266373373625,
+                -47.115295420103415
+              ],
+              [
+                -72.7765947932158,
+                -47.08122623794728
+              ],
+              [
+                -72.82831279449356,
+                -47.015094351910925
+              ]
+            ]
+          }
+        },
+        {
+          "id": 5,
+          "type": "Feature",
+          "properties": {
+            "id": 5,
+            "distance_km": 55,
+            "transport_type": "road",
+            "title": "On the blue shores",
+            "description": "A scenic journey along the shimmering blue shores of glacial lakes. This segment features gentle curves and spectacular vistas, with serene waters reflecting the towering peaks and rugged terrain."
+          },
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -72.82831279449356,
+                -47.015094351910925
+              ],
+              [
+                -72.80411220957271,
+                -47.023570698913815
+              ],
+              [
+                -72.79493973745375,
+                -46.99212222307738
+              ],
+              [
+                -72.78052585269538,
+                -46.89908714872792
+              ],
+              [
+                -72.7936293842939,
+                -46.86894902605134
+              ],
+              [
+                -72.82114680065078,
+                -46.824397018616395
+              ],
+              [
+                -72.81197432853182,
+                -46.789017483300405
+              ],
+              [
+                -72.85390562964706,
+                -46.73529300374649
+              ],
+              [
+                -72.801491503253,
+                -46.72218947214798
+              ],
+              [
+                -72.73728419842028,
+                -46.7405344163859
+              ],
+              [
+                -72.64031806459128,
+                -46.66453393311451
+              ],
+              [
+                -72.67557475429841,
+                -46.62424057344899
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    "extra": {
+      "point": [
+        {
+          "id": 7,
+          "type": "Feature",
+          "properties": {
+            "id": 7,
+            "description": "Stairway to Pacific Ocean",
+            "title": "Caleta Tortel"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -73.53178639465561,
+              -47.795614838726664
+            ]
+          }
+        }
+      ],
+      "line": []
+    }
+  }
+}
