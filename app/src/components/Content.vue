@@ -12,7 +12,7 @@ export default {
     CardSlider,
   },
   setup() {
-    const { isTablet } = useIsTablet(); // Call the composable
+    const {isTablet} = useIsTablet(); // Call the composable
     const routeStatus = useRouteInfoStore();
 
 
@@ -33,7 +33,6 @@ export default {
     }
 
 
-
     watch(
         () => (routeStatus.stopId), // Watch the stopId in the Pinia store
         (newStopId, oldStopId) => {
@@ -47,14 +46,14 @@ export default {
         () => (routeStatus.activeTopic), // Watch the stopId in the Pinia store
         (newTopic, oldTopic) => {
           console.log(`content: active topic changed from ${oldTopic} to ${newTopic}`);
-          }, {immediate:true}
+        }, {immediate: true}
     );
     watch(
         () => (routeStatus.routeData), // Watch the stopId in the Pinia store
         (newValue, oldValue) => {
-          console.log('content: routedata: refresh needed:',  newValue);
+          console.log('content: routedata: refresh needed:', newValue);
           routeCards.value = routeStatus.getAllRouteFeatures
-                }
+        }
     );
 
     return {
@@ -72,77 +71,52 @@ export default {
 <template>
   <div class="flex flex-col h-full">
     <!-- Header -->
-    <header v-if="!isTablet && routeStatus.routeData" class="h-16 bg-gray-800 text-white subsection-title flex items-center justify-center">
+    <header v-if="!isTablet && routeStatus.routeData"
+            class="h-16 bg-gray-800 text-white subsection-title flex items-center justify-center">
       {{ routeStatus.routeMetadata.title }}
     </header>
-  <CardSlider
-    v-if="isTablet && routeStatus.routeData"
-    :cards="routeCards"
-    :isMobile="true"
-  />
-<!--  <div v-if="isMobile" class="cards-wrapper">-->
-<!--    &lt;!&ndash; Navigation Buttons &ndash;&gt;-->
-<!--    <button id="prevBtn" @click="scroll(-1)" class="navigation-btn">Previous</button>-->
-<!--    <button id="nextBtn" @click="scroll(1)" class="navigation-btn">Next</button>-->
 
-<!--    &lt;!&ndash; Cards Container &ndash;&gt;-->
-<!--    <div-->
-<!--      id="cardsContainer"-->
-<!--      ref="cardsContainer"-->
-<!--      class="flex overflow-x-scroll snap-x snap-mandatory space-x-4"-->
-<!--      @scroll="handleScroll"-->
-<!--      @touchstart="handleTouchStart"-->
-<!--      @touchend="handleTouchEnd"-->
-<!--    >-->
-<!--      <div-->
-<!--        v-for="card in cards"-->
-<!--        :key="card.id"-->
-<!--        :id="`card-${card.id}`"-->
-<!--        :class="['scroll-snap-center card-transition flex-shrink-0 w-[90vw] h-32 bg-white ' +-->
-<!--         'rounded-lg shadow-md flex items-center justify-center cursor-pointer hover:shadow-lg', { expanded: expandedCard === card.id }]"-->
-<!--        @click="toggleCard(card.id, $event)"-->
-<!--      >-->
-<!--        <div class="text-center">-->
-<!--          <h3 class="text-xl font-bold">Card {{ card.id }}</h3>-->
-<!--          <p class="text-gray-600">Click to expand</p>-->
-<!--        </div>-->
-<!--        <button-->
-<!--          class="minimize-btn hidden absolute top-4 right-4-->
-<!--          bg-gray-200 hover:bg-gray-300 rounded-full w-8 h-8 flex items-center justify-center"-->
-<!--          v-show="expandedCard === card.id"-->
-<!--          @click.stop="toggleCard(card.id, $event)"-->
-<!--        >-->
-<!--          ✕-->
-<!--        </button>-->
-<!--      </div>-->
-<!--    </div>-->
-
-
-<!--  </div>-->
     <!-- Content -->
-    <main  class="flex-grow bg-gray-100 flex items-center justify-center ">
-  <div v-if="(!isTablet && routeStatus.routeData)" class="w-full max-w-lg h-full ml-4">
-  <div v-if="routeStatus.activeTopic === 'overview'" >
-    <h2 class=" text-xl font-bold text-gray-800 mb-4  ">{{ routeStatus.routeMetadata.title }}</h2>
+    <!-- Mobile -->
 
-    <p class="text-gray-600 mb-2">{{ routeStatus.routeMetadata.description }}</p>
-  </div>
-  <div v-if="routeStatus.activeTopic === 'route'" >
-    <h2 class=" text-xl font-bold text-gray-800 mb-4  ">{{ routeStatus.activeFeature.properties.title }}</h2>
+    <CardSlider
+        v-if="isTablet && routeStatus.routeData"
+        :cards="routeCards"
+        :isMobile="true"
+    />
+    <!-- Desktop -->
+    <main class="flex-grow bg-gray-100 flex items-center justify-center ">
+      <div v-if="(!isTablet && routeStatus.routeData)" class="w-full max-w-lg h-full ml-4">
+        <div v-if="routeStatus.activeTopic === 'overview'">
+          <h2 class=" text-xl font-bold text-gray-800 mb-4  ">{{ routeStatus.routeMetadata.title }}</h2>
 
-    <p class="text-gray-600 mb-2">{{ routeStatus.activeFeature.properties.description }}</p>
-  </div>
-  </div>
+          <p class="text-gray-600 mb-2">{{ routeStatus.routeMetadata.description }}</p>
+          <img :src=routeStatus.routeMetadata.banner class="max-w-full h-auto"  alt="Route Banner">
+
+        </div>
+        <div v-if="routeStatus.activeTopic === 'route'">
+          <h2 class=" text-xl font-bold text-gray-800 mb-4  ">{{ routeStatus.activeFeature.properties.title }}</h2>
+            <img
+              v-if="routeStatus.activeFeature.images?.length"
+              :src="'img/' + routeStatus.activeFeature.images[0]"
+              class="max-w-full h-auto rounded-lg mb-4"
+              alt="Feature Image"
+            >
+          <p class="text-gray-600 mb-2">{{ routeStatus.activeFeature.properties.description }}</p>
+        </div>
+      </div>
 
 
     </main>
 
     <!-- Footer Navigation -->
-    <footer v-if="!isTablet"  class="h-16 bg-gray-800 text-white flex items-center justify-around">
+    <footer v-if="!isTablet" class="h-16 bg-gray-800 text-white flex items-center justify-around">
       <button class="p-2 bg-blue-500 rounded"
-              @click="activatePreviousStop">Previous</button>
+              @click="activatePreviousStop">Previous
+      </button>
       <button class="p-2 bg-blue-500 rounded"
-              @click="activateOverview">Show full Route </button>
+              @click="activateOverview">Show full Route
+      </button>
 
       <button class="p-2 bg-blue-500 rounded" @click="activateNextStop">Next</button>
     </footer>

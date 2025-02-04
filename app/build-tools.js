@@ -2,65 +2,6 @@ import { readFileSync, writeFileSync, readdirSync, unlinkSync, existsSync, mkdir
 import path, { resolve } from 'path';
 import jsonminify from 'jsonminify';
 
-// function bundleRouteData() {
-//   return {
-//     name: 'bundle-route-data',
-//     apply: 'build',
-//     async writeBundle() {
-//       try {
-//         console.log("Start combining route.");
-//
-//         // Load data files from the public/geojson/ directory
-//         const points = JSON.parse(readFileSync(resolve('src/data/geojson/stops.geojson'), 'utf8'));
-//         const lines = JSON.parse(readFileSync(resolve('src/data/geojson/route.geojson'), 'utf8'));
-//         const sequence = JSON.parse(readFileSync(resolve('src/data/geojson/route_info.json'), 'utf8'));
-//
-//         const sequenceIds = new Set(sequence.sequence.map(entry => entry.id));
-//
-//         const formatFeatures = (features) => features
-//           .map(feature => {
-//             const id = feature.properties?.id;
-//             return id ? { id, ...feature, properties: { ...feature.properties } } : feature;
-//           })
-//           .filter(feature => feature.id);
-//
-//         const formattedPoints = formatFeatures(points.features);
-//         const formattedLines = formatFeatures(lines.features);
-//
-//         const categorizeFeatures = (features) => features.reduce((acc, feature) => {
-//           const category = sequenceIds.has(feature.id) ? 'route' : 'extra';
-//           acc[category].push(feature);
-//           return acc;
-//         }, { route: [], extra: [] });
-//
-//         const categorizedPoints = categorizeFeatures(formattedPoints);
-//         const categorizedLines = categorizeFeatures(formattedLines);
-//
-//         const bundledData = {
-//           metadata: sequence.metadata,
-//           sequence: sequence.sequence,
-//           settings: sequence.settings,
-//           features: {
-//             route: {
-//               point: categorizedPoints.route,
-//               line: categorizedLines.route,
-//             },
-//             extra: {
-//               point: categorizedPoints.extra,
-//               line: categorizedLines.extra,
-//             }
-//           }
-//         };
-//
-//         const outputPath = resolve('src/data/geojson', 'bundled_route_data.json');
-//         writeFileSync(outputPath, JSON.stringify(bundledData, null, 2));
-//         console.log(`Bundled route data written to: ${outputPath}`);
-//       } catch (error) {
-//         console.error('Error bundling route data:', error);
-//       }
-//     }
-//   };
-// }
 function bundleRouteData() {
   return {
     name: 'bundle-route-data',
@@ -87,6 +28,7 @@ function bundleRouteData() {
       properties: { ...feature.properties,
       route_sequence_id: routeStep || null},
       geometry: feature.geometry,
+                images: listImages(type, feature.properties?.id)
     });
 
     const features = [];
@@ -164,6 +106,24 @@ function minifyJsonFiles() {
     }
   };
 }
+
+
+      /**
+       * Helper function to list image files for a feature type and ID.
+       */
+      function listImages(type, id) {
+        const directoryPath = resolve(`public/img/${type}/${id}`);
+        try {
+          return readdirSync(directoryPath)
+            .filter(file => /\.(png|jpe?g|gif|webp)$/i.test(file))
+            .map(file => `${type}/${id}/${file}`);
+        } catch (error) {
+          console.warn(`No images found for ${type} ${id}: ${error.message}`);
+          return [];
+        }
+      }
+
+
 export default function buildPlugins() {
   return [bundleRouteData(), minifyJsonFiles()];
 }

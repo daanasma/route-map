@@ -38,11 +38,14 @@
     >
       <div class="expanded-card">
         <button class="minimize-btn" @click.stop="closeExpandedCard">✕</button>
-        <h2>{{ expandedCardData.properties.title }}</h2>
-        <p>{{ expandedCardData.properties.description }}</p>
-        <div class="carousel-container">
-          <img :src="currentImageSrc" alt="Carousel Image" class="carousel-image"/>
-        </div>
+        <h2>{{ routeStatus.activeFeature.properties.title }}</h2>
+        <p>{{ routeStatus.activeFeature.properties.description }}</p>
+            <img
+              v-if="routeStatus.activeFeature.images?.length"
+              :src="'img/' + routeStatus.activeFeature.images[0]"
+              class="max-w-full h-auto rounded-lg mb-4"
+              alt="Feature Image"
+            >
         <ul>
           <div>
             What is Lorem Ipsum?
