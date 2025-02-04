@@ -8,6 +8,7 @@
     <div
       ref="cardsContainer"
       class="cards-container"
+
       @scrollend="handleScroll"
       @touchstart="handleTouchStart"
       @touchend="handleTouchEnd"
@@ -36,9 +37,17 @@
       class="expanded-card-overlay"
       @click.self="closeExpandedCard"
     >
-      <div class="expanded-card">
+      <div class="expanded-card"
+           :style="{ height: `${currentCardHeight}vh`, transition: cardTransition }" >
+        <div class="card-title sticky-header"
+        @touchstart="onTouchStart"
+      @touchmove="onTouchMove"
+      @touchend="onTouchEnd">
         <button class="minimize-btn" @click.stop="closeExpandedCard">✕</button>
         <h2>{{ routeStatus.activeFeature.properties.title }}</h2>
+        </div>
+        <div class="card-content">
+
         <p>{{ routeStatus.activeFeature.properties.description }}</p>
             <img
               v-if="routeStatus.activeFeature.images?.length"
@@ -46,9 +55,11 @@
               class="max-w-full h-auto rounded-lg mb-4"
               alt="Feature Image"
             >
-        <ul>
           <div>
-            What is Lorem Ipsum?
+          <div>
+            <h3>
+            Lorum Ipsum?
+            </h3>
 
             Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
             industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
@@ -56,15 +67,19 @@
             electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of
             Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like
             Aldus PageMaker including versions of Lorem Ipsum.
+          </div>
+          <div>
+            <h3>
             Why do we use it?
-
+            </h3>
+            <p>
             It is a long established fact that a reader will be distracted by the readable content of a page when
             looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of
             letters, as opposed to using 'Content here, content here', making it look like readable English. Many
             desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a
             search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved
             over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-
+</p>
             Where does it come from?
 
             Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical
@@ -76,7 +91,9 @@
             during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in
             section 1.10.32.
           </div>
-        </ul>
+        </div>
+                  </div>
+
       </div>
     </div>
     <div data-key="breakdown" class="overview-card bg-gray-800 text-white subsection-title"><h1>The end</h1> </div>
@@ -87,6 +104,7 @@
 </template>
 
 <script setup>
+
 import {ref, onMounted, watch, onUnmounted} from 'vue'
 import {useRouteInfoStore} from "@/stores/routestatus.js";
 
@@ -104,7 +122,12 @@ const currentCard = ref(null)
 const cardsContainer = ref(null)
 const isFirstCard = ref(false)
 const isLastCard = ref(false)
-
+const startY= ref(0)
+const initialHeight = 70 // default height in vh
+const minHeight= 30 // minimized height in vh
+const currentCardHeight= ref(70)
+const cardTransition = ref("height 0.3s ease")
+const dragThreshold = 100 // Threshold in pixels to trigger minimize
 
 // Expand the card (show overlay)
 const expandCard = (card) => {
@@ -122,6 +145,7 @@ const expandCard = (card) => {
 const closeExpandedCard = () => {
   expandedCard.value = null; // Reset the expanded card ID
   expandedCardData.value = null; // Clear the overlay data
+  currentCardHeight.value = 70
 };
 const isElementInCenter = (element, container) => {
   const elementRect = element.getBoundingClientRect()
@@ -215,8 +239,47 @@ const navigateCardsWithKeyArrows = (event) => {
         scrollWithButton(-1);
       } else if (event.key === 'ArrowRight' && !isLastCard.value) {
         scrollWithButton(1);
+      } else if (event.key === 'ArrowDown' && expandedCard.value) {
+        closeExpandedCard();
+      } else if (event.key === 'ArrowUp' && !expandedCard.value) {
+        console.log("currentcard -> expand!!", currentCard.value)
+
+        expandCard(props.cards[currentCard.value - 1]);
       }
     }
+
+
+    const onTouchStart = (event) => {
+      startY.value = event.touches[0].clientY;
+      cardTransition.value = "none"; // Disable animation during drag
+    }
+
+    const onTouchMove = (event) => {
+      const currentY = event.touches[0].clientY;
+      const dragDistance = currentY - startY.value;
+        console.log(dragDistance)
+
+      if (dragDistance > 0) {
+        // Reduce card height based on drag
+        currentCardHeight.value = Math.max(
+          minHeight,
+          initialHeight - dragDistance * 0.2
+        );
+      }
+    }
+    const onTouchEnd = () => {
+      // Restore or minimize based on drag distance
+      if (currentCardHeight.value < initialHeight - dragThreshold * 0.2) {
+        currentCardHeight.value = minHeight;
+        setTimeout(closeExpandedCard, 300); // Close after animation
+      } else {
+        currentCardHeight.value = initialHeight;
+      }
+      cardTransition.value = "height 0.3s ease"; // Restore transition
+    }
+
+
+
 onMounted(() => {
   console.log("Cardslider: mounted. routestatus:", routeStatus.activeTopic)
   if (cardsContainer.value) {
@@ -329,20 +392,38 @@ onUnmounted(() => {
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.2);
   display: flex;
-  align-items: flex-end; /* Align to the bottom */
-  justify-content: center; /* Center horizontally */
+  align-items: flex-end;
+  justify-content: center;
   z-index: 100;
+  transition: background-color 0.3s ease;
+}
+.sticky-header {
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 100;
+  border-bottom: 1px solid #e0e0e0;
+  padding-top: 0.5rem;
+  padding-left: 1rem;
+  padding-bottom: 10px;
+
+}
+
+.card-content {
+    padding: 1rem;
+
 }
 
 /* Expanded Card */
 .expanded-card {
   background-color: white;
-  width: 100%; /* Set width to 95% */
+  width: 100%;
   height: 70vh;
-  padding: 1rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   position: relative;
   overflow: scroll;
+  border-radius: 16px 16px 0 0;
+  transition: height 0.3s ease;
 }
 /* Minimize Button */
 .minimize-btn {
@@ -374,6 +455,8 @@ onUnmounted(() => {
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
+
+
 
 .overview-card {
 
