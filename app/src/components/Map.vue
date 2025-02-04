@@ -246,7 +246,7 @@ export default {
         map.addControl(new AttributionControl({
           compact: true,
 
-        }), "bottom-left");
+        }), "top-left");
 
     }
 
