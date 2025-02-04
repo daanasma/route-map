@@ -13,9 +13,7 @@ export default {
   },
   setup() {
     const { isTablet } = useIsTablet(); // Call the composable
-
     const routeStatus = useRouteInfoStore();
-    const dataReady = ref(false)
 
 
     // const cards = ref(Array.from({ length: 5 }, (_, i) => ({ id: i + 1 })));
@@ -31,17 +29,10 @@ export default {
     };
 
     const activateOverview = () => {
-      routeStatus.setActiveTopic('overview')
-      routeStatus.setRefreshNeeded();
-      // routeStatus.refreshNeeded = true;
-      console.log('set routestatus to overview and refresh!', routeStatus.refreshNeeded)
+      routeStatus.setActiveTopic('overview', true)
     }
 
-    function showStopPanel () {
-       const showIt = typeof activeStop.valueOf() != "undefined"
-      console.log('showIt', showIt)
-      return showIt
-    }
+
 
     watch(
         () => (routeStatus.stopId), // Watch the stopId in the Pinia store
@@ -69,7 +60,6 @@ export default {
     return {
       isTablet,
       routeStatus,
-      dataReady,
       activatePreviousStop,
       activateNextStop,
       activateOverview,
@@ -131,10 +121,17 @@ export default {
 <!--  </div>-->
     <!-- Content -->
     <main  class="flex-grow bg-gray-100 flex items-center justify-center ">
-  <div v-if="(!isTablet && routeStatus.activeTopic === 'route' && routeStatus.routeData)" class="w-full max-w-lg h-full ml-4">
+  <div v-if="(!isTablet && routeStatus.routeData)" class="w-full max-w-lg h-full ml-4">
+  <div v-if="routeStatus.activeTopic === 'overview'" >
+    <h2 class=" text-xl font-bold text-gray-800 mb-4  ">{{ routeStatus.routeMetadata.title }}</h2>
+
+    <p class="text-gray-600 mb-2">{{ routeStatus.routeMetadata.description }}</p>
+  </div>
+  <div v-if="routeStatus.activeTopic === 'route'" >
     <h2 class=" text-xl font-bold text-gray-800 mb-4  ">{{ routeStatus.activeFeature.properties.title }}</h2>
 
     <p class="text-gray-600 mb-2">{{ routeStatus.activeFeature.properties.description }}</p>
+  </div>
   </div>
 
 

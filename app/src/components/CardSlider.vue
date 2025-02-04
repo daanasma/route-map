@@ -102,7 +102,6 @@ const cardsContainer = ref(null)
 const isFirstCard = ref(false)
 const isLastCard = ref(false)
 
-const emit = defineEmits(['card-changed'])
 
 // Expand the card (show overlay)
 const expandCard = (card) => {
@@ -162,7 +161,6 @@ const handleScroll = async () => {
       routeStatus.setActiveTopic('route')
       currentCard.value = cardId
       console.log('going to ', cardId)
-      emit('card-changed', cardId)
       routeStatus.setActiveStep(cardIndex)
 
     }
@@ -209,7 +207,13 @@ const scrollWithButton = (direction) => {
   }
 }
 
-
+const navigateCardsWithKeyArrows = (event) => {
+      if (event.key === 'ArrowLeft' && !isFirstCard.value) {
+        scrollWithButton(-1);
+      } else if (event.key === 'ArrowRight' && !isLastCard.value) {
+        scrollWithButton(1);
+      }
+    }
 onMounted(() => {
   console.log("Cardslider: mounted. routestatus:", routeStatus.activeTopic)
   if (cardsContainer.value) {
@@ -224,6 +228,8 @@ onMounted(() => {
     console.log('Cardslider: mounted, topic=route -> go to card')
     goToCardById(routeStatus.activeStep)
   }
+
+  window.addEventListener('keydown', navigateCardsWithKeyArrows);
 })
 
 
@@ -232,6 +238,7 @@ onUnmounted(() => {
   if (window.scrollTimeout) {
     clearTimeout(window.scrollTimeout)
   }
+  window.removeEventListener('keydown', navigateCardsWithKeyArrows);
 })
 
   watch(
