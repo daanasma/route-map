@@ -424,6 +424,8 @@ onUnmounted(() => {
   overflow: scroll;
   border-radius: 16px 16px 0 0;
   transition: height 0.3s ease;
+  overscroll-behavior-y: contain;
+
 }
 /* Minimize Button */
 .minimize-btn {
