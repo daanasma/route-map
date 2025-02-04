@@ -16,49 +16,6 @@ import {useRouteInfoStore} from '../stores/routestatus.js';
 import {useUpdateQueryParam} from '../composables/useQueryParams';
 
 
-// Load GeoJSON data asynchronously
-const loadGeoJsonDataPROD = async () => {
-  // Form correct path for GeoJSON files
-  const routeGeoJsonPath = getFilePath('geojson/route.geojson.min');
-  const stopsGeoJsonPath = getFilePath('geojson/stops.geojson.min');
-
-  try {
-    const routeData = await fetch(routeGeoJsonPath).then((res) => res.json());
-    const stopsData = await fetch(stopsGeoJsonPath).then((res) => res.json());
-
-    return {routeData, stopsData};
-  } catch (err) {
-    console.error('Error loading GeoJSON data', err);
-    return {routeData: null, stopsData: null};
-  }
-};
-
-const loadGeoJsonData = async () => {
-  // Form correct path for GeoJSON files
-  const routeGeoJsonPath = getFilePath('geojson/route.geojson.min');
-  const stopsGeoJsonPath = getFilePath('geojson/stops.geojson.min');
-
-  // Timeout utility
-  const withTimeout = (promise, timeout) =>
-      Promise.race([
-        promise,
-        new Promise((_, reject) =>
-            setTimeout(() => reject(new Error('Request timed out')), timeout)
-        ),
-      ]);
-
-  try {
-    // Fetch with timeout
-    const routeData = await withTimeout(fetch(routeGeoJsonPath).then((res) => res.json()), 500);
-    const stopsData = await withTimeout(fetch(stopsGeoJsonPath).then((res) => res.json()), 500);
-
-    return {routeData, stopsData};
-  } catch (err) {
-    console.error('Error loading GeoJSON data', err);
-    return {routeData: null, stopsData: null};
-  }
-};
-
 
 // Helper function to convert feature arrays to a GeoJSON FeatureCollection
 const ArrayToGeoJSON = (featuresArray) => {
@@ -78,15 +35,17 @@ export default {
     const routeStatus = useRouteInfoStore();
     let hoveredStateId = null;
 
-    const renderLayers = (data) => {
+    const renderLayers = () => {
       if (!startedLayerLoad.value) {
-        startedLayerLoad.value = true;
+        const routeLines = routeStatus.getFilteredFeatures('route', 'line')
+        const routePoints = routeStatus.getFilteredFeatures('route', 'point')
 
-        console.log("Start rendering all layers", data.features)
+        startedLayerLoad.value = true;
+        console.log("Start rendering all layers. lines:", routeLines, 'points:',  routePoints)
         // Add the route as a GeoJSON source
         map.value.on('load', () => {
           // Add route source and layer
-          map.value.addSource('routelines', {type: 'geojson', data: ArrayToGeoJSON(data.features.route.line)});
+          map.value.addSource('routelines', {type: 'geojson', data: ArrayToGeoJSON(routeLines)});
           map.value.addLayer({
             id: 'route-line',
             type: 'line',
@@ -109,7 +68,7 @@ export default {
           });
 
           // Add stops source and layer
-          map.value.addSource('routepoints', {type: 'geojson', data: ArrayToGeoJSON(data.features.route.point)});
+          map.value.addSource('routepoints', {type: 'geojson', data: ArrayToGeoJSON(routePoints)});
           map.value.addLayer({
             id: 'route-point',
             type: 'circle',
@@ -143,10 +102,10 @@ export default {
                   console.log('Map: Clicked near a point, ignoring route click handler');
                   return;
                 }
-                routeStatus.setActiveStepFromFeature(e.features[0].id, 'line', 'route')
+                routeStatus.setActiveStep(e.features[0].properties['route_sequence_id'])
               }
               if (layer == 'route-point') {
-                routeStatus.setActiveStepFromFeature(e.features[0].id, 'point', 'route')
+                routeStatus.setActiveStep(e.features[0].properties['route_sequence_id'])
               }
             });
 
@@ -258,8 +217,8 @@ export default {
       console.debug('Map: zooming to full route.')
       if (routeStatus.routeData) {
         // Get bounding box for the full route
-        const routeFeatures = routeStatus.routeData.features.route;
-        const bounds = getFeatureCollectionBoundingBox(routeFeatures.line);
+        const routeFeatures = routeStatus.getFilteredFeatures('route', 'line');
+        const bounds = getFeatureCollectionBoundingBox(routeFeatures);
         // todo this might be a problem if there are points outside.
         fitMapToBounds(bounds, {
           padding: 20, // Add padding around the route
@@ -360,7 +319,7 @@ export default {
           console.log('Map: map or routedata changed.')
           if (newData && newMap) {
             console.log('Map: there is a map so we can add the routeData')
-            renderLayers(newData)
+            renderLayers()
           }
         }
     )

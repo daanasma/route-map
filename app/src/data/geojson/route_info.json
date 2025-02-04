@@ -8,17 +8,17 @@
     "last_edit": "2025-02-01"
   },
   "sequence": [
-    {"id":  1, "type": "point"},
-    {"id":  1, "type": "line"},
-    {"id":  2, "type": "point"},
-    {"id":  2, "type": "line"},
-    {"id":  3, "type": "point"},
-    {"id":  3, "type": "line"},
-    {"id":  4, "type": "point"},
-    {"id":  4, "type": "line"},
-    {"id":  5, "type": "point"},
-    {"id":  5, "type": "line"},
-    {"id":  6, "type": "point"}
+  { "route_step": 1, "id": 1, "type": "point" },
+  { "route_step": 2, "id": 1, "type": "line" },
+  { "route_step": 3, "id": 2, "type": "point" },
+  { "route_step": 4, "id": 2, "type": "line" },
+  { "route_step": 5, "id": 3, "type": "point" },
+  { "route_step": 6, "id": 3, "type": "line" },
+  { "route_step": 7, "id": 4, "type": "point" },
+  { "route_step": 8, "id": 4, "type": "line" },
+  { "route_step": 9, "id": 5, "type": "point" },
+  { "route_step": 10, "id": 5, "type": "line" },
+  { "route_step": 11, "id": 6, "type": "point" }
   ],
 
   "settings": {

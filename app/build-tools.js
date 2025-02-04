@@ -2,65 +2,130 @@ import { readFileSync, writeFileSync, readdirSync, unlinkSync, existsSync, mkdir
 import path, { resolve } from 'path';
 import jsonminify from 'jsonminify';
 
+// function bundleRouteData() {
+//   return {
+//     name: 'bundle-route-data',
+//     apply: 'build',
+//     async writeBundle() {
+//       try {
+//         console.log("Start combining route.");
+//
+//         // Load data files from the public/geojson/ directory
+//         const points = JSON.parse(readFileSync(resolve('src/data/geojson/stops.geojson'), 'utf8'));
+//         const lines = JSON.parse(readFileSync(resolve('src/data/geojson/route.geojson'), 'utf8'));
+//         const sequence = JSON.parse(readFileSync(resolve('src/data/geojson/route_info.json'), 'utf8'));
+//
+//         const sequenceIds = new Set(sequence.sequence.map(entry => entry.id));
+//
+//         const formatFeatures = (features) => features
+//           .map(feature => {
+//             const id = feature.properties?.id;
+//             return id ? { id, ...feature, properties: { ...feature.properties } } : feature;
+//           })
+//           .filter(feature => feature.id);
+//
+//         const formattedPoints = formatFeatures(points.features);
+//         const formattedLines = formatFeatures(lines.features);
+//
+//         const categorizeFeatures = (features) => features.reduce((acc, feature) => {
+//           const category = sequenceIds.has(feature.id) ? 'route' : 'extra';
+//           acc[category].push(feature);
+//           return acc;
+//         }, { route: [], extra: [] });
+//
+//         const categorizedPoints = categorizeFeatures(formattedPoints);
+//         const categorizedLines = categorizeFeatures(formattedLines);
+//
+//         const bundledData = {
+//           metadata: sequence.metadata,
+//           sequence: sequence.sequence,
+//           settings: sequence.settings,
+//           features: {
+//             route: {
+//               point: categorizedPoints.route,
+//               line: categorizedLines.route,
+//             },
+//             extra: {
+//               point: categorizedPoints.extra,
+//               line: categorizedLines.extra,
+//             }
+//           }
+//         };
+//
+//         const outputPath = resolve('src/data/geojson', 'bundled_route_data.json');
+//         writeFileSync(outputPath, JSON.stringify(bundledData, null, 2));
+//         console.log(`Bundled route data written to: ${outputPath}`);
+//       } catch (error) {
+//         console.error('Error bundling route data:', error);
+//       }
+//     }
+//   };
+// }
 function bundleRouteData() {
   return {
     name: 'bundle-route-data',
     apply: 'build',
     async writeBundle() {
-      try {
-        console.log("Start combining route.");
+  try {
+    console.log("Start combining route.");
 
-        // Load data files from the public/geojson/ directory
-        const points = JSON.parse(readFileSync(resolve('src/data/geojson/stops.geojson'), 'utf8'));
-        const lines = JSON.parse(readFileSync(resolve('src/data/geojson/route.geojson'), 'utf8'));
-        const sequence = JSON.parse(readFileSync(resolve('src/data/geojson/route_info.json'), 'utf8'));
+    // Load data files
+    const points = JSON.parse(readFileSync(resolve('src/data/geojson/stops.geojson'), 'utf8'));
+    const lines = JSON.parse(readFileSync(resolve('src/data/geojson/route.geojson'), 'utf8'));
+    const sequenceData = JSON.parse(readFileSync(resolve('src/data/geojson/route_info.json'), 'utf8'));
 
-        const sequenceIds = new Set(sequence.sequence.map(entry => entry.id));
+    const sequenceOrder = sequenceData.sequence.map((entry, index) => ({
+      ...entry,
+      route_step: index + 1,
+    }));
 
-        const formatFeatures = (features) => features
-          .map(feature => {
-            const id = feature.properties?.id;
-            return id ? { id, ...feature, properties: { ...feature.properties } } : feature;
-          })
-          .filter(feature => feature.id);
+    const formatFeature = (feature, type, topic, routeStep) => ({
+      id: feature.properties?.id + (type === 'point' ? 100000 : 200000),
+        type,
+      topic,
 
-        const formattedPoints = formatFeatures(points.features);
-        const formattedLines = formatFeatures(lines.features);
+      properties: { ...feature.properties,
+      route_sequence_id: routeStep || null},
+      geometry: feature.geometry,
+    });
 
-        const categorizeFeatures = (features) => features.reduce((acc, feature) => {
-          const category = sequenceIds.has(feature.id) ? 'route' : 'extra';
-          acc[category].push(feature);
-          return acc;
-        }, { route: [], extra: [] });
+    const features = [];
+    const pointsById = Object.fromEntries(points.features.map(f => [f.properties?.id, f]));
+    const linesById = Object.fromEntries(lines.features.map(f => [f.properties?.id, f]));
 
-        const categorizedPoints = categorizeFeatures(formattedPoints);
-        const categorizedLines = categorizeFeatures(formattedLines);
+    sequenceOrder.forEach(({ id, type, route_step }) => {
+      const dataset = type === 'point' ? pointsById : linesById;
+      const feature = dataset[id];
 
-        const bundledData = {
-          metadata: sequence.metadata,
-          sequence: sequence.sequence,
-          settings: sequence.settings,
-          features: {
-            route: {
-              point: categorizedPoints.route,
-              line: categorizedLines.route,
-            },
-            extra: {
-              point: categorizedPoints.extra,
-              line: categorizedLines.extra,
-            }
-          }
-        };
+      if (feature) {
+        features.push(
+          formatFeature(
+            feature,
+            type,
+            sequenceData.sequence.some(e => e.id === id) ? 'route' : 'extra',
+            route_step
+          )
+        );
+      }
+    });
 
-        const outputPath = resolve('src/data/geojson', 'bundled_route_data.json');
-        writeFileSync(outputPath, JSON.stringify(bundledData, null, 2));
-        console.log(`Bundled route data written to: ${outputPath}`);
-      } catch (error) {
-        console.error('Error bundling route data:', error);
+    const bundledData = {
+      metadata: sequenceData.metadata,
+      sequence: sequenceOrder,
+      settings: sequenceData.settings,
+      features,
+    };
+
+    const outputPath = resolve('src/data/geojson', 'bundled_route_data.json');
+    writeFileSync(outputPath, JSON.stringify(bundledData, null, 2));
+    console.log(`Bundled route data written to: ${outputPath}`);
+  } catch (error) {
+    console.error('Error bundling route data:', error);
       }
     }
   };
 }
+
 
 function minifyJsonFiles() {
   return {
