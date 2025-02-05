@@ -111,14 +111,22 @@ export default {
 
     <!-- Footer Navigation -->
     <footer v-if="!isTablet" class="h-16 bg-gray-800 text-white flex items-center justify-around">
-      <button class="p-2 bg-blue-500 rounded"
-              @click="activatePreviousStop">Previous
-      </button>
-      <button class="p-2 bg-blue-500 rounded"
-              @click="activateOverview">Show full Route
-      </button>
+      <div v-if="routeStatus.activeTopic == 'overview'">
+        <button class="p-2 bg-blue-500 rounded"
+                @click="activateNextStop">Start route
+        </button>
 
-      <button class="p-2 bg-blue-500 rounded" @click="activateNextStop">Next</button>
+      </div>
+      <div v-else >
+        <button class="p-2 bg-blue-500 rounded"
+                @click="activatePreviousStop">Previous
+        </button>
+        <button class="p-2 bg-blue-500 rounded"
+                @click="activateOverview">Show full Route
+        </button>
+
+        <button class="p-2 bg-blue-500 rounded" @click="activateNextStop">Next</button>
+      </div>
     </footer>
   </div>
 </template>

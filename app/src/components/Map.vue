@@ -249,6 +249,29 @@ export default {
         }), "top-left");
 
     }
+  const mapStyleOutdoors= {
+            'version': 8,
+            'sources': {
+                'raster-tiles': {
+                    'type': 'raster',
+                    'tiles': [
+                        'https://tile.thunderforest.com/outdoors/{z}/{x}/{y}.png?apikey=fb850d9821794c8294f74fea04afc0f0' // todo clean this up!
+                    ],
+                    'tileSize': 256,
+                    'attribution':
+                        '<a href="https://www.thunderforest.com/" target="_blank">&copy; Thunderforest</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
+                }
+            },
+            'layers': [
+                {
+                    'id': 'simple-tiles',
+                    'type': 'raster',
+                    'source': 'raster-tiles',
+                    'minzoom': 0,
+                    'maxzoom': 22
+                }
+            ]
+        }
 
     // Initialize the map when the component is mounted
     onMounted(async () => {
@@ -257,7 +280,8 @@ export default {
         // Initialize the map
         map.value = new maplibre.Map({
           container: mapContainer.value,
-          style: 'https://tiles.openfreemap.org/styles/positron',
+          style: mapStyleOutdoors,
+          // style: 'https://tiles.openfreemap.org/styles/positron',
           center: [-72.4200, -47.4800], // Coordinates for Valencia, Spain
           zoom: 7,
           attributionControl: false,

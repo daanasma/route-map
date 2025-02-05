@@ -23,7 +23,6 @@
         :class="['card', { expanded: expandedCard === card.properties.route_sequence_id }]"
         @click="expandCard(card)"
       >
-<!--        todo: click on start and end let it scroll!-->
         <div class="text-center">
           <h3 class="text-xl font-bold">{{ card.properties.title}}</h3>
           <p class="text-gray-400">Click to expand</p>
@@ -38,15 +37,30 @@
       @click.self="closeExpandedCard"
     >
       <div class="expanded-card"
-           :style="{ height: `${currentCardHeight}vh`, transition: cardTransition }" >
+           :style="{ height: `${currentCardHeight}vh`, transition: cardTransition }"
+>
         <div class="card-title sticky-header"
         @touchstart="onTouchStart"
-      @touchmove="onTouchMove"
-      @touchend="onTouchEnd">
+        @touchmove="onTouchMove"
+        @touchend="onTouchEnd">
         <button class="minimize-btn" @click.stop="closeExpandedCard">✕</button>
         <h2>{{ routeStatus.activeFeature.properties.title }}</h2>
         </div>
-        <div class="card-content">
+
+        <!-- Transparent overlay to capture touch events -->
+        <div
+          id="transparent-overlay"
+          v-show="showOverlay == true"
+          @touchstart="onTouchStart"
+          @touchmove="onTouchMove"
+          @touchend="onTouchEnd"
+                     @scroll="checkScrollPosition(this)"
+>
+        </div>
+        <div class="card-content"
+             @scroll="checkScrollPosition(this)"
+
+        >
 
         <p>{{ routeStatus.activeFeature.properties.description }}</p>
             <img
@@ -128,8 +142,16 @@ const minHeight= 30 // minimized height in vh
 const currentCardHeight= ref(70)
 const cardTransition = ref("height 0.3s ease")
 const dragThreshold = 100 // Threshold in pixels to trigger minimize
+const showOverlay= ref(true)
+
+const checkScrollPosition = (dd) => {
+      const panel = dd.$el;
+      showOverlay.value = panel.scrollTop === 0;
+      console.log("scroll -> ", showOverlay.value)
+    }
 
 // Expand the card (show overlay)
+
 const expandCard = (card) => {
   if (card.properties.route_sequence_id === routeStatus.activeStep) {
 
@@ -473,5 +495,17 @@ onUnmounted(() => {
   align-items: center;
   justify-content:center ;
   cursor: pointer;
+}
+
+#transparent-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 40;
+  background: pink;
+  opacity: 50%;
+  pointer-events: auto;
 }
 </style>
