@@ -374,13 +374,13 @@ onUnmounted(() => {
 
 .card-content {
     padding: 1rem;
-
 }
 
 /* Expanded Card */
 .expanded-card {
   background-color: white;
   width: 100%;
+  height: 70dvh;
   height: 70vh;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   position: relative;
@@ -388,7 +388,6 @@ onUnmounted(() => {
   border-radius: 16px 16px 0 0;
   transition: height 0.3s ease;
   overscroll-behavior-y: contain;
-
 }
 /* Minimize Button */
 .minimize-btn {
@@ -406,25 +405,8 @@ onUnmounted(() => {
   cursor: pointer;
 }
 
-.carousel-container {
-  position: relative;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.carousel-image {
-  max-width: 90%; /* Makes the image max 90% of the container's width */
-  height: auto; /* Adjusts height to maintain aspect ratio */
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-}
-
-
 
 .overview-card {
-
   flex-shrink: 0;
   scroll-snap-align: center;
   width: 80%;
