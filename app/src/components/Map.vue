@@ -260,7 +260,8 @@ export default {
           style: 'https://tiles.openfreemap.org/styles/positron',
           center: [-72.4200, -47.4800], // Coordinates for Valencia, Spain
           zoom: 7,
-          attributionControl: false
+          attributionControl: false,
+          renderMode: '2d' // fallback to canvas 2D
 
         });
         console.log("Map: created map")
