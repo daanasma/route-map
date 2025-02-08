@@ -371,11 +371,15 @@ export default {
 </script>
 
 <template>
-  <div ref="mapContainer" class="w-full h-full flex items-center justify-center">
-
-  </div>
+<div ref="mapContainer" class="map-container"></div>
 </template>
 
 <style scoped>
-
+.map-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 </style>

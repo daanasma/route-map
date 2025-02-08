@@ -2,7 +2,7 @@
   <div class="cards-wrapper">
     <!-- Navigation Buttons -->
     <button v-if="!isFirstCard" id="prevBtn" @click="scrollWithButton(-1)" class="navigation-btn">‹</button>
-    <button v-if="!isLastCard"id="nextBtn" @click="scrollWithButton(1)" class="navigation-btn">›</button>
+    <button v-if="!isLastCard" id="nextBtn" @click="scrollWithButton(1)" class="navigation-btn">›</button>
 
     <!-- Cards Container -->
     <div
@@ -12,8 +12,10 @@
       @touchstart="handleTouchStart"
       @touchend="handleTouchEnd"
     >
-      <div data-key="overview" class="overview-card bg-gray-800 text-white subsection-title" >
-        <h1>Carretera Austral</h1> </div>
+      <div data-key="overview" class="overview-card">
+        <h1>Carretera Austral</h1>
+      </div>
+
       <!-- Original Cards -->
       <div
         v-for="card in cards"
@@ -23,98 +25,56 @@
         @click="expandCard(card)"
       >
         <div class="text-center">
-          <h3 class="text-xl font-bold">{{ card.properties.title}}</h3>
-          <p class="text-gray-400">Click to expand</p>
+          <h3>{{ card.properties.title }}</h3>
+          <p>Click to expand</p>
         </div>
       </div>
 
-
-    <!-- Expanded Card Overlay -->
-    <div
-      v-if="expandedCardData"
-      class="expanded-card-overlay"
-      @click.self="closeExpandedCard"
-    >
-      <div class="expanded-card"
-           :style="{ height: `${currentCardHeight}vh`, transition: cardTransition }"
-           ref="expandedCardDiv"
-             @scroll="checkScrollPosition"
-
->
-        <div class="card-title sticky-header"
-        @touchstart="onTouchStart"
-        @touchmove="onTouchMove"
-        @touchend="onTouchEnd"
-        >
-        <button class="minimize-btn" @click.stop="closeExpandedCard">✕</button>
-        <h2>{{ routeStatus.activeFeature.properties.title }}</h2>
-        </div>
-
-        <!-- Transparent overlay to capture touch events -->
+      <!-- Expanded Card Overlay -->
+      <div v-if="expandedCardData" class="expanded-card-overlay" @click.self="closeExpandedCard">
         <div
-          id="transparent-overlay"
-          v-show="showOverlay === true"
-          @touchstart="onTouchStart"
-          @touchmove="onTouchMove"
-          @touchend="onTouchEnd"
->
-        </div>
-        <div class="card-content"
+          class="expanded-card"
+          :style="{ height: `${currentCardHeight}vh`, transition: cardTransition }"
+          ref="expandedCardDiv"
+          @scroll="checkScrollPosition"
         >
+          <div class="card-title sticky-header" @touchstart="onTouchStart" @touchmove="onTouchMove" @touchend="onTouchEnd">
+            <button class="minimize-btn" @click.stop="closeExpandedCard">✕</button>
+            <h2>{{ routeStatus.activeFeature.properties.title }}</h2>
+          </div>
 
-        <p>{{ routeStatus.activeFeature.properties.description }}</p>
+          <div id="transparent-overlay" v-show="showOverlay" @touchstart="onTouchStart" @touchmove="onTouchMove" @touchend="onTouchEnd"></div>
+
+          <div class="card-content">
+            <p>{{ routeStatus.activeFeature.properties.description }}</p>
             <img
               v-if="routeStatus.activeFeature.images?.length"
               :src="'img/' + routeStatus.activeFeature.images[0]"
-              class="max-w-full h-auto rounded-lg mb-4"
               alt="Feature Image"
-            >
-          <div>
-          <div>
-            <h3>
-            Lorum Ipsum?
-            </h3>
-
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-            industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-            scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into
-            electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of
-            Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like
-            Aldus PageMaker including versions of Lorem Ipsum.
-          </div>
-          <div>
-            <h3>
-            Why do we use it?
-            </h3>
-            <p>
-            It is a long established fact that a reader will be distracted by the readable content of a page when
-            looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of
-            letters, as opposed to using 'Content here, content here', making it look like readable English. Many
-            desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a
-            search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved
-            over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-</p>
-            Where does it come from?
-
-            Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical
-            Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at
-            Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem
-            Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable
-            source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes
-            of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular
-            during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in
-            section 1.10.32.
+            />
+            <div>
+              <div>
+                <h3>Lorum Ipsum?</h3>
+                <p>
+                  Lorem Ipsum is simply dummy text of the printing and typesetting industry...
+                </p>
+              </div>
+              <div>
+                <h3>Why do we use it?</h3>
+                <p>
+                  It is a long established fact that a reader will be distracted by the readable...
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-                  </div>
+      </div>
 
+      <div data-key="breakdown" class="overview-card">
+        <h1>The end</h1>
       </div>
     </div>
-    <div data-key="breakdown" class="overview-card bg-gray-800 text-white subsection-title"><h1>The end</h1> </div>
-
-    </div>
   </div>
-
 </template>
 
 <script setup>
@@ -291,7 +251,6 @@ onUnmounted(() => {
   margin: 0 auto;
   overflow: hidden;
   background-color: #f0f0f0;
-
 }
 
 .navigation-btn {
@@ -312,11 +271,11 @@ onUnmounted(() => {
 }
 
 #prevBtn {
-  left: 10px;
+  left: 1rem;
 }
 
 #nextBtn {
-  right: 10px;
+  right: 1rem;
 }
 
 /* Cards Container */
@@ -327,6 +286,8 @@ onUnmounted(() => {
   gap: 1rem;
   -webkit-overflow-scrolling: touch;
   height: 100%;
+    width: 100%;
+    position: relative;
 }
 
 /* Card */
@@ -345,7 +306,12 @@ onUnmounted(() => {
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-
+.card-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
 /* Expanded Card Overlay */
 .expanded-card-overlay {
   position: fixed;
@@ -405,7 +371,6 @@ onUnmounted(() => {
   cursor: pointer;
 }
 
-
 .overview-card {
   flex-shrink: 0;
   scroll-snap-align: center;
@@ -417,6 +382,8 @@ onUnmounted(() => {
   align-items: center;
   justify-content:center ;
   cursor: pointer;
+  background-color: #1f2937; /* bg-gray-800 */
+  color: white;
 }
 
 #transparent-overlay {

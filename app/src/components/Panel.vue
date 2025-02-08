@@ -4,11 +4,12 @@ import {useRouteInfoStore} from "@/stores/routestatus.js";
 import {watch, ref, onMounted} from "vue";
 import {useSwipe} from "@vueuse/core";
 import CardSlider from '../components/CardSlider.vue';
-
+import DetailInfoPanel from "../components/DetailInfoPanel.vue";
 import {storeToRefs} from 'pinia'
 
 export default {
   components: {
+    DetailInfoPanel,
     CardSlider,
   },
   setup() {
@@ -69,66 +70,83 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col h-full">
+  <div class="layout-container">
     <!-- Header -->
-    <header v-if="!isTablet && routeStatus.routeData"
-            class="h-16 bg-gray-800 text-white subsection-title flex items-center justify-center">
+    <header v-if="!isTablet && routeStatus.routeData">
       {{ routeStatus.routeMetadata.title }}
     </header>
 
     <!-- Content -->
-    <!-- Mobile -->
+    <CardSlider v-if="isTablet && routeStatus.routeData" :cards="routeCards" :isMobile="true" />
 
-    <CardSlider
-        v-if="isTablet && routeStatus.routeData"
-        :cards="routeCards"
-        :isMobile="true"
-    />
-    <!-- Desktop -->
-    <main class="flex-grow bg-gray-100 flex items-center justify-center ">
-      <div v-if="(!isTablet && routeStatus.routeData)" class="w-full max-w-lg h-full ml-4">
-        <div v-if="routeStatus.activeTopic === 'overview'">
-          <h2 class=" text-xl font-bold text-gray-800 mb-4  ">{{ routeStatus.routeMetadata.title }}</h2>
+    <!-- Desktop Content -->
+        <main class="main-content">
 
-          <p class="text-gray-600 mb-2">{{ routeStatus.routeMetadata.description }}</p>
-          <img :src=routeStatus.routeMetadata.banner class="max-w-full h-auto"  alt="Route Banner">
-
-        </div>
-        <div v-if="routeStatus.activeTopic === 'route'">
-          <h2 class=" text-xl font-bold text-gray-800 mb-4  ">{{ routeStatus.activeFeature.properties.title }}</h2>
-            <img
-              v-if="routeStatus.activeFeature.images?.length"
-              :src="'img/' + routeStatus.activeFeature.images[0]"
-              class="max-w-full h-auto rounded-lg mb-4"
-              alt="Feature Image"
-            >
-          <p class="text-gray-600 mb-2">{{ routeStatus.activeFeature.properties.description }}</p>
-        </div>
-      </div>
-
-
-    </main>
-
+    <DetailInfoPanel v-if="!isTablet && routeStatus.routeData" ></DetailInfoPanel>
+        </main>
     <!-- Footer Navigation -->
-    <footer v-if="!isTablet" class="h-16 bg-gray-800 text-white flex items-center justify-around">
-      <div v-if="routeStatus.activeTopic == 'overview'">
-        <button class="p-2 bg-blue-500 rounded"
-                @click="activateNextStop">Start route
-        </button>
-
+    <footer v-if="!isTablet" class="footer">
+      <div v-if="routeStatus.activeTopic === 'overview'">
+        <button @click="activateNextStop">Start route</button>
       </div>
-      <div v-else >
-        <button class="p-2 bg-blue-500 rounded"
-                @click="activatePreviousStop">Previous
-        </button>
-        <button class="p-2 bg-blue-500 rounded"
-                @click="activateOverview">Show full Route
-        </button>
-
-        <button class="p-2 bg-blue-500 rounded" @click="activateNextStop">Next</button>
+      <div v-else>
+        <button @click="activatePreviousStop">Previous</button>
+        <button @click="activateOverview">Show full Route</button>
+        <button @click="activateNextStop">Next</button>
       </div>
     </footer>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+header {
+  height: 4rem;
+  background-color: #1f2937; /* bg-gray-800 */
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-content {
+  flex-grow: 1;
+  background-color: #f3f4f6; /* bg-gray-100 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0;
+  height: calc(100dvh - 8rem);
+}
+
+
+p {
+  color: #4b5563; /* text-gray-600 */
+  margin-bottom: 0.5rem;
+}
+
+
+footer {
+  height: 4rem;
+  background-color: #1f2937; /* bg-gray-800 */
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+button {
+  padding: 0.5rem;
+  background-color: #3b82f6; /* bg-blue-500 */
+  border-radius: 0.375rem;
+  color: white;
+  cursor: pointer;
+}
+
+</style>

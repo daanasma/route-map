@@ -8,6 +8,7 @@
 - Add extra POI - basic points (2 categories)
 - Add line style based on attribute category
 - Add feature Popup
+- 
 ### Low Prio
 - change map attribution to be closed on load (hacky probably)
 - drag down panel -> dont drag down text.
