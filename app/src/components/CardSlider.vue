@@ -1,13 +1,4 @@
 <template>
-        <vue-bottom-sheet
-          ref="myBottomSheet"
-          :max-height="600"
-          :max-width="1024"
-          :can-swipe="overlayCollapsable"
-      >
-     <DetailInfoPanel @scrollStateChanged="handleScrollStateChange" />
-  </vue-bottom-sheet>
-
   <div class="cards-wrapper">
     <!-- Navigation Buttons -->
     <button v-if="!isFirstCard" id="prevBtn" @click="scrollWithButton(-1)" class="navigation-btn">‹</button>
@@ -20,7 +11,7 @@
       class="cards-container"
       @scrollend="handleScroll"
     >
-      <div data-key="overview" class="overview-card">
+      <div data-key="overview" class="card overview-card">
         <h1>Carretera Austral</h1>
       </div>
 
@@ -32,6 +23,7 @@
         :class="['card', { expanded: expandedCard === card.properties.route_sequence_id }]"
         @touchstart.stop.prevent="expandCard(card)"
         @click="expandCard(card)"
+        class="content-card"
       >
         <div class="text-center">
           <h3>{{ card.properties.title }}</h3>
@@ -40,11 +32,21 @@
         </div>
       </div>
 
-      <div data-key="breakdown" class="overview-card">
+      <div data-key="breakdown" class="card overview-card">
         <h1>The end</h1>
       </div>
     </div>
   </div>
+  <vue-bottom-sheet
+        ref="DetailsBottomSheet"
+        :max-height="600"
+        :max-width="1024"
+        :can-swipe="overlayCollapsable"
+    >
+   <DetailInfoPanel @scrollStateChanged="handleScrollStateChange" />
+  </vue-bottom-sheet>
+
+
 </template>
 
 <script setup>
@@ -61,7 +63,7 @@ const props = defineProps({
   },
   isMobile: Boolean,
 });
-const myBottomSheet = ref(null)
+const DetailsBottomSheet = ref(null)
 const routeStatus = useRouteInfoStore();
 const expandedCard = ref(null);
 const expandedCardDiv = ref(null);
@@ -85,21 +87,18 @@ const open = () => {
 }
 
 const close = () => {
-  bottomSheet.value.close()
 }
 
 
 const handleScrollStateChange = (isScrolled) => {
-  console.log("Isscrolled????", isScrolled);
   overlayCollapsable.value = !isScrolled
-  // console.log(panel.scrollTop)
 };
 
 const expandCard = (card) => {
   if (card.properties.route_sequence_id === routeStatus.activeStep) {
     expandedCard.value = card.properties.route_sequence_id;
     expandedCardData.value = card;
-      myBottomSheet.value.open();
+      DetailsBottomSheet.value.open();
     console.log("Card should expand now.")
   } else {
     goToCardById(card.properties.route_sequence_id);
@@ -107,9 +106,9 @@ const expandCard = (card) => {
 };
 
 const closeExpandedCard = () => {
-  expandedCard.value = null;
-  expandedCardData.value = null;
-  currentCardHeight.value = initialHeight;
+  DetailsBottomSheet.value.close()
+  console.log('Closed expanded card')
+
 };
 
 const isElementInCenter = (element, container) => {
@@ -200,24 +199,6 @@ const onTouchStart = (event) => {
   cardTransition.value = 'none';
 };
 
-const onTouchMove = (event) => {
-  const currentY = event.touches[0].clientY;
-  const dragDistance = currentY - startY.value;
-  if (dragDistance > 0) {
-    currentCardHeight.value = Math.max(minHeight, initialHeight - dragDistance * 0.2);
-  }
-};
-
-const onTouchEnd = () => {
-  if (currentCardHeight.value < initialHeight - dragThreshold * 0.2) {
-    currentCardHeight.value = minHeight;
-    setTimeout(closeExpandedCard, 300);
-  } else {
-    currentCardHeight.value = initialHeight;
-  }
-  cardTransition.value = 'height 0.3s ease';
-};
-
 onMounted(() => {
   if (cardsContainer.value) {
     handleScroll();
@@ -231,6 +212,8 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+
+
 /* Wrapper for cards and navigation buttons */
 .cards-wrapper {
   position: relative;
@@ -242,6 +225,7 @@ onUnmounted(() => {
 }
 
 .navigation-btn {
+  display: flex;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -250,12 +234,16 @@ onUnmounted(() => {
   border-radius: 50%;
   width: 40px;
   height: 40px;
-  display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   z-index: 2;
+}
+
+.navigation-btn:hover {
+  background-color: #e0e0e0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 #prevBtn {
@@ -271,52 +259,42 @@ onUnmounted(() => {
   display: flex;
   overflow-x: scroll;
   scroll-snap-type: x mandatory;
-  gap: 1rem;
+  -webkit-scroll-snap-type: mandatory;
   -webkit-overflow-scrolling: touch;
+
+  gap: 0.5rem;
   height: 100%;
-    width: 100%;
-    position: relative;
+  width: 100%;
+  position: relative;
 }
 
 /* Card */
 .card {
+  display: flex;
+
   flex-shrink: 0;
   scroll-snap-align: center;
-  width: 50%;
-  margin: 1rem 3%;
   height: 86%;
   background-color: white;
-  border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.card-content img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 12px;
-  margin-bottom: 1rem;
 }
 
-.card-content {
-    padding: 1rem;
+.content-card {
+  width: 50%;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin: 1rem 3%;
+  border-radius: 12px;
+
 }
 
 
 .overview-card {
-  flex-shrink: 0;
-  scroll-snap-align: center;
   width: 80%;
   max-width: 600px;
   height: 100%;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content:center ;
-  cursor: pointer;
   background-color: var(--background-color-contrast);
   color: white;
 }

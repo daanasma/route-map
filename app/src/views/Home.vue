@@ -69,30 +69,34 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="app-container">
+  <div class="app-container" >
     <!-- Map Component Section -->
     <div class="map-section">
       <Map />
     </div>
 
     <!-- Content Component Section -->
-    <div class="content-section">
+    <div class="content-section" >
       <Content />
     </div>
   </div>
 </template>
-<style scoped>
+<style>
+
+
 .app-container {
   width: 100%;
   height: 100dvh;
   max-height: 100%;
   display: flex;
-  flex-direction: column;
+        -ms-overflow-y: hidden;
+
 }
 
 @media (min-width: 1024px) { /* lg breakpoint */
   .app-container {
     flex-direction: row;
+
   }
 }
 
@@ -105,6 +109,7 @@ onMounted(() => {
   .map-section {
     width: 70%;
     height: 100%;
+
   }
 }
 
@@ -117,6 +122,9 @@ onMounted(() => {
   .content-section {
     width: 30%;
     height: 100%;
+
   }
 }
+
+
 </style>

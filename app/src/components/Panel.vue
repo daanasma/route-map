@@ -97,6 +97,7 @@ export default {
 </template>
 
 <style scoped>
+
 .layout-container {
   display: flex;
   flex-direction: row;

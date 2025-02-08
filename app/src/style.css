@@ -14,12 +14,15 @@
   --primary-color: #9b59b6;
 }
 
+
 body {
   background-color: var(--background-color);
   color: var(--text-color);
 }
 
-
+html{
+    overflow: hidden !important;
+}
 button {
   background-color: var(--background-color);
   color: white;
@@ -28,9 +31,13 @@ button {
 
 }
 
+
 .bottom-sheet__content {
     color: #000;
     height: 60vh !important;
+}
+.bottom-sheet__main {
+    overflow: hidden !important;
 }
 
 
@@ -51,6 +58,7 @@ h3 {
 
 /* Global scrollbar styling for the entire app */
 * {
+
   scrollbar-width: thin; /* Firefox */
   scrollbar-color: #aaa transparent; /* Thumb and track colors */
 }
