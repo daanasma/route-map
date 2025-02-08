@@ -1,0 +1,476 @@
+{
+  "metadata": {
+    "title": "Carretera Austral",
+    "description": "A road through the pristine Chilean Patagonia.",
+    "banner": "/img/overview/voh_air_view.jpg",
+    "version": "1.0",
+    "created": "2025-01-01",
+    "last_edit": "2025-02-01"
+  },
+  "sequence": [
+    {
+      "route_step": 1,
+      "id": 1,
+      "type": "point"
+    },
+    {
+      "route_step": 2,
+      "id": 1,
+      "type": "line"
+    },
+    {
+      "route_step": 3,
+      "id": 2,
+      "type": "point"
+    },
+    {
+      "route_step": 4,
+      "id": 2,
+      "type": "line"
+    },
+    {
+      "route_step": 5,
+      "id": 3,
+      "type": "point"
+    },
+    {
+      "route_step": 6,
+      "id": 6,
+      "type": "point"
+    },
+    {
+      "route_step": 7,
+      "id": 4,
+      "type": "point"
+    },
+    {
+      "route_step": 8,
+      "id": 4,
+      "type": "line"
+    },
+    {
+      "route_step": 9,
+      "id": 5,
+      "type": "point"
+    },
+    {
+      "route_step": 10,
+      "id": 5,
+      "type": "line"
+    },
+    {
+      "route_step": 11,
+      "id": 3,
+      "type": "line"
+    }
+  ],
+  "settings": {},
+  "features": [
+    {
+      "id": 100001,
+      "type": "point",
+      "topic": "route",
+      "properties": {
+        "id": 1,
+        "description": "The southernmost town of the Carretera Austral, surrounded by pristine wilderness.",
+        "title": "Villa O'Higgins",
+        "route_sequence_id": 1
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -72.56120549256505,
+          -48.469739916356886
+        ]
+      },
+      "images": [
+        "point/1/voh_air_view.JPG",
+        "point/1/voh_pier.JPG"
+      ]
+    },
+    {
+      "id": 200001,
+      "type": "line",
+      "topic": "route",
+      "properties": {
+        "id": 1,
+        "distance_km": 70,
+        "transport_type": "road",
+        "title": "Leaving Villa o Higgins",
+        "description": "Travel along a winding road departing from the remote town of Villa O'Higgins, surrounded by untouched Patagonian wilderness. The journey offers dramatic landscapes with rugged mountains and pristine valleys.",
+        "route_sequence_id": 2
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -72.56132833817391,
+            -48.46954541080981
+          ],
+          [
+            -72.55100930704008,
+            -48.41647610783583
+          ],
+          [
+            -72.57852672339699,
+            -48.420407167315375
+          ],
+          [
+            -72.61783731819254,
+            -48.44857976025218
+          ],
+          [
+            -72.67090662116654,
+            -48.36340680486184
+          ],
+          [
+            -72.66173414904758,
+            -48.32475138664622
+          ],
+          [
+            -72.69383780146393,
+            -48.246785373635056
+          ],
+          [
+            -72.80521782005131,
+            -48.14326747400679
+          ],
+          [
+            -72.92298581029294,
+            -48.10805173283578
+          ],
+          [
+            -72.97130508306248,
+            -48.05711175374656
+          ],
+          [
+            -73.11937499012569,
+            -48.00142174445287
+          ],
+          [
+            -73.22391660316009,
+            -47.96890860667405
+          ]
+        ]
+      },
+      "images": []
+    },
+    {
+      "id": 100002,
+      "type": "point",
+      "topic": "route",
+      "properties": {
+        "id": 2,
+        "description": "Taking the boat",
+        "title": "Puerto Rio Bravo",
+        "route_sequence_id": 3
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.22357877773605,
+          -47.96784394473172
+        ]
+      },
+      "images": [
+        "point/2/boat.jpg"
+      ]
+    },
+    {
+      "id": 200002,
+      "type": "line",
+      "topic": "route",
+      "properties": {
+        "id": 2,
+        "distance_km": 30,
+        "transport_type": "ferry",
+        "title": "Taking the ferry.",
+        "description": "Board the ferry to cross scenic waterways. The tranquil ferry ride provides stunning views of the surrounding fjords and glacial landscapes, a unique way to experience the heart of Patagonia.",
+        "route_sequence_id": 4
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -73.22357877773605,
+            -47.96784394473172
+          ],
+          [
+            -73.22457177973999,
+            -47.96489565012206
+          ],
+          [
+            -73.30253779275115,
+            -47.939016175214995
+          ],
+          [
+            -73.31564132434967,
+            -47.935740292315366
+          ],
+          [
+            -73.3263698408458,
+            -47.93475752744542
+          ]
+        ]
+      },
+      "images": []
+    },
+    {
+      "id": 100003,
+      "type": "point",
+      "topic": "route",
+      "properties": {
+        "id": 3,
+        "description": "A ferry crossing on the Carretera Austral, connecting remote areas.",
+        "title": "Puerto Yungay",
+        "route_sequence_id": 5
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.3263698408458,
+          -47.93475752744542
+        ]
+      },
+      "images": [
+        "point/3/boat.jpg"
+      ]
+    },
+    {
+      "id": 100006,
+      "type": "point",
+      "topic": "route",
+      "properties": {
+        "id": 6,
+        "description": "Known for the Marble Caves and a must-visit stop on the Carretera Austral.",
+        "title": "Puerto Rio Tranquilo",
+        "route_sequence_id": 6
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -72.67557475429841,
+          -46.62424057344899
+        ]
+      },
+      "images": [
+        "point/6/lago_carrera.jpg"
+      ]
+    },
+    {
+      "id": 100004,
+      "type": "point",
+      "topic": "route",
+      "properties": {
+        "id": 4,
+        "description": "A charming small town offering access to Patagonia National Park.",
+        "title": "Cochrane",
+        "route_sequence_id": 7
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -72.5743090241636,
+          -47.25402906090258
+        ]
+      },
+      "images": [
+        "point/4/confluencia.jpg"
+      ]
+    },
+    {
+      "id": 200004,
+      "type": "line",
+      "topic": "route",
+      "properties": {
+        "id": 4,
+        "distance_km": 100,
+        "transport_type": "road",
+        "title": "Towards Puerto Bertrand",
+        "description": "Travel through an enchanting landscape of crystal-clear rivers and lush greenery. This section guides you toward the vibrant blue waters of Puerto Bertrand, a beautiful lake region surrounded by impressive natural scenery.",
+        "route_sequence_id": 8
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -72.5743090241636,
+            -47.25402906090258
+          ],
+          [
+            -72.60493852927527,
+            -47.23322720449005
+          ],
+          [
+            -72.62197312035333,
+            -47.20964084761272
+          ],
+          [
+            -72.60755923559498,
+            -47.11398506694356
+          ],
+          [
+            -72.64818018355037,
+            -47.12184718590267
+          ],
+          [
+            -72.71369784154294,
+            -47.131019658021636
+          ],
+          [
+            -72.77266373373625,
+            -47.115295420103415
+          ],
+          [
+            -72.7765947932158,
+            -47.08122623794728
+          ],
+          [
+            -72.82831279449356,
+            -47.015094351910925
+          ]
+        ]
+      },
+      "images": []
+    },
+    {
+      "id": 100005,
+      "type": "point",
+      "topic": "route",
+      "properties": {
+        "id": 5,
+        "description": "The gateway to Lago General Carrera, famous for its turquoise waters.",
+        "title": "Puerto Bertrand",
+        "route_sequence_id": 9
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -72.82831279449356,
+          -47.015094351910925
+        ]
+      },
+      "images": [
+        "point/5/baker.jpg"
+      ]
+    },
+    {
+      "id": 200005,
+      "type": "line",
+      "topic": "route",
+      "properties": {
+        "id": 5,
+        "distance_km": 55,
+        "transport_type": "road",
+        "title": "On the blue shores",
+        "description": "A scenic journey along the shimmering blue shores of glacial lakes. This segment features gentle curves and spectacular vistas, with serene waters reflecting the towering peaks and rugged terrain.",
+        "route_sequence_id": 10
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -72.82831279449356,
+            -47.015094351910925
+          ],
+          [
+            -72.80411220957271,
+            -47.023570698913815
+          ],
+          [
+            -72.79493973745375,
+            -46.99212222307738
+          ],
+          [
+            -72.78052585269538,
+            -46.89908714872792
+          ],
+          [
+            -72.7936293842939,
+            -46.86894902605134
+          ],
+          [
+            -72.82114680065078,
+            -46.824397018616395
+          ],
+          [
+            -72.81197432853182,
+            -46.789017483300405
+          ],
+          [
+            -72.85390562964706,
+            -46.73529300374649
+          ],
+          [
+            -72.801491503253,
+            -46.72218947214798
+          ],
+          [
+            -72.73728419842028,
+            -46.7405344163859
+          ],
+          [
+            -72.64031806459128,
+            -46.66453393311451
+          ],
+          [
+            -72.67557475429841,
+            -46.62424057344899
+          ]
+        ]
+      },
+      "images": []
+    },
+    {
+      "id": 200003,
+      "type": "line",
+      "topic": "route",
+      "properties": {
+        "id": 3,
+        "distance_km": 140,
+        "transport_type": "road",
+        "title": "Long ride to Cochrane",
+        "description": "A long but rewarding stretch through the breathtaking Chilean wilderness. This segment features rolling hills, dense forests, and panoramic views of distant mountains as you approach the charming town of Cochrane.",
+        "route_sequence_id": 11
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -73.3263698408458,
+            -47.93475752744542
+          ],
+          [
+            -73.29549464451695,
+            -47.787506591107174
+          ],
+          [
+            -73.21949416124556,
+            -47.716747520475195
+          ],
+          [
+            -73.12449355715633,
+            -47.702988812296766
+          ],
+          [
+            -72.84931939358752,
+            -47.59816055950865
+          ],
+          [
+            -72.85194009990722,
+            -47.50643583831904
+          ],
+          [
+            -72.70255983968416,
+            -47.409469704490036
+          ],
+          [
+            -72.5743090241636,
+            -47.25402906090258
+          ]
+        ]
+      },
+      "images": []
+    }
+  ]
+}

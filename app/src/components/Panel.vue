@@ -99,11 +99,16 @@ export default {
 </template>
 
 <style scoped>
-
 .layout-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   height: 100%;
+}
+
+@media (min-width: 1024px) {
+.layout-container {
+  flex-direction: column;
+}
 }
 
 header {
