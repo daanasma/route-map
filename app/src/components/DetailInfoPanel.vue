@@ -72,6 +72,7 @@ const routeStatus = useRouteInfoStore();
       overflow-y: auto;
   max-height: 100%;
   height: 100%;
+  padding: 40px;
 
 }
 .content-actual-content {

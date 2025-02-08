@@ -1,7 +1,8 @@
 <template>
         <vue-bottom-sheet
           ref="myBottomSheet"
-          :max-height="400"
+          style="height: 600px"
+          :max-height="600"
           :max-width="1024"
       >
      <DetailInfoPanel  ></DetailInfoPanel>
@@ -386,7 +387,5 @@ onUnmounted(() => {
   background-color: #1f2937; /* bg-gray-800 */
   color: white;
 }
-
-
 
 </style>

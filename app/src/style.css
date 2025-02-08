@@ -1,6 +1,14 @@
 body {
     background-color: white;
 }
+
+.bottom-sheet__content {
+    color: #000;
+    height: 60vh !important;
+}
+
+
+
 h2 {
   font-size: 1.25rem;
   font-weight: bold;
