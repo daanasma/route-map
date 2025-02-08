@@ -1,5 +1,31 @@
+
+:root {
+  /* Light Theme (default) */
+  --background-color: #ffffff;
+  --background-color-contrast: #2c3e50;
+  --text-color: #000000;
+  --primary-color: #3498db;
+}
+
+/* Dark Theme */
+[data-theme='dark'] {
+  --background-color: #2c3e50;
+  --text-color: #ecf0f1;
+  --primary-color: #9b59b6;
+}
+
 body {
-    background-color: white;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+
+button {
+  background-color: var(--background-color);
+  color: white;
+    border-radius: 0.375rem;
+  padding: 0.5rem;
+
 }
 
 .bottom-sheet__content {
@@ -13,6 +39,12 @@ h2 {
   font-size: 1.25rem;
   font-weight: bold;
   color: #1f2937; /* text-gray-800 */
+  margin-bottom: 1rem;
+}
+h3 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--text-color); /* text-gray-800 */
   margin-bottom: 1rem;
 }
 

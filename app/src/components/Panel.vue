@@ -111,11 +111,11 @@ export default {
 
 header {
   height: 4rem;
-  background-color: #1f2937; /* bg-gray-800 */
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: var(--background-color-contrast);
 }
 
 .main-content {
@@ -137,19 +137,12 @@ p {
 
 footer {
   height: 4rem;
-  background-color: #1f2937; /* bg-gray-800 */
+  background-color: var(--background-color-contrast);
   color: white;
   display: flex;
   align-items: center;
   justify-content: space-around;
 }
 
-button {
-  padding: 0.5rem;
-  background-color: #3b82f6; /* bg-blue-500 */
-  border-radius: 0.375rem;
-  color: white;
-  cursor: pointer;
-}
 
 </style>

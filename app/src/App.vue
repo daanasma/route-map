@@ -7,6 +7,8 @@ const routeStore = useRouteInfoStore();
 onMounted(() => {
   routeStore.loadRouteData(); // Fetch the route data on app load
 });
+
+
 </script>
 
 <template>

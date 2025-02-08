@@ -19,8 +19,6 @@
       ref="cardsContainer"
       class="cards-container"
       @scrollend="handleScroll"
-      @touchstart="handleTouchStart"
-      @touchend="handleTouchEnd"
     >
       <div data-key="overview" class="overview-card">
         <h1>Carretera Austral</h1>
@@ -32,6 +30,7 @@
         :key="card.properties.route_sequence_id"
         :data-key="card.properties.route_sequence_id"
         :class="['card', { expanded: expandedCard === card.properties.route_sequence_id }]"
+        @touchstart.stop.prevent="expandCard(card)"
         @click="expandCard(card)"
       >
         <div class="text-center">
@@ -301,64 +300,11 @@ onUnmounted(() => {
   border-radius: 12px;
   margin-bottom: 1rem;
 }
-/* Expanded Card Overlay */
-.expanded-card-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.2);
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  z-index: 100;
-  transition: background-color 0.3s ease;
-}
-.sticky-header {
-  position: sticky;
-  top: 0;
-  background: white;
-  z-index: 100;
-  border-bottom: 1px solid #e0e0e0;
-  padding-top: 0.5rem;
-  padding-left: 1rem;
-  padding-bottom: 10px;
-
-}
 
 .card-content {
     padding: 1rem;
 }
 
-/* Expanded Card */
-.expanded-card {
-  background-color: white;
-  width: 100%;
-  height: 70dvh;
-  height: 70vh;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  position: relative;
-  overflow-y: hidden; /* Use auto instead of scroll for better UX */
-  border-radius: 16px 16px 0 0;
-  transition: height 0.3s ease;
-  overscroll-behavior-y: contain;
-}
-/* Minimize Button */
-.minimize-btn {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  background-color: #f0f0f0;
-  border: none;
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
 
 .overview-card {
   flex-shrink: 0;
@@ -371,7 +317,7 @@ onUnmounted(() => {
   align-items: center;
   justify-content:center ;
   cursor: pointer;
-  background-color: #1f2937; /* bg-gray-800 */
+  background-color: var(--background-color-contrast);
   color: white;
 }
 
