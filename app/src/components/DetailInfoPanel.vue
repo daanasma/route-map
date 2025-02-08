@@ -1,15 +1,40 @@
-<script setup>
+<script>
 import { useRouteInfoStore } from '../stores/routestatus.js';
 
-const routeStatus = useRouteInfoStore();
+export default {
+  setup() {
+    const routeStatus = useRouteInfoStore();
 
+    return {
+      routeStatus
+    }
 
+  },
+  data() {
+    return {
+      isScrolled: false,  // Tracks whether scrollTop is > 0 or not
+    };
+  },
+  methods: {
+    logScroll(event) {
+      console.log("Loggin")
+      const panel = event.target;
+      const isNowScrolled = panel.scrollTop > 0;
 
+      // Emit only when scroll state changes between 0 and >0
+      if (this.isScrolled !== isNowScrolled) {
+        this.isScrolled = isNowScrolled;
+        this.$emit('scrollStateChanged', this.isScrolled); // Emit scroll state to parent
+        console.log("emittin")
+      }
+    },
+  },
+};
 </script>
 
 <template>
-      <div class="content-wrapper">
-        <div v-if="routeStatus.activeTopic === 'overview'">
+  <div class="content-wrapper" @scroll="logScroll">
+    <div v-if="routeStatus.activeTopic === 'overview'">
           <h2>{{ routeStatus.routeMetadata.title }}</h2>
           <p>{{ routeStatus.routeMetadata.description }}</p>
           <img :src="routeStatus.routeMetadata.banner" alt="Route Banner">

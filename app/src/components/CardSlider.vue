@@ -1,11 +1,11 @@
 <template>
         <vue-bottom-sheet
           ref="myBottomSheet"
-          style="height: 600px"
           :max-height="600"
           :max-width="1024"
+          :can-swipe="overlayCollapsable"
       >
-     <DetailInfoPanel  ></DetailInfoPanel>
+     <DetailInfoPanel @scrollStateChanged="handleScrollStateChange" />
   </vue-bottom-sheet>
 
   <div class="cards-wrapper">
@@ -75,6 +75,7 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  isMobile: Boolean,
 });
 const myBottomSheet = ref(null)
 const routeStatus = useRouteInfoStore();
@@ -92,6 +93,7 @@ const currentCardHeight = ref(70);
 const cardTransition = ref('height 0.3s ease');
 const dragThreshold = 150;
 const showOverlay = ref(true);
+const overlayCollapsable = ref(true);
 
 const maxHeight = ref(50)
 
@@ -103,9 +105,10 @@ const close = () => {
 }
 
 
-const checkScrollPosition = () => {
-  const panel = expandedCardDiv.value;
-  showOverlay.value = panel.scrollTop === 0;
+const handleScrollStateChange = (isScrolled) => {
+  console.log("Isscrolled????", isScrolled);
+  overlayCollapsable.value = !isScrolled
+  // console.log(panel.scrollTop)
 };
 
 const expandCard = (card) => {
@@ -114,7 +117,6 @@ const expandCard = (card) => {
     expandedCardData.value = card;
       myBottomSheet.value.open();
     console.log("Card should expand now.")
-    //   bottomSheet.value.open()
   } else {
     goToCardById(card.properties.route_sequence_id);
   }
