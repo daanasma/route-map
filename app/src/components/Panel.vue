@@ -77,13 +77,11 @@ export default {
     </header>
 
     <!-- Content -->
+
     <CardSlider v-if="isTablet && routeStatus.routeData" :cards="routeCards" :isMobile="true" />
+    <DetailInfoPanel v-if="!isTablet && routeStatus.routeData" ></DetailInfoPanel>
 
     <!-- Desktop Content -->
-        <main class="main-content">
-
-    <DetailInfoPanel v-if="!isTablet && routeStatus.routeData" ></DetailInfoPanel>
-        </main>
     <!-- Footer Navigation -->
     <footer v-if="!isTablet" class="footer">
       <div v-if="routeStatus.activeTopic === 'overview'">

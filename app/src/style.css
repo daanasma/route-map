@@ -1,5 +1,4 @@
 body {
-    margin: 0px;
     background-color: white;
 }
 h2 {
@@ -7,4 +6,29 @@ h2 {
   font-weight: bold;
   color: #1f2937; /* text-gray-800 */
   margin-bottom: 1rem;
+}
+
+
+/* Global scrollbar styling for the entire app */
+* {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #aaa transparent; /* Thumb and track colors */
+}
+
+*::-webkit-scrollbar {
+  width: 6px; /* WebKit Browsers */
+  height: 6px; /* Horizontal scrollbar height */
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #aaa; /* Thumb color */
+  border-radius: 3px; /* Rounded edges */
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #888; /* Thumb color on hover */
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent; /* Transparent track */
 }

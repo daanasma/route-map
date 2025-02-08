@@ -1,8 +1,17 @@
 <template>
+        <vue-bottom-sheet
+          ref="myBottomSheet"
+          :max-height="400"
+          :max-width="1024"
+      >
+     <DetailInfoPanel  ></DetailInfoPanel>
+  </vue-bottom-sheet>
+
   <div class="cards-wrapper">
     <!-- Navigation Buttons -->
     <button v-if="!isFirstCard" id="prevBtn" @click="scrollWithButton(-1)" class="navigation-btn">‹</button>
     <button v-if="!isLastCard" id="nextBtn" @click="scrollWithButton(1)" class="navigation-btn">›</button>
+
 
     <!-- Cards Container -->
     <div
@@ -27,48 +36,24 @@
         <div class="text-center">
           <h3>{{ card.properties.title }}</h3>
           <p>Click to expand</p>
+
         </div>
       </div>
 
+      <!-- Bottom Panel -->
       <!-- Expanded Card Overlay -->
-      <div v-if="expandedCardData" class="expanded-card-overlay" @click.self="closeExpandedCard">
-        <div
-          class="expanded-card"
-          :style="{ height: `${currentCardHeight}vh`, transition: cardTransition }"
-          ref="expandedCardDiv"
-          @scroll="checkScrollPosition"
-        >
-          <div class="card-title sticky-header" @touchstart="onTouchStart" @touchmove="onTouchMove" @touchend="onTouchEnd">
-            <button class="minimize-btn" @click.stop="closeExpandedCard">✕</button>
-            <h2>{{ routeStatus.activeFeature.properties.title }}</h2>
-          </div>
-
-          <div id="transparent-overlay" v-show="showOverlay" @touchstart="onTouchStart" @touchmove="onTouchMove" @touchend="onTouchEnd"></div>
-
-          <div class="card-content">
-            <p>{{ routeStatus.activeFeature.properties.description }}</p>
-            <img
-              v-if="routeStatus.activeFeature.images?.length"
-              :src="'img/' + routeStatus.activeFeature.images[0]"
-              alt="Feature Image"
-            />
-            <div>
-              <div>
-                <h3>Lorum Ipsum?</h3>
-                <p>
-                  Lorem Ipsum is simply dummy text of the printing and typesetting industry...
-                </p>
-              </div>
-              <div>
-                <h3>Why do we use it?</h3>
-                <p>
-                  It is a long established fact that a reader will be distracted by the readable...
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+<!--      <div v-if="expandedCardData" class="expanded-card-overlay" @click.self="closeExpandedCard">-->
+<!--        <div-->
+<!--          class="expanded-card"-->
+<!--          :style="{ height: `${currentCardHeight}vh`, transition: cardTransition }"-->
+<!--          ref="expandedCardDiv"-->
+<!--          @scroll="checkScrollPosition"-->
+<!--        >-->
+<!--          <div class="card-title sticky-header" @touchstart="onTouchStart" @touchmove="onTouchMove" @touchend="onTouchEnd">-->
+<!--            <button class="minimize-btn" @click.stop="closeExpandedCard">✕</button>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
 
       <div data-key="breakdown" class="overview-card">
         <h1>The end</h1>
@@ -80,6 +65,9 @@
 <script setup>
 import { ref, onMounted, onUnmounted, watch } from 'vue';
 import { useRouteInfoStore } from '@/stores/routestatus.js';
+import DetailInfoPanel from "@/components/DetailInfoPanel.vue";
+import VueBottomSheet from "@webzlodimir/vue-bottom-sheet";
+import  "@webzlodimir/vue-bottom-sheet/dist/style.css";
 
 const props = defineProps({
   cards: {
@@ -87,7 +75,7 @@ const props = defineProps({
     required: true,
   },
 });
-
+const myBottomSheet = ref(null)
 const routeStatus = useRouteInfoStore();
 const expandedCard = ref(null);
 const expandedCardDiv = ref(null);
@@ -104,6 +92,16 @@ const cardTransition = ref('height 0.3s ease');
 const dragThreshold = 150;
 const showOverlay = ref(true);
 
+const maxHeight = ref(50)
+
+const open = () => {
+}
+
+const close = () => {
+  bottomSheet.value.close()
+}
+
+
 const checkScrollPosition = () => {
   const panel = expandedCardDiv.value;
   showOverlay.value = panel.scrollTop === 0;
@@ -113,6 +111,9 @@ const expandCard = (card) => {
   if (card.properties.route_sequence_id === routeStatus.activeStep) {
     expandedCard.value = card.properties.route_sequence_id;
     expandedCardData.value = card;
+      myBottomSheet.value.open();
+    console.log("Card should expand now.")
+    //   bottomSheet.value.open()
   } else {
     goToCardById(card.properties.route_sequence_id);
   }
@@ -350,7 +351,7 @@ onUnmounted(() => {
   height: 70vh;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   position: relative;
-  overflow-y: auto; /* Use auto instead of scroll for better UX */
+  overflow-y: hidden; /* Use auto instead of scroll for better UX */
   border-radius: 16px 16px 0 0;
   transition: height 0.3s ease;
   overscroll-behavior-y: contain;
@@ -386,13 +387,6 @@ onUnmounted(() => {
   color: white;
 }
 
-#transparent-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 40;
-  pointer-events: auto;
-}
+
+
 </style>

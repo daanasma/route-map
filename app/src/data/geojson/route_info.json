@@ -13,12 +13,12 @@
     { "route_step": 3, "id": 2, "type": "point" },
     { "route_step": 4, "id": 2, "type": "line" },
     { "route_step": 5, "id": 3, "type": "point" },
-    { "route_step": 6, "id": 6, "type": "point" },
+    { "route_step": 6, "id": 3, "type": "line" },
     { "route_step": 7, "id": 4, "type": "point" },
     { "route_step": 8, "id": 4, "type": "line" },
     { "route_step": 9, "id": 5, "type": "point" },
     { "route_step": 10, "id": 5, "type": "line" },
-    { "route_step": 11, "id": 3, "type": "line" }
+    { "route_step": 11, "id": 6, "type": "point" }
   ],
 
   "settings": {

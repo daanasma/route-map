@@ -13,12 +13,14 @@
   },
   "dependencies": {
     "@vueuse/core": "^12.4.0",
+    "@webzlodimir/vue-bottom-sheet": "^3.0.5",
     "maplibre-gl": "^5.0.1",
     "pinia": "^2.3.0",
     "terra-draw": "^1.0.0",
     "terra-draw-maplibre-gl-adapter": "^1.0.1",
     "vue": "^3.5.13",
-    "vue-router": "^4.5.0"
+    "vue-router": "^4.5.0",
+    "vuetify": "^3.7.11"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.1",

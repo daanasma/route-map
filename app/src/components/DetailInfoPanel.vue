@@ -3,6 +3,8 @@ import { useRouteInfoStore } from '../stores/routestatus.js';
 
 const routeStatus = useRouteInfoStore();
 
+
+
 </script>
 
 <template>
