@@ -8,6 +8,9 @@
 /dist/
 /build/
 
+# Data
+app/src/data/geojson/bundled_route_data.json
+
 # Vite cache
 /.vite/
 
