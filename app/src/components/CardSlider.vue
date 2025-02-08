@@ -41,21 +41,6 @@
         </div>
       </div>
 
-      <!-- Bottom Panel -->
-      <!-- Expanded Card Overlay -->
-<!--      <div v-if="expandedCardData" class="expanded-card-overlay" @click.self="closeExpandedCard">-->
-<!--        <div-->
-<!--          class="expanded-card"-->
-<!--          :style="{ height: `${currentCardHeight}vh`, transition: cardTransition }"-->
-<!--          ref="expandedCardDiv"-->
-<!--          @scroll="checkScrollPosition"-->
-<!--        >-->
-<!--          <div class="card-title sticky-header" @touchstart="onTouchStart" @touchmove="onTouchMove" @touchend="onTouchEnd">-->
-<!--            <button class="minimize-btn" @click.stop="closeExpandedCard">✕</button>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-
       <div data-key="breakdown" class="overview-card">
         <h1>The end</h1>
       </div>

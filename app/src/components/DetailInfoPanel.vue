@@ -1,12 +1,24 @@
 <script>
 import { useRouteInfoStore } from '../stores/routestatus.js';
+import { ref, watch, onMounted } from 'vue';
 
 export default {
   setup() {
     const routeStatus = useRouteInfoStore();
+    const contentWrapper = ref(null); // Ref to the content-wrapper element
+    watch(
+      () => routeStatus.activeFeature, // Watch for changes in activeFeature
+      (newVal, oldVal) => {
+        if (newVal !== oldVal && contentWrapper.value) {
+          contentWrapper.value.scrollTop = 0; // Scroll to the top
+        }
+      },
+      { immediate: true } // Ensure it triggers immediately when the component is mounted
+    );
 
     return {
-      routeStatus
+      routeStatus,
+      contentWrapper
     }
 
   },
@@ -33,7 +45,7 @@ export default {
 </script>
 
 <template>
-  <div class="content-wrapper" @scroll="logScroll">
+  <div class="content-wrapper" ref="contentWrapper" @scroll="logScroll">
     <div v-if="routeStatus.activeTopic === 'overview'">
           <h2>{{ routeStatus.routeMetadata.title }}</h2>
           <p>{{ routeStatus.routeMetadata.description }}</p>
