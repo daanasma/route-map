@@ -3,6 +3,7 @@ import './style.css'
 import App from './App.vue'
 import router from "./router"; // Import the router
 import 'vuetify/styles'; // Use prebuilt CSS instead of compiling Sass
+import '@mdi/font/css/materialdesignicons.css'; // Import Material Design Icons CSS
 import { createVuetify } from 'vuetify';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';

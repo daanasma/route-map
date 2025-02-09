@@ -81,15 +81,13 @@ onMounted(() => {
     </div>
   </div>
 </template>
-<style>
-
-
+<style scoped>
 .app-container {
   width: 100%;
   height: 100dvh;
   max-height: 100%;
   display: flex;
-        -ms-overflow-y: hidden;
+  flex-direction: column;
 
 }
 
@@ -125,6 +123,4 @@ onMounted(() => {
 
   }
 }
-
-
 </style>

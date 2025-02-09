@@ -53,11 +53,19 @@ export default {
         </div>
         <div v-if="routeStatus.activeTopic === 'route'">
           <h2>{{ routeStatus.activeFeature.properties.title }}</h2>
-          <img
-            v-if="routeStatus.activeFeature.images?.length"
-            :src="'img/' + routeStatus.activeFeature.images[0]"
-            alt="Feature Image"
-          />
+  <v-carousel
+        v-if="routeStatus.activeFeature.images?.length"
+        :show-arrows="routeStatus.activeFeature.images.length > 1"
+        :height="300"
+>
+    <v-carousel-item
+      v-for="(image, index) in routeStatus.activeFeature.images"
+
+      :key="index"
+      :src="'img/' + image"
+      cover
+    ></v-carousel-item>
+  </v-carousel>
           <div class="content-actual-content">
           <p>{{ routeStatus.activeFeature.properties.description }}</p>
           <div>

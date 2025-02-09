@@ -19,7 +19,7 @@ onMounted(() => {
   </div>
 </template>
 
-<style>
+<style scoped>
 
 
 
