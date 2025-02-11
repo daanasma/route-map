@@ -192,15 +192,24 @@ const navigateCardsWithKeyArrows = (event) => {
     expandCard(props.cards[currentCard.value - 1]);
   }
 };
+  watch(
+    () => routeStatus.activeStep, // Watch for changes in activeFeature
+    (newVal, oldVal) => {
+      if (newVal !== oldVal) {
+        goToCardById(newVal); // Scroll to the top
+      }
+    },
+    { immediate: true } // Ensure it triggers immediately when the component is mounted
+  );
 
-const onTouchStart = (event) => {
-  startY.value = event.touches[0].clientY;
-  cardTransition.value = 'none';
-};
 
 onMounted(() => {
-  if (cardsContainer.value) {
-    handleScroll();
+  console.log("Cardslider - mounted", routeStatus)
+  if (routeStatus.activeStep) {
+    goToCardById(routeStatus.activeStep);
+  }
+  else {
+    isFirstCard.value = true;
   }
   window.addEventListener('keydown', navigateCardsWithKeyArrows);
 });

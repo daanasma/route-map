@@ -37,7 +37,7 @@ export default {
     watch(
         () => (routeStatus.stopId), // Watch the stopId in the Pinia store
         (newStopId, oldStopId) => {
-          console.log(`content: Stop ID changed from ${oldStopId} to ${newStopId}`);
+          console.log(`Panel: Stop ID changed from ${oldStopId} to ${newStopId}`);
 
           // Handle any side effects or actions you need based on stopId change
         }
@@ -46,13 +46,13 @@ export default {
     watch(
         () => (routeStatus.activeTopic), // Watch the stopId in the Pinia store
         (newTopic, oldTopic) => {
-          console.log(`content: active topic changed from ${oldTopic} to ${newTopic}`);
+          console.log(`Panel: active topic changed from ${oldTopic} to ${newTopic}`);
         }, {immediate: true}
     );
     watch(
         () => (routeStatus.routeData), // Watch the stopId in the Pinia store
         (newValue, oldValue) => {
-          console.log('content: routedata: refresh needed:', newValue);
+          console.log('Panel: routedata: Loaded routecards to create panel.:', newValue);
           routeCards.value = routeStatus.getAllRouteFeatures
         }
     );

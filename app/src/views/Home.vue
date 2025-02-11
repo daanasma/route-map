@@ -88,7 +88,6 @@ onMounted(() => {
   max-height: 100%;
   display: flex;
   flex-direction: column;
-
 }
 
 @media (min-width: 1024px) { /* lg breakpoint */
