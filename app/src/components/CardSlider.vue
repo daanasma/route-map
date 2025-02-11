@@ -21,7 +21,6 @@
         :key="card.properties.route_sequence_id"
         :data-key="card.properties.route_sequence_id"
         :class="['card', { expanded: expandedCard === card.properties.route_sequence_id }]"
-        @touchstart.stop.prevent="expandCard(card)"
         @click="expandCard(card)"
         class="content-card"
       >
