@@ -35,6 +35,23 @@ export default {
     const routeStatus = useRouteInfoStore();
     let hoveredStateId = null;
 
+    const getLinePaintStyle = (transportType) => {
+      // Define paint style based on transportType
+      switch (transportType) {
+        case 'ferry':
+          return {
+            'line-color': '#404040',
+            'line-width': 5,
+            'line-dasharray': [2, 2]
+          };
+        case 'road':
+          return {'line-color': '#082305', 'line-width': 5};
+        default:
+          return {'line-color': '#082305', 'line-width': 5}; // Default to solid green line
+      }
+    };
+
+
     const renderLayers = () => {
       if (!startedLayerLoad.value) {
         const routeLines = routeStatus.getFilteredFeatures('route', 'line')
@@ -49,17 +66,7 @@ export default {
           map.value.addLayer({
             id: 'route-line',
             type: 'line',
-            source: 'routelines',
-            paint: {
-              'line-color': '#082305',
-              'line-width': [
-                'case',
-                ['boolean', ['feature-state', 'hover'], false],
-                8,
-                5
-              ],
-              'line-opacity': [
-                'case',
+            source: 'routelines', 'paint': getLinePaintStyle(feature.properties.transport_type),
                 ['boolean', ['feature-state', 'hover'], false],
                 0.6,
                 0.4
