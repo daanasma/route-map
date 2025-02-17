@@ -21,7 +21,6 @@ export const useRouteInfoStore = defineStore('counter', {
         routeData: null,
         orderedRouteFeatures: null,
         loading: false,
-        error: null,
         activeStep: null, // This is the index in the sequence. It is 1-based, so to get the actual data do - 1
         activeFeature: null,
         activeTopic: 'overview', // This can be 'overview', 'route' or 'extra'
@@ -30,96 +29,35 @@ export const useRouteInfoStore = defineStore('counter', {
 
     }),
     getters: {
-        stopSegmentInfo: (state) => {
-            return {stopId: state.stopId, segmentId: state.segmentId};
-        },
         routeMetadata: (state) => state.routeData?.metadata,
-        orderedFeatures: (state) => state.routeData?.features,
-        getFilteredFeatures: (state) => (
-            filterTopic = null,
-            filterFeatureType = null) => {
+        getFilteredAndSortedFeatures: (state) => (filterFn) => {
             if (!state.routeData || !state.routeData.features) return [];
-            return state.routeData.features.filter(feature => {
-                const topicMatch = !filterTopic || feature.topic === filterTopic;
-                const typeMatch = !filterFeatureType || feature.type === filterFeatureType;
-                return topicMatch && typeMatch;
-            });
+
+            return state.routeData.features
+                .filter(filterFn)
+                .sort((a, b) => {
+                    const aStep = a.properties?.route_sequence_id ?? Infinity;
+                    const bStep = b.properties?.route_sequence_id ?? Infinity;
+                    return aStep - bStep;
+                });
         },
         getAllRouteFeatures: (state) => {
-          if (!state.routeData || !state.routeData.features) return [];
-          return state.routeData.features.filter(feature => feature.topic === 'route');
+            return state.getFilteredAndSortedFeatures(feature => feature.topic === 'route');
+        },
+        getFilteredFeatures: (state) => (customFilter) => {
+            return state.getFilteredAndSortedFeatures(customFilter);
         },
         getRouteFeatureFromStepId: (state) => () => {
             if (!state.routeData || !state.routeData.sequence) {
                 console.log("Store: there is no route data so we cant get an active feature.")
                 return null
             };
-            const step = state.routeData.features[state.activeStep -1];
+            const step = state.getAllRouteFeatures[state.activeStep -1];
             if (!step) return null;
             return step
             }
     },
     actions: {
-        nextStop() {
-            console.log('nextStop called', {
-                currentStopId: this.stopId,
-                maxStopId: this.maxStopId
-            });
-
-            if (!this.maxStopId) {
-                this.calculateMaxIds();
-            }
-
-            if (this.stopId === null) {
-                this.setStop(1);
-                return;
-            }
-
-            if (this.stopId >= this.maxStopId) {
-                this.setStop(1);
-            } else {
-                this.setStop(Number(this.stopId) + 1);
-            }
-        },
-        previousStop() {
-            console.log('previousStop called', {
-                currentStopId: this.stopId,
-                maxStopId: this.maxStopId
-            });
-
-            if (!this.maxStopId) {
-                this.calculateMaxIds();
-            }
-
-            if (this.stopId === null) {
-                this.setStop(this.maxStopId);
-                return;
-            }
-
-            if (this.stopId <= 1) {
-                this.setStop(this.maxStopId);
-            } else {
-                this.setStop(Number(this.stopId) - 1);
-            }
-        },
-        setStop(stopId) {
-            console.debug(`Store: try setting stop id ${stopId} to store + activate!`, 'max:', this.maxStopId, "topic:", this.activeTopic)
-            if (this.activeTopic === 'overview' && stopId === null) {
-                this.stopId = stopId;
-                return
-            }
-            this.stopId = Math.max(stopId, 1)
-            if (this.maxStopId) {
-                this.stopId = Math.min(Math.max(stopId, 1), this.maxStopId);
-                console.debug(`Store: set stop id ${this.stopId} to store`)
-            }
-
-            if (this.stopData) {
-                this.activeFeature = this.stopData.features[this.stopId - 1]
-            } else {
-                console.debug('Store: tried to set active Feature but there was no stopData in store.')
-            }
-        },
         setSegment(segmentId) {
             this.segmentId = segmentId;
         },

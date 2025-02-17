@@ -15,48 +15,51 @@ function bundleRouteData() {
     const lines = JSON.parse(readFileSync(resolve('src/data/geojson/route.geojson'), 'utf8'));
     const sequenceData = JSON.parse(readFileSync(resolve('src/data/geojson/route_info.json'), 'utf8'));
 
-    const sequenceOrder = sequenceData.sequence.map((entry, index) => ({
-      ...entry,
-      route_step: index + 1,
-    }));
+    // Map sequence for quick lookup
+const sequenceMap = new Map(sequenceData.sequence.map((entry, index) => [
+  `${entry.id}_${entry.type}`, // Unique key based on ID + type
+  { type: entry.type, route_step: index + 1 }
+]));
+const formatFeature = (feature, type) => {
+  const id = feature.properties?.id;
 
-    const formatFeature = (feature, type, topic, routeStep) => ({
-      id: feature.properties?.id + (type === 'point' ? 100000 : 200000),
+  // Check if the exact id and type exist in sequenceMap
+  const sequenceEntry = sequenceMap.get(`${id}_${type}`);
+  const routeStep = sequenceEntry ? sequenceEntry.route_step : null;
+  const topic = routeStep ? 'route' : 'extra';
+
+      return {
+        id: id + (type === 'point' ? 100000 : 200000),
         type,
-      topic,
-
-      properties: { ...feature.properties,
-      route_sequence_id: routeStep || null},
-      geometry: feature.geometry,
-                images: listImages(type, feature.properties?.id)
-    });
+        topic,
+        properties: { ...feature.properties, route_sequence_id: routeStep },
+        geometry: feature.geometry,
+        images: listImages(type, id),
+      };
+    };
 
     const features = [];
-    const pointsById = Object.fromEntries(points.features.map(f => [f.properties?.id, f]));
-    const linesById = Object.fromEntries(lines.features.map(f => [f.properties?.id, f]));
+    // Process all points
+    points.features.forEach(feature => {
+      if (feature.properties?.to_publish || sequenceMap.has(feature.properties.id)) {
+        features.push(formatFeature(feature, 'point'));
+      }
+    });
 
-    sequenceOrder.forEach(({ id, type, route_step }) => {
-      const dataset = type === 'point' ? pointsById : linesById;
-      const feature = dataset[id];
-
-      if (feature) {
-        features.push(
-          formatFeature(
-            feature,
-            type,
-            sequenceData.sequence.some(e => e.id === id) ? 'route' : 'extra',
-            route_step
-          )
-        );
+    // Process all lines
+    lines.features.forEach(feature => {
+      if (feature.properties?.to_publish || sequenceMap.has(feature.properties.id)) {
+        features.push(formatFeature(feature, 'line'));
       }
     });
 
     const bundledData = {
       metadata: sequenceData.metadata,
-      sequence: sequenceOrder,
+      sequence: sequenceData.sequence, // Keep sequence for reference
       settings: sequenceData.settings,
-      features,
+      features, // Let client sort if needed
     };
+  ;
 
     const outputPath = resolve('src/data/geojson', 'bundled_route_data.json');
     writeFileSync(outputPath, JSON.stringify(bundledData, null, 2));

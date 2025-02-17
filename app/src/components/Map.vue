@@ -14,16 +14,9 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 
 import {useRouteInfoStore} from '../stores/routestatus.js';
 import {useUpdateQueryParam} from '../composables/useQueryParams';
-
-
+import { useMapLayers } from '../composables/useMapLayers';
 
 // Helper function to convert feature arrays to a GeoJSON FeatureCollection
-const ArrayToGeoJSON = (featuresArray) => {
-  return {
-    type: 'FeatureCollection',
-    features: featuresArray
-  };
-}
 
 export default {
   name: 'Map',
@@ -35,124 +28,6 @@ export default {
     const routeStatus = useRouteInfoStore();
     let hoveredStateId = null;
 
-    const getLinePaintStyle = (transportType) => {
-      // Define paint style based on transportType
-      switch (transportType) {
-        case 'ferry':
-          return {
-            'line-color': '#404040',
-            'line-width': 5,
-            'line-dasharray': [2, 2]
-          };
-        case 'road':
-          return {'line-color': '#082305', 'line-width': 5};
-        default:
-          return {'line-color': '#082305', 'line-width': 5}; // Default to solid green line
-      }
-    };
-
-
-    const renderLayers = () => {
-      if (!startedLayerLoad.value) {
-        const routeLines = routeStatus.getFilteredFeatures('route', 'line')
-        const routePoints = routeStatus.getFilteredFeatures('route', 'point')
-
-        startedLayerLoad.value = true;
-        console.log("Start rendering all layers. lines:", routeLines, 'points:',  routePoints)
-        // Add the route as a GeoJSON source
-        map.value.on('load', () => {
-          // Add route source and layer
-          map.value.addSource('routelines', {type: 'geojson', data: ArrayToGeoJSON(routeLines)});
-          map.value.addLayer({
-            id: 'route-line',
-            type: 'line',
-            source: 'routelines', 'paint': getLinePaintStyle(feature.properties.transport_type),
-                ['boolean', ['feature-state', 'hover'], false],
-                0.6,
-                0.4
-              ]
-            },
-          });
-
-          // Add stops source and layer
-          map.value.addSource('routepoints', {type: 'geojson', data: ArrayToGeoJSON(routePoints)});
-          map.value.addLayer({
-            id: 'route-point',
-            type: 'circle',
-            source: 'routepoints',
-            paint: {
-              'circle-radius': 8,
-              'circle-color': '#065809', // Green color for stops
-            },
-          })
-
-          const layers = ['route-point', 'route-line']; // List of layer IDs
-
-          layers.forEach(layer => {
-            // Change the cursor to a pointer when the mouse is over the places layer.
-            map.value.on('mouseenter', layer, () => {
-              map.value.getCanvas().style.cursor = 'pointer';
-            });
-            // Change it back to a pointer when it leaves.
-            map.value.on('mouseleave', layer, () => {
-              map.value.getCanvas().style.cursor = '';
-            });
-
-            map.value.on('click', layer, (e) => {
-              console.log('Map: Clicked on', e.features[0])
-              if (layer == 'route-line') {
-                const featuresAtPoint = map.value.queryRenderedFeatures(e.point, {
-                  layers: ['route-point'],
-                });
-                // If there are any features in the 'points-layer', skip handling route clicks
-                if (featuresAtPoint.length > 0) {
-                  console.log('Map: Clicked near a point, ignoring route click handler');
-                  return;
-                }
-                routeStatus.setActiveStep(e.features[0].properties['route_sequence_id'])
-              }
-              if (layer == 'route-point') {
-                routeStatus.setActiveStep(e.features[0].properties['route_sequence_id'])
-              }
-            });
-
-            map.value.on('mousemove', layer, (e) => {
-              if (e.features.length > 0) {
-                if (hoveredStateId) {
-                  map.value.setFeatureState({source: 'routelines', id: hoveredStateId},
-                      {hover: true}
-                  );
-                }
-                hoveredStateId = e.features[0].id;
-                map.value.setFeatureState(
-                    {source: 'routelines', id: hoveredStateId},
-                    {hover: true}
-                );
-              }
-            })
-
-            map.value.on('mouseleave', layer, () => {
-              if (hoveredStateId) {
-                map.value.setFeatureState(
-                    {source: 'routelines', id: hoveredStateId},
-                    {hover: false}
-                );
-              }
-              hoveredStateId = null;
-            });
-
-
-
-          })
-        })
-       if (routeStatus.activeFeature) {
-         fitMapToFeature(routeStatus.activeFeature)
-       }
-       else {
-         console.log("Map: there is no active feature..")
-       }
-      }
-    }
 
     /**
      * Calculate the bounding box for a FeatureCollection
@@ -224,7 +99,9 @@ export default {
       console.debug('Map: zooming to full route.')
       if (routeStatus.routeData) {
         // Get bounding box for the full route
-        const routeFeatures = routeStatus.getFilteredFeatures('route', 'line');
+        const routeFeatures = routeStatus.getFilteredAndSortedFeatures(feature => feature.topic === 'route'
+        && feature.type === 'line')
+
         const bounds = getFeatureCollectionBoundingBox(routeFeatures);
         // todo this might be a problem if there are points outside.
         fitMapToBounds(bounds, {
@@ -252,33 +129,33 @@ export default {
         }), 'bottom-right');
         map.addControl(new AttributionControl({
           compact: true,
-
         }), "top-left");
 
     }
-  const mapStyleOutdoors= {
-            'version': 8,
-            'sources': {
-                'raster-tiles': {
-                    'type': 'raster',
-                    'tiles': [
-                        'https://tile.thunderforest.com/outdoors/{z}/{x}/{y}.png?apikey=fb850d9821794c8294f74fea04afc0f0' // todo clean this up!
-                    ],
-                    'tileSize': 256,
-                    'attribution':
-                        '<a href="https://www.thunderforest.com/" target="_blank">&copy; Thunderforest</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
-                }
-            },
-            'layers': [
-                {
-                    'id': 'simple-tiles',
-                    'type': 'raster',
-                    'source': 'raster-tiles',
-                    'minzoom': 0,
-                    'maxzoom': 22
-                }
-            ]
-        }
+
+    const mapStyleOutdoors= {
+              'version': 8,
+              'sources': {
+                  'raster-tiles': {
+                      'type': 'raster',
+                      'tiles': [
+                          'https://tile.thunderforest.com/outdoors/{z}/{x}/{y}.png?apikey=fb850d9821794c8294f74fea04afc0f0' // todo clean this up!
+                      ],
+                      'tileSize': 256,
+                      'attribution':
+                          '<a href="https://www.thunderforest.com/" target="_blank">&copy; Thunderforest</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
+                  }
+              },
+              'layers': [
+                  {
+                      'id': 'simple-tiles',
+                      'type': 'raster',
+                      'source': 'raster-tiles',
+                      'minzoom': 0,
+                      'maxzoom': 22
+                  }
+              ]
+          }
 
     // Initialize the map when the component is mounted
     onMounted(async () => {
@@ -298,38 +175,8 @@ export default {
         console.log("Map: created map")
         map.value.style.cursor = 'pointer'
         addMapControls(map.value);// Add controls
-
-
-
-        // Experiment
-        /*
-                map.value.addControl(new GlobeControl())
-                // Use a different source for terrain and hillshade layers, to improve render quality
-                map.value.addSource('terrainSource', {
-                  type: 'raster-dem',
-                  url: 'https://demotiles.maplibre.org/terrain-tiles/tiles.json',
-                  tileSize: 256
-                })
-                map.value.addSource('hillshadeSource', {
-                  type: 'raster-dem',
-                  url: 'https://demotiles.maplibre.org/terrain-tiles/tiles.json',
-                  tileSize: 256
-                })
-                map.value.addLayer({
-                  id: 'hills',
-                  type: 'hillshade',
-                  source: 'hillshadeSource',
-                  layout: {visibility: 'visible'},
-                  paint: {'hillshade-shadow-color': '#473B24'}
-                })
-                map.value.addControl(new TerrainControl({
-                  source: "terrainSource"
-                }));
-        */
       }
     })
-
-
 
     watch(
         () => ([routeStatus.activeTopic, routeStatus.refreshNeeded]), // Watch the stopId in the Pinia store
@@ -343,17 +190,15 @@ export default {
           }
         }
     );
-
-
     watch(
         () => ([routeStatus.routeData, map.value]),
         ([newData, newMap], oldValue) => {
           console.log('Map: map or routedata changed.')
           if (newData && newMap) {
             console.log('Map: there is a map so we can add the routeData')
-            renderLayers()
-          }
-        }
+            const { renderLayers } = useMapLayers(map);
+            renderLayers();
+          }}
     )
     watch(
         () => (routeStatus.activeFeature),
@@ -362,8 +207,6 @@ export default {
           if (newValue) {
             console.log('Map: zooming to active feature. Step feature:', newValue)
             fitMapToFeature(routeStatus.activeFeature)
-            // zoomToFeature(routeStatus.activeFeature)
-            //renderLayers(newValue)
           }
         }
     )
