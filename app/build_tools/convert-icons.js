@@ -21,6 +21,7 @@ function convertSvgsToPng() {
         const borderColor = '#006400'; // Dark green border color for the circle
         const borderWidth = 2; // Width of the dark green circle border
 
+
         // Ensure the output directory exists asynchronously
         fsPromises.mkdir(outputDir, { recursive: true })
           .then(() => {
