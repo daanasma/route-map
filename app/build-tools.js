@@ -129,5 +129,7 @@ function minifyJsonFiles() {
 
 
 export default function buildPlugins() {
-  return [bundleRouteData(), minifyJsonFiles(), convertSvgsToPng()];
+  return [bundleRouteData(), minifyJsonFiles()
+  //  , convertSvgsToPng()
+  ];
 }
