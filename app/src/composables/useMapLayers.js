@@ -2,7 +2,7 @@
 
 import { ref } from 'vue';
 import { useRouteInfoStore } from '../stores/routestatus.js';
-import mapConfig from '../config/mapconfig.js';
+import mapConfig from '../config/mapConfig.js';
 import {LngLatBounds} from "maplibre-gl"; // Import map configuration
 
 
