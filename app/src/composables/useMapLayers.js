@@ -53,60 +53,95 @@ export function useMapLayers(map) {
     },
   ];
 
+  const getRoutePointStyles = () => [
+    {
+      id: 'route-point',
+      type: 'circle',
+      source: 'routepoints',
+      paint: {
+        'circle-radius': mapConfig.layerConfigs['route-point'].radius,
+        'circle-color': mapConfig.layerConfigs['route-point'].color,
+      },
+    }
+  ];
+
+  const getExtraPoiStyles = () => [
+    {
+      id: 'extra-poi',
+      type: 'symbol',
+      source: 'extrapoints',
+      layout: {
+        'icon-image': [
+          'match',
+          ['get', 'poi_type'],  // Get the 'type' property from GeoJSON
+          ...Object.entries(mapConfig.iconMap).flat(),  // Dynamically build match statement
+          mapConfig.iconMap.default, // Default icon if no match is found
+        ],
+        'icon-size': 1.2, // Adjust size if necessary
+      },
+    },
+  ];
+
   // Function to add the layers to the map, now accepting data as parameters
   const renderLayers = () => {
+    const loadedLayers = [];
     const routeLines = routeStatus.getFilteredAndSortedFeatures(feature => feature.topic === 'route'
         && feature.type === 'line')
     console.log('routeLines', routeLines)
     const routePoints = routeStatus.getFilteredAndSortedFeatures(feature => feature.topic === 'route'
         && feature.type === 'point')
-    // const routeLines = routeStatus.getFilteredFeatures('route', 'line')
-    // const routePoints = routeStatus.getFilteredFeatures('route', 'point')
-        const extraPoints = routeStatus.getFilteredAndSortedFeatures(feature => feature.topic === 'extra'
+
+    const extraPoints = routeStatus.getFilteredAndSortedFeatures(feature => feature.topic === 'extra'
         && feature.type === 'point')
 
     if (!startedLayerLoad.value) {
       startedLayerLoad.value = true;
       console.log("Start rendering all layers. lines:", routeLines, 'points:', routePoints);
-      console.log("map", map);
         // Add route source and layers
-        map.value.on('load', () => {
+        map.value.on('load',  () => {
+          // Add Route lines
           map.value.addSource('routelines', {type: 'geojson', data: ArrayToGeoJSON(routeLines)});
-
-          // Add layer styles based on the map configuration
           getRouteLayerStyles().forEach(layer => {
             map.value.addLayer(layer);
-          });
+            loadedLayers.push(layer.id);});
 
-          // Add stops source and layer
+          // Add Route points
           map.value.addSource('routepoints', {type: 'geojson', data: ArrayToGeoJSON(routePoints)});
-          map.value.addLayer({
-            id: 'route-point',
-            type: 'circle',
-            source: 'routepoints',
-            paint: {
-              'circle-radius': mapConfig.layerConfigs['route-point'].radius,
-              'circle-color': mapConfig.layerConfigs['route-point'].color,
-            },
-          });
+          getRoutePointStyles().forEach(layer => {
+            map.value.addLayer(layer);
+            loadedLayers.push(layer.id);})
 
+          map.value.addSource('extrapoints', { type: 'geojson', data: ArrayToGeoJSON(extraPoints) });
+
+                // For each feature, log its properties
+          Object.values(mapConfig.iconMap).forEach(async (icon) => {
+
+             let iconUrl = `../icons/${icon}.png`
+            //let iconUrl = 'https://upload.wikimedia.org/wikipedia/commons/7/7c/201408_cat.png'
+
+            console.log("start adding icon: ", icon, "\t", iconUrl)
+            let image = await map.value.loadImage(iconUrl);
+             if (map.value.hasImage(icon)) map.value.removeImage(icon);
+            map.value.addImage(icon, image.data);
+
+        });
+            getExtraPoiStyles().forEach(layer => {
+              console.log('xtraPOI', layer)
+              map.value.addLayer(layer);
+            });
           const layers = ['route-point', 'route-line-road', 'route-line-ferry', 'route-line'];
 
-          layers.forEach(layer => {
+          loadedLayers.forEach(layer => {
             // Add interactivity (hover, click, etc.)
-            map.value.on('mouseenter', layer, () => {
-              map.value.getCanvas().style.cursor = 'pointer';
-            });
-
-            map.value.on('mouseleave', layer, () => {
-              map.value.getCanvas().style.cursor = '';
-            });
+            map.value.on('mouseenter', layer, () => { map.value.getCanvas().style.cursor = 'pointer'; });
+            map.value.on('mouseleave', layer, () => { map.value.getCanvas().style.cursor = ''; });
 
             map.value.on('click', layer, (e) => {
               console.log('Map: Clicked on', e.features[0]);
+              // Checking if the click is near a point. If so, prioritize that.
               if (layer.includes('route-line')) {
                 const featuresAtPoint = map.value.queryRenderedFeatures(e.point, {
-                  layers: ['route-point'],
+                  layers: ['route-point']
                 });
 
                 if (featuresAtPoint.length > 0) {
@@ -127,7 +162,9 @@ export function useMapLayers(map) {
             fitMapToFeature(routeStatus.activeFeature);
           } else {
             console.log("Map: there is no active feature..");
+
           }
+
         })
   };}
 

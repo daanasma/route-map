@@ -4,6 +4,12 @@ export default {
   // Default map style URL (could be a custom Mapbox or MapLibre style URL)
   style: 'https://tiles.openfreemap.org/styles/positron',
 
+
+  iconMap: {
+    national_park: 'park-alt1',
+    town: 'building',
+    default: 'star'
+  },
   // Default map center [longitude, latitude]
   defaultCenter: [-72.4200, -47.4800],
 

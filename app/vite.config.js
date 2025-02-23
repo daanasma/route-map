@@ -4,11 +4,10 @@ import { fileURLToPath, URL } from 'node:url';
 import minifyBundleDistJson from './build-tools.js';
 import buildPlugins from "./build-tools.js";
 
-
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [vue(),
-    buildPlugins()
+    buildPlugins() //todo: this should finish before the copy and it doesnt.
   ],
   resolve: {
     alias: {
