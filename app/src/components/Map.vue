@@ -168,6 +168,10 @@ export default {
           style: 'https://tiles.openfreemap.org/styles/positron',
           center: [-72.4200, -47.4800], // Coordinates for Valencia, Spain
           zoom: 7,
+          scrollZoom: {
+            speed: 2, // Default is 1. Increase for faster zoom, decrease for slower zoom
+            smooth: true, // Enables smooth zooming
+          },
           attributionControl: false,
           renderMode: '2d' // fallback to canvas 2D
 
@@ -178,9 +182,6 @@ export default {
         map.value.on('load', () => {
           map.value.resize()
         })
-
-
-
       }
     })
 

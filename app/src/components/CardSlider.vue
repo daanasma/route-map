@@ -25,7 +25,7 @@
     <div
       ref="cardsContainer"
       class="cards-container"
-      @scrollend="handleScroll"
+      @scroll="handleScroll"
     >
       <div data-key="overview" class="card overview-card">
         <h1>Carretera Austral</h1>
@@ -140,7 +140,7 @@ const isElementInCenter = (element, container) => {
 };
 
 const handleScroll = () => {
-  logSnackbar(`handle scroll`)
+  // logSnackbar(`handle scroll`)
 
   if (!cardsContainer.value) return;
 
@@ -150,7 +150,7 @@ const handleScroll = () => {
   if (centeredCard) {
 
     const cardId = centeredCard.getAttribute('data-key');
-    logSnackbar(`got centered card ${cardId}`)
+    // logSnackbar(`got centered card ${cardId}`)
 
     const cardIndex = cards.indexOf(centeredCard);
     isFirstCard.value = cardId === 'overview';
