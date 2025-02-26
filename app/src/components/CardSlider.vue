@@ -180,7 +180,11 @@ const scrollWithButton = (direction) => {
     goToCardById(cards[nextIndex].getAttribute('data-key'));
   }
 };
-
+const preventScroll = (event) => {
+  if (Math.abs(event.touches[0].clientX - startX.value) > Math.abs(event.touches[0].clientY - startY.value)) {
+    event.preventDefault(); // Prevent Safari from overriding touch behavior
+  }
+};
 const navigateCardsWithKeyArrows = (event) => {
   if (event.key === 'ArrowLeft' && !isFirstCard.value) {
     scrollWithButton(-1);
@@ -205,7 +209,9 @@ const navigateCardsWithKeyArrows = (event) => {
 
 onMounted(() => {
   console.log("Cardslider - mounted", routeStatus)
-  if (routeStatus.activeStep) {
+  if (cardsContainer.value) {
+    cardsContainer.value.addEventListener("touchmove", preventScroll, { passive: false });
+  }  if (routeStatus.activeStep) {
     goToCardById(routeStatus.activeStep);
   }
   else {
