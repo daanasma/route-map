@@ -13,7 +13,7 @@ function bundleRouteData() {
 
     // Load data files
     const points = JSON.parse(readFileSync(resolve('src/data/geojson/stops.geojson'), 'utf8'));
-    const lines = JSON.parse(readFileSync(resolve('src/data/geojson/route.geojson'), 'utf8'));
+    const lines = JSON.parse(readFileSync(resolve('src/data/geojson/route_with_elevation.geojson'), 'utf8'));
     const sequenceData = JSON.parse(readFileSync(resolve('src/data/geojson/route_info.json'), 'utf8'));
 
     // Map sequence for quick lookup

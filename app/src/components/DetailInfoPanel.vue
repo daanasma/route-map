@@ -7,6 +7,10 @@
         </div>
         <div v-if="routeStatus.activeTopic === 'route'">
           <h2>{{ routeStatus.activeFeature.properties.title }}</h2>
+          <div v-if="routeStatus.activeFeature.properties.route_length_meters">
+          <h5>{{Math.floor(routeStatus.activeFeature.properties.route_length_meters / 1000)}}km</h5>
+          </div>
+
           <v-carousel
               v-if="routeStatus.activeFeature.images?.length"
               :show-arrows="routeStatus.activeFeature.images.length > 1"
