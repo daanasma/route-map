@@ -176,9 +176,8 @@ export default {
         map.value.style.cursor = 'pointer'
         addMapControls(map.value);// Add controls
         map.value.on('load', () => {
-          console.log('-----------------------LOADEDDDD')
-                    map.value.loadImage("icons/american-football.png", (error, image) => {
-              console.log("-----------------------img", "amfoot")})})
+          map.value.resize()
+        })
 
 
 
