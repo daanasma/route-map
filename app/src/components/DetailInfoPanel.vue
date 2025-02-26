@@ -1,49 +1,3 @@
-<script>
-import { useRouteInfoStore } from '../stores/routestatus.js';
-import { ref, watch, onMounted } from 'vue';
-
-export default {
-  setup() {
-    const routeStatus = useRouteInfoStore();
-    const contentWrapper = ref(null); // Ref to the content-wrapper element
-    watch(
-      () => routeStatus.activeFeature, // Watch for changes in activeFeature
-      (newVal, oldVal) => {
-        if (newVal !== oldVal && contentWrapper.value) {
-          contentWrapper.value.scrollTop = 0; // Scroll to the top
-        }
-      },
-      { immediate: true } // Ensure it triggers immediately when the component is mounted
-    );
-
-    return {
-      routeStatus,
-      contentWrapper
-    }
-
-  },
-  data() {
-    return {
-      isScrolled: false,  // Tracks whether scrollTop is > 0 or not
-    };
-  },
-  methods: {
-    logScroll(event) {
-      console.log("Loggin")
-      const panel = event.target;
-      const isNowScrolled = panel.scrollTop > 0;
-
-      // Emit only when scroll state changes between 0 and >0
-      if (this.isScrolled !== isNowScrolled) {
-        this.isScrolled = isNowScrolled;
-        this.$emit('scrollStateChanged', this.isScrolled); // Emit scroll state to parent
-        console.log("emittin")
-      }
-    },
-  },
-};
-</script>
-
 <template>
   <div class="content-wrapper" ref="contentWrapper" @scroll="logScroll">
     <div v-if="routeStatus.activeTopic === 'overview'">
@@ -57,6 +11,8 @@ export default {
               v-if="routeStatus.activeFeature.images?.length"
               :show-arrows="routeStatus.activeFeature.images.length > 1"
               :height="300"
+                @touchstart.stop
+                @touchmove.stop
           >
             <v-carousel-item
                 v-for="(image, index) in routeStatus.activeFeature.images"
@@ -110,6 +66,54 @@ export default {
       </div>
 
 </template>
+
+
+
+<script>
+import { useRouteInfoStore } from '../stores/routestatus.js';
+import { ref, watch, onMounted } from 'vue';
+
+export default {
+  setup() {
+    const routeStatus = useRouteInfoStore();
+    const contentWrapper = ref(null); // Ref to the content-wrapper element
+    watch(
+      () => routeStatus.activeFeature, // Watch for changes in activeFeature
+      (newVal, oldVal) => {
+        if (newVal !== oldVal && contentWrapper.value) {
+          contentWrapper.value.scrollTop = 0; // Scroll to the top
+        }
+      },
+      { immediate: true } // Ensure it triggers immediately when the component is mounted
+    );
+
+    return {
+      routeStatus,
+      contentWrapper
+    }
+
+  },
+  data() {
+    return {
+      isScrolled: false,  // Tracks whether scrollTop is > 0 or not
+    };
+  },
+  methods: {
+    logScroll(event) {
+      console.log("Loggin")
+      const panel = event.target;
+      const isNowScrolled = panel.scrollTop > 0;
+
+      // Emit only when scroll state changes between 0 and >0
+      if (this.isScrolled !== isNowScrolled) {
+        this.isScrolled = isNowScrolled;
+        this.$emit('scrollStateChanged', this.isScrolled); // Emit scroll state to parent
+        console.log("emittin")
+      }
+    },
+  },
+};
+</script>
 
 <style lang="scss">
   @use '../styles/settings';

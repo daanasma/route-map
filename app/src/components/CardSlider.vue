@@ -236,9 +236,11 @@ const navigateCardsWithKeyArrows = (event) => {
 
 onMounted(() => {
   console.log("Cardslider - mounted", routeStatus)
-  if (cardsContainer.value) {
-    cardsContainer.value.addEventListener("touchmove", preventScroll, { passive: false });
-  }  if (routeStatus.activeStep) {
+  // if (cardsContainer.value) {
+  //   cardsContainer.value.addEventListener("touchmove", preventScroll, { passive: false });
+  // }
+
+  if (routeStatus.activeStep) {
     goToCardById(routeStatus.activeStep);
   }
   else {
