@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync, readdirSync, unlinkSync, existsSync, mkdirSync} from 'fs';
 import path, { resolve } from 'path';
 import jsonminify from 'jsonminify';
-import convertSvgsToPng from "./build_tools/convert-icons.js";
+import createMapIcons from "./build_tools/convert-icons.js";
 
 function bundleRouteData() {
   return {
@@ -129,7 +129,6 @@ function minifyJsonFiles() {
 
 
 export default function buildPlugins() {
-  return [bundleRouteData(), minifyJsonFiles()
-  //  , convertSvgsToPng()
+  return [bundleRouteData(), minifyJsonFiles(), createMapIcons()
   ];
 }

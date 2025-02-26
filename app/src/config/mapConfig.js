@@ -10,16 +10,20 @@ const lineWidth = [
         16, 10,
         19, 12
       ]
-
+const sizeMapMarkers = 0.25;
+const mainColor = '#065809';
+const poiColor = "#2f2d2d";
 
 export default {
   // Default map style URL (could be a custom Mapbox or MapLibre style URL)
   style: 'https://tiles.openfreemap.org/styles/positron',
-
-
+    mainColor: mainColor,
+    poiColor: poiColor,
+    sizeMapMarkers,
   iconMap: {
     national_park: 'park-alt1',
     town: 'building',
+      port: 'ferry',
     default: 'star'
   },
   // Default map center [longitude, latitude]
@@ -36,7 +40,7 @@ export default {
       dasharray: [1, 1],
     },
     'route-line-road': {
-      color: '#065809',
+      color: mainColor,
       opacity: 0.5,
       width: lineWidth,
     },
