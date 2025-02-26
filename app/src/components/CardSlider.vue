@@ -81,14 +81,14 @@ const props = defineProps({
 const DetailsBottomSheet = ref(null)
 const routeStatus = useRouteInfoStore();
 const expandedCard = ref(null);
-const expandedCardDiv = ref(null);
+
 const expandedCardData = ref(null);
 const currentCard = ref(null);
 const cardsContainer = ref(null);
 const isFirstCard = ref(false);
 const isLastCard = ref(false);
 const startY = ref(0);
-const initialHeight = 70;
+
 const minHeight = 30;
 const currentCardHeight = ref(70);
 const cardTransition = ref('height 0.3s ease');
@@ -99,6 +99,10 @@ const snackbar = ref(false);
 const logMessages = ref([]);
 const maxHeight = ref(50)
     let idCounter = 0;
+
+    let scrollTimeout = null;
+    let lastScrollLeft = 0;
+    let ticking = false;
 const logSnackbar = (message) => {
       logMessages.value.push({ text: message, visible: true });
       console.log(message);
@@ -106,9 +110,6 @@ const logSnackbar = (message) => {
     const removeMessage = (id) => {
       logMessages.value = logMessages.value.filter((msg) => msg.id !== id);
     };
-
-const close = () => {
-}
 
 
 const handleScrollStateChange = (isScrolled) => {
@@ -140,8 +141,11 @@ const isElementInCenter = (element, container) => {
 };
 
 const handleScroll = () => {
+  if (scrollTimeout) clearTimeout(scrollTimeout);
   // logSnackbar(`handle scroll`)
-
+      scrollTimeout = setTimeout(() => {
+        console.log("Scroll ended! 🎉");
+        // Add logic for selecting the active card here
   if (!cardsContainer.value) return;
 
   const cards = Array.from(cardsContainer.value.children);
@@ -170,6 +174,8 @@ const handleScroll = () => {
       routeStatus.setActiveStep(cardIndex);
     }
   }
+        }, 100); // Adjust delay as needed
+
 };
 
 const debouncedHandleScroll = () => {
