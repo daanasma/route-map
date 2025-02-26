@@ -1,5 +1,17 @@
 // src/config/mapconfig.js
 
+const lineWidth = [
+        'interpolate',
+        ['linear'],
+        ['zoom'],
+        8, 2,
+        10, 4,
+        13, 4,
+        16, 10,
+        19, 12
+      ]
+
+
 export default {
   // Default map style URL (could be a custom Mapbox or MapLibre style URL)
   style: 'https://tiles.openfreemap.org/styles/positron',
@@ -19,35 +31,18 @@ export default {
   // Layer configurations (you can expand this with more options in the future)
   layerConfigs: {
     'route-line-ferry': {
-      color: '#404040',
-      width:  [
-        'interpolate',
-        ['linear'],
-        ['zoom'],
-        10, 2,
-        13, 3,
-        16, 5,
-        19, 8
-      ],
-      dasharray: [2, 2],
+      color: '#1a9379',
+      width: lineWidth ,
+      dasharray: [1, 1],
     },
     'route-line-road': {
-      color: '#082305',
+      color: '#065809',
       opacity: 0.5,
-      width: [
-        'interpolate',
-        ['linear'],
-        ['zoom'],
-        10, 2,
-        13, 3,
-        16, 5,
-        19, 8
-      ],
+      width: lineWidth,
     },
     'route-line-default': {
       color: '#000000',
-      width: 5,
-      dasharray: [3, 1],
+      width: lineWidth
     },
     'route-point': {
       radius: 8,

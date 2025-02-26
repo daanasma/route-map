@@ -177,7 +177,10 @@ export function useMapLayers(map) {
 
   // Get feature bounding box
   const getFeatureBoundingBox = (feature) => {
-    const coordinates = feature.geometry.coordinates;
+    let coordinates = feature.geometry.coordinates;
+    if (feature.type === "point") {
+      coordinates = [coordinates]
+    }
     const bounds = new LngLatBounds();
     coordinates.forEach((coord) => {
       if (Array.isArray(coord) && coord.length === 2) {

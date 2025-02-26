@@ -100,7 +100,6 @@ export default {
   },
   methods: {
     logScroll(event) {
-      console.log("Loggin")
       const panel = event.target;
       const isNowScrolled = panel.scrollTop > 0;
 
@@ -108,7 +107,6 @@ export default {
       if (this.isScrolled !== isNowScrolled) {
         this.isScrolled = isNowScrolled;
         this.$emit('scrollStateChanged', this.isScrolled); // Emit scroll state to parent
-        console.log("emittin")
       }
     },
   },

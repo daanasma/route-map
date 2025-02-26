@@ -9,11 +9,9 @@
 
 ### Low Prio
 - change map attribution to be closed on load (hacky probably)
-- drag down panel -> dont drag down text.
 
 ## Bugs
 ### High Prio
--Iphone :) 
 
 ### Low Prio
 - when moving a lot between screen sizes, the isTablet composable gets overwhelmed. shouldn't happen.
@@ -40,3 +38,5 @@
 - background map: blue -> none
 - maximized card -> if you close, it scrolls to next one. shouldn't happen.
   -> fixed by making an overlay that is not equal to the original card but rather a new one.
+- Iphone some ui fixes 
+- drag down panel -> dont drag down text.
