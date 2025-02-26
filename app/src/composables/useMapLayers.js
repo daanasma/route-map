@@ -141,7 +141,8 @@ export function useMapLayers(map) {
               // Checking if the click is near a point. If so, prioritize that.
               if (layer.includes('route-line')) {
                 const featuresAtPoint = map.value.queryRenderedFeatures(e.point, {
-                  layers: ['route-point']
+                  layers: ['route-point'],
+                  hitTolerance: 10
                 });
 
                 if (featuresAtPoint.length > 0) {
