@@ -1,4 +1,20 @@
 <template>
+    <div v-for="(message, index) in logMessages" :key="index">
+      <v-snackbar
+        v-model="message.visible"
+        :timeout="3000"
+        location="top"
+        :style="{ top: `${index * 60}px` }"
+        @update:modelValue="removeMessage(message.id)"
+      >
+        {{ message.text }}
+        <template v-slot:actions>
+          <v-btn color="blue" variant="text" @click="message.visible = false">
+            Close
+          </v-btn>
+        </template>
+      </v-snackbar>
+    </div>
   <div class="cards-wrapper">
     <!-- Navigation Buttons -->
     <button v-if="!isFirstCard" id="prevBtn" @click="scrollWithButton(-1)" class="navigation-btn">‹</button>
@@ -79,11 +95,17 @@ const cardTransition = ref('height 0.3s ease');
 const dragThreshold = 150;
 const showOverlay = ref(true);
 const overlayCollapsable = ref(true);
-
+const snackbar = ref(false);
+const logMessages = ref([]);
 const maxHeight = ref(50)
-
-const open = () => {
-}
+    let idCounter = 0;
+const logSnackbar = (message) => {
+      logMessages.value.push({ text: message, visible: true });
+      console.log(message);
+};
+    const removeMessage = (id) => {
+      logMessages.value = logMessages.value.filter((msg) => msg.id !== id);
+    };
 
 const close = () => {
 }
@@ -118,13 +140,18 @@ const isElementInCenter = (element, container) => {
 };
 
 const handleScroll = () => {
+  logSnackbar(`handle scroll`)
+
   if (!cardsContainer.value) return;
 
   const cards = Array.from(cardsContainer.value.children);
   const centeredCard = cards.find((card) => isElementInCenter(card, cardsContainer.value));
 
   if (centeredCard) {
+
     const cardId = centeredCard.getAttribute('data-key');
+    logSnackbar(`got centered card ${cardId}`)
+
     const cardIndex = cards.indexOf(centeredCard);
     isFirstCard.value = cardId === 'overview';
     isLastCard.value = cardId === 'breakdown';
@@ -312,5 +339,8 @@ onUnmounted(() => {
   background-color: var(--background-color-contrast);
   color: white;
 }
-
+/* Add margin between snackbars */
+.stacked-snackbar {
+  margin-top: 50px;
+}
 </style>
