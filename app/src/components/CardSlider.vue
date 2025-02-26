@@ -272,8 +272,8 @@ onUnmounted(() => {
 .cards-container {
   display: flex;
   overflow-x: scroll;
+  overflow-y: hidden;
   scroll-snap-type: x mandatory;
-  -webkit-scroll-snap-type: mandatory;
   -webkit-overflow-scrolling: touch;
 
   gap: 0.5rem;
