@@ -28,6 +28,8 @@ export function useMapLayers(map) {
                 'line-color': mapConfig.layerConfigs['route-line-ferry'].color,
                 'line-width': mapConfig.layerConfigs['route-line-ferry'].width,
                 'line-dasharray': mapConfig.layerConfigs['route-line-ferry'].dasharray,
+                'line-opacity': mapConfig.layerConfigs['route-line-ferry'].opacity
+
             },
         },
         {
@@ -38,6 +40,8 @@ export function useMapLayers(map) {
             paint: {
                 'line-color': mapConfig.layerConfigs['route-line-road'].color,
                 'line-width': mapConfig.layerConfigs['route-line-road'].width,
+                'line-opacity': mapConfig.layerConfigs['route-line-road'].opacity
+
             },
         },
         {

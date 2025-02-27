@@ -6,9 +6,17 @@ const lineWidth = [
         ['zoom'],
         8, 2,
         10, 4,
-        13, 4,
+        13, 8,
         16, 10,
         19, 12
+      ]
+const lineOpacity = [
+        'interpolate',
+        ['linear'],
+        ['zoom'],
+        8, 1,
+        10, 0.8,
+        16, 0.4,
       ]
 const sizeMapMarkers = 0.25;
 const mainColor = '#065809';
@@ -37,11 +45,13 @@ export default {
     'route-line-ferry': {
       color: '#1a9379',
       width: lineWidth ,
+        opacity: lineOpacity,
+
       dasharray: [1, 1],
     },
     'route-line-road': {
       color: mainColor,
-      opacity: 0.5,
+      opacity: lineOpacity,
       width: lineWidth,
     },
     'route-line-default': {
