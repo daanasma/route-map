@@ -24,7 +24,7 @@ const poiColor = "#2f2d2d";
 
 export default {
   // Default map style URL (could be a custom Mapbox or MapLibre style URL)
-  basemap: 'https://tiles.openfreemap.org/styles/bright',
+  basemap: 'https://tiles.openfreemap.org/styles/positron',
     mainColor: mainColor,
     poiColor: poiColor,
     sizeMapMarkers,
@@ -46,7 +46,6 @@ export default {
       color: '#1a9379',
       width: lineWidth ,
         opacity: lineOpacity,
-
       dasharray: [1, 1],
     },
     'route-line-road': {

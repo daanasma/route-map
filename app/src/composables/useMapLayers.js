@@ -52,7 +52,6 @@ export function useMapLayers(map) {
             paint: {
                 'line-color': mapConfig.layerConfigs['route-line-default'].color,
                 'line-width': mapConfig.layerConfigs['route-line-default'].width,
-                'line-dasharray': mapConfig.layerConfigs['route-line-default'].dasharray,
             },
         },
     ];
@@ -148,13 +147,14 @@ export function useMapLayers(map) {
 
                     console.log("start adding icon: ", label, "\t", iconUrl)
                     let image = await map.value.loadImage(iconUrl);
+                    console.log('--> image', image)
                     if (map.value.hasImage(label)) map.value.removeImage(label);
                     map.value.addImage(label, image.data);
 
                 });
               })
                 getExtraPoiStyles().forEach(layer => {
-                    console.log('xtraPOI', layer)
+                    //console.log('xtraPOI', layer)
                     map.value.addLayer(layer);
                 });
                 const layers = ['route-point', 'route-line-road', 'route-line-ferry', 'route-line'];

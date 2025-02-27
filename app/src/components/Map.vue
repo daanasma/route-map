@@ -165,8 +165,8 @@ export default {
         // Initialize the map
         map.value = new maplibre.Map({
           container: mapContainer.value,
-          style: mapStyleOutdoors,
-          //style: mapConfig.basemap,
+          //style: mapStyleOutdoors,
+          style: mapConfig.basemap,
           center: [-72.4200, -47.4800], // Coordinates for Valencia, Spain
           zoom: 7,
           scrollZoom: {
