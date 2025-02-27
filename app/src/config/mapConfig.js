@@ -4,18 +4,18 @@ const lineWidth = [
         'interpolate',
         ['linear'],
         ['zoom'],
-        8, 2,
+        8, 3,
         10, 4,
         13, 8,
-        16, 10,
-        19, 12
+        16, 12,
+        19, 16
       ]
 const lineOpacity = [
         'interpolate',
         ['linear'],
         ['zoom'],
-        8, 1,
-        10, 0.8,
+        8, 0.8,
+        10, 0.6,
         16, 0.4,
       ]
 const sizeMapMarkers = 0.25;
