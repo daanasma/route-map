@@ -24,7 +24,7 @@ const poiColor = "#2f2d2d";
 
 export default {
   // Default map style URL (could be a custom Mapbox or MapLibre style URL)
-  style: 'https://tiles.openfreemap.org/styles/positron',
+  basemap: 'https://tiles.openfreemap.org/styles/bright',
     mainColor: mainColor,
     poiColor: poiColor,
     sizeMapMarkers,

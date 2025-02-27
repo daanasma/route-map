@@ -15,6 +15,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import {useRouteInfoStore} from '../stores/routestatus.js';
 import {useUpdateQueryParam} from '../composables/useQueryParams';
 import { useMapLayers } from '../composables/useMapLayers';
+import mapConfig from "@/config/mapConfig.js";
 
 // Helper function to convert feature arrays to a GeoJSON FeatureCollection
 
@@ -164,8 +165,8 @@ export default {
         // Initialize the map
         map.value = new maplibre.Map({
           container: mapContainer.value,
-          //style: mapStyleOutdoors,
-          style: 'https://tiles.openfreemap.org/styles/positron',
+          style: mapStyleOutdoors,
+          //style: mapConfig.basemap,
           center: [-72.4200, -47.4800], // Coordinates for Valencia, Spain
           zoom: 7,
           scrollZoom: {
