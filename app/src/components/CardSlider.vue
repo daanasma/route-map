@@ -28,7 +28,7 @@
       @scroll="handleScroll"
     >
       <div data-key="overview" class="card overview-card">
-        <h1>Carretera Austral</h1>
+        <h1>{{ routeStatus.routeMetadata.title }}</h1>
       </div>
 
       <!-- Original Cards -->

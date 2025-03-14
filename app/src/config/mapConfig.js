@@ -1,6 +1,5 @@
 // src/config/mapconfig.js
 
-
 const lineWidth = [
         'interpolate',
         ['linear'],
