@@ -1,7 +1,9 @@
 
 import {useCorrectBasePath} from '@/composables/useCorrectBasePath.js';
+import mapConfig from '@/config/mapConfig.js'
 import {defineStore} from 'pinia';
 const {getFilePath} = useCorrectBasePath();
+
 
 function isNumericNumber(str) {
   return !Number.isNaN(parseFloat(str));
@@ -9,7 +11,8 @@ function isNumericNumber(str) {
 
 export const useRouteInfoStore = defineStore('counter', {
     state: () => ({
-            mapId: null, // the map
+        mapId: null, // the map
+        theme: 'default',
         count: 0,
         stopId: null,      // New state for stopId
         segmentId: null,   // New state for segmentId
@@ -61,6 +64,14 @@ export const useRouteInfoStore = defineStore('counter', {
     actions: {
         setMapId(id) {
           this.mapId = id;
+          if (id in mapConfig.configuredRoutes) {
+              this.setMapTheme(mapConfig.configuredRoutes[id].theme)
+          }
+        },
+        setMapTheme(theme) {
+            this.theme = theme
+            document.documentElement.setAttribute("data-theme", theme);
+
         },
         setSegment(segmentId) {
             this.segmentId = segmentId;

@@ -71,8 +71,8 @@ function bundleRouteDataAllRoutes() {
         apply: 'build',
         async writeBundle() {
             try {
-
-                mapConfig.configuredRoutes.forEach((routeId) => {
+                Object.entries(mapConfig.configuredRoutes).forEach(([key, value]) => {
+                    let routeId = key
                     console.log("bundling: ", routeId)
                     bundleRouteData(routeId)
                 })
@@ -89,7 +89,8 @@ function minifyJsonFiles() {
         apply: 'build',
         writeBundle() {
             return new Promise((resolve, reject) => {
-                mapConfig.configuredRoutes.forEach((routeId) => {
+                Object.entries(mapConfig.configuredRoutes).forEach(([key, value]) => {
+                    let routeId = key
                     console.log("minify route: ", routeId)
 
                     const dir = `./src/data/${routeId}/geojson`;

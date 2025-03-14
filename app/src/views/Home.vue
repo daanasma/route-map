@@ -108,7 +108,6 @@ onMounted(() => {
   .content-section {
     width: 30%;
     height: 100%;
-
   }
 }
 </style>

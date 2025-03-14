@@ -9,7 +9,6 @@ watch(
   () => route.params.map_id,
   (newMapId) => {
     if (newMapId) {
-
       routeStore.setMapId(newMapId);
       routeStore.loadRouteData(); // Load route data when `mapId` updates
     }
@@ -36,8 +35,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-
-
 
 
 </style>
