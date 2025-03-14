@@ -8,13 +8,12 @@ const routes = [
     redirect: '/map',  // Redirects to the map view
   },
   {
-    path: '/map',
+    path: '/map/:map_id',
     name: 'Home',
     component: Home,
     props: (route) => ({
-      stop: route.query.stop,
+      mapId: route.params.map_id,  // Pass map_id as a prop
       step: route.query.step,
-      segment: route.query.segment,
     }),
   },
   {

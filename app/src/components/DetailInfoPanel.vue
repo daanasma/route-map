@@ -22,7 +22,7 @@
                 v-for="(image, index) in routeStatus.activeFeature.images"
 
                 :key="index"
-                :src="'img/' + image"
+                :src=image
                 cover
             ></v-carousel-item>
           </v-carousel>

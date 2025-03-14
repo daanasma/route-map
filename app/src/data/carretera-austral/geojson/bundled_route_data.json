@@ -2,7 +2,7 @@
   "metadata": {
     "title": "Carretera Austral",
     "description": "A road through the pristine Chilean Patagonia.",
-    "banner": "/img/overview/voh_air_view.jpg",
+    "banner": "carretera-austral/img/overview/voh_air_view.jpg",
     "version": "1.0",
     "created": "2025-01-01",
     "last_edit": "2025-02-01"
@@ -107,8 +107,8 @@
         ]
       },
       "images": [
-        "point/1/voh_air_view.JPG",
-        "point/1/voh_pier.JPG"
+        "carretera-austral/img/point/1/voh_air_view.JPG",
+        "carretera-austral/img/point/1/voh_pier.JPG"
       ]
     },
     {
@@ -131,7 +131,7 @@
         ]
       },
       "images": [
-        "point/2/boat.jpg"
+        "carretera-austral/img/point/2/boat.jpg"
       ]
     },
     {
@@ -154,7 +154,7 @@
         ]
       },
       "images": [
-        "point/3/boat.jpg"
+        "carretera-austral/img/point/3/boat.jpg"
       ]
     },
     {
@@ -177,7 +177,7 @@
         ]
       },
       "images": [
-        "point/4/confluencia.jpg"
+        "carretera-austral/img/point/4/confluencia.jpg"
       ]
     },
     {
@@ -200,7 +200,7 @@
         ]
       },
       "images": [
-        "point/5/baker.jpg"
+        "carretera-austral/img/point/5/baker.jpg"
       ]
     },
     {
@@ -223,7 +223,7 @@
         ]
       },
       "images": [
-        "point/6/lago_carrera.jpg"
+        "carretera-austral/img/point/6/lago_carrera.jpg"
       ]
     },
     {
@@ -15848,7 +15848,10 @@
           ]
         ]
       },
-      "images": []
+      "images": [
+        "carretera-austral/img/line/1/voh_air_view.JPG",
+        "carretera-austral/img/line/1/voh_pier.JPG"
+      ]
     },
     {
       "id": 200002,
@@ -16143,7 +16146,9 @@
           ]
         ]
       },
-      "images": []
+      "images": [
+        "carretera-austral/img/line/2/boat.jpg"
+      ]
     },
     {
       "id": 200003,
@@ -30554,7 +30559,9 @@
           ]
         ]
       },
-      "images": []
+      "images": [
+        "carretera-austral/img/line/3/boat.jpg"
+      ]
     },
     {
       "id": 200004,
@@ -37425,7 +37432,9 @@
           ]
         ]
       },
-      "images": []
+      "images": [
+        "carretera-austral/img/line/4/confluencia.jpg"
+      ]
     },
     {
       "id": 200005,
@@ -44552,7 +44561,9 @@
           ]
         ]
       },
-      "images": []
+      "images": [
+        "carretera-austral/img/line/5/baker.jpg"
+      ]
     },
     {
       "id": 200006,
@@ -58547,7 +58558,9 @@
           ]
         ]
       },
-      "images": []
+      "images": [
+        "carretera-austral/img/line/6/lago_carrera.jpg"
+      ]
     }
   ]
 }

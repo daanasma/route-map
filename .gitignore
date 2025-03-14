@@ -9,7 +9,7 @@
 /build/
 
 # Data
-app/src/data/geojson/bundled_route_data.json
+app/src/data/carretera-austral/geojson/bundled_route_data.json
 
 # Vite cache
 /.vite/

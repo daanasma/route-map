@@ -12,17 +12,6 @@ const router = useRouter();
 const routeStatus = useRouteInfoStore();
 const { clearQueryParams, updateQueryParam } = useUpdateQueryParam();
 
-watch(
-    () => route.query.stop,
-    (newStopId) => {
-      if (newStopId) {
-        console.log(`Home: new stop! ${newStopId}`)
-        // Find the stop based on the stopId
-        routeStatus.setStop(newStopId)
-      }
-    },
-    {immediate: true} // Call immediately on initial load
-);
 
 watch(
     () => (routeStatus.activeTopic), // Watch the stopId in the Pinia store

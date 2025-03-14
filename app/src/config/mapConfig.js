@@ -1,5 +1,6 @@
 // src/config/mapconfig.js
 
+
 const lineWidth = [
         'interpolate',
         ['linear'],
@@ -23,6 +24,10 @@ const mainColor = '#065809';
 const poiColor = "#2f2d2d";
 
 export default {
+    configuredRoutes: [
+    'carretera-austral'
+    ],
+
   // Default map style URL (could be a custom Mapbox or MapLibre style URL)
   basemap: 'https://tiles.openfreemap.org/styles/positron',
     mainColor: mainColor,

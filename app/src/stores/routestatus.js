@@ -9,6 +9,7 @@ function isNumericNumber(str) {
 
 export const useRouteInfoStore = defineStore('counter', {
     state: () => ({
+            mapId: null, // the map
         count: 0,
         stopId: null,      // New state for stopId
         segmentId: null,   // New state for segmentId
@@ -58,6 +59,9 @@ export const useRouteInfoStore = defineStore('counter', {
             }
     },
     actions: {
+        setMapId(id) {
+          this.mapId = id;
+        },
         setSegment(segmentId) {
             this.segmentId = segmentId;
         },
@@ -80,7 +84,7 @@ export const useRouteInfoStore = defineStore('counter', {
             this.loading = true;
             this.error = null;
             try {
-                const response = await fetch(getFilePath('geojson/bundled_route_data.json.min'));
+                const response = await fetch(getFilePath(`map/${this.mapId}/geojson/bundled_route_data.json.min`));
                 if (!response.ok) {
                     throw new Error(`Failed to fetch route data: ${response.status}`);
                 }

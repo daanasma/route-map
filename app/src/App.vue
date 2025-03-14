@@ -1,13 +1,29 @@
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted , watch} from 'vue';
+import { useRoute } from 'vue-router';
 import { useRouteInfoStore } from './stores/routestatus.js';
-
+const route = useRoute();
 const routeStore = useRouteInfoStore();
 
-onMounted(() => {
-  routeStore.loadRouteData(); // Fetch the route data on app load
-});
+watch(
+  () => route.params.map_id,
+  (newMapId) => {
+    if (newMapId) {
 
+      routeStore.setMapId(newMapId);
+      routeStore.loadRouteData(); // Load route data when `mapId` updates
+    }
+  },
+  { immediate: true } // Runs on component mount
+);
+
+
+// Load data on app startup if `mapId` exists
+onMounted(() => {
+  if (routeStore.mapId) {
+    routeStore.loadRouteData();
+  }
+});
 
 </script>
 
