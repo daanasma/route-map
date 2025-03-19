@@ -21,7 +21,6 @@ const lineOpacity = [
 const sizeMapMarkers = 0.25;
 const mainColor = '#065809';
 const poiColor = "#2f2d2d";
-console.log('kill')
 export default {
     configuredRoutes: {
         'carretera-austral': {
