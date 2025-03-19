@@ -6,10 +6,14 @@ import DemoList from '../views/DemoList.vue';
 const routes = [
   {
     path: '/',  // Root path also redirects to /map
-    redirect: '/map',  // Redirects to the map view
+    redirect: '/demo',  // Redirects to the map view
   },
-      {
-    path: '/map',
+  {
+    path: '/map',  // Root path also redirects to /map
+    redirect: '/demo',  // Redirects to the map view
+  },
+  {
+    path: '/demo',
     name: 'DemoList',
     component: DemoList,
   },
