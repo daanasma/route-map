@@ -42,8 +42,8 @@ export default {
             mainColor: '#065809',
             poiColor: "#2f2d2d",
             basemap: 'https://tiles.openfreemap.org/styles/positron',
-            center: [3.44495,50.29317],
-            zoom: 7,
+            center: [3.44495,50.051],
+            zoom: 8,
             maxZoomFocus: 18
 
         }
