@@ -87,13 +87,14 @@ export default {
     function fitMapToBounds(bounds, options) {
       console.log("fitting map to bounds", bounds)
       map.value.fitBounds(bounds, options);
-
     }
     function fitMapToFeature(feature) {
       console.log("Fitting map to feature", feature)
         const bounds = getFeatureBoundingBox(feature);
       console.log("GOT BOUNDS", bounds)
-      fitMapToBounds(bounds, {padding: 20, maxZoom: 12})
+      fitMapToBounds(bounds, {
+        padding: 20,
+        maxZoom: mapConfig.configuredRoutes[routeStatus.mapId].maxZoomFocus})
     }
 
     function zoomToFullRoute() {
@@ -107,7 +108,7 @@ export default {
         // todo this might be a problem if there are points outside.
         fitMapToBounds(bounds, {
           padding: 20, // Add padding around the route
-          maxZoom: 12  // Optional: Set a max zoom level
+          // maxZoom: 12  // Optional: Set a max zoom level
         })
         // Fit the map to the calculated bounds
         console.log("Zoomed to full route!")

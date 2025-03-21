@@ -32,6 +32,7 @@ export default {
             basemap: 'https://tiles.openfreemap.org/styles/positron',
             center: [-72.4200, -47.4800],
             zoom: 7,
+            maxZoomFocus: 18
 
         },
         'paris-roubaix': {
@@ -42,7 +43,8 @@ export default {
             poiColor: "#2f2d2d",
             basemap: 'https://tiles.openfreemap.org/styles/positron',
             center: [3.44495,50.29317],
-            zoom: 7
+            zoom: 7,
+            maxZoomFocus: 13
 
         }
     },
@@ -87,5 +89,4 @@ export default {
 
   // Other configuration values, such as bounds, padding, etc.
   fitBoundsPadding: 20,
-  maxZoom: 12,
 };
