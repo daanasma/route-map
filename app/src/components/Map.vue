@@ -166,9 +166,9 @@ export default {
         map.value = new maplibre.Map({
           container: mapContainer.value,
           //style: mapStyleOutdoors,
-          style: mapConfig.basemap,
-          center: [-72.4200, -47.4800], // Coordinates for Valencia, Spain
-          zoom: 7,
+          style: mapConfig.configuredRoutes[routeStatus.mapId].basemap,
+          center: mapConfig.configuredRoutes[routeStatus.mapId].center, // Coordinates for Valencia, Spain
+          zoom: mapConfig.configuredRoutes[routeStatus.mapId].zoom,
           scrollZoom: {
             speed: 2, // Default is 1. Increase for faster zoom, decrease for slower zoom
             smooth: true, // Enables smooth zooming

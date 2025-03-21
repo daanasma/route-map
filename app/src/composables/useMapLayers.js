@@ -103,6 +103,43 @@ export function useMapLayers(map) {
             },
         },
     ];
+    const getExtraLineStyles = () => [
+        {
+            id: 'route-line-ferryx',
+            type: 'line',
+            source: 'extralines',
+            filter: ['==', ['get', 'transport_type'], 'ferry'],
+            paint: {
+                'line-color': mapConfig.layerConfigs['route-line-ferry'].color,
+                'line-width': mapConfig.layerConfigs['route-line-ferry'].width,
+                'line-dasharray': mapConfig.layerConfigs['route-line-ferry'].dasharray,
+                'line-opacity': mapConfig.layerConfigs['route-line-ferry'].opacity
+
+            },
+        },
+        {
+            id: 'route-line-roadx',
+            type: 'line',
+            source: 'extralines',
+            filter: ['==', ['get', 'transport_type'], 'road'],
+            paint: {
+                'line-color': mapConfig.layerConfigs['route-line-road'].color,
+                'line-width': mapConfig.layerConfigs['route-line-road'].width,
+                'line-opacity': mapConfig.layerConfigs['route-line-road'].opacity
+
+            },
+        },
+        {
+            id: 'route-line-defaultx',
+            type: 'line',
+            source: 'extralines',
+            filter: ['!', ['match', ['get', 'transport_type'], ['ferry', 'road'], true, false]],
+            paint: {
+                'line-color': mapConfig.layerConfigs['route-line-default'].color,
+                'line-width': mapConfig.layerConfigs['route-line-default'].width,
+            },
+        }
+    ];
 
     // Function to add the layers to the map, now accepting data as parameters
     const renderLayers = () => {
@@ -115,6 +152,8 @@ export function useMapLayers(map) {
 
         const extraPoints = routeStatus.getFilteredAndSortedFeatures(feature => feature.topic === 'extra'
             && feature.type === 'point')
+        const extraLines = routeStatus.getFilteredAndSortedFeatures(feature => feature.topic === 'extra'
+            && feature.type === 'line')
 
         if (!startedLayerLoad.value) {
             startedLayerLoad.value = true;
@@ -136,6 +175,7 @@ export function useMapLayers(map) {
                 })
 
                 map.value.addSource('extrapoints', {type: 'geojson', data: ArrayToGeoJSON(extraPoints)});
+                map.value.addSource('extralines', {type: 'geojson', data: ArrayToGeoJSON(extraLines)});
 
                 // For each feature, log its properties
               [mapConfig.poiColor, mapConfig.mainColor].forEach((color) => {
@@ -155,6 +195,10 @@ export function useMapLayers(map) {
               })
                 getExtraPoiStyles().forEach(layer => {
                     //console.log('xtraPOI', layer)
+                    map.value.addLayer(layer);
+                });
+                getExtraLineStyles().forEach(layer => {
+                    console.log('xtraline', layer)
                     map.value.addLayer(layer);
                 });
                 const layers = ['route-point', 'route-line-road', 'route-line-ferry', 'route-line'];

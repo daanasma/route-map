@@ -29,7 +29,10 @@ export default {
             isRoute: true,
             mainColor: '#065809',
             poiColor: "#2f2d2d",
-            basemap: 'https://tiles.openfreemap.org/styles/positron'
+            basemap: 'https://tiles.openfreemap.org/styles/positron',
+            center: [-72.4200, -47.4800],
+            zoom: 7,
+
         },
         'paris-roubaix': {
             id: 'paris-roubaix',
@@ -37,7 +40,10 @@ export default {
             isRoute: true,
             mainColor: '#065809',
             poiColor: "#2f2d2d",
-            basemap: 'https://tiles.openfreemap.org/styles/positron'
+            basemap: 'https://tiles.openfreemap.org/styles/positron',
+            center: [3.44495,50.29317],
+            zoom: 7
+
         }
     },
 
@@ -53,10 +59,8 @@ export default {
     default: 'star'
   },
   // Default map center [longitude, latitude]
-  defaultCenter: [-72.4200, -47.4800],
 
   // Default map zoom level
-  defaultZoom: 7,
 
   // Layer configurations (you can expand this with more options in the future)
   layerConfigs: {
