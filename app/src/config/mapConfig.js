@@ -45,7 +45,6 @@ export default {
             center: [3.44495,50.051],
             zoom: 8,
             maxZoomFocus: 18
-
         }
     },
 
@@ -58,7 +57,10 @@ export default {
     national_park: 'park-alt1',
     town: 'building',
       port: 'ferry',
-    default: 'star'
+      finish: 'racetrack',
+      start: 'racetrack-cycling',
+
+    default: 'star',
   },
   // Default map center [longitude, latitude]
 

@@ -2,7 +2,7 @@
   "metadata": {
     "title": "Paris Roubaix",
     "description": "An epic bike race over cobble stones.",
-    "banner": "carretera-austral/img/overview/voh_air_view.jpg",
+    "banner": "paris-roubaix/img/overview/arenberg.jpg",
     "version": "1.0",
     "created": "2025-01-01",
     "last_edit": "2025-02-01"
@@ -11,161 +11,219 @@
     {
       "route_step": 1,
       "id": 1,
-      "type": "line"
+      "type": "point"
     },
     {
       "route_step": 2,
-      "id": 2,
+      "id": 1,
       "type": "line"
     },
     {
       "route_step": 3,
-      "id": 4,
+      "id": 2,
       "type": "line"
     },
     {
       "route_step": 4,
-      "id": 6,
+      "id": 4,
       "type": "line"
     },
     {
       "route_step": 5,
-      "id": 8,
+      "id": 6,
       "type": "line"
     },
     {
       "route_step": 6,
-      "id": 10,
+      "id": 8,
       "type": "line"
     },
     {
       "route_step": 7,
-      "id": 12,
+      "id": 10,
       "type": "line"
     },
     {
       "route_step": 8,
-      "id": 14,
+      "id": 12,
       "type": "line"
     },
     {
       "route_step": 9,
-      "id": 16,
+      "id": 14,
       "type": "line"
     },
     {
       "route_step": 10,
-      "id": 18,
+      "id": 16,
       "type": "line"
     },
     {
       "route_step": 11,
-      "id": 20,
+      "id": 18,
       "type": "line"
     },
     {
       "route_step": 12,
-      "id": 22,
+      "id": 20,
       "type": "line"
     },
     {
       "route_step": 13,
-      "id": 24,
+      "id": 22,
       "type": "line"
     },
     {
       "route_step": 14,
-      "id": 26,
+      "id": 24,
       "type": "line"
     },
     {
       "route_step": 15,
-      "id": 28,
+      "id": 26,
       "type": "line"
     },
     {
       "route_step": 16,
-      "id": 30,
+      "id": 28,
       "type": "line"
     },
     {
       "route_step": 17,
-      "id": 32,
+      "id": 30,
       "type": "line"
     },
     {
       "route_step": 18,
-      "id": 34,
+      "id": 32,
       "type": "line"
     },
     {
       "route_step": 19,
-      "id": 36,
+      "id": 34,
       "type": "line"
     },
     {
       "route_step": 20,
-      "id": 38,
+      "id": 36,
       "type": "line"
     },
     {
       "route_step": 21,
-      "id": 40,
+      "id": 38,
       "type": "line"
     },
     {
       "route_step": 22,
-      "id": 42,
+      "id": 40,
       "type": "line"
     },
     {
       "route_step": 23,
-      "id": 44,
+      "id": 42,
       "type": "line"
     },
     {
       "route_step": 24,
-      "id": 46,
+      "id": 44,
       "type": "line"
     },
     {
       "route_step": 25,
-      "id": 48,
+      "id": 46,
       "type": "line"
     },
     {
       "route_step": 26,
-      "id": 50,
+      "id": 48,
       "type": "line"
     },
     {
       "route_step": 27,
-      "id": 52,
+      "id": 50,
       "type": "line"
     },
     {
       "route_step": 28,
-      "id": 54,
+      "id": 52,
       "type": "line"
     },
     {
       "route_step": 29,
-      "id": 56,
+      "id": 54,
       "type": "line"
     },
     {
       "route_step": 30,
-      "id": 58,
+      "id": 56,
       "type": "line"
     },
     {
       "route_step": 31,
+      "id": 58,
+      "type": "line"
+    },
+    {
+      "route_step": 32,
       "id": 60,
       "type": "line"
+    },
+    {
+      "route_step": 33,
+      "id": 2,
+      "type": "point"
     }
   ],
   "settings": {},
   "features": [
+    {
+      "id": 100001,
+      "type": "point",
+      "topic": "route",
+      "properties": {
+        "id": 1,
+        "description": "Starting the race",
+        "title": "Start",
+        "to_publish": true,
+        "poi_type": "start",
+        "route_sequence_id": 1
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2.88539,
+          49.44066
+        ]
+      },
+      "images": [
+        "paris-roubaix/img/point/1/voh_air_view.JPG",
+        "paris-roubaix/img/point/1/voh_pier.JPG"
+      ]
+    },
+    {
+      "id": 100002,
+      "type": "point",
+      "topic": "route",
+      "properties": {
+        "id": 2,
+        "description": "Paris Roubaix Finish - Velodrome",
+        "title": "Finish - Vélodrome",
+        "to_publish": true,
+        "poi_type": "finish",
+        "route_sequence_id": 33
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.20535262551927,
+          50.67803689142003
+        ]
+      },
+      "images": [
+        "paris-roubaix/img/point/2/google_earth_velodrome.JPG",
+        "paris-roubaix/img/point/2/Roubaix,_Vélodrome.jpg"
+      ]
+    },
     {
       "id": 100008,
       "type": "point",
@@ -183,166 +241,6 @@
         "coordinates": [
           -72.48585334350433,
           -47.11710248333391
-        ]
-      },
-      "images": []
-    },
-    {
-      "id": 100001,
-      "type": "point",
-      "topic": "extra",
-      "properties": {
-        "id": 1,
-        "description": "The southernmost town of the Carretera Austral, surrounded by pristine wilderness.",
-        "title": "Villa O'Higgins",
-        "to_publish": true,
-        "poi_type": "town",
-        "route_sequence_id": null
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -72.56120549256505,
-          -48.469739916356886
-        ]
-      },
-      "images": [
-        "paris-roubaix/img/point/1/voh_air_view.JPG",
-        "paris-roubaix/img/point/1/voh_pier.JPG"
-      ]
-    },
-    {
-      "id": 100002,
-      "type": "point",
-      "topic": "extra",
-      "properties": {
-        "id": 2,
-        "description": "Taking the boat",
-        "title": "Puerto Rio Bravo",
-        "to_publish": true,
-        "poi_type": "port",
-        "route_sequence_id": null
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -73.22357877773605,
-          -47.96784394473172
-        ]
-      },
-      "images": [
-        "paris-roubaix/img/point/2/boat.jpg"
-      ]
-    },
-    {
-      "id": 100003,
-      "type": "point",
-      "topic": "extra",
-      "properties": {
-        "id": 3,
-        "description": "A ferry crossing on the Carretera Austral, connecting remote areas.",
-        "title": "Puerto Yungay",
-        "to_publish": true,
-        "poi_type": "port",
-        "route_sequence_id": null
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -73.3263698408458,
-          -47.93475752744542
-        ]
-      },
-      "images": [
-        "paris-roubaix/img/point/3/boat.jpg"
-      ]
-    },
-    {
-      "id": 100004,
-      "type": "point",
-      "topic": "extra",
-      "properties": {
-        "id": 4,
-        "description": "A charming small town offering access to Patagonia National Park.",
-        "title": "Cochrane",
-        "to_publish": true,
-        "poi_type": "town",
-        "route_sequence_id": null
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -72.5743090241636,
-          -47.25402906090258
-        ]
-      },
-      "images": [
-        "paris-roubaix/img/point/4/confluencia.jpg"
-      ]
-    },
-    {
-      "id": 100005,
-      "type": "point",
-      "topic": "extra",
-      "properties": {
-        "id": 5,
-        "description": "The gateway to Lago General Carrera, famous for its turquoise waters.",
-        "title": "Puerto Bertrand",
-        "to_publish": true,
-        "poi_type": "town",
-        "route_sequence_id": null
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -72.82831279449356,
-          -47.015094351910925
-        ]
-      },
-      "images": [
-        "paris-roubaix/img/point/5/baker.jpg"
-      ]
-    },
-    {
-      "id": 100006,
-      "type": "point",
-      "topic": "extra",
-      "properties": {
-        "id": 6,
-        "description": "Known for the Marble Caves and a must-visit stop on the Carretera Austral.",
-        "title": "Puerto Rio Tranquilo",
-        "to_publish": true,
-        "poi_type": "town",
-        "route_sequence_id": null
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -72.67557475429841,
-          -46.62424057344899
-        ]
-      },
-      "images": [
-        "paris-roubaix/img/point/6/lago_carrera.jpg"
-      ]
-    },
-    {
-      "id": 100007,
-      "type": "point",
-      "topic": "extra",
-      "properties": {
-        "id": 7,
-        "description": "Stairway to Pacific Ocean",
-        "title": "Caleta Tortel",
-        "to_publish": true,
-        "poi_type": "town",
-        "route_sequence_id": null
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -73.53178639465561,
-          -47.795614838726664
         ]
       },
       "images": []
@@ -612,7 +510,7 @@
           ]
         ],
         "route_length_meters": 98152.19,
-        "route_sequence_id": 1
+        "route_sequence_id": 2
       },
       "geometry": {
         "type": "LineString",
@@ -17449,7 +17347,7 @@
           ]
         ],
         "route_length_meters": 2373.62,
-        "route_sequence_id": 2
+        "route_sequence_id": 3
       },
       "geometry": {
         "type": "LineString",
@@ -19133,7 +19031,7 @@
           ]
         ],
         "route_length_meters": 1822.45,
-        "route_sequence_id": 3
+        "route_sequence_id": 4
       },
       "geometry": {
         "type": "LineString",
@@ -20257,7 +20155,7 @@
           ]
         ],
         "route_length_meters": 3766.97,
-        "route_sequence_id": 4
+        "route_sequence_id": 5
       },
       "geometry": {
         "type": "LineString",
@@ -20747,7 +20645,7 @@
       "properties": {
         "id": 7,
         "transport_type": "road",
-        "title": null,
+        "title": "Tussenstuk",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -21507,7 +21405,7 @@
           ]
         ],
         "route_length_meters": 1496.88,
-        "route_sequence_id": 5
+        "route_sequence_id": 6
       },
       "geometry": {
         "type": "LineString",
@@ -21831,7 +21729,7 @@
       "properties": {
         "id": 9,
         "transport_type": "road",
-        "title": null,
+        "title": "Tussenstuk",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -23791,7 +23689,7 @@
           ]
         ],
         "route_length_meters": 2375.94,
-        "route_sequence_id": 6
+        "route_sequence_id": 7
       },
       "geometry": {
         "type": "LineString",
@@ -24143,7 +24041,7 @@
       "properties": {
         "id": 11,
         "transport_type": "road",
-        "title": null,
+        "title": "Tussenstuk",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -26103,7 +26001,7 @@
           ]
         ],
         "route_length_meters": 2022.65,
-        "route_sequence_id": 7
+        "route_sequence_id": 8
       },
       "geometry": {
         "type": "LineString",
@@ -26491,7 +26389,7 @@
       "properties": {
         "id": 13,
         "transport_type": "road",
-        "title": null,
+        "title": "Tussenstuk",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -27351,7 +27249,7 @@
           ]
         ],
         "route_length_meters": 1286.85,
-        "route_sequence_id": 8
+        "route_sequence_id": 9
       },
       "geometry": {
         "type": "LineString",
@@ -27755,7 +27653,7 @@
       "properties": {
         "id": 15,
         "transport_type": "road",
-        "title": null,
+        "title": "Tussenstuk",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -28771,7 +28669,7 @@
           ]
         ],
         "route_length_meters": 1170.76,
-        "route_sequence_id": 9
+        "route_sequence_id": 10
       },
       "geometry": {
         "type": "LineString",
@@ -29027,7 +28925,7 @@
       "properties": {
         "id": 17,
         "transport_type": "road",
-        "title": null,
+        "title": "Tussenstuk",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -30395,7 +30293,7 @@
           ]
         ],
         "route_length_meters": 2526.7,
-        "route_sequence_id": 10
+        "route_sequence_id": 11
       },
       "geometry": {
         "type": "LineString",
@@ -31263,7 +31161,7 @@
       "properties": {
         "id": 19,
         "transport_type": "road",
-        "title": null,
+        "title": "Tussenstuk",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -32003,7 +31901,7 @@
           ]
         ],
         "route_length_meters": 1597.24,
-        "route_sequence_id": 11
+        "route_sequence_id": 12
       },
       "geometry": {
         "type": "LineString",
@@ -32447,7 +32345,7 @@
       "properties": {
         "id": 21,
         "transport_type": "road",
-        "title": null,
+        "title": "Tussenstuk",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -35963,7 +35861,7 @@
           ]
         ],
         "route_length_meters": 2483.28,
-        "route_sequence_id": 12
+        "route_sequence_id": 13
       },
       "geometry": {
         "type": "LineString",
@@ -36379,7 +36277,7 @@
       "properties": {
         "id": 23,
         "transport_type": "road",
-        "title": null,
+        "title": "Tussenstuk",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -38301,8 +38199,8 @@
       "properties": {
         "id": 24,
         "transport_type": null,
-        "title": "SP19",
-        "description": null,
+        "title": "SP19 - TrouÃ©e d'Arenberg",
+        "description": "The TrouÃ©e d'Arenberg or TranchÃ©e de Wallers-Arenberg (English: Trench of Arenberg) is a 2.3 km long cobbled road in the municipality of Wallers in Northern France, in the DÃ©partement Nord. The road's official name is La DrÃ¨ve des Boules d'HÃ©rin (\"Bullet Alley of HÃ©rin\") and crosses the ForÃªt de Raismes-Saint-Amand-Wallers, outside France better known as the Forest of Arenberg. It is best known from the annual cycling classic Parisâ€“Roubaix held in April, where it is one of the most difficult passages of the race.\n\n",
         "to_publish": true,
         "elevations": [
           37,
@@ -38559,7 +38457,7 @@
           ]
         ],
         "route_length_meters": 2304.97,
-        "route_sequence_id": 13
+        "route_sequence_id": 14
       },
       "geometry": {
         "type": "LineString",
@@ -38799,7 +38697,7 @@
       "properties": {
         "id": 25,
         "transport_type": "road",
-        "title": null,
+        "title": "Tussenstuk",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -39707,7 +39605,7 @@
           ]
         ],
         "route_length_meters": 1622.08,
-        "route_sequence_id": 14
+        "route_sequence_id": 15
       },
       "geometry": {
         "type": "LineString",
@@ -39967,7 +39865,7 @@
       "properties": {
         "id": 27,
         "transport_type": "road",
-        "title": null,
+        "title": "Tussenstuk",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -41331,7 +41229,7 @@
           ]
         ],
         "route_length_meters": 3740.08,
-        "route_sequence_id": 15
+        "route_sequence_id": 16
       },
       "geometry": {
         "type": "LineString",
@@ -41959,7 +41857,7 @@
       "properties": {
         "id": 29,
         "transport_type": "road",
-        "title": null,
+        "title": "Tussenstuk",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -43599,7 +43497,7 @@
           ]
         ],
         "route_length_meters": 2457,
-        "route_sequence_id": 16
+        "route_sequence_id": 17
       },
       "geometry": {
         "type": "LineString",
@@ -44279,7 +44177,7 @@
       "properties": {
         "id": 31,
         "transport_type": "road",
-        "title": null,
+        "title": "Tussenstuk",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -45035,7 +44933,7 @@
           ]
         ],
         "route_length_meters": 2373.63,
-        "route_sequence_id": 17
+        "route_sequence_id": 18
       },
       "geometry": {
         "type": "LineString",
@@ -45395,7 +45293,7 @@
       "properties": {
         "id": 33,
         "transport_type": "road",
-        "title": null,
+        "title": "Tussenstuk",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -46703,7 +46601,7 @@
           ]
         ],
         "route_length_meters": 1371.37,
-        "route_sequence_id": 18
+        "route_sequence_id": 19
       },
       "geometry": {
         "type": "LineString",
@@ -47071,7 +46969,7 @@
       "properties": {
         "id": 35,
         "transport_type": "road",
-        "title": null,
+        "title": "Tussenstuk",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -48891,7 +48789,7 @@
           ]
         ],
         "route_length_meters": 1752.48,
-        "route_sequence_id": 19
+        "route_sequence_id": 20
       },
       "geometry": {
         "type": "LineString",
@@ -49171,7 +49069,7 @@
       "properties": {
         "id": 37,
         "transport_type": "road",
-        "title": null,
+        "title": "Tussenstuk",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -50695,7 +50593,7 @@
           ]
         ],
         "route_length_meters": 2694.57,
-        "route_sequence_id": 20
+        "route_sequence_id": 21
       },
       "geometry": {
         "type": "LineString",
@@ -50979,7 +50877,7 @@
       "properties": {
         "id": 39,
         "transport_type": "road",
-        "title": null,
+        "title": "Tussenstuk",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -51931,7 +51829,7 @@
           ]
         ],
         "route_length_meters": 3023.04,
-        "route_sequence_id": 21
+        "route_sequence_id": 22
       },
       "geometry": {
         "type": "LineString",
@@ -52367,7 +52265,7 @@
       "properties": {
         "id": 41,
         "transport_type": "road",
-        "title": null,
+        "title": "Tussenstuk",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -53355,7 +53253,7 @@
           ]
         ],
         "route_length_meters": 650.82,
-        "route_sequence_id": 22
+        "route_sequence_id": 23
       },
       "geometry": {
         "type": "LineString",
@@ -53503,7 +53401,7 @@
       "properties": {
         "id": 43,
         "transport_type": "road",
-        "title": null,
+        "title": "Tussenstuk",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -54715,7 +54613,7 @@
           ]
         ],
         "route_length_meters": 1373.57,
-        "route_sequence_id": 23
+        "route_sequence_id": 24
       },
       "geometry": {
         "type": "LineString",
@@ -54939,7 +54837,7 @@
       "properties": {
         "id": 45,
         "transport_type": "road",
-        "title": null,
+        "title": "Tussenstuk",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -56647,7 +56545,7 @@
           ]
         ],
         "route_length_meters": 569.16,
-        "route_sequence_id": 24
+        "route_sequence_id": 25
       },
       "geometry": {
         "type": "LineString",
@@ -56719,7 +56617,7 @@
       "properties": {
         "id": 47,
         "transport_type": "road",
-        "title": null,
+        "title": "Tussenstuk",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -58343,7 +58241,7 @@
           ]
         ],
         "route_length_meters": 1279.18,
-        "route_sequence_id": 25
+        "route_sequence_id": 26
       },
       "geometry": {
         "type": "LineString",
@@ -58583,7 +58481,7 @@
       "properties": {
         "id": 49,
         "transport_type": "road",
-        "title": null,
+        "title": "Tussenstuk",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -59463,7 +59361,7 @@
           ]
         ],
         "route_length_meters": 1105.17,
-        "route_sequence_id": 26
+        "route_sequence_id": 27
       },
       "geometry": {
         "type": "LineString",
@@ -59679,7 +59577,7 @@
       "properties": {
         "id": 51,
         "transport_type": "road",
-        "title": null,
+        "title": "Tussenstuk",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -61123,7 +61021,7 @@
           ]
         ],
         "route_length_meters": 1827.3,
-        "route_sequence_id": 27
+        "route_sequence_id": 28
       },
       "geometry": {
         "type": "LineString",
@@ -61431,7 +61329,7 @@
       "properties": {
         "id": 53,
         "transport_type": "road",
-        "title": null,
+        "title": "Tussenstuk",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -62049,8 +61947,8 @@
       "properties": {
         "id": 54,
         "transport_type": null,
-        "title": "S4",
-        "description": null,
+        "title": "S4 - Carrefour de l'Arbre",
+        "description": "Carrefour de l'Arbre, officially PavÃ© de Luchin, is a 2.1 km cobbled road in the municipalities of Camphin-en-PÃ©vÃ¨le, Baisieux-Sin and Gruson, in the Nord department of Northern France. The location was the setting of the Battle of Bouvines, which ended the Anglo-French War in 1214. Today, the road is best known from the cycling classic Parisâ€“Roubaix, where it has often proved decisive due to its proximity to Roubaix and cumulative difficulty.",
         "to_publish": true,
         "elevations": [
           47,
@@ -62307,7 +62205,7 @@
           ]
         ],
         "route_length_meters": 2063.42,
-        "route_sequence_id": 28
+        "route_sequence_id": 29
       },
       "geometry": {
         "type": "LineString",
@@ -62786,7 +62684,9 @@
           ]
         ]
       },
-      "images": []
+      "images": [
+        "paris-roubaix/img/line/54/carrefour_streetview.JPG"
+      ]
     },
     {
       "id": 200055,
@@ -62795,7 +62695,7 @@
       "properties": {
         "id": 55,
         "transport_type": "road",
-        "title": null,
+        "title": "Tussenstuk",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -63407,7 +63307,7 @@
           ]
         ],
         "route_length_meters": 1090.31,
-        "route_sequence_id": 29
+        "route_sequence_id": 30
       },
       "geometry": {
         "type": "LineString",
@@ -63575,7 +63475,7 @@
       "properties": {
         "id": 57,
         "transport_type": "road",
-        "title": null,
+        "title": "Tussenstuk",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -65113,7 +65013,7 @@
       "properties": {
         "id": 58,
         "transport_type": null,
-        "title": "S2",
+        "title": "S2 - Willems to Hem",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -65371,7 +65271,7 @@
           ]
         ],
         "route_length_meters": 1427.9,
-        "route_sequence_id": 30
+        "route_sequence_id": 31
       },
       "geometry": {
         "type": "LineString",
@@ -65883,7 +65783,7 @@
       "properties": {
         "id": 59,
         "transport_type": "road",
-        "title": null,
+        "title": "Tussenstuk",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -67927,7 +67827,7 @@
           ]
         ],
         "route_length_meters": 283.28,
-        "route_sequence_id": 31
+        "route_sequence_id": 32
       },
       "geometry": {
         "type": "LineString",
@@ -67967,7 +67867,7 @@
       "properties": {
         "id": 61,
         "transport_type": "road",
-        "title": null,
+        "title": "Tussenstuk",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -68361,7 +68261,7 @@
       "properties": {
         "id": 62,
         "transport_type": "road",
-        "title": null,
+        "title": "Piste",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -68647,7 +68547,7 @@
       "properties": {
         "id": 63,
         "transport_type": "road",
-        "title": null,
+        "title": "Piste",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -68929,7 +68829,7 @@
       "properties": {
         "id": 64,
         "transport_type": "road",
-        "title": null,
+        "title": "Piste",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -69211,7 +69111,7 @@
       "properties": {
         "id": 65,
         "transport_type": "road",
-        "title": null,
+        "title": "Piste",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -69493,7 +69393,7 @@
       "properties": {
         "id": 66,
         "transport_type": "road",
-        "title": null,
+        "title": "Piste",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -69775,7 +69675,7 @@
       "properties": {
         "id": 67,
         "transport_type": "road",
-        "title": null,
+        "title": "Piste",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -70061,7 +69961,7 @@
       "properties": {
         "id": 68,
         "transport_type": "road",
-        "title": null,
+        "title": "Piste",
         "description": null,
         "to_publish": true,
         "elevations": [
@@ -70343,7 +70243,7 @@
       "properties": {
         "id": 69,
         "transport_type": "road",
-        "title": null,
+        "title": "Piste",
         "description": null,
         "to_publish": true,
         "elevations": [
