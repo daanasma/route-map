@@ -32,7 +32,7 @@ export default {
             basemap: 'https://tiles.openfreemap.org/styles/positron',
             center: [-72.4200, -47.4800],
             zoom: 7,
-            maxZoomFocus: 18
+            maxZoomFocus: 13
 
         },
         'paris-roubaix': {
@@ -44,7 +44,7 @@ export default {
             basemap: 'https://tiles.openfreemap.org/styles/positron',
             center: [3.44495,50.29317],
             zoom: 7,
-            maxZoomFocus: 13
+            maxZoomFocus: 18
 
         }
     },
