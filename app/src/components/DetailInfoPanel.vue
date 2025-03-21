@@ -8,7 +8,7 @@
         <div v-if="routeStatus.activeTopic === 'route'">
           <h2>{{ routeStatus.activeFeature.properties.title }}</h2>
           <div v-if="routeStatus.activeFeature.properties.route_length_meters">
-          <h5>{{Math.floor(routeStatus.activeFeature.properties.route_length_meters / 1000)}}km</h5>
+          <h5>{{ formattedDistance }}</h5>
           </div>
 
           <v-carousel
@@ -96,6 +96,14 @@ export default {
       contentWrapper
     }
 
+  },
+  computed : {
+    formattedDistance() {
+      let distance = Math.round(this.routeStatus.activeFeature.properties.route_length_meters / 10) * 10; // Round to nearest 10m
+      return distance < 300
+        ? `${distance}m`  // Show in meters if < 3km
+        : `${(distance / 1000).toFixed(1)}km`; // Show in km with 1 decimal
+    }
   },
   data() {
     return {
