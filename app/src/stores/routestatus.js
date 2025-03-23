@@ -114,7 +114,7 @@ export const useRouteInfoStore = defineStore('counter', {
             }
         },
         setActiveFeature(topic, geomType, id) {
-            this.activeFeature = this.getRouteFeatureFromStepId(2)
+            this.activeFeature = this.getRouteFeatureFromStepId(id)
             console.log("active", this.activeFeature)
            //  console.log("setActiveFeature", this.routeData.features[topic][geomType])
            // = this.routeData.features[topic][geomType].find(feature => feature.id === id) || null;

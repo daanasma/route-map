@@ -146,7 +146,6 @@ export function useMapLayers(map) {
         const loadedLayers = [];
         const routeLines = routeStatus.getFilteredAndSortedFeatures(feature => feature.topic === 'route'
             && feature.type === 'line')
-        console.log('routeLines', routeLines)
         const routePoints = routeStatus.getFilteredAndSortedFeatures(feature => feature.topic === 'route'
             && feature.type === 'point')
 
@@ -185,9 +184,7 @@ export function useMapLayers(map) {
                     let iconUrl = `../icons/${color.replace('#', 'c')}/${icon}.png`
                     //let iconUrl = 'https://upload.wikimedia.org/wikipedia/commons/7/7c/201408_cat.png'
 
-                    console.log("start adding icon: ", label, "\t", iconUrl)
                     let image = await map.value.loadImage(iconUrl);
-                    console.log('--> image', image)
                     if (map.value.hasImage(label)) map.value.removeImage(label);
                     map.value.addImage(label, image.data);
 

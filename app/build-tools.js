@@ -32,6 +32,7 @@ function bundleRouteData(routeId) {
             type,
             topic,
             properties: {...feature.properties, route_sequence_id: routeStep},
+            elevation: feature.elevation,
             geometry: feature.geometry,
             images: listImages(routeId, type, id),
         };
@@ -109,8 +110,7 @@ function minifyJsonFiles() {
                             try {
                                 const content = readFileSync(filePath, 'utf8');
                                 const minifiedContent = jsonminify(content);
-
-
+                                console.log('minified content')
                                 writeFileSync(newFilePath, minifiedContent);
                                 console.log(`Minified: ${file}`);
                             } catch (error) {

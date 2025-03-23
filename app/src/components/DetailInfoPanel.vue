@@ -27,7 +27,15 @@
             ></v-carousel-item>
           </v-carousel>
           <div class="content-actual-content">
+            <h3>
+              Summary
+            </h3>
+
           <p>{{ routeStatus.activeFeature.properties.description }}</p>
+                    <!-- Elevation Profile with Test Data -->
+        <ElevationProfile
+           :elevation-data="routeStatus.activeFeature.elevation"
+        />
           <div>
           <div>
             <h3>
@@ -53,16 +61,7 @@
             search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved
             over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
 </p>
-            Where does it come from?
 
-            Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical
-            Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at
-            Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem
-            Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable
-            source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes
-            of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular
-            during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in
-            section 1.10.32.
           </div>
         </div>
 </div>
@@ -76,8 +75,10 @@
 <script>
 import { useRouteInfoStore } from '../stores/routestatus.js';
 import { ref, watch, onMounted } from 'vue';
+import ElevationProfile from '@/components/ElevationProfile.vue'; // Adjust path if needed
 
 export default {
+  components: { ElevationProfile }, // Register the component
   setup() {
     const routeStatus = useRouteInfoStore();
     const contentWrapper = ref(null); // Ref to the content-wrapper element
@@ -90,10 +91,29 @@ export default {
       },
       { immediate: true } // Ensure it triggers immediately when the component is mounted
     );
+    // Test elevation data (Replace later with real data)
+    const testElevationData = ref([
+      { distance_along_line: 0, elevation: 100, attribute: 0.5 },
+      { distance_along_line: 1, elevation: 120, attribute: 0.6 },
+      { distance_along_line: 2, elevation: 90, attribute: 0.7 },
+      { distance_along_line: 3, elevation: 150, attribute: 0.4 },
+      { distance_along_line: 4, elevation: 130, attribute: 0.8 }
+    ]);
 
+    console.log("compare")
+    console.log(testElevationData.value)
+    console.log(routeStatus.activeFeature.elevation)
+
+        // Function to handle map updates from ElevationProfile interaction
+    const updateMapPoint = (point) => {
+      console.log("Update map to:", point);
+      // Here you can integrate it with your MapLibre instance
+    };
     return {
       routeStatus,
-      contentWrapper
+      contentWrapper,
+      testElevationData,
+      updateMapPoint
     }
 
   },
