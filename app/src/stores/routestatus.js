@@ -34,6 +34,23 @@ export const useRouteInfoStore = defineStore('counter', {
     }),
     getters: {
         routeMetadata: (state) => state.routeData?.metadata,
+        getFullRouteElevation: (state) => {
+            if (!state.routeData || !state.routeData.features) return [];
+            let accumulatedDistance = 0;
+            return state.getFilteredAndSortedFeatures(feature => feature.type === 'line')
+        .flatMap(feature => {
+            const adjustedElevation = feature.elevation?.map(point => ({
+                ...point,
+                distance_along_line: point.distance_along_line + accumulatedDistance
+            })) || [];
+
+            if (adjustedElevation.length > 0) {
+                accumulatedDistance = adjustedElevation[adjustedElevation.length - 1].distance_along_line;
+            }
+
+            return adjustedElevation;
+        });
+            },
         getFilteredAndSortedFeatures: (state) => (filterFn) => {
             if (!state.routeData || !state.routeData.features) return [];
 

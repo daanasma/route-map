@@ -4,12 +4,17 @@
           <h2>{{ routeStatus.routeMetadata.title }}</h2>
           <p>{{ routeStatus.routeMetadata.description }}</p>
           <img :src="routeStatus.routeMetadata.banner" alt="Route Banner">
+              <ElevationProfile :elevation-data="routeStatus.getFullRouteElevation" />
+
         </div>
         <div v-if="routeStatus.activeTopic === 'route'">
           <h2>{{ routeStatus.activeFeature.properties.title }}</h2>
           <div v-if="routeStatus.activeFeature.properties.route_length_meters">
           <h5>{{ formattedDistance }}</h5>
           </div>
+        <ElevationProfile v-if="routeStatus.activeFeature.type === 'line'"
+           :elevation-data="routeStatus.activeFeature.elevation"
+        />
 
           <v-carousel
               v-if="routeStatus.activeFeature.images?.length"
@@ -33,9 +38,6 @@
 
           <p>{{ routeStatus.activeFeature.properties.description }}</p>
                     <!-- Elevation Profile with Test Data -->
-        <ElevationProfile
-           :elevation-data="routeStatus.activeFeature.elevation"
-        />
           <div>
           <div>
             <h3>
@@ -91,18 +93,6 @@ export default {
       },
       { immediate: true } // Ensure it triggers immediately when the component is mounted
     );
-    // Test elevation data (Replace later with real data)
-    const testElevationData = ref([
-      { distance_along_line: 0, elevation: 100, attribute: 0.5 },
-      { distance_along_line: 1, elevation: 120, attribute: 0.6 },
-      { distance_along_line: 2, elevation: 90, attribute: 0.7 },
-      { distance_along_line: 3, elevation: 150, attribute: 0.4 },
-      { distance_along_line: 4, elevation: 130, attribute: 0.8 }
-    ]);
-
-    console.log("compare")
-    console.log(testElevationData.value)
-    console.log(routeStatus.activeFeature.elevation)
 
         // Function to handle map updates from ElevationProfile interaction
     const updateMapPoint = (point) => {
@@ -112,7 +102,6 @@ export default {
     return {
       routeStatus,
       contentWrapper,
-      testElevationData,
       updateMapPoint
     }
 
