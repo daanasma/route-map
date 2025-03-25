@@ -45,7 +45,7 @@ const chartOptions = computed(() => {
       }
     },
     grid: {
-    left: '3%',
+    left: '0%',
     right: '4%',
     bottom: '3%',
       top: '4%',
@@ -69,7 +69,7 @@ const chartOptions = computed(() => {
       type: 'value',
       min: minElevation, // Set dynamic min
       max: maxElevation, // Set dynamic max
-            boundaryGap: false // Removes extra padding
+      boundaryGap: false // Removes extra padding
     },
     series: [
       {
@@ -78,7 +78,7 @@ const chartOptions = computed(() => {
         data: props.elevationData
           .filter((p) => p.elevation !== null && p.elevation !== undefined)
           .map((p) => [p.distance_along_line, p.elevation]),
-        lineStyle: { color: '#3b82f6' },
+        lineStyle: { color: 'black' },
         smooth: true,
         symbol: 'none'  // Removes marker points
       }
