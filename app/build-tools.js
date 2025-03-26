@@ -62,7 +62,7 @@ function bundleRouteData(routeId) {
     ;
 
     const outputPath = resolve(path, 'bundled_route_data.json');
-    writeFileSync(outputPath, JSON.stringify(bundledData, null, 2));
+    writeFileSync(outputPath, JSON.stringify(bundledData, null, 2), { encoding: 'utf8' });
     console.log(`Bundled route data written to: ${outputPath}`);
 }
 

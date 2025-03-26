@@ -37,7 +37,7 @@ export default {
         },
         'paris-roubaix': {
             id: 'paris-roubaix',
-            theme: 'brown',
+            theme: 'light',
             isRoute: true,
             mainColor: '#065809',
             poiColor: "#2f2d2d",
@@ -54,13 +54,15 @@ export default {
     poiColor: poiColor,
     sizeMapMarkers,
   iconMap: {
-    national_park: 'park-alt1',
-    town: 'building',
+      national_park: 'park-alt1',
+      town: 'building',
       port: 'ferry',
       finish: 'racetrack',
       start: 'racetrack-cycling',
-
-    default: 'star',
+      trainstation: 'rail',
+      forest: 'park',
+      default: 'star',
+      castle: 'castle',
   },
   // Default map center [longitude, latitude]
 
@@ -74,8 +76,18 @@ export default {
         opacity: lineOpacity,
       dasharray: [1, 1],
     },
-    'route-line-road': {
+    'route-line-road-asphalt': {
       color: mainColor,
+      opacity: lineOpacity,
+      width: lineWidth,
+    },
+    'route-line-road-cobblestones': {
+      color: '#000000',
+      opacity: lineOpacity,
+      width: lineWidth,
+    },
+    'route-line-road-gravel': {
+      color: '#333333',
       opacity: lineOpacity,
       width: lineWidth,
     },

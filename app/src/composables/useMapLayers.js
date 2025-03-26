@@ -33,14 +33,34 @@ export function useMapLayers(map) {
             },
         },
         {
-            id: 'route-line-road',
+            id: 'route-line-road-asphalt',
             type: 'line',
             source: 'routelines',
-            filter: ['==', ['get', 'transport_type'], 'road'],
+            filter: [
+                'all',
+                ['==', ['get', 'transport_type'], 'road'],
+                ['==', ['get', 'subtype'], 'asphalt']
+            ],
             paint: {
-                'line-color': mapConfig.layerConfigs['route-line-road'].color,
-                'line-width': mapConfig.layerConfigs['route-line-road'].width,
-                'line-opacity': mapConfig.layerConfigs['route-line-road'].opacity
+                'line-color': mapConfig.layerConfigs['route-line-road-asphalt'].color,
+                'line-width': mapConfig.layerConfigs['route-line-road-asphalt'].width,
+                'line-opacity': mapConfig.layerConfigs['route-line-road-asphalt'].opacity
+
+            },
+        },
+        {
+            id: 'route-line-road-cobblestones',
+            type: 'line',
+            source: 'routelines',
+            filter: [
+                'all',
+                ['==', ['get', 'transport_type'], 'road'],
+                ['==', ['get', 'subtype'], 'cobblestones']
+            ],
+            paint: {
+                'line-color': mapConfig.layerConfigs['route-line-road-cobblestones'].color,
+                'line-width': mapConfig.layerConfigs['route-line-road-cobblestones'].width,
+                'line-opacity': mapConfig.layerConfigs['route-line-road-cobblestones'].opacity
 
             },
         },
@@ -118,14 +138,33 @@ export function useMapLayers(map) {
             },
         },
         {
-            id: 'route-line-roadx',
+            id: 'route-line-roadx-asphalt',
             type: 'line',
             source: 'extralines',
-            filter: ['==', ['get', 'transport_type'], 'road'],
+            filter: [
+                'all',
+                ['==', ['get', 'transport_type'], 'road'],
+                ['==', ['get', 'subtype'], 'asphalt']
+            ],
             paint: {
-                'line-color': mapConfig.layerConfigs['route-line-road'].color,
-                'line-width': mapConfig.layerConfigs['route-line-road'].width,
-                'line-opacity': mapConfig.layerConfigs['route-line-road'].opacity
+                'line-color': mapConfig.layerConfigs['route-line-road-asphalt'].color,
+                'line-width': mapConfig.layerConfigs['route-line-road-asphalt'].width,
+                'line-opacity': mapConfig.layerConfigs['route-line-road-asphalt'].opacity
+            },
+        },
+        {
+            id: 'route-line-roadx-cobblestones',
+            type: 'line',
+            source: 'extralines',
+            filter: [
+                'all',
+                ['==', ['get', 'transport_type'], 'road'],
+                ['==', ['get', 'subtype'], 'cobblestones']
+            ],
+            paint: {
+                'line-color': mapConfig.layerConfigs['route-line-road-cobblestones'].color,
+                'line-width': mapConfig.layerConfigs['route-line-road-cobblestones'].width,
+                'line-opacity': mapConfig.layerConfigs['route-line-road-cobblestones'].opacity
 
             },
         },
@@ -133,10 +172,15 @@ export function useMapLayers(map) {
             id: 'route-line-defaultx',
             type: 'line',
             source: 'extralines',
-            filter: ['!', ['match', ['get', 'transport_type'], ['ferry', 'road'], true, false]],
+            filter: [
+                'all',
+                ['==', ['get', 'transport_type'], 'road'],
+                ['!', ['match', ['get', 'subtype'], ['asphalt', 'cobblestones'], true, false]]
+            ],
             paint: {
-                'line-color': mapConfig.layerConfigs['route-line-default'].color,
-                'line-width': mapConfig.layerConfigs['route-line-default'].width,
+                'line-color': mapConfig.layerConfigs['route-line-road-asphalt'].color,
+                'line-width': mapConfig.layerConfigs['route-line-road-asphalt'].width,
+                'line-opacity': mapConfig.layerConfigs['route-line-road-asphalt'].opacity
             },
         }
     ];

@@ -1,9 +1,174 @@
 {
-"type": "FeatureCollection",
-"name": "stops",
-"features": [
-{ "type": "Feature", "properties": { "id": 1, "description": "Starting the race", "title": "Start", "to_publish": true, "poi_type": "start" }, "geometry": { "type": "Point", "coordinates": [ 2.88539, 49.44066 ] } },
-{ "type": "Feature", "properties": { "id": 2, "description": "Paris Roubaix Finish - Velodrome", "title": "Finish - Vélodrome", "to_publish": true, "poi_type": "finish" }, "geometry": { "type": "Point", "coordinates": [ 3.20535262551927, 50.678036891420028 ] } },
-{ "type": "Feature", "properties": { "id": 8, "description": "The entrance to Patagonia National Park", "title": "Valle Chacabuco", "to_publish": true, "poi_type": "national_park" }, "geometry": { "type": "Point", "coordinates": [ -72.485853343504331, -47.117102483333909 ] } }
-]
+    "type": "FeatureCollection",
+    "name": "stops",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 1,
+                "description": "Starting the race",
+                "title": "Start",
+                "to_publish": true,
+                "poi_type": "start",
+                "technical_title": "Paris roubaix",
+                "summary": "Paris–Roubaix [pa.ʁi.ʁu.bɛ] is a one-day professional bicycle road race in northern France, starting north of Paris and finishing in Roubaix, at the border with Belgium. It is one of cycling's oldest races, and is one of the 'Monuments' or classics of the European calendar, and contributes points towards the UCI World Ranking.\nParis–Roubaix is famous for rough terrain and cobblestones, or pavé (setts), being, with the Tour of Flanders, E3 Harelbeke and Gent–Wevelgem, one of the cobbled classics. It has been called the Hell of the North, a Sunday in Hell (also the title of a film about the 1976 race), the Queen of the Classics or la Pascale: the Easter race. Since 1977, the winner of Paris–Roubaix has received a sett (cobble stone) as part of his prize.\nThe terrain has led to the development of specialised frames, wheels and tyres. Punctures and other mechanical problems are common and often influence the result. Despite the esteem of the race, some cyclists dismiss it because of its difficult conditions. The race has also seen several controversies, with winners disqualified.\nFrom its beginning in 1896 until 1967, it started in Paris and ended in Roubaix; in 1966 the start moved to Chantilly; and since 1977 it has started in Compiègne, about 85 kilometres (53 mi) north-east of the centre of Paris. Since 1943, the finish has for the most part taken place in the Roubaix Velodrome. The race is organised by the media group Amaury Sport Organisation annually in mid-April.\nThe course is maintained by Les Amis de Paris–Roubaix, a group of fans of the race formed in 1983. The forçats du pavé seek to keep the course safe for riders while maintaining its difficulty.  Other than during the world wars and, in 2020, during the coronavirus pandemic (the April 2021 race was postponed to October), it has taken place every year from its inception.\n\n"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    2.88539,
+                    49.44066
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 2,
+                "description": "Paris Roubaix Finish - Velodrome",
+                "title": "Finish - Vélodrome",
+                "to_publish": true,
+                "poi_type": "finish",
+                "technical_title": "velodrome roubaix",
+                "summary": "The Roubaix Velodrome (officially Vélodrome André-Pétrieux) is a velodrome in Roubaix, Nord, France. It was opened in 1936 and has hosted the finish of the one-day \"monument classic\" cycling race Paris–Roubaix since 1943.\nThe race moved to the current stadium in 1943, and there it has stayed with the exceptions of 1986, 1987 and 1988 when the finish was in the avenue des Nations-Unies, outside the offices of La Redoute, the mail-order company which sponsored the race.\nThe shower room inside the velodrome is distinctive for the open, three-sided, low-walled concrete stalls, each with a brass plaque to commemorate a winner. These include Peter Van Petegem, Eddy Merckx, Peter Sagan, Roger De Vlaeminck, Rik Van Looy and Fausto Coppi.\nThe velodrome is located in the Parc des Sports, on the eastern outskirts of Roubaix, less than two kilometres from the Belgian border. The grass field on the inside of the track is used as a venue for Roubaix' rugby team. In 2012, a new multi-purpose indoor velodrome with a 250 m track, the Stab Vélodrome de Roubaix, opened next to the Roubaix Velodrome.\n\n"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    3.20535262551927,
+                    50.67803689142003
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 3,
+                "description": null,
+                "title": "Roubaix",
+                "to_publish": true,
+                "poi_type": "town",
+                "technical_title": "Roubaix",
+                "summary": "Roubaix (US:  roo-BAY, French: [ʁubɛ] or [ʁube] ; Dutch: Robaais; West Flemish: Roboais; Picard: Roubés) is a city in northern France, located in the Lille metropolitan area on the Belgian border. It is a historically mono-industrial commune in the Nord department, which grew rapidly in the 19th century from its textile industries, with most of the same characteristic features as those of English and American boom towns. This former new town has faced many challenges linked to deindustrialisation such as urban decay, with their related economic and social implications, since its major industries fell into decline by the middle of the 1970s. Located to the northeast of Lille, adjacent to Tourcoing, Roubaix is the chef-lieu of two cantons and the third largest city in the French region of Hauts-de-France ranked by population with nearly 99,000 inhabitants.\nTogether with the nearby cities of Lille, Tourcoing, Villeneuve-d'Ascq and eighty-six other communes, Roubaix gives structure to a four-centred metropolitan area inhabited by more than 1.1 million people: the European Metropolis of Lille. To a greater extent, Roubaix is in the center of a vast conurbation formed with the Belgian cities of Mouscron, Kortrijk and Tournai, which gave birth to the first European Grouping of Territorial Cooperation in January 2008, Lille–Kortrijk–Tournai with an aggregate population of over 2 million inhabitants."
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    3.174332342105601,
+                    50.69171186842096
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 4,
+                "description": null,
+                "title": "Compiègne",
+                "to_publish": true,
+                "poi_type": "town",
+                "technical_title": "Compiègne",
+                "summary": "Compiègne (French pronunciation: [kɔ̃pjɛɲ] ; Picard: Compiène) is a commune in the Oise department of northern France. It is located on the river Oise,  and its inhabitants are called Compiégnois ([kɔ̃pjeɲwa])."
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    2.825528973688482,
+                    49.417953552645855
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 5,
+                "description": null,
+                "title": "Bois Carpentier",
+                "to_publish": true,
+                "poi_type": "forest",
+                "technical_title": "Bois Carpentier"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    2.952819921055468,
+                    49.58793418422289
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 6,
+                "description": "",
+                "title": "Saint-Quentin",
+                "to_publish": true,
+                "poi_type": "town",
+                "technical_title": "Saint-Quentin",
+                "summary": "Saint-Quentin (French: [sɛ̃ kɑ̃tɛ̃] ; Picard: Saint-Kintin; older Dutch: Sint-Kwintens [sɪnt ˈkʋɪntəns]) is a city in the Aisne department, Hauts-de-France, northern France. It has been identified as the Augusta Veromanduorum of antiquity.  It is named after Saint Quentin of Amiens, who is said to have been martyred there in the 3rd century."
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    3.287582026314852,
+                    49.84661881579895
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 7,
+                "description": "",
+                "title": "Citadelle de Cambrai",
+                "to_publish": true,
+                "poi_type": "castle",
+                "technical_title": "Citadelle de Cambrai"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    3.241881605262735,
+                    50.171433552637374
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 8,
+                "description": "",
+                "title": "Marchiennes forest",
+                "to_publish": true,
+                "poi_type": "forest",
+                "technical_title": "Marchiennes forest"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    3.279752342104414,
+                    50.4309802894766
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 9,
+                "description": null,
+                "title": "Lille Flandres train station",
+                "to_publish": true,
+                "poi_type": "trainstation",
+                "technical_title": "Lille Flandres train station",
+                "summary": "Lille-Flandres station (French: Gare de Lille-Flandres, Dutch: Rijsel Vlaanderen) is the main railway station of Lille, capital of French Flanders. It is a terminus for SNCF Intercity and regional trains. It opened in 1842 as the Gare de Lille, but was renamed in 1993 when Lille Europe station opened. There is a 500 metres (1,600 ft) walking distance between the two stations, which are also adjacent stops on one of the lines of the Lille Metro.\n\n"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    3.070707289475193,
+                    50.63645313157956
+                ]
+            }
+        }
+    ]
 }
