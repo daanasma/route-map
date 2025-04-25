@@ -9,6 +9,8 @@
 
 ### Low Prio
 - change map attribution to be closed on load (hacky probably)
+- Add last update date for build of date -> increase build speed.
+- 
 
 ## Bugs
 ### High Prio
