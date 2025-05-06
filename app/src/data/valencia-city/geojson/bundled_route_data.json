@@ -116,7 +116,7 @@
         "description": "",
         "title": "Estació del Nord",
         "to_publish": true,
-        "poi_type": "train_station",
+        "poi_type": "trainstation",
         "technical_title": "estacio_del_nord",
         "summary": "The Estació del Nord (Valencian) or Estación del Norte (Spanish), both meaning \"North Station\", is the major railway station in Valencia, Spain. It is located in the city centre next to the Plaça de Bous or Plaza de Toros, the city's bullring, and 200 metres from the town hall.\nThe building is one of the main works of the Valencian Art Nouveau and was declared Good of Cultural Heritage in 1987. It has connections with Metrovalencia and the city bus network.\nAVE (high-speed) trains from Madrid and some other long-distance trains use Valencia-Joaquín Sorolla railway station, a short walk away, instead.\nThis station's name is a reference to Caminos de Hierro del Norte de España (Railways of the North of Spain), the railway company that constructed it and opened it in 1917, which was later nationalized and incorporated into Renfe, and later separated into Adif, the company that currently owns and runs it.\nDutch Symphonic Metal band Within Temptation performed at the station in July 2005 as a one-time event. The concert was filmed and broadcast on Spanish television.",
         "route_sequence_id": null
@@ -162,7 +162,7 @@
         "description": null,
         "title": "La Lonja de la Seda",
         "to_publish": true,
-        "poi_type": "church",
+        "poi_type": "religious_christian",
         "technical_title": "lonja_seda",
         "summary": "The Lonja de la Seda (Spanish: [ˈloŋxa ðe la ˈseða]; Valencian: Llotja de la Seda [ˈʎɔdʒa ðe la ˈseða], English \"Silk Exchange\") is a late Valencian Gothic-style civil building in Valencia, Spain. It is a principal tourist attraction in the city.",
         "route_sequence_id": null
@@ -208,7 +208,7 @@
         "description": "",
         "title": "Plaza del Ayuntamiento",
         "to_publish": true,
-        "poi_type": "square",
+        "poi_type": "religious_christian",
         "technical_title": "plaza_ayuntamiento_valencia",
         "summary": "The Ayuntamiento of Valencia, or Valencia City Council, is the institution that is responsible for governing the city and municipality of Valencia (Spain). It is called in Valencian: Ajuntament de València or Spanish: Ayuntamiento de Valencia. It is presided over by the mayor of Valencia, who since 1979 has been democratically elected by universal suffrage. Since 2023, the position is held by María José Catalá, of the People's Party. The institution is located and holds formal meetings in the Valencia City Hall or in Valencian: Palau consistorial de València and in Spanish: Casa Consistorial de Valencia. The building is also often called the Ayuntamiento by metonymy.",
         "route_sequence_id": 3
@@ -246,29 +246,6 @@
       "images": []
     },
     {
-      "id": 100010,
-      "type": "point",
-      "topic": "extra",
-      "properties": {
-        "id": 10,
-        "description": "",
-        "title": "Catedral de Valencia",
-        "to_publish": true,
-        "poi_type": "church",
-        "technical_title": "catedral",
-        "summary": null,
-        "route_sequence_id": null
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -0.375457356185412,
-          39.4752887454432
-        ]
-      },
-      "images": []
-    },
-    {
       "id": 100009,
       "type": "point",
       "topic": "route",
@@ -287,6 +264,29 @@
         "coordinates": [
           -0.375434913437319,
           39.474648004985156
+        ]
+      },
+      "images": []
+    },
+    {
+      "id": 100010,
+      "type": "point",
+      "topic": "extra",
+      "properties": {
+        "id": 10,
+        "description": "",
+        "title": "Catedral de Valencia",
+        "to_publish": true,
+        "poi_type": "religious_christian",
+        "technical_title": "catedral",
+        "summary": null,
+        "route_sequence_id": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.375457356185412,
+          39.4752887454432
         ]
       },
       "images": []

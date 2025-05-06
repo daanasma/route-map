@@ -64,16 +64,20 @@ export default {
     mainColor: mainColor,
     poiColor: poiColor,
     sizeMapMarkers,
-  iconMap: {
+  iconMap: { //https://labs.mapbox.com/maki-icons/
       national_park: 'park-alt1',
       town: 'building',
+      tower: 'castle',
       port: 'ferry',
       finish: 'racetrack',
       start: 'racetrack-cycling',
       trainstation: 'rail',
+      munument: 'monument',
       forest: 'park',
+      park: 'park',
       default: 'star',
       castle: 'castle',
+      religious_christian: 'religious-christian',
   },
   // Default map center [longitude, latitude]
 
@@ -104,6 +108,8 @@ export default {
     },
     'route-line-default': {
       color: '#000000',
+        opacity: lineOpacity,
+
       width: lineWidth
     },
     'route-point': {
