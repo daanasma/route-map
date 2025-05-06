@@ -53,8 +53,8 @@ export default {
             mainColor: '#065809',
             poiColor: "#2f2d2d",
             basemap: 'https://tiles.openfreemap.org/styles/positron',
-            center: [-0.375 ,39.471],
-            zoom: 14,
+            center: [-0.375 ,39.473],
+            zoom: 15,
             maxZoomFocus: 18
         }
     },
