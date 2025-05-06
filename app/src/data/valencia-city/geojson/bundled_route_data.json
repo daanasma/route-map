@@ -1,0 +1,1809 @@
+{
+  "metadata": {
+    "title": "Valencia",
+    "description": "Valencia - timeless city on the banks of Turia river .",
+    "banner": "valencia-city/img/overview/valencia-air.jpg",
+    "version": "1.0",
+    "created": "2025-01-01",
+    "last_edit": "2025-02-01"
+  },
+  "sequence": [
+    {
+      "route_step": 1,
+      "id": 4,
+      "type": "point"
+    },
+    {
+      "route_step": 2,
+      "id": 1,
+      "type": "line"
+    },
+    {
+      "route_step": 3,
+      "id": 7,
+      "type": "point"
+    },
+    {
+      "route_step": 4,
+      "id": 2,
+      "type": "line"
+    },
+    {
+      "route_step": 5,
+      "id": 3,
+      "type": "line"
+    },
+    {
+      "route_step": 6,
+      "id": 4,
+      "type": "line"
+    },
+    {
+      "route_step": 7,
+      "id": 9,
+      "type": "point"
+    },
+    {
+      "route_step": 8,
+      "id": 5,
+      "type": "line"
+    },
+    {
+      "route_step": 9,
+      "id": 6,
+      "type": "line"
+    },
+    {
+      "route_step": 10,
+      "id": 8,
+      "type": "point"
+    }
+  ],
+  "settings": {},
+  "features": [
+    {
+      "id": 100001,
+      "type": "point",
+      "topic": "extra",
+      "properties": {
+        "id": 1,
+        "description": "",
+        "title": "Palau de les Arts",
+        "to_publish": true,
+        "poi_type": "building",
+        "technical_title": "palau_de_les_arts",
+        "summary": "Palau de les Arts Reina Sofía (Valencian: Palau de les Arts Reina Sofia, Spanish: Palacio de las Artes Reina Sofía; anglicised as \"Queen Sofía Palace of the Arts\") is an opera house, performing arts centre, and urban landmark designed by Santiago Calatrava to anchor the northwest end of the City of Arts and Sciences in Valencia, Spain. It opened on 8 October 2005; its first opera staging was of Beethoven's Fidelio on 25 October 2006. Tenor and conductor Plácido Domingo has maintained a special relationship with the Palau since its founding and has established a young singers training program there.",
+        "route_sequence_id": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.355904656354193,
+          39.45796531600138
+        ]
+      },
+      "images": []
+    },
+    {
+      "id": 100002,
+      "type": "point",
+      "topic": "extra",
+      "properties": {
+        "id": 2,
+        "description": "",
+        "title": "Jardins del Real",
+        "to_publish": true,
+        "poi_type": "park",
+        "technical_title": "jardins_del_real",
+        "summary": null,
+        "route_sequence_id": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.367737505911582,
+          39.48046690892147
+        ]
+      },
+      "images": []
+    },
+    {
+      "id": 100003,
+      "type": "point",
+      "topic": "extra",
+      "properties": {
+        "id": 3,
+        "description": "",
+        "title": "Estació del Nord",
+        "to_publish": true,
+        "poi_type": "train_station",
+        "technical_title": "estacio_del_nord",
+        "summary": "The Estació del Nord (Valencian) or Estación del Norte (Spanish), both meaning \"North Station\", is the major railway station in Valencia, Spain. It is located in the city centre next to the Plaça de Bous or Plaza de Toros, the city's bullring, and 200 metres from the town hall.\nThe building is one of the main works of the Valencian Art Nouveau and was declared Good of Cultural Heritage in 1987. It has connections with Metrovalencia and the city bus network.\nAVE (high-speed) trains from Madrid and some other long-distance trains use Valencia-Joaquín Sorolla railway station, a short walk away, instead.\nThis station's name is a reference to Caminos de Hierro del Norte de España (Railways of the North of Spain), the railway company that constructed it and opened it in 1917, which was later nationalized and incorporated into Renfe, and later separated into Adif, the company that currently owns and runs it.\nDutch Symphonic Metal band Within Temptation performed at the station in July 2005 as a one-time event. The concert was filmed and broadcast on Spanish television.",
+        "route_sequence_id": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.377193081132715,
+          39.46678308591276
+        ]
+      },
+      "images": []
+    },
+    {
+      "id": 100004,
+      "type": "point",
+      "topic": "route",
+      "properties": {
+        "id": 4,
+        "description": "",
+        "title": "Torres de Quart",
+        "to_publish": true,
+        "poi_type": "monument",
+        "technical_title": "torres_de_quart",
+        "summary": "The Torres de Quart or Puerta de Quart (also called de Cuarte) is one of the two remaining gates of the old Valencia city wall. It was built between 1441 and 1493. It was still in use during the Peninsular War when it was marked by cannonballs and musket shots.",
+        "route_sequence_id": 1
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.383948,
+          39.475014
+        ]
+      },
+      "images": []
+    },
+    {
+      "id": 100005,
+      "type": "point",
+      "topic": "extra",
+      "properties": {
+        "id": 5,
+        "description": null,
+        "title": "La Lonja de la Seda",
+        "to_publish": true,
+        "poi_type": "church",
+        "technical_title": "lonja_seda",
+        "summary": "The Lonja de la Seda (Spanish: [ˈloŋxa ðe la ˈseða]; Valencian: Llotja de la Seda [ˈʎɔdʒa ðe la ˈseða], English \"Silk Exchange\") is a late Valencian Gothic-style civil building in Valencia, Spain. It is a principal tourist attraction in the city.",
+        "route_sequence_id": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.3783299,
+          39.4743857
+        ]
+      },
+      "images": []
+    },
+    {
+      "id": 100006,
+      "type": "point",
+      "topic": "extra",
+      "properties": {
+        "id": 6,
+        "description": null,
+        "title": "Mercat Central",
+        "to_publish": true,
+        "poi_type": "market",
+        "technical_title": "central_market",
+        "summary": null,
+        "route_sequence_id": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.3790343,
+          39.4734632
+        ]
+      },
+      "images": []
+    },
+    {
+      "id": 100007,
+      "type": "point",
+      "topic": "route",
+      "properties": {
+        "id": 7,
+        "description": "",
+        "title": "Plaza del Ayuntamiento",
+        "to_publish": true,
+        "poi_type": "square",
+        "technical_title": "plaza_ayuntamiento_valencia",
+        "summary": "The Ayuntamiento of Valencia, or Valencia City Council, is the institution that is responsible for governing the city and municipality of Valencia (Spain). It is called in Valencian: Ajuntament de València or Spanish: Ayuntamiento de Valencia. It is presided over by the mayor of Valencia, who since 1979 has been democratically elected by universal suffrage. Since 2023, the position is held by María José Catalá, of the People's Party. The institution is located and holds formal meetings in the Valencia City Hall or in Valencian: Palau consistorial de València and in Spanish: Casa Consistorial de Valencia. The building is also often called the Ayuntamiento by metonymy.",
+        "route_sequence_id": 3
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.3763622,
+          39.4698148
+        ]
+      },
+      "images": []
+    },
+    {
+      "id": 100008,
+      "type": "point",
+      "topic": "route",
+      "properties": {
+        "id": 8,
+        "description": null,
+        "title": "Torres de Serranos",
+        "to_publish": true,
+        "poi_type": "monument",
+        "technical_title": "torres_serranos",
+        "summary": "The Serrans Gate or Serranos Gate (Valencian: Porta dels Serrans, Valencian: [ˈpɔɾta ðels seˈrans]; Spanish: Puerta de Serranos, [ˈpweɾta ðe seˈranos]), also known as Serrans Towers or Serranos Towers (Valencian: Torres dels Serrans, Valencian: [ˈtorez ðels seˈrans]; Spanish: Torres de Serranos, [ˈtores ðe seˈranos]) is one of the twelve gates that formed part of the ancient city wall, the Christian Wall (Muralla cristiana), of the city of Valencia, Spain. It was built in Valencian Gothic style at the end of the 14th century (between 1392 and 1398).\nIt is an important landmark and one of the best preserved monuments of Valencia. Of the ancient city wall, which was pulled down in 1865 on the orders of the provincial governor Cirilio Amorós, only the Serrans Towers, the 15th century Quart Towers, and some other archaeological remains and ruins, such as those of the Jewish Gate (Puerta de los Judíos), have survived.",
+        "route_sequence_id": 10
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.3759652,
+          39.4793333
+        ]
+      },
+      "images": []
+    },
+    {
+      "id": 100010,
+      "type": "point",
+      "topic": "extra",
+      "properties": {
+        "id": 10,
+        "description": "",
+        "title": "Catedral de Valencia",
+        "to_publish": true,
+        "poi_type": "church",
+        "technical_title": "catedral",
+        "summary": null,
+        "route_sequence_id": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.375457356185412,
+          39.4752887454432
+        ]
+      },
+      "images": []
+    },
+    {
+      "id": 100009,
+      "type": "point",
+      "topic": "route",
+      "properties": {
+        "id": 9,
+        "description": "",
+        "title": "Placa de la Reina",
+        "to_publish": true,
+        "poi_type": "square",
+        "technical_title": "plaza_reina",
+        "summary": "Plaza de la Reina (Plaça de la Reina in Valencian and Queen's Square in English) is a central plaza in Valencia, Spain. It brings together, among others, Calle de la Paz, Calle del Mar, Calle del Cabilleros, Calle de los Bordadores, Calle de Santa Catalina, and Calle de Santo Vincente Mártir. The plaza includes the baroque door of the Irons, which gives access to the Valencia Cathedral. It is also noteworthy for views of two important bell towers of Valencia, the Santa Catalina and the Miguelete Tower.",
+        "route_sequence_id": 7
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.375434913437319,
+          39.474648004985156
+        ]
+      },
+      "images": []
+    },
+    {
+      "id": 200001,
+      "type": "line",
+      "topic": "route",
+      "properties": {
+        "id": 1,
+        "transport_type": "",
+        "title": "Qarth -> Plaza del Ayuntamiento",
+        "description": null,
+        "to_publish": true,
+        "classification": null,
+        "subtype": null,
+        "route_sequence_id": 2
+      },
+      "elevation": [
+        {
+          "coordinates": [
+            -0.38394745,
+            39.4750141
+          ],
+          "distance_along_line": 0,
+          "elevation": 23
+        },
+        {
+          "coordinates": [
+            -0.38358224,
+            39.4746995
+          ],
+          "distance_along_line": 60,
+          "elevation": 23
+        },
+        {
+          "coordinates": [
+            -0.38291819,
+            39.47459748
+          ],
+          "distance_along_line": 120,
+          "elevation": 24
+        },
+        {
+          "coordinates": [
+            -0.38225415,
+            39.47449547
+          ],
+          "distance_along_line": 170,
+          "elevation": 24
+        },
+        {
+          "coordinates": [
+            -0.38158867,
+            39.47440454
+          ],
+          "distance_along_line": 230,
+          "elevation": 24
+        },
+        {
+          "coordinates": [
+            -0.38091261,
+            39.47442386
+          ],
+          "distance_along_line": 290,
+          "elevation": 18
+        },
+        {
+          "coordinates": [
+            -0.38023567,
+            39.47442592
+          ],
+          "distance_along_line": 350,
+          "elevation": 18
+        },
+        {
+          "coordinates": [
+            -0.37956073,
+            39.4744571
+          ],
+          "distance_along_line": 410,
+          "elevation": 18
+        },
+        {
+          "coordinates": [
+            -0.37893774,
+            39.47445817
+          ],
+          "distance_along_line": 470,
+          "elevation": 23
+        },
+        {
+          "coordinates": [
+            -0.37851523,
+            39.47404825
+          ],
+          "distance_along_line": 520,
+          "elevation": 23
+        },
+        {
+          "coordinates": [
+            -0.37809272,
+            39.47363832
+          ],
+          "distance_along_line": 580,
+          "elevation": 23
+        },
+        {
+          "coordinates": [
+            -0.37769354,
+            39.47321517
+          ],
+          "distance_along_line": 640,
+          "elevation": 23
+        },
+        {
+          "coordinates": [
+            -0.37736971,
+            39.47275545
+          ],
+          "distance_along_line": 700,
+          "elevation": 27
+        },
+        {
+          "coordinates": [
+            -0.37705726,
+            39.47229072
+          ],
+          "distance_along_line": 760,
+          "elevation": 33
+        },
+        {
+          "coordinates": [
+            -0.37689243,
+            39.47187602
+          ],
+          "distance_along_line": 820,
+          "elevation": 33
+        },
+        {
+          "coordinates": [
+            -0.37688093,
+            39.47135311
+          ],
+          "distance_along_line": 870,
+          "elevation": 33
+        },
+        {
+          "coordinates": [
+            -0.37684545,
+            39.47082917
+          ],
+          "distance_along_line": 930,
+          "elevation": 21
+        },
+        {
+          "coordinates": [
+            -0.37680998,
+            39.47030524
+          ],
+          "distance_along_line": 990,
+          "elevation": 21
+        },
+        {
+          "coordinates": [
+            -0.37676512,
+            39.46978179
+          ],
+          "distance_along_line": 1050,
+          "elevation": 21
+        },
+        {
+          "coordinates": [
+            -0.37636236,
+            39.46981524
+          ],
+          "distance_along_line": 1110,
+          "elevation": 21
+        }
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -0.383947447788448,
+            39.47501410231324
+          ],
+          [
+            -0.38390368442967,
+            39.47474478933614
+          ],
+          [
+            -0.383657936338069,
+            39.47471112521401
+          ],
+          [
+            -0.381663898170153,
+            39.47440478170257
+          ],
+          [
+            -0.381319401986951,
+            39.474403659565155
+          ],
+          [
+            -0.380943485956421,
+            39.47442385803843
+          ],
+          [
+            -0.380371195880091,
+            39.47442385803843
+          ],
+          [
+            -0.379927951605287,
+            39.47443059086286
+          ],
+          [
+            -0.379660882903,
+            39.47444405651171
+          ],
+          [
+            -0.379178363819036,
+            39.474506896206364
+          ],
+          [
+            -0.379013409620564,
+            39.474531583229265
+          ],
+          [
+            -0.377883417254165,
+            39.47343525498501
+          ],
+          [
+            -0.377587172979359,
+            39.473091880939215
+          ],
+          [
+            -0.377381821834323,
+            39.47277768246594
+          ],
+          [
+            -0.37729990580379,
+            39.472627316053725
+          ],
+          [
+            -0.376966630994633,
+            39.47216499544303
+          ],
+          [
+            -0.376977852368679,
+            39.472108888572805
+          ],
+          [
+            -0.377040692063335,
+            39.47202248399265
+          ],
+          [
+            -0.376875737864863,
+            39.47195515574838
+          ],
+          [
+            -0.376910524124405,
+            39.47179020154991
+          ],
+          [
+            -0.37679382183433,
+            39.47006659849649
+          ],
+          [
+            -0.376764646261811,
+            39.46977708704612
+          ],
+          [
+            -0.376362360002274,
+            39.46981523971787
+          ]
+        ]
+      },
+      "images": []
+    },
+    {
+      "id": 200002,
+      "type": "line",
+      "topic": "route",
+      "properties": {
+        "id": 2,
+        "transport_type": "",
+        "title": "Plaza del ayuntamiento",
+        "description": "After crossing the square, we can se a lot of buildings.",
+        "to_publish": true,
+        "classification": null,
+        "subtype": null,
+        "route_sequence_id": 4
+      },
+      "elevation": [
+        {
+          "coordinates": [
+            -0.37636124,
+            39.4698158
+          ],
+          "distance_along_line": 0,
+          "elevation": 21
+        },
+        {
+          "coordinates": [
+            -0.3761685,
+            39.4698366
+          ],
+          "distance_along_line": 20,
+          "elevation": 21
+        },
+        {
+          "coordinates": [
+            -0.3760151,
+            39.46987834
+          ],
+          "distance_along_line": 30,
+          "elevation": 21
+        },
+        {
+          "coordinates": [
+            -0.37605926,
+            39.47002522
+          ],
+          "distance_along_line": 50,
+          "elevation": 21
+        },
+        {
+          "coordinates": [
+            -0.37610342,
+            39.47017211
+          ],
+          "distance_along_line": 70,
+          "elevation": 21
+        },
+        {
+          "coordinates": [
+            -0.3761768,
+            39.47031137
+          ],
+          "distance_along_line": 80,
+          "elevation": 21
+        },
+        {
+          "coordinates": [
+            -0.37625624,
+            39.47044906
+          ],
+          "distance_along_line": 100,
+          "elevation": 21
+        },
+        {
+          "coordinates": [
+            -0.37633568,
+            39.47058674
+          ],
+          "distance_along_line": 120,
+          "elevation": 21
+        },
+        {
+          "coordinates": [
+            -0.37641511,
+            39.47072442
+          ],
+          "distance_along_line": 130,
+          "elevation": 21
+        },
+        {
+          "coordinates": [
+            -0.37636727,
+            39.47082947
+          ],
+          "distance_along_line": 150,
+          "elevation": 21
+        },
+        {
+          "coordinates": [
+            -0.37644153,
+            39.47096887
+          ],
+          "distance_along_line": 170,
+          "elevation": 33
+        },
+        {
+          "coordinates": [
+            -0.3765158,
+            39.47110828
+          ],
+          "distance_along_line": 180,
+          "elevation": 33
+        },
+        {
+          "coordinates": [
+            -0.37657817,
+            39.47125034
+          ],
+          "distance_along_line": 200,
+          "elevation": 33
+        },
+        {
+          "coordinates": [
+            -0.37661081,
+            39.47139902
+          ],
+          "distance_along_line": 220,
+          "elevation": 33
+        },
+        {
+          "coordinates": [
+            -0.37664344,
+            39.47154771
+          ],
+          "distance_along_line": 230,
+          "elevation": 33
+        },
+        {
+          "coordinates": [
+            -0.3766692,
+            39.47169711
+          ],
+          "distance_along_line": 250,
+          "elevation": 33
+        },
+        {
+          "coordinates": [
+            -0.37668811,
+            39.47184721
+          ],
+          "distance_along_line": 270,
+          "elevation": 33
+        },
+        {
+          "coordinates": [
+            -0.37670701,
+            39.47199732
+          ],
+          "distance_along_line": 280,
+          "elevation": 33
+        },
+        {
+          "coordinates": [
+            -0.37670849,
+            39.47214761
+          ],
+          "distance_along_line": 300,
+          "elevation": 33
+        },
+        {
+          "coordinates": [
+            -0.37670012,
+            39.47223906
+          ],
+          "distance_along_line": 320,
+          "elevation": 33
+        }
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -0.376361237864869,
+            39.469815800786584
+          ],
+          [
+            -0.37600776458243,
+            39.469853953458326
+          ],
+          [
+            -0.37611100122365,
+            39.470197327504124
+          ],
+          [
+            -0.376445398170211,
+            39.47077691147358
+          ],
+          [
+            -0.37635899359006,
+            39.47081394200793
+          ],
+          [
+            -0.376568833284714,
+            39.47120781223694
+          ],
+          [
+            -0.376659726414484,
+            39.471621880939225
+          ],
+          [
+            -0.376715833284712,
+            39.47206736948883
+          ],
+          [
+            -0.376700123361048,
+            39.47223905651173
+          ],
+          [
+            -0.376700123361048,
+            39.47223905651173
+          ]
+        ]
+      },
+      "images": []
+    },
+    {
+      "id": 200003,
+      "type": "line",
+      "topic": "route",
+      "properties": {
+        "id": 3,
+        "transport_type": "",
+        "title": "Carrer de Sant Vicent Martir",
+        "description": "Shopping! ",
+        "to_publish": true,
+        "classification": null,
+        "subtype": null,
+        "route_sequence_id": 5
+      },
+      "elevation": [
+        {
+          "coordinates": [
+            -0.37669998,
+            39.47223948
+          ],
+          "distance_along_line": 0,
+          "elevation": 33
+        },
+        {
+          "coordinates": [
+            -0.37667063,
+            39.47229005
+          ],
+          "distance_along_line": 10,
+          "elevation": 33
+        },
+        {
+          "coordinates": [
+            -0.37664127,
+            39.47234062
+          ],
+          "distance_along_line": 10,
+          "elevation": 33
+        },
+        {
+          "coordinates": [
+            -0.37661191,
+            39.4723912
+          ],
+          "distance_along_line": 20,
+          "elevation": 33
+        },
+        {
+          "coordinates": [
+            -0.37657755,
+            39.47243984
+          ],
+          "distance_along_line": 20,
+          "elevation": 33
+        },
+        {
+          "coordinates": [
+            -0.37654312,
+            39.47248845
+          ],
+          "distance_along_line": 30,
+          "elevation": 33
+        },
+        {
+          "coordinates": [
+            -0.37650868,
+            39.47253706
+          ],
+          "distance_along_line": 40,
+          "elevation": 33
+        },
+        {
+          "coordinates": [
+            -0.37647425,
+            39.47258567
+          ],
+          "distance_along_line": 40,
+          "elevation": 33
+        },
+        {
+          "coordinates": [
+            -0.37643981,
+            39.47263428
+          ],
+          "distance_along_line": 50,
+          "elevation": 33
+        },
+        {
+          "coordinates": [
+            -0.37640538,
+            39.4726829
+          ],
+          "distance_along_line": 60,
+          "elevation": 33
+        },
+        {
+          "coordinates": [
+            -0.37637094,
+            39.47273151
+          ],
+          "distance_along_line": 60,
+          "elevation": 33
+        },
+        {
+          "coordinates": [
+            -0.37633651,
+            39.47278012
+          ],
+          "distance_along_line": 70,
+          "elevation": 33
+        },
+        {
+          "coordinates": [
+            -0.37630207,
+            39.47282873
+          ],
+          "distance_along_line": 70,
+          "elevation": 33
+        },
+        {
+          "coordinates": [
+            -0.37626764,
+            39.47287734
+          ],
+          "distance_along_line": 80,
+          "elevation": 33
+        },
+        {
+          "coordinates": [
+            -0.3762332,
+            39.47292596
+          ],
+          "distance_along_line": 90,
+          "elevation": 25
+        },
+        {
+          "coordinates": [
+            -0.37619877,
+            39.47297457
+          ],
+          "distance_along_line": 90,
+          "elevation": 25
+        },
+        {
+          "coordinates": [
+            -0.37616433,
+            39.47302318
+          ],
+          "distance_along_line": 100,
+          "elevation": 25
+        },
+        {
+          "coordinates": [
+            -0.3761299,
+            39.47307179
+          ],
+          "distance_along_line": 100,
+          "elevation": 25
+        },
+        {
+          "coordinates": [
+            -0.37609546,
+            39.4731204
+          ],
+          "distance_along_line": 110,
+          "elevation": 25
+        },
+        {
+          "coordinates": [
+            -0.37607453,
+            39.47314995
+          ],
+          "distance_along_line": 120,
+          "elevation": 25
+        }
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -0.376699983093875,
+            39.47223947731325
+          ],
+          [
+            -0.376611474506084,
+            39.47239194773311
+          ],
+          [
+            -0.376074531757964,
+            39.47314995154993
+          ]
+        ]
+      },
+      "images": []
+    },
+    {
+      "id": 200004,
+      "type": "line",
+      "topic": "route",
+      "properties": {
+        "id": 4,
+        "transport_type": "",
+        "title": "to placa de la reina",
+        "description": null,
+        "to_publish": true,
+        "classification": null,
+        "subtype": null,
+        "route_sequence_id": 6
+      },
+      "elevation": [
+        {
+          "coordinates": [
+            -0.37607004,
+            39.4731522
+          ],
+          "distance_along_line": 0,
+          "elevation": 25
+        },
+        {
+          "coordinates": [
+            -0.37546591,
+            39.47305739
+          ],
+          "distance_along_line": 50,
+          "elevation": 25
+        },
+        {
+          "coordinates": [
+            -0.37488654,
+            39.47288849
+          ],
+          "distance_along_line": 110,
+          "elevation": 21
+        },
+        {
+          "coordinates": [
+            -0.37429835,
+            39.47273887
+          ],
+          "distance_along_line": 160,
+          "elevation": 21
+        },
+        {
+          "coordinates": [
+            -0.37395391,
+            39.4729782
+          ],
+          "distance_along_line": 210,
+          "elevation": 25
+        },
+        {
+          "coordinates": [
+            -0.37382905,
+            39.47345082
+          ],
+          "distance_along_line": 270,
+          "elevation": 25
+        },
+        {
+          "coordinates": [
+            -0.37364066,
+            39.47385485
+          ],
+          "distance_along_line": 320,
+          "elevation": 25
+        },
+        {
+          "coordinates": [
+            -0.37349399,
+            39.47429673
+          ],
+          "distance_along_line": 380,
+          "elevation": 25
+        },
+        {
+          "coordinates": [
+            -0.37330209,
+            39.47469237
+          ],
+          "distance_along_line": 430,
+          "elevation": 25
+        },
+        {
+          "coordinates": [
+            -0.37316948,
+            39.47503794
+          ],
+          "distance_along_line": 480,
+          "elevation": 22
+        },
+        {
+          "coordinates": [
+            -0.37336289,
+            39.47527883
+          ],
+          "distance_along_line": 540,
+          "elevation": 22
+        },
+        {
+          "coordinates": [
+            -0.37356113,
+            39.47556295
+          ],
+          "distance_along_line": 590,
+          "elevation": 22
+        },
+        {
+          "coordinates": [
+            -0.37347252,
+            39.47603863
+          ],
+          "distance_along_line": 640,
+          "elevation": 22
+        },
+        {
+          "coordinates": [
+            -0.37368954,
+            39.47638661
+          ],
+          "distance_along_line": 700,
+          "elevation": 22
+        },
+        {
+          "coordinates": [
+            -0.3740079,
+            39.47614928
+          ],
+          "distance_along_line": 750,
+          "elevation": 22
+        },
+        {
+          "coordinates": [
+            -0.37414748,
+            39.47567916
+          ],
+          "distance_along_line": 800,
+          "elevation": 22
+        },
+        {
+          "coordinates": [
+            -0.37459206,
+            39.47560864
+          ],
+          "distance_along_line": 860,
+          "elevation": 22
+        },
+        {
+          "coordinates": [
+            -0.37490074,
+            39.47520917
+          ],
+          "distance_along_line": 910,
+          "elevation": 22
+        },
+        {
+          "coordinates": [
+            -0.37519522,
+            39.4747854
+          ],
+          "distance_along_line": 960,
+          "elevation": 25
+        },
+        {
+          "coordinates": [
+            -0.37544165,
+            39.47465249
+          ],
+          "distance_along_line": 1020,
+          "elevation": 25
+        }
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -0.376070043208345,
+            39.473152195824746
+          ],
+          [
+            -0.375892745498412,
+            39.4730927225423
+          ],
+          [
+            -0.375377684429683,
+            39.47305008132092
+          ],
+          [
+            -0.375073585193025,
+            39.472944600404894
+          ],
+          [
+            -0.374422745498334,
+            39.472749348496485
+          ],
+          [
+            -0.374023264582282,
+            39.47271568437435
+          ],
+          [
+            -0.373720287483029,
+            39.473862508801886
+          ],
+          [
+            -0.373603585192947,
+            39.473851287427834
+          ],
+          [
+            -0.373394867635684,
+            39.47469962330574
+          ],
+          [
+            -0.37325123404789,
+            39.474688401931694
+          ],
+          [
+            -0.373284898170029,
+            39.47504075307675
+          ],
+          [
+            -0.373100867635668,
+            39.475036264527134
+          ],
+          [
+            -0.373067203513529,
+            39.47522927216073
+          ],
+          [
+            -0.37346892870439,
+            39.47529660040502
+          ],
+          [
+            -0.373682134811272,
+            39.47537290574853
+          ],
+          [
+            -0.373585630994473,
+            39.47547614238976
+          ],
+          [
+            -0.373482394353246,
+            39.47584195918367
+          ],
+          [
+            -0.373457707330344,
+            39.4763334553669
+          ],
+          [
+            -0.373917783666246,
+            39.47643893628294
+          ],
+          [
+            -0.374074882902896,
+            39.47593397445084
+          ],
+          [
+            -0.374189340918169,
+            39.47553224925998
+          ],
+          [
+            -0.374568623360937,
+            39.47562426452717
+          ],
+          [
+            -0.374784073742628,
+            39.47548063093938
+          ],
+          [
+            -0.374876089009809,
+            39.475267424832495
+          ],
+          [
+            -0.374925463055613,
+            39.475150722542416
+          ],
+          [
+            -0.375318211147237,
+            39.47461882941261
+          ],
+          [
+            -0.375441646261747,
+            39.474652493534755
+          ]
+        ]
+      },
+      "images": []
+    },
+    {
+      "id": 200005,
+      "type": "line",
+      "topic": "route",
+      "properties": {
+        "id": 5,
+        "transport_type": "",
+        "title": "Gettig Lost in El Carmen",
+        "description": null,
+        "to_publish": true,
+        "classification": null,
+        "subtype": null,
+        "route_sequence_id": 8
+      },
+      "elevation": [
+        {
+          "coordinates": [
+            -0.37544165,
+            39.47465249
+          ],
+          "distance_along_line": 0,
+          "elevation": 25
+        },
+        {
+          "coordinates": [
+            -0.37568612,
+            39.47485683
+          ],
+          "distance_along_line": 30,
+          "elevation": 25
+        },
+        {
+          "coordinates": [
+            -0.37594275,
+            39.47491687
+          ],
+          "distance_along_line": 60,
+          "elevation": 25
+        },
+        {
+          "coordinates": [
+            -0.37606552,
+            39.47465496
+          ],
+          "distance_along_line": 90,
+          "elevation": 25
+        },
+        {
+          "coordinates": [
+            -0.37636821,
+            39.47470532
+          ],
+          "distance_along_line": 120,
+          "elevation": 25
+        },
+        {
+          "coordinates": [
+            -0.37659911,
+            39.47482778
+          ],
+          "distance_along_line": 150,
+          "elevation": 25
+        },
+        {
+          "coordinates": [
+            -0.37675343,
+            39.47500821
+          ],
+          "distance_along_line": 190,
+          "elevation": 27
+        },
+        {
+          "coordinates": [
+            -0.37693692,
+            39.47515021
+          ],
+          "distance_along_line": 220,
+          "elevation": 27
+        },
+        {
+          "coordinates": [
+            -0.3768277,
+            39.47537254
+          ],
+          "distance_along_line": 250,
+          "elevation": 27
+        },
+        {
+          "coordinates": [
+            -0.3767703,
+            39.47546234
+          ],
+          "distance_along_line": 280,
+          "elevation": 27
+        },
+        {
+          "coordinates": [
+            -0.37692778,
+            39.47570925
+          ],
+          "distance_along_line": 310,
+          "elevation": 27
+        },
+        {
+          "coordinates": [
+            -0.37676573,
+            39.4758651
+          ],
+          "distance_along_line": 340,
+          "elevation": 27
+        },
+        {
+          "coordinates": [
+            -0.37640813,
+            39.47589331
+          ],
+          "distance_along_line": 370,
+          "elevation": 27
+        },
+        {
+          "coordinates": [
+            -0.37626186,
+            39.47609141
+          ],
+          "distance_along_line": 400,
+          "elevation": 27
+        },
+        {
+          "coordinates": [
+            -0.37606819,
+            39.47604944
+          ],
+          "distance_along_line": 430,
+          "elevation": 27
+        },
+        {
+          "coordinates": [
+            -0.37586142,
+            39.47582146
+          ],
+          "distance_along_line": 460,
+          "elevation": 27
+        },
+        {
+          "coordinates": [
+            -0.3755414,
+            39.47572455
+          ],
+          "distance_along_line": 500,
+          "elevation": 27
+        },
+        {
+          "coordinates": [
+            -0.37532028,
+            39.47589749
+          ],
+          "distance_along_line": 530,
+          "elevation": 27
+        },
+        {
+          "coordinates": [
+            -0.3752474,
+            39.47616187
+          ],
+          "distance_along_line": 560,
+          "elevation": 27
+        },
+        {
+          "coordinates": [
+            -0.37524191,
+            39.47633121
+          ],
+          "distance_along_line": 590,
+          "elevation": 27
+        }
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -0.375441646261747,
+            39.47465249353476
+          ],
+          [
+            -0.375742379086191,
+            39.4749038523134
+          ],
+          [
+            -0.375915188246505,
+            39.474975669107295
+          ],
+          [
+            -0.376083508857201,
+            39.47461658513781
+          ],
+          [
+            -0.37642912717783,
+            39.47472431032866
+          ],
+          [
+            -0.376408928704547,
+            39.47480061567217
+          ],
+          [
+            -0.376628867635856,
+            39.474832035519505
+          ],
+          [
+            -0.376601936338145,
+            39.474957714908825
+          ],
+          [
+            -0.376756791299985,
+            39.47500933322944
+          ],
+          [
+            -0.376956531758011,
+            39.47503177597753
+          ],
+          [
+            -0.376900424887779,
+            39.47537066147372
+          ],
+          [
+            -0.376640089009902,
+            39.47537739429815
+          ],
+          [
+            -0.376759035574794,
+            39.47544696681724
+          ],
+          [
+            -0.376925111910681,
+            39.47567363857297
+          ],
+          [
+            -0.376938577559537,
+            39.47585318055771
+          ],
+          [
+            -0.376482989773253,
+            39.475884600405045
+          ],
+          [
+            -0.376289982139655,
+            39.475907043153136
+          ],
+          [
+            -0.376265295116753,
+            39.476086585137885
+          ],
+          [
+            -0.376193478322856,
+            39.4761875775043
+          ],
+          [
+            -0.375843371452608,
+            39.4758015622371
+          ],
+          [
+            -0.375816440154897,
+            39.47577238666459
+          ],
+          [
+            -0.375506730231216,
+            39.47571852406916
+          ],
+          [
+            -0.375461844735031,
+            39.475711791244734
+          ],
+          [
+            -0.375253127177767,
+            39.475985592771465
+          ],
+          [
+            -0.375241905803721,
+            39.476331211092095
+          ]
+        ]
+      },
+      "images": []
+    },
+    {
+      "id": 200006,
+      "type": "line",
+      "topic": "route",
+      "properties": {
+        "id": 6,
+        "transport_type": "",
+        "title": "Almost there!",
+        "description": "Walking towards the Torres dels Serrans",
+        "to_publish": true,
+        "classification": null,
+        "subtype": null,
+        "route_sequence_id": 9
+      },
+      "elevation": [
+        {
+          "coordinates": [
+            -0.37524191,
+            39.47633346
+          ],
+          "distance_along_line": 0,
+          "elevation": 27
+        },
+        {
+          "coordinates": [
+            -0.37567821,
+            39.47636953
+          ],
+          "distance_along_line": 40,
+          "elevation": 27
+        },
+        {
+          "coordinates": [
+            -0.37610217,
+            39.47646019
+          ],
+          "distance_along_line": 80,
+          "elevation": 27
+        },
+        {
+          "coordinates": [
+            -0.37652614,
+            39.47655084
+          ],
+          "distance_along_line": 110,
+          "elevation": 27
+        },
+        {
+          "coordinates": [
+            -0.37682974,
+            39.47670076
+          ],
+          "distance_along_line": 150,
+          "elevation": 27
+        },
+        {
+          "coordinates": [
+            -0.37666061,
+            39.47695117
+          ],
+          "distance_along_line": 190,
+          "elevation": 27
+        },
+        {
+          "coordinates": [
+            -0.37622088,
+            39.47695757
+          ],
+          "distance_along_line": 230,
+          "elevation": 27
+        },
+        {
+          "coordinates": [
+            -0.37578553,
+            39.47691897
+          ],
+          "distance_along_line": 260,
+          "elevation": 27
+        },
+        {
+          "coordinates": [
+            -0.37554819,
+            39.47703259
+          ],
+          "distance_along_line": 300,
+          "elevation": 27
+        },
+        {
+          "coordinates": [
+            -0.37554064,
+            39.47737339
+          ],
+          "distance_along_line": 340,
+          "elevation": 25
+        },
+        {
+          "coordinates": [
+            -0.37543404,
+            39.47769949
+          ],
+          "distance_along_line": 380,
+          "elevation": 25
+        },
+        {
+          "coordinates": [
+            -0.37505318,
+            39.47768314
+          ],
+          "distance_along_line": 420,
+          "elevation": 25
+        },
+        {
+          "coordinates": [
+            -0.37484227,
+            39.47782062
+          ],
+          "distance_along_line": 450,
+          "elevation": 26
+        },
+        {
+          "coordinates": [
+            -0.37482905,
+            39.47816131
+          ],
+          "distance_along_line": 490,
+          "elevation": 26
+        },
+        {
+          "coordinates": [
+            -0.37524954,
+            39.47825499
+          ],
+          "distance_along_line": 530,
+          "elevation": 25
+        },
+        {
+          "coordinates": [
+            -0.37567512,
+            39.47833793
+          ],
+          "distance_along_line": 570,
+          "elevation": 25
+        },
+        {
+          "coordinates": [
+            -0.37599267,
+            39.47845825
+          ],
+          "distance_along_line": 610,
+          "elevation": 25
+        },
+        {
+          "coordinates": [
+            -0.37602666,
+            39.47879808
+          ],
+          "distance_along_line": 640,
+          "elevation": 25
+        },
+        {
+          "coordinates": [
+            -0.37604155,
+            39.47913448
+          ],
+          "distance_along_line": 680,
+          "elevation": 25
+        },
+        {
+          "coordinates": [
+            -0.37596456,
+            39.47933293
+          ],
+          "distance_along_line": 720,
+          "elevation": 15
+        }
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -0.375241905803721,
+            39.47633345536689
+          ],
+          [
+            -0.375614455422062,
+            39.47635589811499
+          ],
+          [
+            -0.376847684429761,
+            39.47661960040507
+          ],
+          [
+            -0.376774745498459,
+            39.47694950880204
+          ],
+          [
+            -0.376157569925907,
+            39.476958485901285
+          ],
+          [
+            -0.375933142444979,
+            39.47694502025243
+          ],
+          [
+            -0.375551615727402,
+            39.47687769200815
+          ],
+          [
+            -0.375538150078546,
+            39.47748589048147
+          ],
+          [
+            -0.375407982139608,
+            39.47775295918377
+          ],
+          [
+            -0.374849157712097,
+            39.47764298971811
+          ],
+          [
+            -0.374828959238814,
+            39.478163661473864
+          ],
+          [
+            -0.375614455422061,
+            39.47833422635937
+          ],
+          [
+            -0.375982516490783,
+            39.47835666910746
+          ],
+          [
+            -0.376034134811397,
+            39.4788728523136
+          ],
+          [
+            -0.376065554658727,
+            39.47907259277163
+          ],
+          [
+            -0.375964562292309,
+            39.479332928649505
+          ]
+        ]
+      },
+      "images": []
+    }
+  ]
+}

@@ -45,6 +45,17 @@ export default {
             center: [3.44495,50.051],
             zoom: 8,
             maxZoomFocus: 18
+        },
+        'valencia-city': {
+            id: 'valencia-city',
+            theme: 'light',
+            isRoute: true,
+            mainColor: '#065809',
+            poiColor: "#2f2d2d",
+            basemap: 'https://tiles.openfreemap.org/styles/positron',
+            center: [-0.375 ,39.471],
+            zoom: 14,
+            maxZoomFocus: 18
         }
     },
 
