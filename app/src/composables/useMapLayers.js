@@ -307,19 +307,18 @@ export function useMapLayers(map) {
     // Fit map to the active feature
 
     const createMapLabels = () => {
-                  map.value.addLayer({
-                  id: 'routelines-labels',
-                  type: 'symbol',
-                  source: 'routelines',
-                  layout: {
-                    'symbol-placement': 'line',
-                    'text-field': ['get', 'title'],
-                    'text-font': ['Noto Sans Regular'],
-                    'text-size': 12,
-                  },
-                  paint:labelFont,
-                });
-
+          map.value.addLayer({
+          id: 'routelines-labels',
+          type: 'symbol',
+          source: 'routelines',
+          layout: {
+            'symbol-placement': 'line',
+            'text-field': ['get', 'title'],
+            'text-font': ['Noto Sans Regular'],
+            'text-size': 12,
+          },
+          paint:labelFont,
+        });
     }
     const fitMapToFeature = (feature) => {
         const bounds = getFeatureBoundingBox(feature);

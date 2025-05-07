@@ -5,6 +5,12 @@
 - Add code list interfaces to interfaces (https://chatgpt.com/c/678ffdbc-9148-800b-9d8d-28eb345ab535)
 - Add feature Popup
 - include right icons in public for build
+- make styling of layers more flexible
+- rethink elevation inclusion in data. Not necessary for every use case -> more flexible
+- add click interaction with non-route elements
+- add highlight of active feature
+- remove summary or description from data fields
+- add extra data fields
 
 
 ### Low Prio

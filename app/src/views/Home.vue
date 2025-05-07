@@ -1,3 +1,18 @@
+<template>
+  <div class="app-container" >
+    <!-- Map Component Section -->
+    <div class="map-section">
+      <Map />
+    </div>
+
+    <!-- Content Component Section -->
+    <div class="content-section" >
+      <Content />
+    </div>
+  </div>
+</template>
+
+
 <script setup >
 import Map from '../components/Map.vue';
 import Content from '../components/Panel.vue';
@@ -57,19 +72,6 @@ onMounted(() => {
 
 </script>
 
-<template>
-  <div class="app-container" >
-    <!-- Map Component Section -->
-    <div class="map-section">
-      <Map />
-    </div>
-
-    <!-- Content Component Section -->
-    <div class="content-section" >
-      <Content />
-    </div>
-  </div>
-</template>
 <style scoped>
 .app-container {
   width: 100%;
