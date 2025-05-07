@@ -8,7 +8,7 @@ const lineWidth = [
         10, 4,
         13, 8,
         16, 12,
-        19, 16
+        19, 12
       ]
 const lineOpacity = [
         'interpolate',

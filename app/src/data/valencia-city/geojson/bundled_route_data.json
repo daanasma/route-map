@@ -151,7 +151,10 @@
           39.475014
         ]
       },
-      "images": []
+      "images": [
+        "valencia-city/img/point/4/qarth-distance.jpg",
+        "valencia-city/img/point/4/qarth.png"
+      ]
     },
     {
       "id": 100005,
@@ -174,7 +177,11 @@
           39.4743857
         ]
       },
-      "images": []
+      "images": [
+        "valencia-city/img/point/5/lonjaseda-ext.jpg",
+        "valencia-city/img/point/5/lonjaseda-int.jpg",
+        "valencia-city/img/point/5/lonjaseda-int2.jpg"
+      ]
     },
     {
       "id": 100006,
@@ -197,7 +204,10 @@
           39.4734632
         ]
       },
-      "images": []
+      "images": [
+        "valencia-city/img/point/6/mercat-ext.png",
+        "valencia-city/img/point/6/mercat.jpg"
+      ]
     },
     {
       "id": 100007,
@@ -220,7 +230,9 @@
           39.4698148
         ]
       },
-      "images": []
+      "images": [
+        "valencia-city/img/point/7/plaza-ayt.png"
+      ]
     },
     {
       "id": 100008,
@@ -243,7 +255,10 @@
           39.4793333
         ]
       },
-      "images": []
+      "images": [
+        "valencia-city/img/point/8/torre.png",
+        "valencia-city/img/point/8/torre_back.png"
+      ]
     },
     {
       "id": 100009,
@@ -297,12 +312,12 @@
       "topic": "route",
       "properties": {
         "id": 1,
-        "transport_type": "",
+        "transport_type": "road",
         "title": "Qarth -> Plaza del Ayuntamiento",
         "description": null,
         "to_publish": true,
         "classification": null,
-        "subtype": null,
+        "subtype": "asphalt",
         "route_sequence_id": 2
       },
       "elevation": [
@@ -572,12 +587,12 @@
       "topic": "route",
       "properties": {
         "id": 2,
-        "transport_type": "",
+        "transport_type": "road",
         "title": "Plaza del ayuntamiento",
         "description": "After crossing the square, we can se a lot of buildings.",
         "to_publish": true,
         "classification": null,
-        "subtype": null,
+        "subtype": "asphalt",
         "route_sequence_id": 4
       },
       "elevation": [
@@ -795,12 +810,12 @@
       "topic": "route",
       "properties": {
         "id": 3,
-        "transport_type": "",
+        "transport_type": "road",
         "title": "Carrer de Sant Vicent Martir",
         "description": "Shopping! ",
         "to_publish": true,
         "classification": null,
-        "subtype": null,
+        "subtype": "asphalt",
         "route_sequence_id": 5
       },
       "elevation": [
@@ -990,12 +1005,12 @@
       "topic": "route",
       "properties": {
         "id": 4,
-        "transport_type": "",
+        "transport_type": "road",
         "title": "to placa de la reina",
         "description": null,
         "to_publish": true,
         "classification": null,
-        "subtype": null,
+        "subtype": "asphalt",
         "route_sequence_id": 6
       },
       "elevation": [
@@ -1281,12 +1296,12 @@
       "topic": "route",
       "properties": {
         "id": 5,
-        "transport_type": "",
+        "transport_type": "road",
         "title": "Gettig Lost in El Carmen",
         "description": null,
         "to_publish": true,
         "classification": null,
-        "subtype": null,
+        "subtype": "asphalt",
         "route_sequence_id": 8
       },
       "elevation": [
@@ -1564,12 +1579,12 @@
       "topic": "route",
       "properties": {
         "id": 6,
-        "transport_type": "",
+        "transport_type": "road",
         "title": "Almost there!",
         "description": "Walking towards the Torres dels Serrans",
         "to_publish": true,
         "classification": null,
-        "subtype": null,
+        "subtype": "asphalt",
         "route_sequence_id": 9
       },
       "elevation": [

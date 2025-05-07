@@ -29,7 +29,6 @@ export function useMapLayers(map) {
                 'line-width': mapConfig.layerConfigs['route-line-ferry'].width,
                 'line-dasharray': mapConfig.layerConfigs['route-line-ferry'].dasharray,
                 'line-opacity': mapConfig.layerConfigs['route-line-ferry'].opacity
-
             },
         },
         {
@@ -61,7 +60,6 @@ export function useMapLayers(map) {
                 'line-color': mapConfig.layerConfigs['route-line-road-cobblestones'].color,
                 'line-width': mapConfig.layerConfigs['route-line-road-cobblestones'].width,
                 'line-opacity': mapConfig.layerConfigs['route-line-road-cobblestones'].opacity
-
             },
         },
         {
@@ -208,6 +206,22 @@ export function useMapLayers(map) {
                 getRouteLayerStyles().forEach(layer => {
                     map.value.addLayer(layer);
                     loadedLayers.push(layer.id);
+                });
+                map.value.addLayer({
+                  id: 'my-line-labels',
+                  type: 'symbol',
+                  source: 'routelines',
+                  layout: {
+                    'symbol-placement': 'line',
+                    'text-field': ['get', 'title'],
+                    'text-font': ['Noto Sans Regular'],
+                    'text-size': 14,
+                  },
+                  paint: {
+                    'text-color': '#000',
+                    'text-halo-color': '#fff',
+                    'text-halo-width': 2,
+                  },
                 });
 
                 // Add Route points

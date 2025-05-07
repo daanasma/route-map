@@ -257,7 +257,7 @@
         "title": "Leaving Villa o Higgins",
         "description": "Travel along a winding road departing from the remote town of Villa O'Higgins, surrounded by untouched Patagonian wilderness. The journey offers dramatic landscapes with rugged mountains and pristine valleys.",
         "to_publish": true,
-        "subtype": "asphalt",
+        "subtype": "gravel",
         "route_sequence_id": 2
       },
       "elevation": [
@@ -16214,7 +16214,7 @@
         "title": "Long ride to Cochrane",
         "description": "A long but rewarding stretch through the breathtaking Chilean wilderness. This segment features rolling hills, dense forests, and panoramic views of distant mountains as you approach the charming town of Cochrane.",
         "to_publish": true,
-        "subtype": "asphalt",
+        "subtype": "gravel",
         "route_sequence_id": 6
       },
       "elevation": [
@@ -30774,7 +30774,7 @@
         "title": "Towards Puerto Bertrand",
         "description": "Travel through an enchanting landscape of crystal-clear rivers and lush greenery. This section guides you toward the vibrant blue waters of Puerto Bertrand, a beautiful lake region surrounded by impressive natural scenery.",
         "to_publish": true,
-        "subtype": "asphalt",
+        "subtype": "gravel",
         "route_sequence_id": 8
       },
       "elevation": [
@@ -37794,7 +37794,7 @@
         "title": "On the blue shores",
         "description": "A scenic journey along the shimmering blue shores of glacial lakes. This segment features gentle curves and spectacular vistas, with serene waters reflecting the towering peaks and rugged terrain.",
         "to_publish": true,
-        "subtype": "asphalt",
+        "subtype": "gravel",
         "route_sequence_id": 10
       },
       "elevation": [
@@ -45070,7 +45070,7 @@
         "title": "The Explorers Valley",
         "description": "A journey to the majestic Valle de Exploradores",
         "to_publish": true,
-        "subtype": "asphalt",
+        "subtype": "gravel",
         "route_sequence_id": null
       },
       "elevation": [
