@@ -5,6 +5,11 @@ import {useRouteInfoStore} from '../stores/routestatus.js';
 import mapConfig from '../config/mapConfig.js';
 import {LngLatBounds} from "maplibre-gl"; // Import map configuration
 
+const labelFont = {
+    'text-color': '#000',
+    'text-halo-color': '#fff',
+    'text-halo-width': 2,
+}
 
 const ArrayToGeoJSON = (featuresArray) => {
     return {
@@ -100,8 +105,15 @@ export function useMapLayers(map) {
                     `${mapConfig.iconMap.default}_${mapConfig.mainColor}`, // Default icon if no match is found
                 ],
 
-                'icon-size': mapConfig.sizeMapMarkers, // Adjust size if necessary
+                'icon-size': mapConfig.sizeMapMarkers,
+                // Label properties
+                'text-field': ['get', 'title'],  // Or any other property
+                'text-font': ['Noto Sans Regular'],
+                'text-size': 12,
+                'text-offset': [3.5, -2.5],       // Push label above icon
+                'text-anchor': 'top',          // Anchor label above point
             },
+            paint: labelFont
         },
     ];
     const getExtraPoiStyles = () => [
@@ -207,23 +219,6 @@ export function useMapLayers(map) {
                     map.value.addLayer(layer);
                     loadedLayers.push(layer.id);
                 });
-                map.value.addLayer({
-                  id: 'my-line-labels',
-                  type: 'symbol',
-                  source: 'routelines',
-                  layout: {
-                    'symbol-placement': 'line',
-                    'text-field': ['get', 'title'],
-                    'text-font': ['Noto Sans Regular'],
-                    'text-size': 14,
-                  },
-                  paint: {
-                    'text-color': '#000',
-                    'text-halo-color': '#fff',
-                    'text-halo-width': 2,
-                  },
-                });
-
                 // Add Route points
                 map.value.addSource('routepoints', {type: 'geojson', data: ArrayToGeoJSON(routePoints)});
                 getRoutePointStyles().forEach(layer => {
@@ -231,8 +226,11 @@ export function useMapLayers(map) {
                     loadedLayers.push(layer.id);
                 })
 
+
                 map.value.addSource('extrapoints', {type: 'geojson', data: ArrayToGeoJSON(extraPoints)});
                 map.value.addSource('extralines', {type: 'geojson', data: ArrayToGeoJSON(extraLines)});
+
+
 
                 // For each feature, log its properties
               [mapConfig.poiColor, mapConfig.mainColor].forEach((color) => {
@@ -290,12 +288,16 @@ export function useMapLayers(map) {
 
                 });
 
+                // Add LAbels
+
+
+
                 if (routeStatus.activeFeature) {
                     fitMapToFeature(routeStatus.activeFeature);
                 } else {
                     console.log("Map: there is no active feature..");
-
                 }
+                createMapLabels();
 
             })
         }
@@ -303,6 +305,22 @@ export function useMapLayers(map) {
     }
 
     // Fit map to the active feature
+
+    const createMapLabels = () => {
+                  map.value.addLayer({
+                  id: 'routelines-labels',
+                  type: 'symbol',
+                  source: 'routelines',
+                  layout: {
+                    'symbol-placement': 'line',
+                    'text-field': ['get', 'title'],
+                    'text-font': ['Noto Sans Regular'],
+                    'text-size': 12,
+                  },
+                  paint:labelFont,
+                });
+
+    }
     const fitMapToFeature = (feature) => {
         const bounds = getFeatureBoundingBox(feature);
         map.value.fitBounds(bounds, {padding: mapConfig.fitBoundsPadding, maxZoom: mapConfig.maxZoom});
