@@ -16,6 +16,7 @@ import {useRouteInfoStore} from '../stores/routestatus.js';
 import {useUpdateQueryParam} from '../composables/useQueryParams';
 import { useMapLayers } from '../composables/useMapLayers';
 import mapConfig from "@/config/mapConfig.js";
+import basemapConfig from "@/config/basemapConfig.js";
 
 // Helper function to convert feature arrays to a GeoJSON FeatureCollection
 
@@ -135,54 +136,69 @@ export default {
 
     }
 
-    const mapStyleOutdoors= {
-              'version': 8,
-              'sources': {
-                  'raster-tiles': {
-                      'type': 'raster',
-                      'tiles': [
-                          'https://tile.thunderforest.com/outdoors/{z}/{x}/{y}.png?apikey=fb850d9821794c8294f74fea04afc0f0' // todo clean this up!
-                      ],
-                      'tileSize': 256,
-                      'attribution':
-                          '<a href="https://www.thunderforest.com/" target="_blank">&copy; Thunderforest</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
-                  }
-              },
-              'layers': [
-                  {
-                      'id': 'simple-tiles',
-                      'type': 'raster',
-                      'source': 'raster-tiles',
-                      'minzoom': 0,
-                      'maxzoom': 22
-                  }
-              ]
-          }
+    function addHillshadeLayer(map) {
+      if (!map) return
+
+      // avoid adding it twice
+      if (map.getLayer('hillshade')) return
+
+      // add raster-dem source
+      map.addSource('hillshadeSource', {
+        type: 'raster-dem',
+        tiles: ['https://tiles.mapterhorn.com/{z}/{x}/{y}.webp'],
+        encoding: 'terrarium', // or 'mapbox' depending on source
+        tileSize: 512,
+        attribution: '<a href="https://mapterhorn.com/attribution">© Mapterhorn</a>',
+        maxzoom: 14 // stop requesting tiles beyond zoom 14
+      })
+
+      // add hillshade layer
+      map.addLayer({
+        id: 'hillshade',
+        type: 'hillshade',
+        source: 'hillshadeSource',
+        paint: {
+          'hillshade-exaggeration': 1, // adjust vertical exaggeration
+          'hillshade-shadow-color': '#000000',
+          'hillshade-highlight-color': '#FFFFFF',
+          'hillshade-accent-color': '#000000',
+          'hillshade-illumination-direction': 335
+        },
+      })
+    }
+
 
     // Initialize the map when the component is mounted
     onMounted(async () => {
-      console.log('mounted', mapContainer.value)
+      console.log('Map: mounted', mapContainer.value)
       if (mapContainer.value) {
         // Initialize the map
+        let thisRouteConfig = mapConfig.configuredRoutes[routeStatus.mapId];
+      console.log("map: basemap", basemapConfig.basemapMap[thisRouteConfig.basemap])
+
         map.value = new maplibre.Map({
           container: mapContainer.value,
           //style: mapStyleOutdoors,
-          style: mapConfig.configuredRoutes[routeStatus.mapId].basemap,
-          center: mapConfig.configuredRoutes[routeStatus.mapId].center, // Coordinates for Valencia, Spain
-          zoom: mapConfig.configuredRoutes[routeStatus.mapId].zoom,
+          style: basemapConfig.basemapMap[thisRouteConfig.basemap].url,
+          center: thisRouteConfig.center, // Coordinates for Valencia, Spain
+          zoom: thisRouteConfig.zoom,
           scrollZoom: {
             speed: 2, // Default is 1. Increase for faster zoom, decrease for slower zoom
             smooth: true, // Enables smooth zooming
           },
           attributionControl: false,
           renderMode: '2d' // fallback to canvas 2D
-
         });
         console.log("Map: created map")
         map.value.style.cursor = 'pointer'
         addMapControls(map.value);// Add controls
         map.value.on('load', () => {
           map.value.resize()
+          zoomToFullRoute()
+          if (thisRouteConfig.useHillshade) {
+            addHillshadeLayer(map.value)
+          }
+
         })
       }
     })

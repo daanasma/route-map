@@ -1,5 +1,4 @@
 // src/config/mapconfig.js
-
 const lineWidth = [
         'interpolate',
         ['linear'],
@@ -21,6 +20,7 @@ const lineOpacity = [
 const sizeMapMarkers = 0.25;
 const mainColor = '#065809';
 const poiColor = "#2f2d2d";
+
 export default {
     configuredRoutes: {
         'carretera-austral': {
@@ -29,11 +29,11 @@ export default {
             isRoute: true,
             mainColor: '#065809',
             poiColor: "#2f2d2d",
-            basemap: 'https://tiles.openfreemap.org/styles/positron',
+            basemap: `maptiler-topo-4`,
             center: [-72.4200, -47.4800],
             zoom: 7,
-            maxZoomFocus: 13
-
+            maxZoomFocus: 13,
+            useHillshade: false
         },
         'paris-roubaix': {
             id: 'paris-roubaix',
@@ -41,10 +41,11 @@ export default {
             isRoute: true,
             mainColor: '#065809',
             poiColor: "#2f2d2d",
-            basemap: 'https://tiles.openfreemap.org/styles/positron',
+            basemap: 'openfreemap-liberty',
             center: [3.44495,50.051],
             zoom: 8,
-            maxZoomFocus: 18
+            maxZoomFocus: 18,
+            useHillshade: true
         },
         'valencia-city': {
             id: 'valencia-city',
@@ -52,10 +53,11 @@ export default {
             isRoute: true,
             mainColor: '#065809',
             poiColor: "#2f2d2d",
-            basemap: 'https://tiles.openfreemap.org/styles/positron',
+            basemap: 'maptiler-topo-4',
             center: [-0.375 ,39.473],
             zoom: 15,
-            maxZoomFocus: 18
+            maxZoomFocus: 18,
+            useHillshade: true
         }
     },
 

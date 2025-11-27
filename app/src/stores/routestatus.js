@@ -1,4 +1,3 @@
-
 import {useCorrectBasePath} from '@/composables/useCorrectBasePath.js';
 import mapConfig from '@/config/mapConfig.js'
 import {defineStore} from 'pinia';

@@ -1,4 +1,4 @@
-// useUpdateQueryParam.js (composable)
+// useQueryParam.js (composable)
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
 import { useRouteInfoStore } from '../stores/routestatus.js'; // Import the store
@@ -7,7 +7,6 @@ export function useUpdateQueryParam() {
   const router = useRouter();
   const store = useRouteInfoStore(); // Access the store
 
-  //  console.log('setting up useUpdateQueryParam')
   // Enable URL update when explicitly called
 
   const updateQueryParam = (key, value) => {

@@ -34,7 +34,7 @@ Thumbs.db
 yarn.lock
 
 # env files (exclude local environment files)
-.env
+app/.env
 .env.local
 .env.*.local
 
