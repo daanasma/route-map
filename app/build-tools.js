@@ -10,33 +10,47 @@ function bundleRouteData(routeId) {
 
     const path = `src/data/${routeId}/geojson/`
     // Load data files
-    const points = JSON.parse(readFileSync(resolve(path, `stops.geojson`), 'utf8'));
+    const points = JSON.parse(readFileSync(resolve(path, `points.geojson`), 'utf8'));
     const lines = JSON.parse(readFileSync(resolve(path, `route_with_elevation.geojson`), 'utf8'));
     const sequenceData = JSON.parse(readFileSync(resolve(path, `route_info.json`), 'utf8'));
+    const formatFeature = (feature, type) => {
+            const id = feature.properties?.id;
+            const key = `${id}_${type}`;
+            // Check if the exact id and type exist in sequenceMap
+            const sequenceEntry = sequenceMap.get(key);
+
+            const routeStep = sequenceEntry?.route_step ?? null;
+            const topic = routeStep ? 'route' : 'extra';
+
+            return {
+                id: id + (type === 'point' ? 100000 : 200000),
+                type,
+                topic,
+                properties: {
+                    ...feature.properties,
+                    route_sequence_id: routeStep
+                },
+                elevation: feature.elevation,
+                geometry: feature.geometry,
+                images: listImages(routeId, type, id),
+            };
+        };
 
     // Map sequence for quick lookup
-    const sequenceMap = new Map(sequenceData.sequence.map((entry, index) => [
-        `${entry.id}_${entry.type}`, // Unique key based on ID + type
-        {type: entry.type, route_step: index + 1}
-    ]));
-    const formatFeature = (feature, type) => {
-        const id = feature.properties?.id;
+    const sequenceMap = new Map();
 
-        // Check if the exact id and type exist in sequenceMap
-        const sequenceEntry = sequenceMap.get(`${id}_${type}`);
-        const routeStep = sequenceEntry ? sequenceEntry.route_step : null;
-        const topic = routeStep ? 'route' : 'extra';
+    sequenceData.sequence.forEach((step, stepIndex) => {
+        step.features.forEach(f => {
+            const key = `${f.id}_${f.type}`;
 
-        return {
-            id: id + (type === 'point' ? 100000 : 200000),
-            type,
-            topic,
-            properties: {...feature.properties, route_sequence_id: routeStep},
-            elevation: feature.elevation,
-            geometry: feature.geometry,
-            images: listImages(routeId, type, id),
-        };
-    };
+            // only set if not yet present
+            if (!sequenceMap.has(key)) {
+                sequenceMap.set(key, {
+                    route_step: stepIndex + 1
+                });
+            }
+        });
+    });
 
     const features = [];
     // Process all points
@@ -62,11 +76,11 @@ function bundleRouteData(routeId) {
     ;
 
     const outputPath = resolve(path, 'bundled_route_data.json');
-    writeFileSync(outputPath, JSON.stringify(bundledData, null, 2), { encoding: 'utf8' });
+    writeFileSync(outputPath, JSON.stringify(bundledData, null, 2), {encoding: 'utf8'});
     console.log(`Bundled route data written to: ${outputPath}`);
 }
 
-function bundleRouteDataAllRoutes() {
+function bundleRouteDataAllRoutes(routeLimitation) {
     return {
         name: 'bundle-route-data',
         apply: 'build',
@@ -74,8 +88,13 @@ function bundleRouteDataAllRoutes() {
             try {
                 Object.entries(mapConfig.configuredRoutes).forEach(([key, value]) => {
                     let routeId = key
-                    console.log("bundling: ", routeId)
-                    bundleRouteData(routeId)
+                    console.log("Start possibly bundling: ", routeId)
+                    if ((!routeLimitation) || (routeLimitation == routeId)) {
+                        console.log('-> Yes.Bundle it')
+                        bundleRouteData(routeId)
+                    } else {
+                        console.log("-> Skipping this route for now.")
+                    }
                 })
             } catch (error) {
                 console.error('Error bundling route data:', error);
@@ -84,7 +103,7 @@ function bundleRouteDataAllRoutes() {
     }
 }
 
-function minifyJsonFiles() {
+function minifyJsonFiles(routeLimitation) {
     return {
         name: 'minify-json',
         apply: 'build',
@@ -93,36 +112,44 @@ function minifyJsonFiles() {
                 Object.entries(mapConfig.configuredRoutes).forEach(([key, value]) => {
                     let routeId = key
                     console.log("minify route: ", routeId)
+                    if ((!routeLimitation) || (routeLimitation == routeId)) {
+                        console.log('-> Yes.minify it')
 
-                    const dir = `./src/data/${routeId}/geojson`;
-                    const outputDir = `./dist/map/${routeId}/geojson`;
-                    console.log("dir : ", dir)
-                    const files = readdirSync(dir);
-                    if (!existsSync(outputDir)) {
-                        mkdirSync(outputDir, {recursive: true});
-                    }
-                    console.log("start minifying files: ", files)
-                    // Loop through the files and minify them asynchronously
-                    Promise.all(files.map(async (file) => {
-                        const filePath = path.join(dir, file);
-                        const newFilePath = path.join(outputDir, `${file}.min`);
-                        if (['.geojson', '.json'].includes(path.extname(file))) {
-                            try {
-                                const content = readFileSync(filePath, 'utf8');
-                                const minifiedContent = jsonminify(content);
-                                console.log('minified content')
-                                writeFileSync(newFilePath, minifiedContent);
-                                console.log(`Minified: ${file}`);
-                            } catch (error) {
-                                console.error(`Error minifying file ${file}:`, error);
-                            }
+                        const dir = `./src/data/${routeId}/geojson`;
+                        const outputDir = `./dist/map/${routeId}/geojson`;
+                        console.log("dir : ", dir)
+                        const files = readdirSync(dir);
+                        if (!existsSync(outputDir)) {
+                            mkdirSync(outputDir, {recursive: true});
                         }
-                    })).then(() => {
-                        resolve();  // Ensure the build continues only after minification is done
-                    }).catch((error) => {
-                        reject(error); // Reject the promise if something goes wrong
-                    });
+                        console.log("start minifying files: ", files)
+                        // Loop through the files and minify them asynchronously
+                        Promise.all(files.map(async (file) => {
+                            const filePath = path.join(dir, file);
+                            const newFilePath = path.join(outputDir, `${file}.min`);
+                            if (['.geojson', '.json'].includes(path.extname(file))) {
+                                try {
+                                    const content = readFileSync(filePath, 'utf8');
+                                    const minifiedContent = jsonminify(content);
+                                    console.log('minified content')
+                                    writeFileSync(newFilePath, minifiedContent);
+                                    console.log(`Minified: ${file}`);
+                                } catch (error) {
+                                    console.error(`Error minifying file ${file}:`, error);
+                                }
+                            }
+                        })).then(() => {
+                            resolve();  // Ensure the build continues only after minification is done
+                        }).catch((error) => {
+                            reject(error); // Reject the promise if something goes wrong
+                        });
+                    } else {
+                        console.log("-> Skipping this route for now.")
+                    }
+
+
                 });
+
             });
         }
     };
@@ -145,7 +172,10 @@ function listImages(routeId, type, id) {
 }
 
 
-export default function buildPlugins() {
-    return [bundleRouteDataAllRoutes(), minifyJsonFiles(), createMapIcons()
+export default function buildPlugins(options = {}) {
+    const {routeLimitation = false} = options;
+    console.log("Start building datasets with routelimitation: ", routeLimitation);
+    console.log(routeLimitation);
+    return [bundleRouteDataAllRoutes(routeLimitation), minifyJsonFiles(routeLimitation), createMapIcons()
     ];
 }

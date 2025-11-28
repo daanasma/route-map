@@ -1,0 +1,27 @@
+{
+  "metadata": {
+    "title": "Carretera Austral",
+    "description": "A road through the pristine Chilean Patagonia.",
+    "banner": "carretera-austral/img/overview/voh_air_view.jpg",
+    "version": "1.0",
+    "created": "2025-01-01",
+    "last_edit": "2025-02-01"
+  },
+"sequence": [
+  { "route_step": 1, "features": [ { "id": 1, "type": "point" } ] },
+  { "route_step": 2,
+    "features": [ { "id": 1, "type": "line" }, { "id": 2, "type": "line" } ]
+  },
+  { "route_step": 3, "features": [ { "id": 2, "type": "point" } ] },
+  { "route_step": 4, "features": [ { "id": 3, "type": "line" } ] },
+  { "route_step": 5, "features": [ { "id": 3, "type": "point" } ] },
+  { "route_step": 6, "features": [ { "id": 4, "type": "line" } ] },
+  { "route_step": 7, "features": [ { "id": 4, "type": "point" } ] },
+  { "route_step": 8, "features": [ { "id": 5, "type": "line" } ] },
+  { "route_step": 9, "features": [ { "id": 5, "type": "point" } ] },
+  { "route_step": 10, "features": [ { "id": 6, "type": "line" } ] },
+  { "route_step": 11, "features": [ { "id": 6, "type": "point" } ] }
+],
+  "settings": {
+  }
+}

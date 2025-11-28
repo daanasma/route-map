@@ -35,31 +35,53 @@ export const useRouteInfoStore = defineStore('counter', {
         routeMetadata: (state) => state.routeData?.metadata,
         getFullRouteElevation: (state) => {
             if (!state.routeData || !state.routeData.features) return [];
+            console.log('State: Getting full route data with elevation')
             let accumulatedDistance = 0;
-            return state.getFilteredAndSortedFeatures(feature => feature.type === 'line')
-        .flatMap(feature => {
-            const adjustedElevation = feature.elevation?.map(point => ({
-                ...point,
-                distance_along_line: point.distance_along_line + accumulatedDistance
-            })) || [];
+            return state
+                .getFilteredAndSortedFeatures(feature => feature.type === 'line')
+                .flatMap(feature => {
+                    const adjustedElevation = feature.feature.elevation?.map(point => ({
+                        ...point,
+                        distance_along_line: point.distance_along_line + accumulatedDistance
+                    })) || [];
 
-            if (adjustedElevation.length > 0) {
-                accumulatedDistance = adjustedElevation[adjustedElevation.length - 1].distance_along_line;
-            }
+                    if (adjustedElevation.length > 0) {
+                        accumulatedDistance = adjustedElevation[adjustedElevation.length - 1].distance_along_line;
+                    }
 
-            return adjustedElevation;
-        });
+                    return adjustedElevation;
+                });
             },
         getFilteredAndSortedFeatures: (state) => (filterFn) => {
             if (!state.routeData || !state.routeData.features) return [];
+            console.log('Routestatus - We have routedata. Start filtering features',
+                filterFn, state.routeData.features)
 
-            return state.routeData.features
+            const result =  state.routeData.features
                 .filter(filterFn)
+                .flatMap(feature => {
+                    const steps = feature.properties?.route_sequence_id;
+
+                    if (Array.isArray(steps)) {
+                        return steps.map(step => ({
+                            feature,
+                            route_step: step
+                        }));
+                    }
+
+                    if (typeof steps === 'number') {
+                        return [{ feature, route_step: steps }];
+                    }
+
+                    return [];
+                })
                 .sort((a, b) => {
                     const aStep = a.properties?.route_sequence_id ?? Infinity;
                     const bStep = b.properties?.route_sequence_id ?? Infinity;
                     return aStep - bStep;
                 });
+            console.log('filtered result', result)
+            return result
         },
         getAllRouteFeatures: (state) => {
             return state.getFilteredAndSortedFeatures(feature => feature.topic === 'route');

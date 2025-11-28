@@ -40,7 +40,7 @@ export default {
       console.log('featureCollection', featureCollection)
       // Extract all coordinates from all features
       const allCoordinates = featureCollection.flatMap(feature =>
-          feature.geometry.coordinates
+          feature.feature.geometry.coordinates
       );
 
       // Create a 'LngLatBounds' with both corners at the first coordinate.

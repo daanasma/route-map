@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Route Metadata Editor</title>
+    <script src="md_manager.js"></script>
+    <link rel="stylesheet" href="md_manager.css">
+</head>
+<body>
+    <h1>Route Metadata Editor <span id="unsavedIndicator" class="unsaved-indicator"
+                                    style="display: none;">Unsaved changes</span></h1>
+
+    <div id="loadSection" class="section load-section">
+        <h2>Load Project Folder</h2>
+        <p>Select the folder containing: route_info.json, segments.geojson, and points.geojson</p>
+        <label for="folderInput" class="file-input-label">Choose Folder</label>
+        <input type="file" id="folderInput" webkitdirectory directory multiple
+               onchange="loadProjectFolder(event)">
+    </div>
+
+    <div id="errorContainer"></div>
+
+    <div id="projectInfo" style="display: none;"></div>
+
+    <div id="editorSection" class="section disabled">
+        <h2>Metadata</h2>
+        <div class="input-group">
+            <label>Title:</label>
+            <input type="text" id="metaTitle" placeholder="Route title" onchange="markUnsaved()">
+        </div>
+        <div class="input-group">
+            <label>Description:</label>
+            <textarea id="metaDescription" placeholder="Route description"
+                      onchange="markUnsaved()"></textarea>
+        </div>
+        <div class="input-group">
+            <label>Banner:</label>
+            <input type="text" id="metaBanner" placeholder="path/to/image.jpg"
+                   onchange="markUnsaved()">
+        </div>
+        <div class="input-group">
+            <label>Circular route?</label>
+            <input type="checkbox" id="metaCircular" onchange="markUnsaved()">
+        </div>
+        <div class="input-group">
+            <label>Version:</label>
+            <input type="text" id="metaVersion" placeholder="1.0"
+                   onchange="markUnsaved()">
+        </div>
+        <div class="input-group">
+            <label>Created:</label>
+            <input type="date" id="metaCreated"
+                   onchange="markUnsaved()">
+        </div>
+        <div class="input-group">
+            <label>Last Edit:</label>
+            <input type="date" id="metaLastEdit" disabled>
+        </div>
+    </div>
+
+    <div id="stepsSection" class="section disabled">
+        <h2>Steps</h2>
+        <div id="stepsList"></div>
+        <button onclick="addNewStep()">Add Step</button>
+    </div>
+
+    <div id="exportSection" class="section disabled">
+        <h2>Save & Export</h2>
+        <div class="buttons">
+            <button onclick="saveToFile()" class="success">Save route_info.json</button>
+            <button onclick="exportJSON()" class="secondary">View JSON</button>
+        </div>
+        <textarea id="jsonOutput" class="json-output" placeholder="JSON will appear here..."></textarea>
+    </div>
+
+    <div id="featureModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Select Features</h3>
+                <button onclick="closeFeatureModal()">Close</button>
+            </div>
+            <div id="featureList" class="feature-list"></div>
+            <div class="buttons">
+                <button onclick="addSelectedFeatures()" class="success">Add Selected</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

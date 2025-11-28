@@ -14,7 +14,7 @@ const labelFont = {
 const ArrayToGeoJSON = (featuresArray) => {
     return {
         type: 'FeatureCollection',
-        features: featuresArray
+        features: featuresArray.map(f => f.feature)
     };
 }
 
@@ -23,62 +23,35 @@ export function useMapLayers(map) {
     const startedLayerLoad = ref(false);
     let hoveredStateId = null;
 
-    const getRouteLayerStyles = () => [
-        {
-            id: 'route-line-ferry',
-            type: 'line',
-            source: 'routelines',
-            filter: ['==', ['get', 'transport_type'], 'ferry'],
-            paint: {
-                'line-color': mapConfig.layerConfigs['route-line-ferry'].color,
-                'line-width': mapConfig.layerConfigs['route-line-ferry'].width,
-                'line-dasharray': mapConfig.layerConfigs['route-line-ferry'].dasharray,
-                'line-opacity': mapConfig.layerConfigs['route-line-ferry'].opacity
-            },
-        },
-        {
-            id: 'route-line-road-asphalt',
-            type: 'line',
-            source: 'routelines',
-            filter: [
-                'all',
-                ['==', ['get', 'transport_type'], 'road'],
-                ['==', ['get', 'subtype'], 'asphalt']
-            ],
-            paint: {
-                'line-color': mapConfig.layerConfigs['route-line-road-asphalt'].color,
-                'line-width': mapConfig.layerConfigs['route-line-road-asphalt'].width,
-                'line-opacity': mapConfig.layerConfigs['route-line-road-asphalt'].opacity
+const getRouteLayerStyles = () =>
+  Object.entries(mapConfig.layerConfigs).map(([id, config]) => {
+    const parts = id.replace('route-line-', '').split('-'); // e.g. "road-asphalt"
+    const transport_type = parts[0];
+    const subtype = parts[1];
 
-            },
-        },
-        {
-            id: 'route-line-road-cobblestones',
-            type: 'line',
-            source: 'routelines',
-            filter: [
-                'all',
-                ['==', ['get', 'transport_type'], 'road'],
-                ['==', ['get', 'subtype'], 'cobblestones']
-            ],
-            paint: {
-                'line-color': mapConfig.layerConfigs['route-line-road-cobblestones'].color,
-                'line-width': mapConfig.layerConfigs['route-line-road-cobblestones'].width,
-                'line-opacity': mapConfig.layerConfigs['route-line-road-cobblestones'].opacity
-            },
-        },
-        {
-            id: 'route-line-default',
-            type: 'line',
-            source: 'routelines',
-            filter: ['!', ['match', ['get', 'transport_type'], ['ferry', 'road'], true, false]],
-            paint: {
-                'line-color': mapConfig.layerConfigs['route-line-default'].color,
-                'line-width': mapConfig.layerConfigs['route-line-default'].width,
-            },
-        },
-    ];
+    // Build filter
+    let filter;
+    if (transport_type === 'default') {
+      filter = ['!', ['match', ['get', 'transport_type'], ['ferry', 'road'], true, false]];
+    } else if (subtype) {
+      filter = ['all', ['==', ['get', 'transport_type'], transport_type], ['==', ['get', 'subtype'], subtype]];
+    } else {
+      filter = ['==', ['get', 'transport_type'], transport_type];
+    }
 
+    return {
+      id,
+      type: 'line',
+      source: 'routelines',
+      filter,
+      paint: {
+        'line-color': config.color,
+        'line-width': config.width,
+        ...(config.dasharray && {'line-dasharray': config.dasharray}),
+        ...(config.opacity !== undefined && {'line-opacity': config.opacity}),
+      },
+    };
+  });
     // const getRoutePointStyles = () => [
     //   {
     //     id: 'route-point',
@@ -195,7 +168,7 @@ export function useMapLayers(map) {
         }
     ];
 
-    // Function to add the layers to the map, now accepting data as parameters
+    // Function to add the layers to the map,  accepting data as parameters
     const renderLayers = () => {
         const loadedLayers = [];
         const routeLines = routeStatus.getFilteredAndSortedFeatures(feature => feature.topic === 'route'
@@ -230,21 +203,19 @@ export function useMapLayers(map) {
                 map.value.addSource('extrapoints', {type: 'geojson', data: ArrayToGeoJSON(extraPoints)});
                 map.value.addSource('extralines', {type: 'geojson', data: ArrayToGeoJSON(extraLines)});
 
-
+                console.log('added sources');
 
                 // For each feature, log its properties
-              [mapConfig.poiColor, mapConfig.mainColor].forEach((color) => {
+                [mapConfig.poiColor, mapConfig.mainColor].forEach((color) => {
+                    Object.values(mapConfig.iconMap).forEach(async (icon) => {
+                        let label = `${icon}_${color}`
+                        let iconUrl = `../icons/${color.replace('#', 'c')}/${icon}.png`
+                        //let iconUrl = 'https://upload.wikimedia.org/wikipedia/commons/7/7c/201408_cat.png'
 
-                Object.values(mapConfig.iconMap).forEach(async (icon) => {
-                    let label = `${icon}_${color}`
-                    let iconUrl = `../icons/${color.replace('#', 'c')}/${icon}.png`
-                    //let iconUrl = 'https://upload.wikimedia.org/wikipedia/commons/7/7c/201408_cat.png'
-
-                    let image = await map.value.loadImage(iconUrl);
-                    if (map.value.hasImage(label)) map.value.removeImage(label);
-                    map.value.addImage(label, image.data);
-
-                });
+                        let image = await map.value.loadImage(iconUrl);
+                        if (map.value.hasImage(label)) map.value.removeImage(label);
+                        map.value.addImage(label, image.data);
+                    });
               })
                 getExtraPoiStyles().forEach(layer => {
                     //console.log('xtraPOI', layer)
@@ -254,7 +225,10 @@ export function useMapLayers(map) {
                     console.log('xtraline', layer)
                     map.value.addLayer(layer);
                 });
+
+                console.log('maplayers -> start adding pointers')
                 const layers = ['route-point', 'route-line-road', 'route-line-ferry', 'route-line'];
+                console.log("loadedLayers", loadedLayers)
 
                 loadedLayers.forEach(layer => {
                     // Add interactivity (hover, click, etc.)
@@ -305,6 +279,10 @@ export function useMapLayers(map) {
     }
 
     // Fit map to the active feature
+    const fitMapToFeature = (feature) => {
+        const bounds = getFeatureBoundingBox(feature);
+        map.value.fitBounds(bounds, {padding: mapConfig.fitBoundsPadding, maxZoom: mapConfig.maxZoom});
+    };
 
     const createMapLabels = () => {
           map.value.addLayer({
@@ -320,10 +298,6 @@ export function useMapLayers(map) {
           paint:labelFont,
         });
     }
-    const fitMapToFeature = (feature) => {
-        const bounds = getFeatureBoundingBox(feature);
-        map.value.fitBounds(bounds, {padding: mapConfig.fitBoundsPadding, maxZoom: mapConfig.maxZoom});
-    };
 
     // Get feature bounding box
     const getFeatureBoundingBox = (feature) => {

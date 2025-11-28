@@ -3,65 +3,134 @@
     "title": "Carretera Austral",
     "description": "A road through the pristine Chilean Patagonia.",
     "banner": "carretera-austral/img/overview/voh_air_view.jpg",
+    "circular": false,
     "version": "1.0",
     "created": "2025-01-01",
-    "last_edit": "2025-02-01"
+    "last_edit": "2025-11-28"
   },
   "sequence": [
     {
       "route_step": 1,
-      "id": 1,
-      "type": "point"
+      "title": "Villa o Higgins",
+      "features": [
+        {
+          "id": 1,
+          "type": "point"
+        }
+      ],
+      "description": "Villa O Higgins is the starting point of this adventure."
     },
     {
       "route_step": 2,
-      "id": 1,
-      "type": "line"
+      "features": [
+        {
+          "id": 7,
+          "type": "line"
+        },
+        {
+          "id": 1,
+          "type": "line"
+        }
+      ],
+      "title": "Villa O Higgins towards the ferry"
     },
     {
       "route_step": 3,
-      "id": 2,
-      "type": "point"
+      "features": [
+        {
+          "id": 2,
+          "type": "point"
+        },
+        {
+          "id": 2,
+          "type": "line"
+        },
+        {
+          "id": 3,
+          "type": "point"
+        }
+      ],
+      "title": "Ferry"
     },
     {
       "route_step": 4,
-      "id": 2,
-      "type": "line"
+      "features": [
+        {
+          "id": 3,
+          "type": "line"
+        }
+      ]
     },
     {
       "route_step": 5,
-      "id": 3,
-      "type": "point"
+      "features": [
+        {
+          "id": 3,
+          "type": "point"
+        }
+      ]
     },
     {
       "route_step": 6,
-      "id": 3,
-      "type": "line"
+      "features": [
+        {
+          "id": 4,
+          "type": "line"
+        }
+      ],
+      "title": "sdfq",
+      "description": "qsdfsdf"
     },
     {
       "route_step": 7,
-      "id": 4,
-      "type": "point"
+      "features": [
+        {
+          "id": 4,
+          "type": "point"
+        }
+      ]
     },
     {
       "route_step": 8,
-      "id": 4,
-      "type": "line"
+      "features": [
+        {
+          "id": 5,
+          "type": "line"
+        }
+      ]
     },
     {
       "route_step": 9,
-      "id": 5,
-      "type": "point"
+      "features": [
+        {
+          "id": 5,
+          "type": "point"
+        }
+      ]
     },
     {
       "route_step": 10,
-      "id": 5,
-      "type": "line"
+      "title": "new ",
+      "description": "",
+      "features": []
     },
     {
       "route_step": 11,
-      "id": 6,
-      "type": "point"
+      "features": [
+        {
+          "id": 6,
+          "type": "line"
+        }
+      ]
+    },
+    {
+      "route_step": 12,
+      "features": [
+        {
+          "id": 6,
+          "type": "point"
+        }
+      ]
     }
   ],
   "settings": {},
@@ -144,7 +213,7 @@
         "title": "Puerto Yungay",
         "to_publish": true,
         "poi_type": "port",
-        "route_sequence_id": 5
+        "route_sequence_id": 3
       },
       "geometry": {
         "type": "Point",
@@ -213,7 +282,7 @@
         "title": "Puerto Rio Tranquilo",
         "to_publish": true,
         "poi_type": "town",
-        "route_sequence_id": 11
+        "route_sequence_id": 12
       },
       "geometry": {
         "type": "Point",
@@ -254,307 +323,307 @@
       "properties": {
         "id": 1,
         "transport_type": "road",
-        "title": "Leaving Villa o Higgins",
+        "title": "VOH -> ferry",
         "description": "Travel along a winding road departing from the remote town of Villa O'Higgins, surrounded by untouched Patagonian wilderness. The journey offers dramatic landscapes with rugged mountains and pristine valleys.",
         "to_publish": true,
-        "subtype": "gravel",
+        "subtype": "asphalt",
         "route_sequence_id": 2
       },
       "elevation": [
         {
           "coordinates": [
-            -72.56157,
-            -48.46707
+            -72.56085,
+            -48.45799
           ],
           "distance_along_line": 0,
-          "elevation": 269
+          "elevation": 285
         },
         {
           "coordinates": [
-            -72.5732617,
-            -48.44724511
+            -72.57191789,
+            -48.4385274
           ],
-          "distance_along_line": 2700,
-          "elevation": 272
+          "distance_along_line": 2670,
+          "elevation": 275
         },
         {
           "coordinates": [
-            -72.56342277,
-            -48.42460992
+            -72.55155526,
+            -48.42170862
           ],
-          "distance_along_line": 5390,
-          "elevation": 267
+          "distance_along_line": 5340,
+          "elevation": 287
         },
         {
           "coordinates": [
-            -72.55654298,
-            -48.41770535
+            -72.56742264,
+            -48.41977252
           ],
-          "distance_along_line": 8090,
-          "elevation": 277
+          "distance_along_line": 8010,
+          "elevation": 287
         },
         {
           "coordinates": [
-            -72.58590991,
-            -48.42661997
+            -72.59255191,
+            -48.43308906
           ],
-          "distance_along_line": 10790,
+          "distance_along_line": 10680,
+          "elevation": 253
+        },
+        {
+          "coordinates": [
+            -72.61924562,
+            -48.4479986
+          ],
+          "distance_along_line": 13350,
           "elevation": 258
         },
         {
           "coordinates": [
-            -72.60918338,
-            -48.44423723
+            -72.63514997,
+            -48.43128755
           ],
-          "distance_along_line": 13490,
-          "elevation": 257
+          "distance_along_line": 16020,
+          "elevation": 265
         },
         {
           "coordinates": [
-            -72.62838062,
-            -48.43653257
+            -72.64481303,
+            -48.40879747
           ],
-          "distance_along_line": 16180,
-          "elevation": 296
+          "distance_along_line": 18690,
+          "elevation": 280
         },
         {
           "coordinates": [
-            -72.64396225,
-            -48.41601407
+            -72.6602523,
+            -48.38747493
           ],
-          "distance_along_line": 18880,
-          "elevation": 333
+          "distance_along_line": 21350,
+          "elevation": 277
         },
         {
           "coordinates": [
-            -72.65486115,
-            -48.3936657
+            -72.67353358,
+            -48.36715901
           ],
-          "distance_along_line": 21580,
-          "elevation": 300
+          "distance_along_line": 24020,
+          "elevation": 277
         },
         {
           "coordinates": [
-            -72.67043707,
-            -48.37298523
+            -72.66694853,
+            -48.34390973
           ],
-          "distance_along_line": 24270,
-          "elevation": 297
+          "distance_along_line": 26690,
+          "elevation": 314
         },
         {
           "coordinates": [
-            -72.66883584,
-            -48.3503242
+            -72.66326916,
+            -48.32157415
           ],
-          "distance_along_line": 26970,
-          "elevation": 308
-        },
-        {
-          "coordinates": [
-            -72.66127583,
-            -48.32740261
-          ],
-          "distance_along_line": 29670,
+          "distance_along_line": 29360,
           "elevation": 288
         },
         {
           "coordinates": [
-            -72.66890838,
-            -48.30578277
+            -72.67212182,
+            -48.300346
           ],
-          "distance_along_line": 32360,
-          "elevation": 279
+          "distance_along_line": 32030,
+          "elevation": 280
         },
         {
           "coordinates": [
-            -72.68127269,
-            -48.28357447
+            -72.68080642,
+            -48.27781644
           ],
-          "distance_along_line": 35060,
-          "elevation": 346
+          "distance_along_line": 34700,
+          "elevation": 273
         },
         {
           "coordinates": [
-            -72.68990843,
-            -48.26102879
+            -72.6891056,
+            -48.25543597
           ],
-          "distance_along_line": 37760,
-          "elevation": 304
+          "distance_along_line": 37370,
+          "elevation": 277
         },
         {
           "coordinates": [
-            -72.70003621,
-            -48.23880171
+            -72.70483289,
+            -48.23451711
           ],
-          "distance_along_line": 40460,
-          "elevation": 311
+          "distance_along_line": 40040,
+          "elevation": 305
         },
         {
           "coordinates": [
-            -72.72170863,
-            -48.21986173
+            -72.72606648,
+            -48.21595963
           ],
-          "distance_along_line": 43150,
-          "elevation": 299
+          "distance_along_line": 42710,
+          "elevation": 288
         },
         {
           "coordinates": [
-            -72.74017146,
-            -48.20003614
+            -72.74550417,
+            -48.19669597
           ],
-          "distance_along_line": 45850,
-          "elevation": 339
+          "distance_along_line": 45380,
+          "elevation": 293
         },
         {
           "coordinates": [
-            -72.76671973,
-            -48.18391873
+            -72.77017911,
+            -48.17991756
           ],
-          "distance_along_line": 48550,
-          "elevation": 337
+          "distance_along_line": 48050,
+          "elevation": 292
         },
         {
           "coordinates": [
-            -72.78702227,
-            -48.16408064
+            -72.78978412,
+            -48.16006554
           ],
-          "distance_along_line": 51240,
+          "distance_along_line": 50720,
           "elevation": 298
         },
         {
           "coordinates": [
-            -72.801851,
-            -48.14331417
+            -72.80488639,
+            -48.13988876
           ],
-          "distance_along_line": 53940,
+          "distance_along_line": 53390,
+          "elevation": 414
+        },
+        {
+          "coordinates": [
+            -72.83204905,
+            -48.1294345
+          ],
+          "distance_along_line": 56060,
+          "elevation": 230
+        },
+        {
+          "coordinates": [
+            -72.86523448,
+            -48.12329255
+          ],
+          "distance_along_line": 58730,
           "elevation": 351
         },
         {
           "coordinates": [
-            -72.82837719,
-            -48.12843566
+            -72.89568765,
+            -48.11803
           ],
-          "distance_along_line": 56640,
-          "elevation": 248
+          "distance_along_line": 61390,
+          "elevation": 329
         },
         {
           "coordinates": [
-            -72.86079735,
-            -48.12519817
+            -72.92253046,
+            -48.11180239
           ],
-          "distance_along_line": 59330,
-          "elevation": 359
+          "distance_along_line": 64060,
+          "elevation": 152
         },
         {
           "coordinates": [
-            -72.89103288,
-            -48.11716515
+            -72.93984055,
+            -48.09316853
           ],
-          "distance_along_line": 62030,
-          "elevation": 397
+          "distance_along_line": 66730,
+          "elevation": 107
         },
         {
           "coordinates": [
-            -72.91839229,
-            -48.11324167
+            -72.94700643,
+            -48.07105761
           ],
-          "distance_along_line": 64730,
-          "elevation": 193
+          "distance_along_line": 69400,
+          "elevation": 220
         },
         {
           "coordinates": [
-            -72.93906848,
-            -48.09603461
+            -72.97033486,
+            -48.05662779
           ],
-          "distance_along_line": 67430,
-          "elevation": 109
+          "distance_along_line": 72070,
+          "elevation": 249
         },
         {
           "coordinates": [
-            -72.94646419,
-            -48.07367421
+            -72.99129485,
+            -48.04838542
           ],
-          "distance_along_line": 70120,
-          "elevation": 218
+          "distance_along_line": 74740,
+          "elevation": 131
         },
         {
           "coordinates": [
-            -72.96767691,
-            -48.05775173
+            -73.01833483,
+            -48.04426964
           ],
-          "distance_along_line": 72820,
-          "elevation": 226
+          "distance_along_line": 77410,
+          "elevation": 66
         },
         {
           "coordinates": [
-            -72.98911608,
-            -48.04997806
+            -73.03522674,
+            -48.02418336
           ],
-          "distance_along_line": 75520,
-          "elevation": 125
+          "distance_along_line": 80080,
+          "elevation": 39
         },
         {
           "coordinates": [
-            -73.01578028,
-            -48.04505771
+            -73.0595328,
+            -48.01215865
           ],
-          "distance_along_line": 78210,
-          "elevation": 67
-        },
-        {
-          "coordinates": [
-            -73.0340376,
-            -48.02565279
-          ],
-          "distance_along_line": 80910,
-          "elevation": 37
-        },
-        {
-          "coordinates": [
-            -73.0580884,
-            -48.01321084
-          ],
-          "distance_along_line": 83610,
-          "elevation": 28
-        },
-        {
-          "coordinates": [
-            -73.09062695,
-            -48.01129833
-          ],
-          "distance_along_line": 86300,
-          "elevation": 25
-        },
-        {
-          "coordinates": [
-            -73.12094375,
-            -48.0012702
-          ],
-          "distance_along_line": 89000,
+          "distance_along_line": 82750,
           "elevation": 27
         },
         {
           "coordinates": [
-            -73.14951484,
-            -47.98956258
+            -73.09228566,
+            -48.01170457
           ],
-          "distance_along_line": 91700,
-          "elevation": 12
+          "distance_along_line": 85420,
+          "elevation": 20
         },
         {
           "coordinates": [
-            -73.17654523,
-            -47.97658748
+            -73.12229517,
+            -48.00104046
           ],
-          "distance_along_line": 94400,
-          "elevation": 10
+          "distance_along_line": 88090,
+          "elevation": 27
         },
         {
           "coordinates": [
-            -73.20709711,
-            -47.97243887
+            -73.15037919,
+            -47.98919598
           ],
-          "distance_along_line": 97090,
+          "distance_along_line": 90760,
+          "elevation": 18
+        },
+        {
+          "coordinates": [
+            -73.17719472,
+            -47.9765474
+          ],
+          "distance_along_line": 93430,
+          "elevation": 8
+        },
+        {
+          "coordinates": [
+            -73.20733374,
+            -47.97233727
+          ],
+          "distance_along_line": 96100,
           "elevation": 0
         },
         {
@@ -562,7 +631,7 @@
             -73.22369,
             -47.96802
           ],
-          "distance_along_line": 99790,
+          "distance_along_line": 98770,
           "elevation": 12
         },
         {
@@ -570,7 +639,7 @@
             -73.22369,
             -47.96802
           ],
-          "distance_along_line": 102490,
+          "distance_along_line": 101430,
           "elevation": 12
         },
         {
@@ -578,7 +647,7 @@
             -73.22369,
             -47.96802
           ],
-          "distance_along_line": 105180,
+          "distance_along_line": 104100,
           "elevation": 12
         },
         {
@@ -586,7 +655,7 @@
             -73.22369,
             -47.96802
           ],
-          "distance_along_line": 107880,
+          "distance_along_line": 106770,
           "elevation": 12
         },
         {
@@ -594,7 +663,7 @@
             -73.22369,
             -47.96802
           ],
-          "distance_along_line": 110580,
+          "distance_along_line": 109440,
           "elevation": 12
         },
         {
@@ -602,7 +671,7 @@
             -73.22369,
             -47.96802
           ],
-          "distance_along_line": 113270,
+          "distance_along_line": 112110,
           "elevation": 12
         },
         {
@@ -610,7 +679,7 @@
             -73.22369,
             -47.96802
           ],
-          "distance_along_line": 115970,
+          "distance_along_line": 114780,
           "elevation": 12
         },
         {
@@ -618,7 +687,7 @@
             -73.22369,
             -47.96802
           ],
-          "distance_along_line": 118670,
+          "distance_along_line": 117450,
           "elevation": 12
         },
         {
@@ -626,7 +695,7 @@
             -73.22369,
             -47.96802
           ],
-          "distance_along_line": 121370,
+          "distance_along_line": 120120,
           "elevation": 12
         },
         {
@@ -634,7 +703,7 @@
             -73.22369,
             -47.96802
           ],
-          "distance_along_line": 124060,
+          "distance_along_line": 122790,
           "elevation": 12
         },
         {
@@ -642,7 +711,7 @@
             -73.22369,
             -47.96802
           ],
-          "distance_along_line": 126760,
+          "distance_along_line": 125460,
           "elevation": 12
         },
         {
@@ -650,7 +719,7 @@
             -73.22369,
             -47.96802
           ],
-          "distance_along_line": 129460,
+          "distance_along_line": 128130,
           "elevation": 12
         },
         {
@@ -658,81 +727,13 @@
             -73.22369,
             -47.96802
           ],
-          "distance_along_line": 132150,
+          "distance_along_line": 130800,
           "elevation": 12
         }
       ],
       "geometry": {
         "type": "LineString",
         "coordinates": [
-          [
-            -72.56157,
-            -48.46707
-          ],
-          [
-            -72.56146,
-            -48.4665
-          ],
-          [
-            -72.56147,
-            -48.46634
-          ],
-          [
-            -72.56077,
-            -48.46252
-          ],
-          [
-            -72.56078,
-            -48.46172
-          ],
-          [
-            -72.56083,
-            -48.46127
-          ],
-          [
-            -72.56087,
-            -48.46065
-          ],
-          [
-            -72.56095,
-            -48.45998
-          ],
-          [
-            -72.56096,
-            -48.45939
-          ],
-          [
-            -72.56095,
-            -48.45925
-          ],
-          [
-            -72.56091,
-            -48.45912
-          ],
-          [
-            -72.56091,
-            -48.45911
-          ],
-          [
-            -72.56076,
-            -48.4586
-          ],
-          [
-            -72.56071,
-            -48.45838
-          ],
-          [
-            -72.56071,
-            -48.45833
-          ],
-          [
-            -72.56074,
-            -48.45817
-          ],
-          [
-            -72.56083,
-            -48.45801
-          ],
           [
             -72.56085,
             -48.45799
@@ -16011,7 +16012,7 @@
         "description": "Board the ferry to cross scenic waterways. The tranquil ferry ride provides stunning views of the surrounding fjords and glacial landscapes, a unique way to experience the heart of Patagonia.",
         "to_publish": true,
         "subtype": null,
-        "route_sequence_id": 4
+        "route_sequence_id": 3
       },
       "elevation": [
         {
@@ -16215,7 +16216,7 @@
         "description": "A long but rewarding stretch through the breathtaking Chilean wilderness. This segment features rolling hills, dense forests, and panoramic views of distant mountains as you approach the charming town of Cochrane.",
         "to_publish": true,
         "subtype": "gravel",
-        "route_sequence_id": 6
+        "route_sequence_id": 4
       },
       "elevation": [
         {
@@ -30775,7 +30776,7 @@
         "description": "Travel through an enchanting landscape of crystal-clear rivers and lush greenery. This section guides you toward the vibrant blue waters of Puerto Bertrand, a beautiful lake region surrounded by impressive natural scenery.",
         "to_publish": true,
         "subtype": "gravel",
-        "route_sequence_id": 8
+        "route_sequence_id": 6
       },
       "elevation": [
         {
@@ -37795,7 +37796,7 @@
         "description": "A scenic journey along the shimmering blue shores of glacial lakes. This segment features gentle curves and spectacular vistas, with serene waters reflecting the towering peaks and rugged terrain.",
         "to_publish": true,
         "subtype": "gravel",
-        "route_sequence_id": 10
+        "route_sequence_id": 8
       },
       "elevation": [
         {
@@ -45063,7 +45064,7 @@
     {
       "id": 200006,
       "type": "line",
-      "topic": "extra",
+      "topic": "route",
       "properties": {
         "id": 6,
         "transport_type": "road",
@@ -45071,7 +45072,7 @@
         "description": "A journey to the majestic Valle de Exploradores",
         "to_publish": true,
         "subtype": "gravel",
-        "route_sequence_id": null
+        "route_sequence_id": 11
       },
       "elevation": [
         {
@@ -59203,6 +59204,260 @@
       "images": [
         "carretera-austral/img/line/6/lago_carrera.jpg"
       ]
+    },
+    {
+      "id": 200007,
+      "type": "line",
+      "topic": "route",
+      "properties": {
+        "id": 7,
+        "transport_type": "road",
+        "title": "Cruising Villa o higgins",
+        "description": "Cycling through Villa o Higgins",
+        "to_publish": true,
+        "subtype": "gravel",
+        "route_sequence_id": 2
+      },
+      "elevation": [
+        {
+          "coordinates": [
+            -72.56157,
+            -48.46707
+          ],
+          "distance_along_line": 0,
+          "elevation": 269
+        },
+        {
+          "coordinates": [
+            -72.56146419,
+            -48.46643294
+          ],
+          "distance_along_line": 70,
+          "elevation": 265
+        },
+        {
+          "coordinates": [
+            -72.56137017,
+            -48.46579525
+          ],
+          "distance_along_line": 140,
+          "elevation": 265
+        },
+        {
+          "coordinates": [
+            -72.56125342,
+            -48.46515817
+          ],
+          "distance_along_line": 210,
+          "elevation": 265
+        },
+        {
+          "coordinates": [
+            -72.56113668,
+            -48.46452109
+          ],
+          "distance_along_line": 290,
+          "elevation": 269
+        },
+        {
+          "coordinates": [
+            -72.56101994,
+            -48.46388401
+          ],
+          "distance_along_line": 360,
+          "elevation": 269
+        },
+        {
+          "coordinates": [
+            -72.5609032,
+            -48.46324693
+          ],
+          "distance_along_line": 430,
+          "elevation": 269
+        },
+        {
+          "coordinates": [
+            -72.56078646,
+            -48.46260985
+          ],
+          "distance_along_line": 500,
+          "elevation": 269
+        },
+        {
+          "coordinates": [
+            -72.56077689,
+            -48.46196874
+          ],
+          "distance_along_line": 570,
+          "elevation": 266
+        },
+        {
+          "coordinates": [
+            -72.56082355,
+            -48.46132802
+          ],
+          "distance_along_line": 640,
+          "elevation": 266
+        },
+        {
+          "coordinates": [
+            -72.56086762,
+            -48.46068692
+          ],
+          "distance_along_line": 710,
+          "elevation": 266
+        },
+        {
+          "coordinates": [
+            -72.56094199,
+            -48.46004706
+          ],
+          "distance_along_line": 790,
+          "elevation": 266
+        },
+        {
+          "coordinates": [
+            -72.56095974,
+            -48.45940551
+          ],
+          "distance_along_line": 860,
+          "elevation": 266
+        },
+        {
+          "coordinates": [
+            -72.56081087,
+            -48.45877296
+          ],
+          "distance_along_line": 930,
+          "elevation": 266
+        },
+        {
+          "coordinates": [
+            -72.56075676,
+            -48.4581402
+          ],
+          "distance_along_line": 1000,
+          "elevation": 285
+        },
+        {
+          "coordinates": [
+            -72.56085,
+            -48.45799
+          ],
+          "distance_along_line": 1070,
+          "elevation": 285
+        },
+        {
+          "coordinates": [
+            -72.56085,
+            -48.45799
+          ],
+          "distance_along_line": 1140,
+          "elevation": 285
+        },
+        {
+          "coordinates": [
+            -72.56085,
+            -48.45799
+          ],
+          "distance_along_line": 1210,
+          "elevation": 285
+        },
+        {
+          "coordinates": [
+            -72.56085,
+            -48.45799
+          ],
+          "distance_along_line": 1280,
+          "elevation": 285
+        },
+        {
+          "coordinates": [
+            -72.56085,
+            -48.45799
+          ],
+          "distance_along_line": 1360,
+          "elevation": 285
+        }
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -72.56157,
+            -48.46707
+          ],
+          [
+            -72.56146,
+            -48.4665
+          ],
+          [
+            -72.56147,
+            -48.46634
+          ],
+          [
+            -72.56077,
+            -48.46252
+          ],
+          [
+            -72.56078,
+            -48.46172
+          ],
+          [
+            -72.56083,
+            -48.46127
+          ],
+          [
+            -72.56087,
+            -48.46065
+          ],
+          [
+            -72.56095,
+            -48.45998
+          ],
+          [
+            -72.56096,
+            -48.45939
+          ],
+          [
+            -72.56095,
+            -48.45925
+          ],
+          [
+            -72.56091,
+            -48.45912
+          ],
+          [
+            -72.56091,
+            -48.45911
+          ],
+          [
+            -72.56076,
+            -48.4586
+          ],
+          [
+            -72.56071,
+            -48.45838
+          ],
+          [
+            -72.56071,
+            -48.45833
+          ],
+          [
+            -72.56074,
+            -48.45817
+          ],
+          [
+            -72.56083,
+            -48.45801
+          ],
+          [
+            -72.56085,
+            -48.45799
+          ]
+        ]
+      },
+      "images": []
     }
   ]
 }

@@ -76,7 +76,6 @@ function createMapIcons() {
         name: 'convert-all-svgs',
         apply: 'build',
         async writeBundle() {
-
             convertSvgsToPng(mapConfig.mainColor);
             convertSvgsToPng(mapConfig.poiColor)
         }
