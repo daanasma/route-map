@@ -22,10 +22,10 @@ export const useRouteInfoStore = defineStore('counter', {
         maxStopId: null,
         // --------------------
         routeData: null,
-        orderedRouteFeatures: null,
         loading: false,
         activeStep: null, // This is the index in the sequence. It is 1-based, so to get the actual data do - 1
-        activeFeature: null,
+        activeStepData: null, // This is the data about the step
+        activeFeatures: null,
         activeTopic: 'overview', // This can be 'overview', 'route' or 'extra'
         maxStepId: null,
         refreshNeeded: false,
@@ -33,6 +33,7 @@ export const useRouteInfoStore = defineStore('counter', {
     }),
     getters: {
         routeMetadata: (state) => state.routeData?.metadata,
+        routeSequence: (state) => state.routeData?.sequence,
         getFullRouteElevation: (state) => {
             if (!state.routeData || !state.routeData.features) return [];
             console.log('State: Getting full route data with elevation')
@@ -84,21 +85,23 @@ export const useRouteInfoStore = defineStore('counter', {
             return result
         },
         getAllRouteFeatures: (state) => {
-            return state.getFilteredAndSortedFeatures(feature => feature.topic === 'route');
+            const arf = state.getFilteredAndSortedFeatures(feature => feature.topic === 'route')
+            console.log('State - All Route Features: ', arf)
+            return arf;
         },
         getFilteredFeatures: (state) => (customFilter) => {
             return state.getFilteredAndSortedFeatures(customFilter);
         },
-        getRouteFeatureFromStepId: (state) => (stepId) => {
+        getRouteFeaturesFromStepId: (state) => (stepId) => {
             if (!state.routeData || !state.routeData.sequence) {
-                console.log("Store: there is no route data so we cant get an active feature.")
+                console.log("Store: there is no route data so we can't get an active feature.")
                 return null
             };
-            console.log('Store debug: Getting features for step: ', stepId)
+            console.log('Store debug: Getting features for step: ', stepId, typeof stepId)
             let arf = state.getAllRouteFeatures;
-            const step = arf.filter(i => i.route_step === stepId);
+            const step = arf.filter(i => String(i.route_step) === String(stepId));
             // const step = state.getAllRouteFeatures[state.activeStep -1];
-            console.log('Store debug: Got step', step)
+            console.log('Store debug: Got all features for step : ', step)
             if (!step) return null;
             return step
             }
@@ -114,9 +117,6 @@ export const useRouteInfoStore = defineStore('counter', {
             this.theme = theme
             document.documentElement.setAttribute("data-theme", theme);
 
-        },
-        setSegment(segmentId) {
-            this.segmentId = segmentId;
         },
         calculateMaxIds() {
             if (this.stopData) {
@@ -137,7 +137,7 @@ export const useRouteInfoStore = defineStore('counter', {
             this.loading = true;
             this.error = null;
             try {
-                const response = await fetch(getFilePath(`map/${this.mapId}/geojson/bundled_route_data.json.min`));
+                const response = await fetch(getFilePath(`map/${this.mapId}/geojson/bundled_route_data.json`));
                 if (!response.ok) {
                     throw new Error(`Failed to fetch route data: ${response.status}`);
                 }
@@ -152,33 +152,40 @@ export const useRouteInfoStore = defineStore('counter', {
                 console.log("Store: Calculated max step id:", this.maxStepId)
                 if (this.activeStep) {
                     console.log('Store. After data load. There is a step (', this.activeStep, ') Setting active feature!')
-                    this.setActiveRouteFeatureFromStepId(this.activeStep)
+                    this.setActiveStep(this.activeStep)
                 }
             }
         },
         setActiveFeature(topic, geomType, id) {
             console.log('Store: Setting active feature', topic, id, geomType)
-            this.activeFeature = this.getRouteFeatureFromStepId(id)
-            console.log("active", this.activeFeature)
+            this.activeFeatures = this.getRouteFeaturesFromStepId(id)
+            console.log("active", this.activeFeatures)
            //  console.log("setActiveFeature", this.routeData.features[topic][geomType])
            // = this.routeData.features[topic][geomType].find(feature => feature.id === id) || null;
-          if (this.activeFeature) {
+          if (this.activeFeatures) {
             this.setActiveTopic(topic);
           }
         },
+
         setActiveRouteFeatureFromStepId(stepId) {
             if (stepId)  {
-                this.activeFeature = this.getRouteFeatureFromStepId(stepId)
+                this.activeFeatures = this.getRouteFeaturesFromStepId(stepId)
                 this.setActiveTopic('route')
             }
             else {
-                this.activeFeature = null;
+                this.activeFeatures = null;
             }
         },
         setActiveStep(stepId) {
-            console.log("State: Start setting Active step to ", stepId)
-            this.activeStep = Number(stepId);
-            this.setActiveRouteFeatureFromStepId(stepId);
+            if (this.routeSequence && stepId) {
+                console.log("State: Start setting Active step ID to ", stepId)
+                this.activeStep = Number(stepId);
+                this.setActiveRouteFeatureFromStepId(stepId);
+                console.log(this.routeSequence)
+                this.activeStepData = this.routeSequence[this.activeStep - 1]
+                console.log('active Step data!', this.activeStepData)
+
+            }
         },
         setActiveTopic(newtopic, refreshneeded) {
           this.activeTopic = newtopic

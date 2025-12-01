@@ -1,0 +1,158 @@
+{
+  "metadata": {
+    "title": "Carretera Austral",
+    "description": "A road through the pristine Chilean Patagonia.",
+    "banner": "carretera-austral/img/overview/voh_air_view.jpg",
+    "circular": false,
+    "version": "1.0",
+    "created": "2025-01-01",
+    "last_edit": "2025-11-28"
+  },
+  "sequence": [
+    {
+      "route_step": 1,
+      "title": "Villa o Higgins",
+      "features": [
+        {
+          "id": 1,
+          "type": "point"
+        }
+      ],
+      "summary": "Villa O Higgins is the starting point of this adventure."
+    },
+    {
+      "route_step": 2,
+      "features": [
+        {
+          "id": 7,
+          "type": "line"
+        },
+        {
+          "id": 1,
+          "type": "line"
+        }
+      ],
+      "title": "Villa O Higgins towards the ferry",
+      "summary": "Riding towards the ferry. Some parts asphalt, some parts gravel but great views overalss."
+
+    },
+    {
+      "route_step": 3,
+      "features": [
+        {
+          "id": 2,
+          "type": "point"
+        },
+        {
+          "id": 2,
+          "type": "line"
+        },
+        {
+          "id": 3,
+          "type": "point"
+        }
+      ],
+      "title": "Ferry",
+      "summary": "on a boat motherfucker."
+
+    },
+    {
+      "route_step": 4,
+      "features": [
+        {
+          "id": 3,
+          "type": "line"
+        }
+      ],
+      "title": "Route step 4",
+      "summary": "Cruising some more. Try to fish."
+
+
+    },
+    {
+      "route_step": 5,
+      "features": [
+        {
+          "id": 3,
+          "type": "point"
+        }
+      ],
+      "title": "Route step 5",
+      "summary": "Still no fish.."
+
+    },
+
+    {
+      "route_step": 6,
+      "features": [
+        {
+          "id": 4,
+          "type": "line"
+        }
+      ],
+      "title": "sdfq",
+      "description": "qsdfsdf"
+    },
+    {
+      "route_step": 7,
+      "features": [
+        {
+          "id": 4,
+          "type": "point"
+        }
+      ],
+      "title": "Jeweet",
+      "summary": "Stap xx.."
+
+    },
+    {
+      "route_step": 8,
+      "features": [
+        {
+          "id": 5,
+          "type": "line"
+        }
+      ],
+            "title": "zellufff",
+      "summary": "Stap qsdfqsdfqsdfxx.."
+
+    },
+    {
+      "route_step": 9,
+      "features": [
+        {
+          "id": 5,
+          "type": "point"
+        }
+      ],
+      "title": "zelluqdfqsdfqsdffff",
+      "summary": "Stap qsdfqsdfqsdfsqdfsqdfqsdfsfdxx.."
+
+    },
+    {
+      "route_step": 10,
+      "title": "We zijn er bijna! ",
+      "summary": "Final description",
+      "features": [
+                {
+          "id": 6,
+          "type": "line"
+        }
+
+      ]
+    },
+    {
+      "route_step": 11,
+      "title": "MAar nog niet helemaal! ",
+      "summary": "of tock :) ",
+
+      "features": [
+        {
+          "id": 6,
+          "type": "point"
+        }
+      ]
+    }
+  ],
+  "settings": {}
+}

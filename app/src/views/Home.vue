@@ -1,31 +1,31 @@
 <template>
-  <div class="app-container" >
+  <div class="app-container">
     <!-- Map Component Section -->
     <div class="map-section">
-      <Map />
+      <Map/>
     </div>
 
     <!-- Content Component Section -->
-    <div class="content-section" >
-      <Content />
+    <div class="content-section">
+      <Content/>
     </div>
   </div>
 </template>
 
 
-<script setup >
+<script setup>
 import Map from '../components/Map.vue';
 import Content from '../components/Panel.vue';
 import {watch, onMounted} from "vue";
 import {useRoute, useRouter} from "vue-router";
-import { useRouteInfoStore } from '../stores/routestatus.js';
-import { useUpdateQueryParam } from "@/composables/useQueryParams.js";
+import {useRouteInfoStore} from '../stores/routestatus.js';
+import {useUpdateQueryParam} from "@/composables/useQueryParams.js";
 
 const route = useRoute(); // Get the current route (with query params)
 const router = useRouter();
 
 const routeStatus = useRouteInfoStore();
-const { clearQueryParams, updateQueryParam } = useUpdateQueryParam();
+const {clearQueryParams, updateQueryParam} = useUpdateQueryParam();
 
 
 watch(
@@ -45,24 +45,23 @@ watch(
     (newStepId) => {
       if (newStepId) {
         console.log(`Home: new route step! ${newStepId}`)
-        // Find the stop based on the stopId
-        routeStatus.setActiveStep(newStepId);
+        routeStatus.setActiveStep(newStepId); // Find the stop based on the stopId
       }
     },
     {immediate: true} // Call immediately on initial load
 );
-    watch(
-        () => (routeStatus.activeStep),
-        (newValue, oldValue) => {
-          console.log('Map: active step changed.')
-          if (newValue) {
-            console.log('Map: zooming to active feature. Step id:', newValue)
-            updateQueryParam('step', routeStatus.activeStep)
-            // zoomToFeature(routeStatus.activeFeature)
-            //renderLayers(newValue)
-          }
-        }
-    )
+watch(
+    () => (routeStatus.activeStep),
+    (newValue, oldValue) => {
+      console.log('Map: active step changed.')
+      if (newValue) {
+        console.log('Map: zooming to active feature. Step id:', newValue)
+        updateQueryParam('step', routeStatus.activeStep)
+        // zoomToFeature(routeStatus.activeFeature)
+        //renderLayers(newValue)
+      }
+    }
+)
 
 onMounted(() => {
   router.isReady().then(() => {
@@ -81,7 +80,8 @@ onMounted(() => {
   flex-direction: column;
 }
 
-@media (min-width: 1024px) { /* lg breakpoint */
+@media (min-width: 1024px) {
+  /* lg breakpoint */
   .app-container {
     flex-direction: row;
 

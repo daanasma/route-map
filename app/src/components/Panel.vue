@@ -47,7 +47,8 @@ export default {
         () => (routeStatus.activeTopic), // Watch the stopId in the Pinia store
         (newTopic, oldTopic) => {
           console.log(`Panel: active topic changed from ${oldTopic} to ${newTopic}`);
-        }, {immediate: true}
+        },
+        // {immediate: true} // todo check impact of this
     );
     watch(
         () => (routeStatus.routeData), // Watch the stopId in the Pinia store

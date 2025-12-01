@@ -5,6 +5,8 @@ import {useRouteInfoStore} from '../stores/routestatus.js';
 import mapConfig from '../config/mapConfig.js';
 import {LngLatBounds} from "maplibre-gl"; // Import map configuration
 
+
+
 const labelFont = {
     'text-color': '#000',
     'text-halo-color': '#fff',
@@ -18,51 +20,80 @@ const ArrayToGeoJSON = (featuresArray) => {
     };
 }
 
+/**
+ * Calculate the bounding box for an array of line features
+ * @param {object[]} featureArray - Array of GeoJSON LineString or MultiLineString features
+ * @returns {maplibregl.LngLatBounds} - Bounding box encompassing all lines
+ */
+export function getFeaturesBoundingBox(featureArray) {
+    const bounds = new LngLatBounds();
+
+    featureArray.forEach(feature => {
+        const theFeat = feature.feature;
+        const coords = theFeat.geometry.coordinates;
+
+        switch (theFeat.geometry.type) {
+            case "Point":
+                bounds.extend(coords);
+                break;
+            case "LineString":
+                coords.forEach(coord => bounds.extend(coord));
+                break;
+            case "MultiLineString":
+                coords.flat().forEach(coord => bounds.extend(coord));
+                break;
+            default:
+                console.warn(`Unsupported geometry type: ${theFeat.geometry.type}`);
+        }
+    });
+    console.log('UseMapLayers: found bounds for all features in this step', bounds)
+    return bounds;
+}
+
 export function useMapLayers(map) {
     const routeStatus = useRouteInfoStore();
+
     const startedLayerLoad = ref(false);
     let hoveredStateId = null;
 
-const getRouteLayerStyles = () =>
-  Object.entries(mapConfig.layerConfigs).map(([id, config]) => {
-    const parts = id.replace('route-line-', '').split('-'); // e.g. "road-asphalt"
-    const transport_type = parts[0];
-    const subtype = parts[1];
-
-    // Build filter
-    let filter;
-    if (transport_type === 'default') {
-      filter = ['!', ['match', ['get', 'transport_type'], ['ferry', 'road'], true, false]];
-    } else if (subtype) {
-      filter = ['all', ['==', ['get', 'transport_type'], transport_type], ['==', ['get', 'subtype'], subtype]];
-    } else {
-      filter = ['==', ['get', 'transport_type'], transport_type];
-    }
-
-    return {
-      id,
-      type: 'line',
-      source: 'routelines',
-      filter,
-      paint: {
-        'line-color': config.color,
-        'line-width': config.width,
-        ...(config.dasharray && {'line-dasharray': config.dasharray}),
-        ...(config.opacity !== undefined && {'line-opacity': config.opacity}),
-      },
+    // Fit map to the active feature
+    const fitMapToFeature = (features) => {
+        const bounds = getFeaturesBoundingBox(features);
+        console.log(bounds)
+        map.value.fitBounds(bounds, {padding: mapConfig.fitBoundsPadding, maxZoom: mapConfig.configuredRoutes[routeStatus.mapId].maxZoomFocus});
     };
-  });
-    // const getRoutePointStyles = () => [
-    //   {
-    //     id: 'route-point',
-    //     type: 'circle',
-    //     source: 'routepoints',
-    //     paint: {
-    //       'circle-radius': mapConfig.layerConfigs['route-point'].radius,
-    //       'circle-color': mapConfig.layerConfigs['route-point'].color,
-    //     },
-    //   }
-    // ];
+
+
+    const getRouteLayerStyles = () =>
+        Object.entries(mapConfig.layerConfigs).map(([id, config]) => {
+            const parts = id.replace('route-line-', '').split('-'); // e.g. "road-asphalt"
+            const transport_type = parts[0];
+            const subtype = parts[1];
+
+            // Build filter
+            let filter;
+            if (transport_type === 'default') {
+                filter = ['!', ['match', ['get', 'transport_type'], ['ferry', 'road'], true, false]];
+            } else if (subtype) {
+                filter = ['all', ['==', ['get', 'transport_type'], transport_type], ['==', ['get', 'subtype'], subtype]];
+            } else {
+                filter = ['==', ['get', 'transport_type'], transport_type];
+            }
+
+            return {
+                id,
+                type: 'line',
+                source: 'routelines',
+                filter,
+                paint: {
+                    'line-color': config.color,
+                    'line-width': config.width,
+                    ...(config.dasharray && {'line-dasharray': config.dasharray}),
+                    ...(config.opacity !== undefined && {'line-opacity': config.opacity}),
+                },
+            };
+        });
+
 
     const getRoutePointStyles = () => [
         {
@@ -216,7 +247,7 @@ const getRouteLayerStyles = () =>
                         if (map.value.hasImage(label)) map.value.removeImage(label);
                         map.value.addImage(label, image.data);
                     });
-              })
+                })
                 getExtraPoiStyles().forEach(layer => {
                     //console.log('xtraPOI', layer)
                     map.value.addLayer(layer);
@@ -263,11 +294,9 @@ const getRouteLayerStyles = () =>
                 });
 
                 // Add LAbels
-
-
-
-                if (routeStatus.activeFeature) {
-                    fitMapToFeature(routeStatus.activeFeature);
+                console.log('routeStatus.activeFeatures', routeStatus.activeFeatures)
+                if (routeStatus.activeFeatures) {
+                    fitMapToFeature(routeStatus.activeFeatures);
                 } else {
                     console.log("Map: there is no active feature..");
                 }
@@ -278,24 +307,18 @@ const getRouteLayerStyles = () =>
         ;
     }
 
-    // Fit map to the active feature
-    const fitMapToFeature = (feature) => {
-        const bounds = getFeatureBoundingBox(feature);
-        map.value.fitBounds(bounds, {padding: mapConfig.fitBoundsPadding, maxZoom: mapConfig.maxZoom});
-    };
-
     const createMapLabels = () => {
-          map.value.addLayer({
-          id: 'routelines-labels',
-          type: 'symbol',
-          source: 'routelines',
-          layout: {
-            'symbol-placement': 'line',
-            'text-field': ['get', 'title'],
-            'text-font': ['Noto Sans Regular'],
-            'text-size': 12,
-          },
-          paint:labelFont,
+        map.value.addLayer({
+            id: 'routelines-labels',
+            type: 'symbol',
+            source: 'routelines',
+            layout: {
+                'symbol-placement': 'line',
+                'text-field': ['get', 'title'],
+                'text-font': ['Noto Sans Regular'],
+                'text-size': 12,
+            },
+            paint: labelFont,
         });
     }
 

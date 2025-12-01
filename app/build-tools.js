@@ -1,6 +1,6 @@
 import {readFileSync, writeFileSync, readdirSync, unlinkSync, existsSync, mkdirSync} from 'fs';
 import path, {resolve} from 'path';
-import jsonminify from 'jsonminify';
+// import jsonminify from 'jsonminify';
 import createMapIcons from "./build_tools/convert-icons.js";
 import configuredRoutes from "../app/src/config/mapConfig.js"
 import mapConfig from "../app/src/config/mapConfig.js";
@@ -108,48 +108,26 @@ function minifyJsonFiles(routeLimitation) {
         name: 'minify-json',
         apply: 'build',
         writeBundle() {
-            return new Promise((resolve, reject) => {
-                Object.entries(mapConfig.configuredRoutes).forEach(([key, value]) => {
-                    let routeId = key
-                    console.log("minify route: ", routeId)
-                    if ((!routeLimitation) || (routeLimitation == routeId)) {
-                        console.log('-> Yes.minify it')
+            Object.entries(mapConfig.configuredRoutes).forEach(([routeId]) => {
+                if (!routeLimitation || routeLimitation === routeId) {
+                    const dir = `./src/data/${routeId}/geojson`;
+                    const outputDir = `./dist/map/${routeId}/geojson`;
 
-                        const dir = `./src/data/${routeId}/geojson`;
-                        const outputDir = `./dist/map/${routeId}/geojson`;
-                        console.log("dir : ", dir)
-                        const files = readdirSync(dir);
-                        if (!existsSync(outputDir)) {
-                            mkdirSync(outputDir, {recursive: true});
-                        }
-                        console.log("start minifying files: ", files)
-                        // Loop through the files and minify them asynchronously
-                        Promise.all(files.map(async (file) => {
+                    if (!existsSync(outputDir)) mkdirSync(outputDir, { recursive: true });
+
+                    const files = readdirSync(dir).filter(f => ['.geojson', '.json'].includes(path.extname(f)));
+                    files.forEach(file => {
+                        try {
                             const filePath = path.join(dir, file);
-                            const newFilePath = path.join(outputDir, `${file}.min`);
-                            if (['.geojson', '.json'].includes(path.extname(file))) {
-                                try {
-                                    const content = readFileSync(filePath, 'utf8');
-                                    const minifiedContent = jsonminify(content);
-                                    console.log('minified content')
-                                    writeFileSync(newFilePath, minifiedContent);
-                                    console.log(`Minified: ${file}`);
-                                } catch (error) {
-                                    console.error(`Error minifying file ${file}:`, error);
-                                }
-                            }
-                        })).then(() => {
-                            resolve();  // Ensure the build continues only after minification is done
-                        }).catch((error) => {
-                            reject(error); // Reject the promise if something goes wrong
-                        });
-                    } else {
-                        console.log("-> Skipping this route for now.")
-                    }
-
-
-                });
-
+                            const content = readFileSync(filePath, 'utf8');
+                            const minifiedContent = JSON.stringify(JSON.parse(content));
+                            writeFileSync(path.join(outputDir, file), minifiedContent);
+                            console.log(`Minified and copied: ${file} -> ${outputDir}`);
+                        } catch (error) {
+                            console.error(`Error processing ${file}:`, error);
+                        }
+                    });
+                }
             });
         }
     };
@@ -176,6 +154,8 @@ export default function buildPlugins(options = {}) {
     const {routeLimitation = false} = options;
     console.log("Start building datasets with routelimitation: ", routeLimitation);
     console.log(routeLimitation);
-    return [bundleRouteDataAllRoutes(routeLimitation), minifyJsonFiles(routeLimitation), createMapIcons()
+    return [bundleRouteDataAllRoutes(routeLimitation),
+        minifyJsonFiles(routeLimitation),
+        createMapIcons()
     ];
 }

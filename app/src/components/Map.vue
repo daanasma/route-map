@@ -14,11 +14,9 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 
 import {useRouteInfoStore} from '../stores/routestatus.js';
 import {useUpdateQueryParam} from '../composables/useQueryParams';
-import { useMapLayers } from '../composables/useMapLayers';
+import { useMapLayers, getFeaturesBoundingBox} from '../composables/useMapLayers';
 import mapConfig from "@/config/mapConfig.js";
 import basemapConfig from "@/config/basemapConfig.js";
-
-// Helper function to convert feature arrays to a GeoJSON FeatureCollection
 
 export default {
   name: 'Map',
@@ -57,42 +55,16 @@ export default {
     }
 
     /**
-     * Calculate the bounding box for a single feature
-     * @param {object} feature - A GeoJSON Feature
-     * @returns {maplibregl.LngLatBounds} - The bounding box for the feature
-     */
-    function getFeatureBoundingBox(feature) {
-      const coordinates = feature.geometry.coordinates; // Extract coordinates
-      // Initialize an empty LngLatBounds object
-  // Initialize an empty bounds object
-  const bounds = new LngLatBounds();
-
-  if (feature.geometry.type === "Point") {
-    // Directly extend the bounds with the single point
-    bounds.extend(coordinates);
-  } else {
-    // Reduce for multi-coordinate features
-    coordinates.forEach((coord) => {
-      if (Array.isArray(coord) && coord.length === 2) {
-        bounds.extend(coord);
-      }
-    });
-  }      return bounds;
-    }
-
-
-    /**
      * Zoom the map to fit the entire route
      */
 
     function fitMapToBounds(bounds, options) {
-      console.log("fitting map to bounds", bounds)
+      console.log("Map: fitting map to bounds", bounds)
       map.value.fitBounds(bounds, options);
     }
-    function fitMapToFeature(feature) {
-      console.log("Fitting map to feature", feature)
-        const bounds = getFeatureBoundingBox(feature);
-      console.log("GOT BOUNDS", bounds)
+    function fitMapToFeatureList(featureList) {
+      console.log("Fitting map to feature", featureList)
+        const bounds = getFeaturesBoundingBox(featureList);
       fitMapToBounds(bounds, {
         padding: 20,
         maxZoom: mapConfig.configuredRoutes[routeStatus.mapId].maxZoomFocus})
@@ -104,7 +76,6 @@ export default {
         // Get bounding box for the full route
         const routeFeatures = routeStatus.getFilteredAndSortedFeatures(feature => feature.topic === 'route'
         && feature.type === 'line')
-
         const bounds = getFeatureCollectionBoundingBox(routeFeatures);
         // todo this might be a problem if there are points outside.
         fitMapToBounds(bounds, {
@@ -226,12 +197,12 @@ export default {
           }}
     )
     watch(
-        () => (routeStatus.activeFeature),
+        () => (routeStatus.activeFeatures),
         (newValue, oldValue) => {
-          console.log('Map: active feature changed.')
+          console.log('Map: active feature changed.', oldValue, 'new', newValue)
           if (newValue) {
             console.log('Map: zooming to active feature. Step feature:', newValue)
-            fitMapToFeature(routeStatus.activeFeature)
+            fitMapToFeatureList(routeStatus.activeFeatures)
           }
         }
     )
