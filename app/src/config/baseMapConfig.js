@@ -8,6 +8,7 @@ export default {
         'openfreemap-liberty': {
             'type': 'json',
             'url': `https://tiles.openfreemap.org/styles/liberty`
+        }
     }
-}
+    //
 }
