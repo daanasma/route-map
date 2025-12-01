@@ -89,12 +89,16 @@ export const useRouteInfoStore = defineStore('counter', {
         getFilteredFeatures: (state) => (customFilter) => {
             return state.getFilteredAndSortedFeatures(customFilter);
         },
-        getRouteFeatureFromStepId: (state) => () => {
+        getRouteFeatureFromStepId: (state) => (stepId) => {
             if (!state.routeData || !state.routeData.sequence) {
                 console.log("Store: there is no route data so we cant get an active feature.")
                 return null
             };
-            const step = state.getAllRouteFeatures[state.activeStep -1];
+            console.log('Store debug: Getting features for step: ', stepId)
+            let arf = state.getAllRouteFeatures;
+            const step = arf.filter(i => i.route_step === stepId);
+            // const step = state.getAllRouteFeatures[state.activeStep -1];
+            console.log('Store debug: Got step', step)
             if (!step) return null;
             return step
             }
@@ -144,7 +148,8 @@ export const useRouteInfoStore = defineStore('counter', {
             } finally {
                 this.loading = false;
                 console.log("Store: loaded all data", this.routeData)
-                this.maxStepId = this.routeData.sequence.length
+                this.maxStepId = Math.max(...this.routeData.sequence.map(s => s.route_step))
+                console.log("Store: Calculated max step id:", this.maxStepId)
                 if (this.activeStep) {
                     console.log('Store. After data load. There is a step (', this.activeStep, ') Setting active feature!')
                     this.setActiveRouteFeatureFromStepId(this.activeStep)
@@ -152,6 +157,7 @@ export const useRouteInfoStore = defineStore('counter', {
             }
         },
         setActiveFeature(topic, geomType, id) {
+            console.log('Store: Setting active feature', topic, id, geomType)
             this.activeFeature = this.getRouteFeatureFromStepId(id)
             console.log("active", this.activeFeature)
            //  console.log("setActiveFeature", this.routeData.features[topic][geomType])
@@ -170,14 +176,14 @@ export const useRouteInfoStore = defineStore('counter', {
             }
         },
         setActiveStep(stepId) {
-            console.log("Start setting Active step to ", stepId)
+            console.log("State: Start setting Active step to ", stepId)
             this.activeStep = Number(stepId);
             this.setActiveRouteFeatureFromStepId(stepId);
         },
         setActiveTopic(newtopic, refreshneeded) {
           this.activeTopic = newtopic
             if (refreshneeded === true) {
-                console.log("Refreshneeded")
+                console.log("State: Refreshneeded")
                 this.setRefreshNeeded()
             }
             // if (newtopic === 'overview') {
