@@ -16,7 +16,7 @@ import {useRouteInfoStore} from '../stores/routestatus.js';
 import {useUpdateQueryParam} from '../composables/useQueryParams';
 import { useMapLayers, getFeaturesBoundingBox} from '../composables/useMapLayers';
 import mapConfig from "@/config/mapConfig.js";
-import basemapConfig from "@/config/basemapConfig.js";
+import baseMapConfig from "@/config/baseMapConfig.js";
 
 export default {
   name: 'Map',
@@ -145,12 +145,12 @@ export default {
       if (mapContainer.value) {
         // Initialize the map
         let thisRouteConfig = mapConfig.configuredRoutes[routeStatus.mapId];
-      console.log("map: basemap", basemapConfig.basemapMap[thisRouteConfig.basemap])
+      console.log("map: basemap", baseMapConfig.basemapMap[thisRouteConfig.basemap])
 
         map.value = new maplibre.Map({
           container: mapContainer.value,
           //style: mapStyleOutdoors,
-          style: basemapConfig.basemapMap[thisRouteConfig.basemap].url,
+          style: baseMapConfig.basemapMap[thisRouteConfig.basemap].url,
           center: thisRouteConfig.center, // Coordinates for Valencia, Spain
           zoom: thisRouteConfig.zoom,
           scrollZoom: {
