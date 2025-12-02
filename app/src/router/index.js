@@ -42,6 +42,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     const settingsStore = useSettingsStore();
+    settingsStore.initializeFromStorage()
 
     // Controleer de parameter in de NIEUWE URL (to.query)
     if (to.query.debugmode === '1') {

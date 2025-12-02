@@ -1,6 +1,6 @@
 <!-- components/DebugOverlay.vue -->
 <template>
-  <div v-if="showOverlay" class="debug-overlay">
+  <div v-if="settingsStore.isDebugMode" class="debug-overlay">
     <strong>Route Info Store State:</strong>
     <pre>{{ storeState }}</pre>
   </div>
@@ -8,9 +8,11 @@
 
 <script setup>
 import { useRouteInfoStore } from '../stores/routestatus.js'; // Pas het pad aan
+import { useSettingsStore } from '../stores/settings.js'; // Pas het pad aan
 import { computed, ref } from 'vue';
 
 const routeInfoStore = useRouteInfoStore();
+const settingsStore = useSettingsStore();
 
 // Converteer de store state naar een simpel object voor weergave
 const storeState = computed(() => ({
@@ -32,7 +34,7 @@ const showOverlay = ref(true); // Zet deze altijd op true zoals gevraagd
   top: 40px;
   left: 10px;
   z-index: 9999;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.3);
   color: white;
   padding: 10px;
   border-radius: 5px;
