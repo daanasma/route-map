@@ -24,7 +24,7 @@ const routeInfoStore = useRouteInfoStore();
 const settingsStore = useSettingsStore();
 
 // Nieuwe state variabele om de inklapstatus bij te houden
-const isCollapsed = ref(false);
+const isCollapsed = ref(true);
 
 // Functie om de status te wisselen
 const toggleCollapse = () => {
