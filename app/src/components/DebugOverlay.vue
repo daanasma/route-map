@@ -1,18 +1,35 @@
 <!-- components/DebugOverlay.vue -->
 <template>
-  <div v-if="settingsStore.isDebugMode" class="debug-overlay">
-    <strong>Route Info Store State:</strong>
-    <pre>{{ storeState }}</pre>
+  <!-- Toon de overlay alleen als de debug mode aan staat in settings store -->
+  <div v-if="settingsStore.isDebugMode"
+       :class="['debug-overlay', { collapsed: isCollapsed }]">
+
+    <!-- Klikbare header om in/uit te klappen -->
+    <strong @click="toggleCollapse" class="overlay-header">
+      Route Info Store State
+      <span>{{ isCollapsed ? '[+]' : '[-]' }}</span>
+    </strong>
+
+    <!-- De inhoud die verborgen wordt bij inklappen -->
+    <pre v-if="!isCollapsed">{{ storeState }}</pre>
   </div>
 </template>
 
 <script setup>
-import { useRouteInfoStore } from '../stores/routestatus.js'; // Pas het pad aan
-import { useSettingsStore } from '../stores/settings.js'; // Pas het pad aan
+import { useRouteInfoStore } from '../stores/routestatus.js';
+import { useSettingsStore } from '../stores/settings.js';
 import { computed, ref } from 'vue';
 
 const routeInfoStore = useRouteInfoStore();
 const settingsStore = useSettingsStore();
+
+// Nieuwe state variabele om de inklapstatus bij te houden
+const isCollapsed = ref(false);
+
+// Functie om de status te wisselen
+const toggleCollapse = () => {
+  isCollapsed.value = !isCollapsed.value;
+};
 
 // Converteer de store state naar een simpel object voor weergave
 const storeState = computed(() => ({
@@ -24,8 +41,7 @@ const storeState = computed(() => ({
   activeTopic: routeInfoStore.activeTopic,
 }));
 
-// Optioneel: Voeg een manier toe om de overlay te verbergen/tonen (bijv. via localStorage of een knop)
-const showOverlay = ref(true); // Zet deze altijd op true zoals gevraagd
+// showOverlay ref is niet langer nodig, we gebruiken isDebugMode en isCollapsed
 </script>
 
 <style scoped>
@@ -34,7 +50,7 @@ const showOverlay = ref(true); // Zet deze altijd op true zoals gevraagd
   top: 40px;
   left: 10px;
   z-index: 9999;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.8); /* Iets donkerder zodat tekst beter leesbaar is */
   color: white;
   padding: 10px;
   border-radius: 5px;
@@ -42,11 +58,20 @@ const showOverlay = ref(true); // Zet deze altijd op true zoals gevraagd
   overflow-y: auto;
   font-family: monospace;
   font-size: 12px;
-  pointer-events: none; /* Zorgt ervoor dat je kunt klikken op elementen eronder */
+  /* pointer-events: none; <-- Verwijderd, we willen er nu op kunnen klikken! */
+}
+
+/* Stijl voor de klikbare header */
+.overlay-header {
+  cursor: pointer; /* Toon een handje bij hover */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none; /* Voorkom selectie van tekst bij snel klikken */
 }
 
 .debug-overlay pre {
-  margin: 0;
+  margin: 10px 0 0 0; /* Extra marge boven de inhoud na de header */
   white-space: pre-wrap;
   word-wrap: break-word;
 }
