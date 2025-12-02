@@ -28,7 +28,7 @@ import mapConfig from '@/config/mapConfig.js'
 export default {
   setup() {
     const routes = mapConfig.configuredRoutes;
-    console.log(routes)
+    log(routes)
     const name = ref("");
     const email = ref("");
     const message = ref("");

@@ -11,79 +11,52 @@ import maplibre, {
   TerrainControl
 } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-
+import { log } from '../debug/debug.js';
 import {useRouteInfoStore} from '../stores/routestatus.js';
 import {useUpdateQueryParam} from '../composables/useQueryParams';
-import { useMapLayers, getFeaturesBoundingBox} from '../composables/useMapLayers';
+import { useMapLayers, getFeaturesBoundingBox, fitMapToFeature} from '../composables/useMapLayers';
 import mapConfig from "@/config/mapConfig.js";
 import baseMapConfig from "@/config/baseMapConfig.js";
+
 
 export default {
   name: 'Map',
   setup() {
     const mapContainer = ref(null);
     const route = useRoute(); // Get the current route (with query params)
-    const startedLayerLoad = ref(false);
     const map = ref(null); // The map instance
     const routeStatus = useRouteInfoStore();
     let hoveredStateId = null;
 
 
-    /**
-     * Calculate the bounding box for a FeatureCollection
-     * @param {object} featureCollection - A GeoJSON FeatureCollection
-     * @returns {maplibregl.LngLatBounds} - The bounding box for the collection
-     */
-    function getFeatureCollectionBoundingBox(featureCollection) {
-      console.log('featureCollection', featureCollection)
-      // Extract all coordinates from all features
-      const allCoordinates = featureCollection.flatMap(feature =>
-          feature.feature.geometry.coordinates
-      );
-
-      // Create a 'LngLatBounds' with both corners at the first coordinate.
-      const bounds = new LngLatBounds(
-          allCoordinates[0],
-          allCoordinates[0]
-      );
-      // Extend the 'LngLatBounds' to include every coordinate in the bounds result.
-      for (const coord of allCoordinates) {
-        bounds.extend(coord);
-      }
-
-      return bounds;
-    }
 
     /**
      * Zoom the map to fit the entire route
      */
 
     function fitMapToBounds(bounds, options) {
-      console.log("Map: fitting map to bounds", bounds)
+      log("Map: fitting map to bounds", bounds)
       map.value.fitBounds(bounds, options);
     }
     function fitMapToFeatureList(featureList) {
-      console.log("Fitting map to feature", featureList)
+      log("Fitting map to feature", featureList)
         const bounds = getFeaturesBoundingBox(featureList);
       fitMapToBounds(bounds, {
         padding: 20,
-        maxZoom: mapConfig.configuredRoutes[routeStatus.mapId].maxZoomFocus})
+        maxZoom: mapConfig.configuredRoutes[routeStatus.mapId].maxZoomFocus}
+      )
     }
 
     function zoomToFullRoute() {
-      console.debug('Map: zooming to full route.')
+      log('Map: zooming to full route.')
       if (routeStatus.routeData) {
-        // Get bounding box for the full route
-        const routeFeatures = routeStatus.getFilteredAndSortedFeatures(feature => feature.topic === 'route'
-        && feature.type === 'line')
-        const bounds = getFeatureCollectionBoundingBox(routeFeatures);
-        // todo this might be a problem if there are points outside.
+        const bounds = getFeaturesBoundingBox(routeStatus.routeFeatures);
         fitMapToBounds(bounds, {
           padding: 20, // Add padding around the route
           // maxZoom: 12  // Optional: Set a max zoom level
         })
         // Fit the map to the calculated bounds
-        console.log("Zoomed to full route!")
+        log("Zoomed to full route!")
       }
     }
 
@@ -141,11 +114,11 @@ export default {
 
     // Initialize the map when the component is mounted
     onMounted(async () => {
-      console.log('Map: mounted', mapContainer.value)
+      log('Map: mounted', mapContainer.value)
       if (mapContainer.value) {
         // Initialize the map
         let thisRouteConfig = mapConfig.configuredRoutes[routeStatus.mapId];
-      console.log("map: basemap", baseMapConfig.basemapMap[thisRouteConfig.basemap])
+      log("map: basemap", baseMapConfig.basemapMap[thisRouteConfig.basemap])
 
         map.value = new maplibre.Map({
           container: mapContainer.value,
@@ -160,12 +133,11 @@ export default {
           attributionControl: false,
           renderMode: '2d' // fallback to canvas 2D
         });
-        console.log("Map: created map")
+        log("Map: created map")
         map.value.style.cursor = 'pointer'
         addMapControls(map.value);// Add controls
         map.value.on('load', () => {
           map.value.resize()
-          zoomToFullRoute()
           if (thisRouteConfig.useHillshade) {
             addHillshadeLayer(map.value)
           }
@@ -175,13 +147,12 @@ export default {
     })
 
     watch(
-        () => ([routeStatus.activeTopic, routeStatus.refreshNeeded]), // Watch the stopId in the Pinia store
-        ([newtopic, refreshneeded], [oldtopic, oldrefreshneeded]) => {
-          if (oldtopic !== newtopic || refreshneeded) {
-            console.log(`Map: refresh needed because active topic changed to: ${newtopic}`);
-            if (newtopic === 'overview' & refreshneeded) {
+        () => (routeStatus.activeTopic), // Watch the stopId in the Pinia store
+        (newtopic, oldtopic) => {
+          if (oldtopic !== newtopic ) {
+            log(`Map: active topic changed to: ${newtopic}`);
+            if (newtopic === 'overview') {
               zoomToFullRoute()
-              routeStatus.refreshNeeded = false;
             }
           }
         }
@@ -189,20 +160,20 @@ export default {
     watch(
         () => ([routeStatus.routeData, map.value]),
         ([newData, newMap], oldValue) => {
-          console.log('Map: map or routedata changed.')
           if (newData && newMap) {
-            console.log('Map: there is a map so we can add the routeData')
+            log('Map: map or routedata changed -> there is both a map and routedata so we can add the routeData')
             const { renderLayers } = useMapLayers(map);
             renderLayers();
           }}
     )
     watch(
-        () => (routeStatus.activeFeatures),
+        () => (routeStatus.activeStepId),
         (newValue, oldValue) => {
-          console.log('Map: active feature changed.', oldValue, 'new', newValue)
+          log('Map: active feature changed.', oldValue, 'new', newValue)
           if (newValue) {
-            console.log('Map: zooming to active feature. Step feature:', newValue)
-            fitMapToFeatureList(routeStatus.activeFeatures)
+            log('Map: zooming to active feature. Step feature:', newValue)
+            log('routeStatus.activeStepFeatures', routeStatus.activeStepFeatures)
+            fitMapToFeatureList(routeStatus.activeStepFeatures)
           }
         }
     )

@@ -1,47 +1,65 @@
-// useQueryParam.js (composable)
+// useQueryParam.js
 import { useRouter } from 'vue-router';
-import { ref } from 'vue';
-import { useRouteInfoStore } from '../stores/routestatus.js'; // Import the store
+import { log } from '../debug/debug.js';
 
 export function useUpdateQueryParam() {
   const router = useRouter();
-  const store = useRouteInfoStore(); // Access the store
-
-  // Enable URL update when explicitly called
 
   const updateQueryParam = (key, value) => {
-    console.log('QueryComp: trying to update url', store)
-    if (!store.urlReadyToUpdate) {
+    const currentQuery = router.currentRoute.value.query;
 
-      console.log('QueryComp: Router is not ready. Query parameter update skipped.');
+    // Skip if value hasn't changed
+    if (currentQuery[key] === value) {
+      log('QueryComp: No change needed for', key);
       return;
     }
 
-    const currentQuery = { ...router.currentRoute.value.query };
-    currentQuery[key] = value;
-
-    // Check if the query actually needs to be updated
-    if (JSON.stringify(currentQuery) !== JSON.stringify(router.currentRoute.value.query)) {
-      router.push({ query: currentQuery }).catch((err) => {
+    router.push({
+      query: { ...currentQuery, [key]: value }
+    }).catch((err) => {
+      // Navigation failures are often harmless (duplicate navigation)
+      if (err.name !== 'NavigationDuplicated') {
         console.error('QueryComp: Error updating query parameter:', err);
-      });
-    }
+      }
+    });
   };
+
   const clearQueryParams = () => {
-    console.log('QueryComp: Trying to clear all query params', store);
-    if (!store.urlReadyToUpdate) {
-      console.log('QueryComp: Router is not ready. Query parameter clearing skipped.');
+    // Only clear if there are params to clear
+    if (Object.keys(router.currentRoute.value.query).length === 0) {
+      log('QueryComp: No query params to clear');
       return;
     }
 
     router.push({ query: {} }).catch((err) => {
-      console.error('QueryComp: Error clearing query parameters:', err);
-      return
+      if (err.name !== 'NavigationDuplicated') {
+        console.error('QueryComp: Error clearing query parameters:', err);
+      }
     });
-    console.debug('QueryComp: finished clearQueryParams')
   };
+
+  // Optional: Batch update multiple params at once
+  const updateQueryParams = (params) => {
+    const currentQuery = router.currentRoute.value.query;
+    const newQuery = { ...currentQuery, ...params };
+
+    // Check if anything actually changed
+    const hasChanges = Object.keys(params).some(
+      key => currentQuery[key] !== params[key]
+    );
+
+    if (!hasChanges) return;
+
+    router.push({ query: newQuery }).catch((err) => {
+      if (err.name !== 'NavigationDuplicated') {
+        console.error('QueryComp: Error updating query parameters:', err);
+      }
+    });
+  };
+
   return {
     updateQueryParam,
-    clearQueryParams
+    clearQueryParams,
+    updateQueryParams,
   };
 }

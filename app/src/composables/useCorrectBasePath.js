@@ -1,3 +1,5 @@
+import { log } from '../debug/debug.js';
+
 export const useCorrectBasePath = () => {
   // Helper function to resolve the path dynamically based on environment
   const getDataPath = (file) => {
@@ -5,7 +7,7 @@ export const useCorrectBasePath = () => {
     if (process.env.NODE_ENV !== 'production') {
 
       basePath += 'dist/'
-      console.log("adding dist", basePath)
+      log("adding dist", basePath)
     }
     return `${basePath}${file}`; // Append file to the base path
   };

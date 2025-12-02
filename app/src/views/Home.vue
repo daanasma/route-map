@@ -14,6 +14,7 @@
 
 
 <script setup>
+import { log } from '../debug/debug.js';
 import Map from '../components/Map.vue';
 import Content from '../components/Panel.vue';
 import {watch, onMounted} from "vue";
@@ -32,7 +33,7 @@ watch(
     () => (routeStatus.activeTopic), // Watch the stopId in the Pinia store
     (newValue, oldValue) => {
       if (oldValue !== newValue) {
-        console.log(`Home: refresh needed because active topic changed to: ${newValue}`);
+        log(`Home: refresh needed because active topic changed to: ${newValue}`);
         if (newValue === 'overview') {
           clearQueryParams()
         }
@@ -44,30 +45,30 @@ watch(
     () => route.query.step,
     (newStepId) => {
       if (newStepId) {
-        console.log(`Home: new route step! ${newStepId}`)
+        log(`Home: new route step! ${newStepId}`)
         routeStatus.setActiveStep(newStepId); // Find the stop based on the stopId
+      }
+      else {
+        log(`Home: no new route step so going to overview!`)
+
+        routeStatus.setActiveTopic('overview')
       }
     },
     {immediate: true} // Call immediately on initial load
 );
 watch(
-    () => (routeStatus.activeStep),
+    () => (routeStatus.activeStepId),
     (newValue, oldValue) => {
-      console.log('Map: active step changed.')
+      log('Home: active step changed.')
       if (newValue) {
-        console.log('Map: zooming to active feature. Step id:', newValue)
-        updateQueryParam('step', routeStatus.activeStep)
+        log('Home: Updating query parameter. Step id:', newValue)
+        updateQueryParam('step', routeStatus.activeStepId)
         // zoomToFeature(routeStatus.activeFeature)
         //renderLayers(newValue)
       }
     }
 )
 
-onMounted(() => {
-  router.isReady().then(() => {
-    routeStatus.setUrlReadyToUpdate();
-  });
-});
 
 </script>
 

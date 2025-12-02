@@ -18,7 +18,7 @@
           "type": "point"
         }
       ],
-      "description": "Villa O Higgins is the starting point of this adventure."
+      "summary": "Villa O Higgins is the starting point of this adventure."
     },
     {
       "route_step": 2,
@@ -32,7 +32,8 @@
           "type": "line"
         }
       ],
-      "title": "Villa O Higgins towards the ferry"
+      "title": "Villa O Higgins towards the ferry",
+      "summary": "Riding towards the ferry. Some parts asphalt, some parts gravel but great views overalss."
     },
     {
       "route_step": 3,
@@ -50,7 +51,8 @@
           "type": "point"
         }
       ],
-      "title": "Ferry"
+      "title": "Ferry",
+      "summary": "on a boat motherfucker."
     },
     {
       "route_step": 4,
@@ -59,7 +61,9 @@
           "id": 3,
           "type": "line"
         }
-      ]
+      ],
+      "title": "Route step 4",
+      "summary": "Cruising some more. Try to fish."
     },
     {
       "route_step": 5,
@@ -68,7 +72,9 @@
           "id": 3,
           "type": "point"
         }
-      ]
+      ],
+      "title": "Route step 5",
+      "summary": "Still no fish.."
     },
     {
       "route_step": 6,
@@ -88,7 +94,9 @@
           "id": 4,
           "type": "point"
         }
-      ]
+      ],
+      "title": "Jeweet",
+      "summary": "Stap xx.."
     },
     {
       "route_step": 8,
@@ -97,7 +105,9 @@
           "id": 5,
           "type": "line"
         }
-      ]
+      ],
+      "title": "zellufff",
+      "summary": "Stap qsdfqsdfqsdfxx.."
     },
     {
       "route_step": 9,
@@ -106,16 +116,14 @@
           "id": 5,
           "type": "point"
         }
-      ]
+      ],
+      "title": "zelluqdfqsdfqsdffff",
+      "summary": "Stap qsdfqsdfqsdfsqdfsqdfqsdfsfdxx.."
     },
     {
       "route_step": 10,
-      "title": "new ",
-      "description": "",
-      "features": []
-    },
-    {
-      "route_step": 11,
+      "title": "We zijn er bijna! ",
+      "summary": "Final description",
       "features": [
         {
           "id": 6,
@@ -124,7 +132,9 @@
       ]
     },
     {
-      "route_step": 12,
+      "route_step": 11,
+      "title": "MAar nog niet helemaal! ",
+      "summary": "of tock :) ",
       "features": [
         {
           "id": 6,
@@ -282,7 +292,7 @@
         "title": "Puerto Rio Tranquilo",
         "to_publish": true,
         "poi_type": "town",
-        "route_sequence_id": 12
+        "route_sequence_id": 11
       },
       "geometry": {
         "type": "Point",
@@ -45072,7 +45082,7 @@
         "description": "A journey to the majestic Valle de Exploradores",
         "to_publish": true,
         "subtype": "gravel",
-        "route_sequence_id": 11
+        "route_sequence_id": 10
       },
       "elevation": [
         {

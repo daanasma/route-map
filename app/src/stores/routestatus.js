@@ -1,235 +1,150 @@
 import {useCorrectBasePath} from '@/composables/useCorrectBasePath.js';
 import mapConfig from '@/config/mapConfig.js'
 import {defineStore} from 'pinia';
+import { log } from '@/debug/debug.js';
+
 const {getFilePath} = useCorrectBasePath();
 
 
-function isNumericNumber(str) {
-  return !Number.isNaN(parseFloat(str));
-}
-
-export const useRouteInfoStore = defineStore('counter', {
+export const useRouteInfoStore = defineStore('routeInfo', {
     state: () => ({
-        mapId: null, // the map
+        mapId: null,
         theme: 'default',
-        count: 0,
-        stopId: null,      // New state for stopId
-        segmentId: null,   // New state for segmentId
-        urlReadyToUpdate: false,
-        segmentData: null,
-        stopData: null,
-        maxSegmentId: null,
-        maxStopId: null,
-        // --------------------
         routeData: null,
         loading: false,
-        activeStep: null, // This is the index in the sequence. It is 1-based, so to get the actual data do - 1
-        activeStepData: null, // This is the data about the step
-        activeFeatures: null,
-        activeTopic: 'overview', // This can be 'overview', 'route' or 'extra'
-        maxStepId: null,
-        refreshNeeded: false,
-
+        activeStepId: null,  // Just store the ID, compute the rest
+        activeTopic: null,
     }),
+
     getters: {
         routeMetadata: (state) => state.routeData?.metadata,
         routeSequence: (state) => state.routeData?.sequence,
-        getFullRouteElevation: (state) => {
-            if (!state.routeData || !state.routeData.features) return [];
-            console.log('State: Getting full route data with elevation')
-            let accumulatedDistance = 0;
-            return state
-                .getFilteredAndSortedFeatures(feature => feature.type === 'line')
-                .flatMap(feature => {
-                    const adjustedElevation = feature.feature.elevation?.map(point => ({
-                        ...point,
-                        distance_along_line: point.distance_along_line + accumulatedDistance
-                    })) || [];
 
-                    if (adjustedElevation.length > 0) {
-                        accumulatedDistance = adjustedElevation[adjustedElevation.length - 1].distance_along_line;
-                    }
+        maxStepId: (state) => {
+            if (!state.routeData?.sequence) return null;
+            return Math.max(...state.routeData.sequence.map(s => s.route_step));
+        },
 
-                    return adjustedElevation;
-                });
-            },
-        getFilteredAndSortedFeatures: (state) => (filterFn) => {
-            if (!state.routeData || !state.routeData.features) return [];
-            console.log('Routestatus - We have routedata. Start filtering features',
-                filterFn, state.routeData.features)
+        // Get current step data from sequence
+        activeStepData: (state) => {
+            if (!state.activeStepId || !state.routeSequence) return null;
+            return state.routeSequence.find(s => s.route_step === state.activeStepId);
+        },
 
-            const result =  state.routeData.features
-                .filter(filterFn)
-                .flatMap(feature => {
-                    const steps = feature.properties?.route_sequence_id;
-
-                    if (Array.isArray(steps)) {
-                        return steps.map(step => ({
-                            feature,
-                            route_step: step
-                        }));
-                    }
-
-                    if (typeof steps === 'number') {
-                        return [{ feature, route_step: steps }];
-                    }
-
-                    return [];
-                })
+        // Get all features that belong to route topic
+        routeFeatures: (state) => {
+            if (!state.routeData?.features) return [];
+            return state.routeData.features
+                .filter(f => f.topic === 'route')
                 .sort((a, b) => {
                     const aStep = a.properties?.route_sequence_id ?? Infinity;
                     const bStep = b.properties?.route_sequence_id ?? Infinity;
                     return aStep - bStep;
                 });
-            console.log('filtered result', result)
-            return result
         },
-        getAllRouteFeatures: (state) => {
-            const arf = state.getFilteredAndSortedFeatures(feature => feature.topic === 'route')
-            console.log('State - All Route Features: ', arf)
-            return arf;
+
+        // Get features for active step
+        activeStepFeatures: (state) => {
+            if (!state.activeStepId) return [];
+            return state.routeFeatures.filter(f => {
+                const stepIds = f.properties?.route_sequence_id;
+                if (Array.isArray(stepIds)) return stepIds.includes(state.activeStepId);
+                return stepIds === state.activeStepId;
+            });
         },
-        getFilteredFeatures: (state) => (customFilter) => {
-            return state.getFilteredAndSortedFeatures(customFilter);
+
+        // Full route elevation (if needed)
+        fullRouteElevation: (state) => {
+            if (!state.routeData?.features) return [];
+
+            let accumulatedDistance = 0;
+            return state.routeFeatures
+                .filter(f => f.type === 'line')
+                .flatMap(feature => {
+                    const adjusted = feature.elevation?.map(point => ({
+                        ...point,
+                        distance_along_line: point.distance_along_line + accumulatedDistance
+                    })) || [];
+
+                    if (adjusted.length > 0) {
+                        accumulatedDistance = adjusted[adjusted.length - 1].distance_along_line;
+                    }
+                    return adjusted;
+                });
         },
-        getRouteFeaturesFromStepId: (state) => (stepId) => {
-            if (!state.routeData || !state.routeData.sequence) {
-                console.log("Store: there is no route data so we can't get an active feature.")
-                return null
-            };
-            console.log('Store debug: Getting features for step: ', stepId, typeof stepId)
-            let arf = state.getAllRouteFeatures;
-            const step = arf.filter(i => String(i.route_step) === String(stepId));
-            // const step = state.getAllRouteFeatures[state.activeStep -1];
-            console.log('Store debug: Got all features for step : ', step)
-            if (!step) return null;
-            return step
-            }
+
+        // General purpose filter - returns actual features (not wrapped)
+        getFilteredFeatures: (state) => (filterFn) => {
+            if (!state.routeData?.features) return [];
+
+            return state.routeData.features
+                .filter(filterFn)
+                .sort((a, b) => {
+                    const aStep = a.properties?.route_sequence_id ?? Infinity;
+                    const bStep = b.properties?.route_sequence_id ?? Infinity;
+                    return aStep - bStep;
+                });
+        },
     },
+
     actions: {
         setMapId(id) {
-          this.mapId = id;
-          if (id in mapConfig.configuredRoutes) {
-              this.setMapTheme(mapConfig.configuredRoutes[id].theme)
-          }
+            this.mapId = id;
+            if (id in mapConfig.configuredRoutes) {
+                this.setMapTheme(mapConfig.configuredRoutes[id].theme);
+            }
         },
-        setMapTheme(theme) {
-            this.theme = theme
-            document.documentElement.setAttribute("data-theme", theme);
 
+        setMapTheme(theme) {
+            this.theme = theme;
+            document.documentElement.setAttribute("data-theme", theme);
         },
-        calculateMaxIds() {
-            if (this.stopData) {
-                this.maxStopId = this.stopData.features.length
-            }
-            if (this.segmentData) {
-                this.maxSegmentId = this.stopData.features.length
-            }
-            console.log('Store: Set max ids', 'maxStopId:', this.maxStopId, 'maxSegmentId:', this.maxSegmentId)
-            console.log('Store: this.stopId', this.stopId)
-        },
-        // Action to allow URL updates once the router is ready
-        setUrlReadyToUpdate() {
-            this.urlReadyToUpdate = true;
-            console.log('Store: URL is ready to update');
-        },
+
         async loadRouteData() {
             this.loading = true;
-            this.error = null;
             try {
-                const response = await fetch(getFilePath(`map/${this.mapId}/geojson/bundled_route_data.json`));
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch route data: ${response.status}`);
-                }
-                this.routeData = await response.json();
+                const response = await fetch(
+                    getFilePath(`map/${this.mapId}/geojson/bundled_route_data.json`)
+                );
+                if (!response.ok) throw new Error(`Failed to fetch: ${response.status}`);
+
+                let rd = await response.json();
+                this.routeData = rd
             } catch (error) {
-                this.error = error.message;
                 console.error('Error loading route data:', error);
+                throw error;
             } finally {
                 this.loading = false;
-                console.log("Store: loaded all data", this.routeData)
-                this.maxStepId = Math.max(...this.routeData.sequence.map(s => s.route_step))
-                console.log("Store: Calculated max step id:", this.maxStepId)
-                if (this.activeStep) {
-                    console.log('Store. After data load. There is a step (', this.activeStep, ') Setting active feature!')
-                    this.setActiveStep(this.activeStep)
-                }
             }
-        },
-        setActiveFeature(topic, geomType, id) {
-            console.log('Store: Setting active feature', topic, id, geomType)
-            this.activeFeatures = this.getRouteFeaturesFromStepId(id)
-            console.log("active", this.activeFeatures)
-           //  console.log("setActiveFeature", this.routeData.features[topic][geomType])
-           // = this.routeData.features[topic][geomType].find(feature => feature.id === id) || null;
-          if (this.activeFeatures) {
-            this.setActiveTopic(topic);
-          }
         },
 
-        setActiveRouteFeatureFromStepId(stepId) {
-            if (stepId)  {
-                this.activeFeatures = this.getRouteFeaturesFromStepId(stepId)
-                this.setActiveTopic('route')
-            }
-            else {
-                this.activeFeatures = null;
-            }
-        },
         setActiveStep(stepId) {
-            if (this.routeSequence && stepId) {
-                console.log("State: Start setting Active step ID to ", stepId)
-                this.activeStep = Number(stepId);
-                this.setActiveRouteFeatureFromStepId(stepId);
-                console.log(this.routeSequence)
-                this.activeStepData = this.routeSequence[this.activeStep - 1]
-                console.log('active Step data!', this.activeStepData)
+            this.activeStepId = stepId ? Number(stepId) : null;
+            if (stepId) this.activeTopic = 'route';
+        },
 
-            }
+        setActiveTopic(topic) {
+            this.activeTopic = topic;
         },
-        setActiveTopic(newtopic, refreshneeded) {
-          this.activeTopic = newtopic
-            if (refreshneeded === true) {
-                console.log("State: Refreshneeded")
-                this.setRefreshNeeded()
-            }
-            // if (newtopic === 'overview') {
-            //     this.setActiveStep(null)
-            // }
-        },
+
         nextStep() {
-            console.log('nextStep called', {
-                activeStep: this.activeStep,
-                maxStepId: this.maxStepId
-            });
+            if (!this.maxStepId) return;
 
-            if (this.activeStep === null || this.activeStep >= this.maxStepId) {
+            if (this.activeStepId === null || this.activeStepId >= this.maxStepId) {
                 this.setActiveStep(1);
-            }
-            else {
-                this.setActiveStep(this.activeStep + 1);
+            } else {
+                this.setActiveStep(this.activeStepId + 1);
             }
         },
+
         previousStep() {
-            console.log('previousStep called', {
-                activeStep: this.activeStep,
-                maxStepId: this.maxStepId
-            });
+            if (!this.maxStepId) return;
 
-            if (this.activeStep === null || this.activeStep <= 1) {
+            if (this.activeStepId === null || this.activeStepId <= 1) {
                 this.setActiveStep(this.maxStepId);
+            } else {
+                this.setActiveStep(this.activeStepId - 1);
             }
-
-            else {
-                this.setActiveStep(this.activeStep - 1);
-            }
-        },
-        setRefreshNeeded() {
-            if (this.routeData) {
-                this.refreshNeeded = true;
-                return
-            }
-            this.refreshNeeded = false;
         },
     },
 });

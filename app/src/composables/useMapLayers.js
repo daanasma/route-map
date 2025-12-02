@@ -4,7 +4,7 @@ import {ref} from 'vue';
 import {useRouteInfoStore} from '../stores/routestatus.js';
 import mapConfig from '../config/mapConfig.js';
 import {LngLatBounds} from "maplibre-gl"; // Import map configuration
-
+import { log } from '@/debug/debug.js';
 
 
 const labelFont = {
@@ -13,10 +13,10 @@ const labelFont = {
     'text-halo-width': 2,
 }
 
-const ArrayToGeoJSON = (featuresArray) => {
+const ArrayToGeoJSON = (features) => {
     return {
         type: 'FeatureCollection',
-        features: featuresArray.map(f => f.feature)
+        features
     };
 }
 
@@ -29,10 +29,9 @@ export function getFeaturesBoundingBox(featureArray) {
     const bounds = new LngLatBounds();
 
     featureArray.forEach(feature => {
-        const theFeat = feature.feature;
-        const coords = theFeat.geometry.coordinates;
+        const coords = feature.geometry.coordinates;
 
-        switch (theFeat.geometry.type) {
+        switch (feature.geometry.type) {
             case "Point":
                 bounds.extend(coords);
                 break;
@@ -43,12 +42,24 @@ export function getFeaturesBoundingBox(featureArray) {
                 coords.flat().forEach(coord => bounds.extend(coord));
                 break;
             default:
-                console.warn(`Unsupported geometry type: ${theFeat.geometry.type}`);
+                console.warn(`Unsupported geometry type: ${feature.geometry.type}`);
         }
     });
-    console.log('UseMapLayers: found bounds for all features in this step', bounds)
+    log('UseMapLayers: found bounds for all features in this step', bounds)
     return bounds;
 }
+
+    // Fit map to the active feature
+export function fitMapToFeature(features, map) {
+    const routeStatus = useRouteInfoStore();
+    const bounds = getFeaturesBoundingBox(features);
+    map.fitBounds(bounds,
+        {
+            padding: mapConfig.fitBoundsPadding,
+            maxZoom: mapConfig.configuredRoutes[routeStatus.mapId].maxZoomFocus
+        });
+    log('Fit map to bounds of provided features list')
+};
 
 export function useMapLayers(map) {
     const routeStatus = useRouteInfoStore();
@@ -56,16 +67,9 @@ export function useMapLayers(map) {
     const startedLayerLoad = ref(false);
     let hoveredStateId = null;
 
-    // Fit map to the active feature
-    const fitMapToFeature = (features) => {
-        const bounds = getFeaturesBoundingBox(features);
-        console.log(bounds)
-        map.value.fitBounds(bounds, {padding: mapConfig.fitBoundsPadding, maxZoom: mapConfig.configuredRoutes[routeStatus.mapId].maxZoomFocus});
-    };
-
-
     const getRouteLayerStyles = () =>
-        Object.entries(mapConfig.layerConfigs).map(([id, config]) => {
+        Object.entries(mapConfig.layerConfigs.line)
+            .map(([id, config]) => {
             const parts = id.replace('route-line-', '').split('-'); // e.g. "road-asphalt"
             const transport_type = parts[0];
             const subtype = parts[1];
@@ -79,7 +83,6 @@ export function useMapLayers(map) {
             } else {
                 filter = ['==', ['get', 'transport_type'], transport_type];
             }
-
             return {
                 id,
                 type: 'line',
@@ -137,84 +140,87 @@ export function useMapLayers(map) {
             },
         },
     ];
-    const getExtraLineStyles = () => [
-        {
-            id: 'route-line-ferryx',
-            type: 'line',
-            source: 'extralines',
-            filter: ['==', ['get', 'transport_type'], 'ferry'],
-            paint: {
-                'line-color': mapConfig.layerConfigs['route-line-ferry'].color,
-                'line-width': mapConfig.layerConfigs['route-line-ferry'].width,
-                'line-dasharray': mapConfig.layerConfigs['route-line-ferry'].dasharray,
-                'line-opacity': mapConfig.layerConfigs['route-line-ferry'].opacity
+    const getExtraLineStyles = () => {
+        let cfg = mapConfig.layerConfigs.line;
+        return [
+            {
+                id: 'route-line-ferryx',
+                type: 'line',
+                source: 'extralines',
+                filter: ['==', ['get', 'transport_type'], 'ferry'],
+                paint: {
+                    'line-color': cfg['route-line-ferry'].color,
+                    'line-width': cfg['route-line-ferry'].width,
+                    'line-dasharray': cfg['route-line-ferry'].dasharray,
+                    'line-opacity': cfg['route-line-ferry'].opacity
 
+                },
             },
-        },
-        {
-            id: 'route-line-roadx-asphalt',
-            type: 'line',
-            source: 'extralines',
-            filter: [
-                'all',
-                ['==', ['get', 'transport_type'], 'road'],
-                ['==', ['get', 'subtype'], 'asphalt']
-            ],
-            paint: {
-                'line-color': mapConfig.layerConfigs['route-line-road-asphalt'].color,
-                'line-width': mapConfig.layerConfigs['route-line-road-asphalt'].width,
-                'line-opacity': mapConfig.layerConfigs['route-line-road-asphalt'].opacity
+            {
+                id: 'route-line-roadx-asphalt',
+                type: 'line',
+                source: 'extralines',
+                filter: [
+                    'all',
+                    ['==', ['get', 'transport_type'], 'road'],
+                    ['==', ['get', 'subtype'], 'asphalt']
+                ],
+                paint: {
+                    'line-color': cfg['route-line-road-asphalt'].color,
+                    'line-width': cfg['route-line-road-asphalt'].width,
+                    'line-opacity': cfg['route-line-road-asphalt'].opacity
+                },
             },
-        },
-        {
-            id: 'route-line-roadx-cobblestones',
-            type: 'line',
-            source: 'extralines',
-            filter: [
-                'all',
-                ['==', ['get', 'transport_type'], 'road'],
-                ['==', ['get', 'subtype'], 'cobblestones']
-            ],
-            paint: {
-                'line-color': mapConfig.layerConfigs['route-line-road-cobblestones'].color,
-                'line-width': mapConfig.layerConfigs['route-line-road-cobblestones'].width,
-                'line-opacity': mapConfig.layerConfigs['route-line-road-cobblestones'].opacity
+            {
+                id: 'route-line-roadx-cobblestones',
+                type: 'line',
+                source: 'extralines',
+                filter: [
+                    'all',
+                    ['==', ['get', 'transport_type'], 'road'],
+                    ['==', ['get', 'subtype'], 'cobblestones']
+                ],
+                paint: {
+                    'line-color': cfg['route-line-road-cobblestones'].color,
+                    'line-width': cfg['route-line-road-cobblestones'].width,
+                    'line-opacity': cfg['route-line-road-cobblestones'].opacity
 
+                },
             },
-        },
-        {
-            id: 'route-line-defaultx',
-            type: 'line',
-            source: 'extralines',
-            filter: [
-                'all',
-                ['==', ['get', 'transport_type'], 'road'],
-                ['!', ['match', ['get', 'subtype'], ['asphalt', 'cobblestones'], true, false]]
-            ],
-            paint: {
-                'line-color': mapConfig.layerConfigs['route-line-road-asphalt'].color,
-                'line-width': mapConfig.layerConfigs['route-line-road-asphalt'].width,
-                'line-opacity': mapConfig.layerConfigs['route-line-road-asphalt'].opacity
-            },
-        }
-    ];
+            {
+                id: 'route-line-defaultx',
+                type: 'line',
+                source: 'extralines',
+                filter: [
+                    'all',
+                    ['==', ['get', 'transport_type'], 'road'],
+                    ['!', ['match', ['get', 'subtype'], ['asphalt', 'cobblestones'], true, false]]
+                ],
+                paint: {
+                    'line-color': cfg['route-line-road-asphalt'].color,
+                    'line-width': cfg['route-line-road-asphalt'].width,
+                    'line-opacity': cfg['route-line-road-asphalt'].opacity
+                },
+            }
+        ]
+    };
 
-    // Function to add the layers to the map,  accepting data as parameters
+    // Function to add the layers to the map
     const renderLayers = () => {
-        const loadedLayers = [];
-        const routeLines = routeStatus.getFilteredAndSortedFeatures(feature => feature.topic === 'route'
+    if (!routeStatus?.routeData) {  return;}
+    const loadedLayers = [];
+        const routeLines = routeStatus.getFilteredFeatures(feature => feature.topic === 'route'
             && feature.type === 'line')
-        const routePoints = routeStatus.getFilteredAndSortedFeatures(feature => feature.topic === 'route'
+        const routePoints = routeStatus.getFilteredFeatures(feature => feature.topic === 'route'
             && feature.type === 'point')
-
-        const extraPoints = routeStatus.getFilteredAndSortedFeatures(feature => feature.topic === 'extra'
+        const extraPoints = routeStatus.getFilteredFeatures(feature => feature.topic === 'extra'
             && feature.type === 'point')
-        const extraLines = routeStatus.getFilteredAndSortedFeatures(feature => feature.topic === 'extra'
+        const extraLines = routeStatus.getFilteredFeatures(feature => feature.topic === 'extra'
             && feature.type === 'line')
 
         if (!startedLayerLoad.value) {
             startedLayerLoad.value = true;
-            console.log("Start rendering all layers. lines:", routeLines, 'points:', routePoints);
+            log("Start rendering all layers. lines:", routeLines, 'points:', routePoints);
             // Add route source and layers
             map.value.on('load', () => {
                 // Add Route lines
@@ -230,13 +236,13 @@ export function useMapLayers(map) {
                     loadedLayers.push(layer.id);
                 })
 
+                log('Maplayers: added all sources and layers -> route');
 
                 map.value.addSource('extrapoints', {type: 'geojson', data: ArrayToGeoJSON(extraPoints)});
                 map.value.addSource('extralines', {type: 'geojson', data: ArrayToGeoJSON(extraLines)});
 
-                console.log('added sources');
 
-                // For each feature, log its properties
+                // Add icons to map
                 [mapConfig.poiColor, mapConfig.mainColor].forEach((color) => {
                     Object.values(mapConfig.iconMap).forEach(async (icon) => {
                         let label = `${icon}_${color}`
@@ -248,18 +254,20 @@ export function useMapLayers(map) {
                         map.value.addImage(label, image.data);
                     });
                 })
+                log('Maplayers: Added all icons to map')
                 getExtraPoiStyles().forEach(layer => {
-                    //console.log('xtraPOI', layer)
+                    log('Maplayers -> extra poi', layer)
                     map.value.addLayer(layer);
                 });
                 getExtraLineStyles().forEach(layer => {
-                    console.log('xtraline', layer)
+                    log('Maplayers -> extra line', layer)
                     map.value.addLayer(layer);
                 });
+                log('Maplayers - added Non-route layers')
 
-                console.log('maplayers -> start adding pointers')
                 const layers = ['route-point', 'route-line-road', 'route-line-ferry', 'route-line'];
-                console.log("loadedLayers", loadedLayers)
+                log("Maplayers -> loaded layers:", loadedLayers)
+                log('MapLayers -> start adding event handlers')
 
                 loadedLayers.forEach(layer => {
                     // Add interactivity (hover, click, etc.)
@@ -271,7 +279,7 @@ export function useMapLayers(map) {
                     });
 
                     map.value.on('click', layer, (e) => {
-                        console.log('Map: Clicked on', e.features[0]);
+                        log('Map: Clicked on', e.features[0]);
                         // Checking if the click is near a point. If so, prioritize that.
                         if (layer.includes('route-line')) {
                             const featuresAtPoint = map.value.queryRenderedFeatures(e.point, {
@@ -280,7 +288,7 @@ export function useMapLayers(map) {
                             });
 
                             if (featuresAtPoint.length > 0) {
-                                console.log('Map: Clicked near a point, ignoring route click handler');
+                                log('Map: Clicked near a point, ignoring route click handler');
                                 return;
                             }
                             routeStatus.setActiveStep(e.features[0].properties['route_sequence_id']);
@@ -293,15 +301,16 @@ export function useMapLayers(map) {
 
                 });
 
-                // Add LAbels
-                console.log('routeStatus.activeFeatures', routeStatus.activeFeatures)
-                if (routeStatus.activeFeatures) {
-                    fitMapToFeature(routeStatus.activeFeatures);
-                } else {
-                    console.log("Map: there is no active feature..");
-                }
-                createMapLabels();
+                createMapLabels(); // Add LAbels
 
+
+
+                // if (routeStatus.activeFeatures) {
+                //     fitMapToFeature(routeStatus.activeFeatures);
+                // } else {
+                //     log("Map: there is no active feature..");
+                // }
+                log('Maplayers - Finished rendering layers!')
             })
         }
         ;
@@ -320,6 +329,7 @@ export function useMapLayers(map) {
             },
             paint: labelFont,
         });
+        log('Maplayers - Added labels to map')
     }
 
     // Get feature bounding box

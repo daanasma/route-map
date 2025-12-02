@@ -6,6 +6,7 @@ import {useSwipe} from "@vueuse/core";
 import CardSlider from '../components/CardSlider.vue';
 import DetailInfoPanel from "../components/DetailInfoPanel.vue";
 import {storeToRefs} from 'pinia'
+import { log } from '../debug/debug.js';
 
 export default {
   components: {
@@ -21,11 +22,11 @@ export default {
     const routeCards = ref([]);
 
     const activatePreviousStop = () => {
-      console.log('Swipe or Button: Previous Stop activated!');
+      log('Swipe or Button: Previous Stop activated!');
       routeStatus.previousStep()
     };
     const activateNextStop = () => {
-      console.log("Swipe or Button: Next Stop activated!");
+      log("Swipe or Button: Next Stop activated!");
       routeStatus.nextStep()
     };
 
@@ -37,7 +38,7 @@ export default {
     watch(
         () => (routeStatus.stopId), // Watch the stopId in the Pinia store
         (newStopId, oldStopId) => {
-          console.log(`Panel: Stop ID changed from ${oldStopId} to ${newStopId}`);
+          log(`Panel: Stop ID changed from ${oldStopId} to ${newStopId}`);
 
           // Handle any side effects or actions you need based on stopId change
         }
@@ -46,15 +47,15 @@ export default {
     watch(
         () => (routeStatus.activeTopic), // Watch the stopId in the Pinia store
         (newTopic, oldTopic) => {
-          console.log(`Panel: active topic changed from ${oldTopic} to ${newTopic}`);
+          log(`Panel: active topic changed from ${oldTopic} to ${newTopic}`);
         },
         // {immediate: true} // todo check impact of this
     );
     watch(
         () => (routeStatus.routeData), // Watch the stopId in the Pinia store
         (newValue, oldValue) => {
-          console.log('Panel: routedata: Loaded routecards to create panel.:', newValue);
-          routeCards.value = routeStatus.getAllRouteFeatures
+          log('Panel: routedata: Loaded routecards to create panel.:', newValue);
+          routeCards.value = routeStatus.routeSequence
         }
     );
 

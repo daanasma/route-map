@@ -34,14 +34,14 @@
       <!-- Original Cards -->
       <div
         v-for="card in cards"
-        :key="card.properties.route_sequence_id"
-        :data-key="card.properties.route_sequence_id"
-        :class="['card', { expanded: expandedCard === card.properties.route_sequence_id }]"
+        :key="card.route_step"
+        :data-key="card.route_step"
+        :class="['card', { expanded: expandedCard === card.route_step }]"
         @click="expandCard(card)"
         class="content-card"
       >
         <div class="text-center">
-          <h3>{{ card.properties.title }}</h3>
+          <h3>{{ card.title }}</h3>
           <p>Click to expand</p>
 
         </div>
@@ -70,6 +70,7 @@ import { useRouteInfoStore } from '@/stores/routestatus.js';
 import DetailInfoPanel from "@/components/DetailInfoPanel.vue";
 import VueBottomSheet from "@webzlodimir/vue-bottom-sheet";
 import  "@webzlodimir/vue-bottom-sheet/dist/style.css";
+import { log } from '@/debug/debug.js';
 
 const props = defineProps({
   cards: {
@@ -98,14 +99,14 @@ const overlayCollapsable = ref(true);
 const snackbar = ref(false);
 const logMessages = ref([]);
 const maxHeight = ref(50)
-    let idCounter = 0;
+  let idCounter = 0;
 
-    let scrollTimeout = null;
-    let lastScrollLeft = 0;
-    let ticking = false;
+  let scrollTimeout = null;
+  let lastScrollLeft = 0;
+  let ticking = false;
 const logSnackbar = (message) => {
       logMessages.value.push({ text: message, visible: true });
-      console.log(message);
+      log(message);
 };
     const removeMessage = (id) => {
       logMessages.value = logMessages.value.filter((msg) => msg.id !== id);
@@ -117,19 +118,19 @@ const handleScrollStateChange = (isScrolled) => {
 };
 
 const expandCard = (card) => {
-  if (card.properties.route_sequence_id === routeStatus.activeStep) {
-    expandedCard.value = card.properties.route_sequence_id;
+  if (card.route_step === routeStatus.activeStep) {
+    expandedCard.value = card.properties.route_step;
     expandedCardData.value = card;
       DetailsBottomSheet.value.open();
-    console.log("Card should expand now.")
+    log("Card should expand now.")
   } else {
-    goToCardById(card.properties.route_sequence_id);
+    goToCardById(card.route_step);
   }
 };
 
 const closeExpandedCard = () => {
   DetailsBottomSheet.value.close()
-  console.log('Closed expanded card')
+  log('Closed expanded card')
 
 };
 
@@ -144,7 +145,7 @@ const handleScroll = () => {
   if (scrollTimeout) clearTimeout(scrollTimeout);
   // logSnackbar(`handle scroll`)
       scrollTimeout = setTimeout(() => {
-        console.log("Scroll ended! 🎉");
+        log("Scroll ended! 🎉");
         // Add logic for selecting the active card here
   if (!cardsContainer.value) return;
 
@@ -229,8 +230,9 @@ const navigateCardsWithKeyArrows = (event) => {
     expandCard(props.cards[currentCard.value - 1]);
   }
 };
-  watch(
-    () => routeStatus.activeStep, // Watch for changes in activeFeature
+
+watch(
+    () => routeStatus.activeStepId, // Watch for changes in activeFeature
     (newVal, oldVal) => {
       if (newVal !== oldVal) {
         goToCardById(newVal); // Scroll to the top
@@ -241,13 +243,13 @@ const navigateCardsWithKeyArrows = (event) => {
 
 
 onMounted(() => {
-  console.log("Cardslider - mounted", routeStatus)
+  log("Cardslider - mounted", routeStatus)
   // if (cardsContainer.value) {
   //   cardsContainer.value.addEventListener("touchmove", preventScroll, { passive: false });
   // }
 
-  if (routeStatus.activeStep) {
-    goToCardById(routeStatus.activeStep);
+  if (routeStatus.activeStepId) {
+    goToCardById(routeStatus.activeStepId);
   }
   else {
     isFirstCard.value = true;

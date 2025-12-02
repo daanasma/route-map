@@ -4,54 +4,56 @@
           <h2>{{ routeStatus.routeMetadata.title }}</h2>
           <p>{{ routeStatus.routeMetadata.description }}</p>
           <img :src="routeStatus.routeMetadata.banner" alt="Route Banner">
-              <ElevationProfile :elevation-data="routeStatus.getFullRouteElevation" />
+<!--              <ElevationProfile :elevation-data="routeStatus.getFullRouteElevation" />-->
 
         </div>
+
         <div v-if="routeStatus.activeTopic === 'route'">
-          <h2>{{ routeStatus.activeFeature.properties.title }}</h2>
-          <div v-if="routeStatus.activeFeature.properties.route_length_meters">
-          <h5>{{ formattedDistance }}</h5>
-          </div>
-        <ElevationProfile v-if="routeStatus.activeFeature.type === 'line'"
-           :elevation-data="routeStatus.activeFeature.elevation"
-        />
 
-          <v-carousel
-              v-if="routeStatus.activeFeature.images?.length"
-              :show-arrows="routeStatus.activeFeature.images.length > 1"
-              :height="300"
-                @touchstart.stop
-                @touchmove.stop
-          >
-            <v-carousel-item
-                v-for="(image, index) in routeStatus.activeFeature.images"
+          <h2>{{ routeStatus.activeStepData.title }}</h2>
+<!--          <div v-if="routeStatus.activeFeatures.properties.route_length_meters">-->
+<!--          <h5>{{ formattedDistance }}</h5>-->
+<!--          </div>-->
+<!--        <ElevationProfile v-if="routeStatus.activeFeatures.type === 'line'"-->
+<!--           :elevation-data="routeStatus.activeFeatures.elevation"-->
+<!--        />-->
 
-                :key="index"
-                :src=image
-                cover
-            ></v-carousel-item>
-          </v-carousel>
+<!--          <v-carousel-->
+<!--              v-if="routeStatus.activeFeatures.images?.length"-->
+<!--              :show-arrows="routeStatus.activeFeatures.images.length > 1"-->
+<!--              :height="300"-->
+<!--                @touchstart.stop-->
+<!--                @touchmove.stop-->
+<!--          >-->
+<!--            <v-carousel-item-->
+<!--                v-for="(image, index) in routeStatus.activeFeatures.images"-->
+
+<!--                :key="index"-->
+<!--                :src=image-->
+<!--                cover-->
+<!--            ></v-carousel-item>-->
+<!--          </v-carousel>-->
           <div class="content-actual-content">
             <h3>
               Summary
             </h3>
 
-          <p>{{ routeStatus.activeFeature.properties.summary }}</p>
+          <p>{{ routeStatus.activeStepData.summary }}</p>
 
-          <div>
-          <div>
-            <h3>
-            Lorum Ipsum?
-            </h3>
+<!--          <div>-->
+<!--          <div>-->
+<!--            <h3>-->
+<!--            Lorum Ipsum?-->
+<!--            </h3>-->
 
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-            industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-            scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into
-            electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of
-            Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like
-            Aldus PageMaker including versions of Lorem Ipsum.
-          </div>
-        </div>
+<!--            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the-->
+<!--            industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and-->
+<!--            scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into-->
+<!--            electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of-->
+<!--            Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like-->
+<!--            Aldus PageMaker including versions of Lorem Ipsum.-->
+<!--          </div>-->
+<!--        </div>-->
 </div>
         </div>
       </div>
@@ -62,8 +64,9 @@
 
 <script>
 import { useRouteInfoStore } from '../stores/routestatus.js';
-import { ref, watch, onMounted } from 'vue';
+import { ref, watch } from 'vue';
 import ElevationProfile from '@/components/ElevationProfile.vue'; // Adjust path if needed
+import { log } from '@/debug/debug.js';
 
 export default {
   components: { ElevationProfile }, // Register the component
@@ -71,8 +74,9 @@ export default {
     const routeStatus = useRouteInfoStore();
     const contentWrapper = ref(null); // Ref to the content-wrapper element
     watch(
-      () => routeStatus.activeFeature, // Watch for changes in activeFeature
+      () => routeStatus.activeStep, // Watch for changes in activeStep
       (newVal, oldVal) => {
+        log(('DetailInfoPanel -> activestep', routeStatus.activeStep))
         if (newVal !== oldVal && contentWrapper.value) {
           contentWrapper.value.scrollTop = 0; // Scroll to the top
         }
@@ -82,7 +86,7 @@ export default {
 
         // Function to handle map updates from ElevationProfile interaction
     const updateMapPoint = (point) => {
-      console.log("Update map to:", point);
+      log("Update map to:", point);
       // Here you can integrate it with your MapLibre instance
     };
     return {
@@ -94,7 +98,7 @@ export default {
   },
   computed : {
     formattedDistance() {
-      let distance = Math.round(this.routeStatus.activeFeature.properties.route_length_meters / 10) * 10; // Round to nearest 10m
+      let distance = Math.round(this.routeStatus.activeFeatures.properties.route_length_meters / 10) * 10; // Round to nearest 10m
       return distance < 300
         ? `${distance}m`  // Show in meters if < 3km
         : `${(distance / 1000).toFixed(1)}km`; // Show in km with 1 decimal

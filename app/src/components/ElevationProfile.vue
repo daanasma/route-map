@@ -9,6 +9,7 @@ import { GridComponent, TooltipComponent } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
 import VChart from 'vue-echarts';
 import { ref, computed } from 'vue';
+import { log } from '@/debug/debug.js';
 
 use([LineChart, GridComponent, TooltipComponent, CanvasRenderer]);
 
@@ -19,7 +20,7 @@ const props = defineProps({
     required: true
   }
 });
-console.log('elevation profile: props.elevationData', props.elevationData)
+log('elevation profile: props.elevationData', props.elevationData)
 const a = props.elevationData
           .filter((p) => p.elevation !== null && p.elevation !== undefined)  // Filter out points with no elevation
           .map((p) => [
