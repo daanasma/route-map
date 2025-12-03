@@ -10,7 +10,7 @@
 
         <div v-if="routeStatus.activeTopic === 'route'">
 
-          <h2>{{ routeStatus.activeStepData.title }}</h2>
+          <h2 v-if="!isTablet">{{ routeStatus.activeStepData.title }}</h2>
 <!--          <div v-if="routeStatus.activeFeatures.properties.route_length_meters">-->
 <!--          <h5>{{ formattedDistance }}</h5>-->
 <!--          </div>-->
@@ -72,12 +72,15 @@ import { useRouteInfoStore } from '../stores/routestatus.js';
 import { ref, watch } from 'vue';
 import ElevationProfile from '@/components/ElevationProfile.vue'; // Adjust path if needed
 import { log } from '@/debug/debug.js';
+import {useIsTablet} from "@/composables/useIsTablet.js";
 
 export default {
   components: { ElevationProfile }, // Register the component
   setup() {
     const routeStatus = useRouteInfoStore();
     const contentWrapper = ref(null); // Ref to the content-wrapper element
+        const {isTablet} = useIsTablet(); // Call the composable
+
     watch(
       () => routeStatus.activeStep, // Watch for changes in activeStep
       (newVal, oldVal) => {
@@ -95,6 +98,7 @@ export default {
       // Here you can integrate it with your MapLibre instance
     };
     return {
+      isTablet,
       routeStatus,
       contentWrapper,
       updateMapPoint

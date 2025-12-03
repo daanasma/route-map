@@ -65,7 +65,7 @@
   <BottomSheet
     ref="DetailsBottomSheet"
     :can-swipe-close="overlayCollapsable"
-    :snap-points="['60%', instinctHeight]",
+    :snap-points="['50%', instinctHeight]",
     header-class="sheet-header"
     content-class="sheet-content"
     footer-class="sheet-footer"
@@ -78,9 +78,9 @@
 
     <DetailInfoPanel @scrollStateChanged="handleScrollStateChange" />
 
-    <template #footer>
-      Footer?
-    </template>
+<!--    <template #footer>-->
+<!--      Footer?-->
+<!--    </template>-->
   </BottomSheet>
 
 </template>
@@ -359,7 +359,7 @@ onUnmounted(() => {
 }
 
 .content-card {
-  width: 50%;
+  width: 70%;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   margin: 1rem 3%;
   border-radius: 12px;
