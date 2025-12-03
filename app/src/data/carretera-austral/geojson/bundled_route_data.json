@@ -1,9 +1,11 @@
 {
   "metadata": {
     "title": "Carretera Austral",
-    "description": "A road through the pristine Chilean Patagonia.",
+    "description": "A multi day adventure through the pristine Chilean Patagonia.",
+    "description_long": "The Carretera Austral (officially Chile's Route 7) is a legendary, partially paved highway in Southern Chile that stretches over 1,240 km (770 mi) through the rugged and remote landscapes of Chilean Patagonia. It is celebrated as one of the world's most spectacular road trips, offering access to fjords, glaciers, dense temperate rainforests, and national parks that were once virtually inaccessible by land. ",
     "banner": "carretera-austral/img/overview/voh_air_view.jpg",
     "circular": false,
+    "difficulty_level": "Extreme",
     "version": "1.0",
     "created": "2025-01-01",
     "last_edit": "2025-11-28",
