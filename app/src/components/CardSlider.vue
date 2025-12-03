@@ -53,6 +53,15 @@
     </div>
   </div>
 
+<!--  <vue-bottom-sheet-->
+<!--        ref="DetailsBottomSheet"-->
+<!--        :max-height="600"-->
+<!--        :max-width="1024"-->
+<!--        :can-swipe="overlayCollapsable"-->
+<!--    >-->
+<!--   <DetailInfoPanel @scrollStateChanged="handleScrollStateChange" />-->
+<!--  </vue-bottom-sheet>-->
+
   <BottomSheet
     ref="DetailsBottomSheet"
     :can-swipe-close="overlayCollapsable"
@@ -74,7 +83,6 @@
     </template>
   </BottomSheet>
 
-
 </template>
 
 <script setup>
@@ -93,6 +101,7 @@ const props = defineProps({
   isMobile: Boolean,
 });
 const instinctHeight = ref();
+
 const DetailsBottomSheet = ref(null)
 const routeStatus = useRouteInfoStore();
 const expandedCard = ref(null);
@@ -112,27 +121,23 @@ const showOverlay = ref(true);
 const overlayCollapsable = ref(true);
 const snackbar = ref(false);
 const logMessages = ref([]);
-const maxHeight = ref(50);
-const isBottomSheetOpen = ref(false);
-let idCounter = 0;
+const maxHeight = ref(50)
+  let idCounter = 0;
 
-let scrollTimeout = null;
-let lastScrollLeft = 0;
-let ticking = false;
-
+  let scrollTimeout = null;
+  let lastScrollLeft = 0;
+  let ticking = false;
 const logSnackbar = (message) => {
-  logMessages.value.push({ text: message, visible: true });
-  log(message);
+      logMessages.value.push({ text: message, visible: true });
+      log(message);
 };
-
-const removeMessage = (id) => {
-  logMessages.value = logMessages.value.filter((msg) => msg.id !== id);
-};
+    const removeMessage = (id) => {
+      logMessages.value = logMessages.value.filter((msg) => msg.id !== id);
+    };
 
 
 const handleScrollStateChange = (isScrolled) => {
   overlayCollapsable.value = !isScrolled
-  log(`Scroll state changed: ${isScrolled}, collapsable: ${overlayCollapsable.value}`)
 };
 
 const expandCard = (card) => {
@@ -147,8 +152,9 @@ const expandCard = (card) => {
 };
 
 const closeExpandedCard = () => {
-  DetailsBottomSheet.value?.close();
+  DetailsBottomSheet.value?.close()
   log('Closed expanded card')
+
 };
 
 const isElementInCenter = (element, container) => {
@@ -161,38 +167,38 @@ const isElementInCenter = (element, container) => {
 const handleScroll = () => {
   if (scrollTimeout) clearTimeout(scrollTimeout);
   // logSnackbar(`handle scroll`)
-  scrollTimeout = setTimeout(() => {
-    log("Scroll ended! 🎉");
-    // Add logic for selecting the active card here
-    if (!cardsContainer.value) return;
+      scrollTimeout = setTimeout(() => {
+        log("Scroll ended! 🎉");
+        // Add logic for selecting the active card here
+  if (!cardsContainer.value) return;
 
-    const cards = Array.from(cardsContainer.value.children);
-    const centeredCard = cards.find((card) => isElementInCenter(card, cardsContainer.value));
+  const cards = Array.from(cardsContainer.value.children);
+  const centeredCard = cards.find((card) => isElementInCenter(card, cardsContainer.value));
 
-    if (centeredCard) {
+  if (centeredCard) {
 
-      const cardId = centeredCard.getAttribute('data-key');
-      // logSnackbar(`got centered card ${cardId}`)
+    const cardId = centeredCard.getAttribute('data-key');
+    // logSnackbar(`got centered card ${cardId}`)
 
-      const cardIndex = cards.indexOf(centeredCard);
-      isFirstCard.value = cardId === 'overview';
-      isLastCard.value = cardId === 'breakdown';
+    const cardIndex = cards.indexOf(centeredCard);
+    isFirstCard.value = cardId === 'overview';
+    isLastCard.value = cardId === 'breakdown';
 
-      if (isFirstCard.value) {
-        routeStatus.setActiveTopic('overview', true);
-        currentCard.value = 'overview';
-        routeStatus.setActiveStep(null);
-      } else if (isLastCard.value) {
-        routeStatus.setActiveTopic('overview', true);
-        currentCard.value = 'breakdown';
-        routeStatus.setActiveStep(null);
-      } else if (currentCard.value !== cardId) {
-        routeStatus.setActiveTopic('route');
-        currentCard.value = cardId;
-        routeStatus.setActiveStep(cardIndex);
-      }
+    if (isFirstCard.value) {
+      routeStatus.setActiveTopic('overview', true);
+      currentCard.value = 'overview';
+      routeStatus.setActiveStep(null);
+    } else if (isLastCard.value) {
+      routeStatus.setActiveTopic('overview', true);
+      currentCard.value = 'breakdown';
+      routeStatus.setActiveStep(null);
+    } else if (currentCard.value !== cardId) {
+      routeStatus.setActiveTopic('route');
+      currentCard.value = cardId;
+      routeStatus.setActiveStep(cardIndex);
     }
-  }, 100); // Adjust delay as needed
+  }
+        }, 100); // Adjust delay as needed
 
 };
 
@@ -231,13 +237,11 @@ const scrollWithButton = (direction) => {
     goToCardById(cards[nextIndex].getAttribute('data-key'));
   }
 };
-
 const preventScroll = (event) => {
   if (Math.abs(event.touches[0].clientX - startX.value) > Math.abs(event.touches[0].clientY - startY.value)) {
     event.preventDefault(); // Prevent Safari from overriding touch behavior
   }
 };
-
 const navigateCardsWithKeyArrows = (event) => {
   if (event.key === 'ArrowLeft' && !isFirstCard.value) {
     scrollWithButton(-1);
@@ -251,14 +255,14 @@ const navigateCardsWithKeyArrows = (event) => {
 };
 
 watch(
-  () => routeStatus.activeStepId, // Watch for changes in activeFeature
-  (newVal, oldVal) => {
-    if (newVal !== oldVal) {
-      goToCardById(newVal); // Scroll to the top
-    }
-  },
-  { immediate: true } // Ensure it triggers immediately when the component is mounted
-);
+    () => routeStatus.activeStepId, // Watch for changes in activeFeature
+    (newVal, oldVal) => {
+      if (newVal !== oldVal) {
+        goToCardById(newVal); // Scroll to the top
+      }
+    },
+    { immediate: true } // Ensure it triggers immediately when the component is mounted
+  );
 
 
 onMounted(() => {
@@ -281,21 +285,9 @@ onUnmounted(() => {
 });
 </script>
 
-<style >
-/* Bottom Sheet CSS Variable Overrides */
-:root {
-  --vsbs-backdrop-bg: rgba(0, 0, 0, 0.3);
-  --vsbs-shadow-color: rgba(89, 89, 89, 0.3);
-  --vsbs-background: #fff;
-  --vsbs-border-radius: 20px;
-  --vsbs-outer-border-color: transparent;
-  --vsbs-max-width: 1024px;
-  --vsbs-border-color: rgba(46, 59, 66, 0.125);
-  --vsbs-padding-x: 24px;
-  --vsbs-handle-background: rgba(0, 0, 0, 0.28);
-}
+<style scoped>
 
-d
+
 /* Wrapper for cards and navigation buttons */
 .cards-wrapper {
   position: relative;
@@ -398,5 +390,20 @@ d
   margin: 0;
   font-size: 1.25rem;
 }
+
+</style>
+<style>
+:root {
+  --vsbs-backdrop-bg: rgba(0, 0, 0, 0.3);
+  --vsbs-shadow-color: rgba(89, 89, 89, 0.3);
+  --vsbs-background: #fff;
+  --vsbs-border-radius: 20px;
+  --vsbs-outer-border-color: transparent;
+  --vsbs-max-width: 1024px;
+  --vsbs-border-color: rgba(46, 59, 66, 0.125);
+  --vsbs-padding-x: 24px;
+  --vsbs-handle-background: rgba(0, 0, 0, 0.28);
+}
+
 
 </style>
