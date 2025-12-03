@@ -2,7 +2,8 @@
 "type": "FeatureCollection",
 "name": "stops",
 "features": [
-{ "type": "Feature", "properties": { "id": 8, "description": "The entrance to Patagonia National Park", "title": "Valle Chacabuco", "to_publish": true, "poi_type": "national_park" }, "geometry": { "type": "Point", "coordinates": [ -72.485853343504331, -47.117102483333909 ] } },
+{ "type": "Feature", "properties":
+{ "id": 8, "description": "The entrance to Patagonia National Park", "title": "Valle Chacabuco", "to_publish": true, "poi_type": "national_park" }, "geometry": { "type": "Point", "coordinates": [ -72.485853343504331, -47.117102483333909 ] } },
 { "type": "Feature", "properties": { "id": 1, "description": "The southernmost town of the Carretera Austral, surrounded by pristine wilderness.", "title": "Villa O'Higgins", "to_publish": true, "poi_type": "town" }, "geometry": { "type": "Point", "coordinates": [ -72.561205492565051, -48.469739916356886 ] } },
 { "type": "Feature", "properties": { "id": 2, "description": "Taking the boat", "title": "Puerto Rio Bravo", "to_publish": true, "poi_type": "port" }, "geometry": { "type": "Point", "coordinates": [ -73.223578777736051, -47.967843944731719 ] } },
 { "type": "Feature", "properties": { "id": 3, "description": "A ferry crossing on the Carretera Austral, connecting remote areas.", "title": "Puerto Yungay", "to_publish": true, "poi_type": "port" }, "geometry": { "type": "Point", "coordinates": [ -73.3263698408458, -47.93475752744542 ] } },

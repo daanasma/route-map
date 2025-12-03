@@ -18,7 +18,11 @@
           "type": "point"
         }
       ],
-      "summary": "Villa O Higgins is the starting point of this adventure."
+      "summary": "Villa O Higgins is the starting point of this adventure.",
+      "images": [
+        "carretera-austral/img/steps/1/voh_air_view.JPG",
+        "carretera-austral/img/steps/1/voh_pier.JPG"
+      ]
     },
     {
       "route_step": 2,
@@ -33,7 +37,10 @@
         }
       ],
       "title": "Villa O Higgins towards the ferry",
-      "summary": "Riding towards the ferry. Some parts asphalt, some parts gravel but great views overalss."
+      "summary": "Riding towards the ferry. Some parts asphalt, some parts gravel but great views overalss.",
+      "images": [
+        "carretera-austral/img/steps/2/boat.jpg"
+      ]
     },
     {
       "route_step": 3,
@@ -52,7 +59,10 @@
         }
       ],
       "title": "Ferry",
-      "summary": "on a boat motherfucker."
+      "summary": "on a boat motherfucker.",
+      "images": [
+        "carretera-austral/img/steps/3/boat.jpg"
+      ]
     },
     {
       "route_step": 4,
@@ -63,7 +73,10 @@
         }
       ],
       "title": "Route step 4",
-      "summary": "Cruising some more. Try to fish."
+      "summary": "Cruising some more. Try to fish.",
+      "images": [
+        "carretera-austral/img/steps/4/confluencia.jpg"
+      ]
     },
     {
       "route_step": 5,
@@ -74,7 +87,10 @@
         }
       ],
       "title": "Route step 5",
-      "summary": "Still no fish.."
+      "summary": "Still no fish..",
+      "images": [
+        "carretera-austral/img/steps/5/baker.jpg"
+      ]
     },
     {
       "route_step": 6,
@@ -85,7 +101,10 @@
         }
       ],
       "title": "sdfq",
-      "description": "qsdfsdf"
+      "description": "qsdfsdf",
+      "images": [
+        "carretera-austral/img/steps/6/lago_carrera.jpg"
+      ]
     },
     {
       "route_step": 7,
@@ -96,7 +115,10 @@
         }
       ],
       "title": "Jeweet",
-      "summary": "Stap xx.."
+      "summary": "Stap xx..",
+      "images": [
+        "carretera-austral/img/steps/7/boat.jpg"
+      ]
     },
     {
       "route_step": 8,
@@ -107,7 +129,10 @@
         }
       ],
       "title": "zellufff",
-      "summary": "Stap qsdfqsdfqsdfxx.."
+      "summary": "Stap qsdfqsdfqsdfxx..",
+      "images": [
+        "carretera-austral/img/steps/8/baker.jpg"
+      ]
     },
     {
       "route_step": 9,
@@ -118,7 +143,10 @@
         }
       ],
       "title": "zelluqdfqsdfqsdffff",
-      "summary": "Stap qsdfqsdfqsdfsqdfsqdfqsdfsfdxx.."
+      "summary": "Stap qsdfqsdfqsdfsqdfsqdfqsdfsfdxx..",
+      "images": [
+        "carretera-austral/img/steps/9/confluencia.jpg"
+      ]
     },
     {
       "route_step": 10,
@@ -129,17 +157,9 @@
           "id": 6,
           "type": "line"
         }
-      ]
-    },
-    {
-      "route_step": 11,
-      "title": "MAar nog niet helemaal! ",
-      "summary": "of toch :) ",
-      "features": [
-        {
-          "id": 7,
-          "type": "line"
-        }
+      ],
+      "images": [
+        "carretera-austral/img/steps/10/boat.jpg"
       ]
     }
   ],
@@ -163,8 +183,7 @@
           -72.48585334350433,
           -47.11710248333391
         ]
-      },
-      "images": []
+      }
     },
     {
       "id": 100001,
@@ -184,11 +203,7 @@
           -72.56120549256505,
           -48.469739916356886
         ]
-      },
-      "images": [
-        "carretera-austral/img/point/1/voh_air_view.JPG",
-        "carretera-austral/img/point/1/voh_pier.JPG"
-      ]
+      }
     },
     {
       "id": 100002,
@@ -208,10 +223,7 @@
           -73.22357877773605,
           -47.96784394473172
         ]
-      },
-      "images": [
-        "carretera-austral/img/point/2/boat.jpg"
-      ]
+      }
     },
     {
       "id": 100003,
@@ -231,10 +243,7 @@
           -73.3263698408458,
           -47.93475752744542
         ]
-      },
-      "images": [
-        "carretera-austral/img/point/3/boat.jpg"
-      ]
+      }
     },
     {
       "id": 100004,
@@ -254,10 +263,7 @@
           -72.5743090241636,
           -47.25402906090258
         ]
-      },
-      "images": [
-        "carretera-austral/img/point/4/confluencia.jpg"
-      ]
+      }
     },
     {
       "id": 100005,
@@ -277,10 +283,7 @@
           -72.82831279449356,
           -47.015094351910925
         ]
-      },
-      "images": [
-        "carretera-austral/img/point/5/baker.jpg"
-      ]
+      }
     },
     {
       "id": 100006,
@@ -300,10 +303,7 @@
           -72.67557475429841,
           -46.62424057344899
         ]
-      },
-      "images": [
-        "carretera-austral/img/point/6/lago_carrera.jpg"
-      ]
+      }
     },
     {
       "id": 100007,
@@ -323,8 +323,7 @@
           -73.53178639465561,
           -47.795614838726664
         ]
-      },
-      "images": []
+      }
     },
     {
       "id": 200001,
@@ -16005,11 +16004,7 @@
             -47.96802
           ]
         ]
-      },
-      "images": [
-        "carretera-austral/img/line/1/voh_air_view.JPG",
-        "carretera-austral/img/line/1/voh_pier.JPG"
-      ]
+      }
     },
     {
       "id": 200002,
@@ -16210,10 +16205,7 @@
             -47.93475752744542
           ]
         ]
-      },
-      "images": [
-        "carretera-austral/img/line/2/boat.jpg"
-      ]
+      }
     },
     {
       "id": 200003,
@@ -30770,10 +30762,7 @@
             -47.25256
           ]
         ]
-      },
-      "images": [
-        "carretera-austral/img/line/3/boat.jpg"
-      ]
+      }
     },
     {
       "id": 200004,
@@ -37790,10 +37779,7 @@
             -47.01939
           ]
         ]
-      },
-      "images": [
-        "carretera-austral/img/line/4/confluencia.jpg"
-      ]
+      }
     },
     {
       "id": 200005,
@@ -45066,10 +45052,7 @@
             -46.62359
           ]
         ]
-      },
-      "images": [
-        "carretera-austral/img/line/5/baker.jpg"
-      ]
+      }
     },
     {
       "id": 200006,
@@ -59210,10 +59193,7 @@
             -46.32299
           ]
         ]
-      },
-      "images": [
-        "carretera-austral/img/line/6/lago_carrera.jpg"
-      ]
+      }
     },
     {
       "id": 200007,
@@ -59466,8 +59446,7 @@
             -48.45799
           ]
         ]
-      },
-      "images": []
+      }
     }
   ]
 }

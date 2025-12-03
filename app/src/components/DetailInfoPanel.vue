@@ -18,21 +18,22 @@
 <!--           :elevation-data="routeStatus.activeFeatures.elevation"-->
 <!--        />-->
 
-<!--          <v-carousel-->
-<!--              v-if="routeStatus.activeFeatures.images?.length"-->
-<!--              :show-arrows="routeStatus.activeFeatures.images.length > 1"-->
-<!--              :height="300"-->
-<!--                @touchstart.stop-->
-<!--                @touchmove.stop-->
-<!--          >-->
-<!--            <v-carousel-item-->
-<!--                v-for="(image, index) in routeStatus.activeFeatures.images"-->
+          <v-carousel
+              v-if="routeStatus.activeStepData.images?.length"
+                    :key="routeStatus.activeStepData.route_step"
+              :show-arrows="routeStatus.activeStepData.images.length > 1"
+              :height="300"
+                @touchstart.stop
+                @touchmove.stop
 
-<!--                :key="index"-->
-<!--                :src=image-->
-<!--                cover-->
-<!--            ></v-carousel-item>-->
-<!--          </v-carousel>-->
+          >
+            <v-carousel-item
+                v-for="(image, index) in routeStatus.activeStepData.images"
+                :key="index"
+                :src=image
+                cover
+            ></v-carousel-item>
+          </v-carousel>
           <div class="content-actual-content">
             <h3>
               Summary

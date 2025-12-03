@@ -140,18 +140,6 @@
         }
 
       ]
-    },
-    {
-      "route_step": 11,
-      "title": "MAar nog niet helemaal! ",
-      "summary": "of toch :) ",
-
-      "features": [
-        {
-          "id": 7,
-          "type": "line"
-        }
-      ]
     }
   ],
   "settings": {}

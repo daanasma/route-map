@@ -32,7 +32,6 @@ function bundleRouteData(routeId) {
                 },
                 elevation: feature.elevation,
                 geometry: feature.geometry,
-                images: listImages(routeId, type, id),
             };
         };
 
@@ -40,13 +39,15 @@ function bundleRouteData(routeId) {
     const sequenceMap = new Map();
 
     sequenceData.sequence.forEach((step, stepIndex) => {
+        let routeStepId = stepIndex + 1
+        step.images = listImages(routeId, routeStepId);
         step.features.forEach(f => {
             const key = `${f.id}_${f.type}`;
 
             // only set if not yet present
             if (!sequenceMap.has(key)) {
                 sequenceMap.set(key, {
-                    route_step: stepIndex + 1
+                    route_step: routeStepId
                 });
             }
         });
@@ -135,16 +136,16 @@ function minifyJsonFiles(routeLimitation) {
 
 
 /**
- * Helper function to list image files for a feature type and ID.
+ * Helper function to list image files for a step ID.
  */
-function listImages(routeId, type, id) {
-    const directoryPath = resolve(`public/map/${routeId}/img/${type}/${id}`);
+function listImages(routeId, id) {
+    const directoryPath = resolve(`public/map/${routeId}/img/steps/${id}`);
     try {
         return readdirSync(directoryPath)
             .filter(file => /\.(png|jpe?g|gif|webp)$/i.test(file))
-            .map(file => `${routeId}/img/${type}/${id}/${file}`);
+            .map(file => `${routeId}/img/steps/${id}/${file}`);
     } catch (error) {
-        console.warn(`No images found for ${type} ${id}: ${error.message}`);
+        console.warn(`No images found for step id ${id}: ${error.message}`);
         return [];
     }
 }
