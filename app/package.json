@@ -12,6 +12,7 @@
     "git": "vite build & gh-pages -d dist"
   },
   "dependencies": {
+    "@douxcode/vue-spring-bottom-sheet": "^2.5.0",
     "@mdi/font": "^7.4.47",
     "@vueuse/core": "^14.1.0",
     "@webzlodimir/vue-bottom-sheet": "^3.0.5",
