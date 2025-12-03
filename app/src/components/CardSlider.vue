@@ -20,7 +20,6 @@
     <button v-if="!isFirstCard" id="prevBtn" @click="scrollWithButton(-1)" class="navigation-btn">‹</button>
     <button v-if="!isLastCard" id="nextBtn" @click="scrollWithButton(1)" class="navigation-btn">›</button>
 
-
     <!-- Cards Container -->
     <div
       ref="cardsContainer"
@@ -124,11 +123,8 @@ const overlayCollapsable = ref(true);
 const snackbar = ref(false);
 const logMessages = ref([]);
 const maxHeight = ref(50)
-  let idCounter = 0;
 
   let scrollTimeout = null;
-  let lastScrollLeft = 0;
-  let ticking = false;
 const logSnackbar = (message) => {
       logMessages.value.push({ text: message, visible: true });
       log(message);
@@ -156,7 +152,6 @@ const expandCard = (card) => {
 const closeExpandedCard = () => {
   DetailsBottomSheet.value?.close()
   log('Closed expanded card')
-
 };
 
 const isElementInCenter = (element, container) => {
@@ -169,38 +164,41 @@ const isElementInCenter = (element, container) => {
 const handleScroll = () => {
   if (scrollTimeout) clearTimeout(scrollTimeout);
   // logSnackbar(`handle scroll`)
-      scrollTimeout = setTimeout(() => {
-        log("Scroll ended! 🎉");
-        // Add logic for selecting the active card here
-  if (!cardsContainer.value) return;
+  scrollTimeout = setTimeout(() => {
+    log("Scroll ended! 🎉");
+    // logic for selecting the active card
+    if (!cardsContainer.value) return;
 
-  const cards = Array.from(cardsContainer.value.children);
-  const centeredCard = cards.find((card) => isElementInCenter(card, cardsContainer.value));
+    const cards = Array.from(cardsContainer.value.children);
+    const centeredCard = cards.find((card) => isElementInCenter(card, cardsContainer.value));
 
-  if (centeredCard) {
+    if (centeredCard) {
+      console.log('centeredcard', centeredCard)
 
-    const cardId = centeredCard.getAttribute('data-key');
-    // logSnackbar(`got centered card ${cardId}`)
+      const cardId = centeredCard.getAttribute('data-key');
+      // logSnackbar(`got centered card ${cardId}`)
+      console.log('centeredcard ID', cardId)
 
-    const cardIndex = cards.indexOf(centeredCard);
-    isFirstCard.value = cardId === 'overview';
-    isLastCard.value = cardId === 'breakdown';
+      const cardIndex = cards.indexOf(centeredCard);
+      isFirstCard.value = cardId === 'overview';
+      isLastCard.value = cardId === 'breakdown';
+      console.log('isFirstCard', isFirstCard.value)
 
-    if (isFirstCard.value) {
-      routeStatus.setActiveTopic('overview', true);
-      currentCard.value = 'overview';
-      routeStatus.setActiveStep(null);
-    } else if (isLastCard.value) {
-      routeStatus.setActiveTopic('overview', true);
-      currentCard.value = 'breakdown';
-      routeStatus.setActiveStep(null);
-    } else if (currentCard.value !== cardId) {
-      routeStatus.setActiveTopic('route');
-      currentCard.value = cardId;
-      routeStatus.setActiveStep(cardIndex);
+      if (isFirstCard.value) {
+        routeStatus.setActiveTopic('overview', true);
+        currentCard.value = 'overview';
+        routeStatus.setActiveStep(null);
+      } else if (isLastCard.value) {
+        routeStatus.setActiveTopic('overview', true);
+        currentCard.value = 'breakdown';
+        routeStatus.setActiveStep(null);
+      } else if (currentCard.value !== cardId) {
+        routeStatus.setActiveTopic('route');
+        currentCard.value = cardId;
+        routeStatus.setActiveStep(cardIndex);
+      }
     }
-  }
-        }, 100); // Adjust delay as needed
+  }, 100); // Adjust delay as needed
 
 };
 
@@ -211,7 +209,7 @@ const debouncedHandleScroll = () => {
 
 const goToCardById = (cardId) => {
   if (!cardsContainer.value) return;
-
+  log('go to card by id -> ', cardId)
   const targetCard = Array.from(cardsContainer.value.children).find(
     (card) => card.getAttribute('data-key') === cardId.toString()
   );
@@ -260,7 +258,10 @@ watch(
     () => routeStatus.activeStepId, // Watch for changes in activeFeature
     (newVal, oldVal) => {
       if (newVal !== oldVal) {
-        goToCardById(newVal); // Scroll to the top
+        if (!isLastCard | !isFirstCard) {
+          goToCardById(newVal); // Scroll to the new kid
+
+        }
       }
     },
     { immediate: true } // Ensure it triggers immediately when the component is mounted
