@@ -157,7 +157,13 @@ export default {
           }
           else if (trig1 !== trig2) {
             console.log('trigger map')
-            zoomToFullRoute()
+            if (newtopic === 'overview') {
+              zoomToFullRoute()
+            }
+            else {
+                          fitMapToFeatureList(routeStatus.activeStepFeatures)
+
+            }
           }
         }
     );

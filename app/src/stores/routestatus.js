@@ -140,7 +140,7 @@ export const useRouteInfoStore = defineStore('routeInfo', {
             this.activeTopic = topic;
         },
 
-        nextStep(includeEnd) {
+        nextStep() {
             if (!this.maxStepId) return;
 
             if (this.activeStepId === null || this.activeStepId >= this.maxStepId) {
@@ -150,7 +150,7 @@ export const useRouteInfoStore = defineStore('routeInfo', {
             }
         },
 
-        previousStep(includeStart) {
+        previousStep() {
             if (!this.maxStepId) return;
 
             if (this.activeStepId === null || this.activeStepId <= 1) {

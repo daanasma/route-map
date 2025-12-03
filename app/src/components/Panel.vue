@@ -31,11 +31,9 @@
 <script>
 import {useIsTablet} from "../composables/useIsTablet.js";
 import {useRouteInfoStore} from "@/stores/routestatus.js";
-import {watch, ref, onMounted} from "vue";
-import {useSwipe} from "@vueuse/core";
+import {watch, ref} from "vue";
 import CardSlider from '../components/CardSlider.vue';
 import DetailInfoPanel from "../components/DetailInfoPanel.vue";
-import {storeToRefs} from 'pinia'
 import { log } from '../debug/debug.js';
 
 export default {
@@ -113,7 +111,6 @@ export default {
 @media (min-width: 1024px) {
 .layout-container {
   flex-direction: column;
-
 }
 }
 

@@ -303,13 +303,7 @@ export function useMapLayers(map) {
 
                 createMapLabels(); // Add LAbels
 
-
-
-                // if (routeStatus.activeFeatures) {
-                //     fitMapToFeature(routeStatus.activeFeatures);
-                // } else {
-                //     log("Map: there is no active feature..");
-                // }
+                routeStatus.triggerMapRefresh()
                 log('Maplayers - Finished rendering layers!')
             })
         }
