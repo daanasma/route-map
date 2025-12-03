@@ -352,28 +352,39 @@ onUnmounted(() => {
   scroll-snap-align: center;
   height: 86%;
   background-color: white;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   align-items: center;
   justify-content: center;
   cursor: pointer;
 }
 
+.overview-card {
+  width: 80%;
+  max-width: 900px;
+  height: 100%;
+  background-color: var(--background-color-contrast);
+  color: white;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+}
+
+
 .content-card {
   width: 70%;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   margin: 1rem 3%;
+    box-shadow: 1px 4px 6px 1.5px rgba(0, 0, 0, 0.15);
+
   border-radius: 12px;
   background-color: #ffffff; /* Use pure white (fully opaque) */
 }
 
-
-.overview-card {
-  width: 80%;
-  max-width: 600px;
-  height: 100%;
-  background-color: var(--background-color-contrast);
-  color: white;
+.content-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  background-color: rgb(252, 252, 252)
 }
+
+
+
 /* Add margin between snackbars */
 .stacked-snackbar {
   margin-top: 50px;
