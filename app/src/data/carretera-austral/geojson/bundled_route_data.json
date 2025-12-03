@@ -6,7 +6,8 @@
     "circular": false,
     "version": "1.0",
     "created": "2025-01-01",
-    "last_edit": "2025-11-28"
+    "last_edit": "2025-11-28",
+    "total_length_in_m": 583180
   },
   "sequence": [
     {
@@ -22,7 +23,8 @@
       "images": [
         "carretera-austral/img/steps/1/voh_air_view.JPG",
         "carretera-austral/img/steps/1/voh_pier.JPG"
-      ]
+      ],
+      "length_in_m": 0
     },
     {
       "route_step": 2,
@@ -40,7 +42,8 @@
       "summary": "Riding towards the ferry. Some parts asphalt, some parts gravel but great views overalss.",
       "images": [
         "carretera-austral/img/steps/2/boat.jpg"
-      ]
+      ],
+      "length_in_m": 132160
     },
     {
       "route_step": 3,
@@ -62,7 +65,8 @@
       "summary": "on a boat motherfucker.",
       "images": [
         "carretera-austral/img/steps/3/boat.jpg"
-      ]
+      ],
+      "length_in_m": 11670
     },
     {
       "route_step": 4,
@@ -76,7 +80,8 @@
       "summary": "Cruising some more. Try to fish.",
       "images": [
         "carretera-austral/img/steps/4/confluencia.jpg"
-      ]
+      ],
+      "length_in_m": 165820
     },
     {
       "route_step": 5,
@@ -90,7 +95,8 @@
       "summary": "Still no fish..",
       "images": [
         "carretera-austral/img/steps/5/baker.jpg"
-      ]
+      ],
+      "length_in_m": 0
     },
     {
       "route_step": 6,
@@ -104,7 +110,8 @@
       "description": "qsdfsdf",
       "images": [
         "carretera-austral/img/steps/6/lago_carrera.jpg"
-      ]
+      ],
+      "length_in_m": 63460
     },
     {
       "route_step": 7,
@@ -118,7 +125,8 @@
       "summary": "Stap xx..",
       "images": [
         "carretera-austral/img/steps/7/boat.jpg"
-      ]
+      ],
+      "length_in_m": 0
     },
     {
       "route_step": 8,
@@ -132,7 +140,8 @@
       "summary": "Stap qsdfqsdfqsdfxx..",
       "images": [
         "carretera-austral/img/steps/8/baker.jpg"
-      ]
+      ],
+      "length_in_m": 91230
     },
     {
       "route_step": 9,
@@ -146,7 +155,8 @@
       "summary": "Stap qsdfqsdfqsdfsqdfsqdfqsdfsfdxx..",
       "images": [
         "carretera-austral/img/steps/9/confluencia.jpg"
-      ]
+      ],
+      "length_in_m": 0
     },
     {
       "route_step": 10,
@@ -160,7 +170,8 @@
       ],
       "images": [
         "carretera-austral/img/steps/10/boat.jpg"
-      ]
+      ],
+      "length_in_m": 118840
     }
   ],
   "settings": {},

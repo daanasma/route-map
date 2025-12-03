@@ -1,7 +1,8 @@
 <template>
   <div class="content-wrapper" ref="contentWrapper" @scroll="logScroll">
     <div v-if="routeStatus.activeTopic === 'overview'">
-          <h2>{{ routeStatus.routeMetadata.title }}</h2>
+          <h2>{{ routeStatus.routeMetadata.title }}</h2> <p>{{ routeStatus.routeLengthKm }}km</p>
+
           <p>{{ routeStatus.routeMetadata.description }}</p>
           <img :src="routeStatus.routeMetadata.banner" alt="Route Banner">
 <!--              <ElevationProfile :elevation-data="routeStatus.getFullRouteElevation" />-->
@@ -11,6 +12,9 @@
         <div v-if="routeStatus.activeTopic === 'route'">
 
           <h2 v-if="!isTablet">{{ routeStatus.activeStepData.title }}</h2>
+          <p v-if="routeStatus.activeStepLengthKm > 0">
+            {{routeStatus.activeStepLengthKm}}km
+          </p>
 <!--          <div v-if="routeStatus.activeFeatures.properties.route_length_meters">-->
 <!--          <h5>{{ formattedDistance }}</h5>-->
 <!--          </div>-->

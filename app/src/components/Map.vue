@@ -147,13 +147,17 @@ export default {
     })
 
     watch(
-        () => (routeStatus.activeTopic), // Watch the stopId in the Pinia store
-        (newtopic, oldtopic) => {
-          if (oldtopic !== newtopic ) {
+        () => ([routeStatus.activeTopic, routeStatus.refreshMapTrigger]), // Watch the stopId in the Pinia store
+        ([newtopic, trig1], [oldtopic, trig2]) => {
+          if (oldtopic !== newtopic) {
             log(`Map: active topic changed to: ${newtopic}`);
             if (newtopic === 'overview') {
               zoomToFullRoute()
             }
+          }
+          else if (trig1 !== trig2) {
+            console.log('trigger map')
+            zoomToFullRoute()
           }
         }
     );

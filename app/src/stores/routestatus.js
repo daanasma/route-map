@@ -2,6 +2,7 @@ import {useCorrectBasePath} from '@/composables/useCorrectBasePath.js';
 import mapConfig from '@/config/mapConfig.js'
 import {defineStore} from 'pinia';
 import { log } from '@/debug/debug.js';
+import { metersToKm } from '@/utils/length.js';
 
 const {getFilePath} = useCorrectBasePath();
 
@@ -14,16 +15,21 @@ export const useRouteInfoStore = defineStore('routeInfo', {
         loading: false,
         activeStepId: null,  // Just store the ID, compute the rest
         activeTopic: null,
+        refreshMapTrigger: 0, // when increased, can be used to trigger manual refreshes.
     }),
 
     getters: {
         routeMetadata: (state) => state.routeData?.metadata,
         routeSequence: (state) => state.routeData?.sequence,
-
-        maxStepId: (state) => {
-            if (!state.routeData?.sequence) return null;
-            return Math.max(...state.routeData.sequence.map(s => s.route_step));
+        routeLengthKm() { // Gebruik een reguliere functie zodat 'this' correct gebonden is
+            // 'this' verwijst naar de store-instantie, inclusief de 'routeMetadata' getter
+            const meters = this.routeMetadata?.total_length_in_m ?? 0;
+            return metersToKm(meters);
         },
+        maxStepId: (state) => {
+                    if (!state.routeData?.sequence) return null;
+                    return Math.max(...state.routeData.sequence.map(s => s.route_step));
+                },
 
         // Get current step data from sequence
         activeStepData: (state) => {
@@ -31,6 +37,10 @@ export const useRouteInfoStore = defineStore('routeInfo', {
             return state.routeSequence.find(s => s.route_step === state.activeStepId);
         },
 
+        activeStepLengthKm() {
+            const meters = this.activeStepData?.length_in_m ?? 0;
+            return metersToKm(meters);
+          },
         // Get all features that belong to route topic
         routeFeatures: (state) => {
             if (!state.routeData?.features) return [];
@@ -88,6 +98,9 @@ export const useRouteInfoStore = defineStore('routeInfo', {
     },
 
     actions: {
+        triggerMapRefresh() {
+            this.refreshMapTrigger ++
+        },
         setMapId(id) {
             this.mapId = id;
             if (id in mapConfig.configuredRoutes) {

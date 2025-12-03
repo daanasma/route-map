@@ -62,15 +62,17 @@
 <!--   <DetailInfoPanel @scrollStateChanged="handleScrollStateChange" />-->
 <!--  </vue-bottom-sheet>-->
 
+<!--  https://github.com/megaarmos/vue-spring-bottom-sheet-->
   <BottomSheet
     ref="DetailsBottomSheet"
     :can-swipe-close="overlayCollapsable"
-    :snap-points="['50%', instinctHeight]",
+    :swipe-close-threshold="'15%'"
+    :snap-points="['50%', instinctHeight]"
     header-class="sheet-header"
     content-class="sheet-content"
     footer-class="sheet-footer"
     @instinct-height="(n) => (instinctHeight = n)"
-
+    @click="DetailsBottomSheet.snapToPoint(2)"
   >
     <template #header>
       <h2>{{ expandedCardData?.title || 'Details' }}</h2>

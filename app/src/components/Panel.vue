@@ -1,8 +1,12 @@
 <template>
   <div class="layout-container">
     <!-- Header -->
-    <header v-if="!isTablet && routeStatus.routeData">
-      {{ routeStatus.routeMetadata.title }}
+    <header
+        v-if="!isTablet && routeStatus.routeData"
+    > <button @click="activateOverview">
+       {{ routeStatus.routeMetadata.title }}
+    </button>
+
     </header>
 
     <!-- Content -->
@@ -57,7 +61,8 @@ export default {
     };
 
     const activateOverview = () => {
-      routeStatus.setActiveTopic('overview', true)
+      routeStatus.setActiveTopic('overview')
+      routeStatus.triggerMapRefresh()
     }
 
 

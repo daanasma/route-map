@@ -5,8 +5,10 @@ import createMapIcons from "./build_tools/convert-icons.js";
 import configuredRoutes from "../app/src/config/mapConfig.js"
 import mapConfig from "../app/src/config/mapConfig.js";
 
+
 function bundleRouteData(routeId) {
     console.log("Start combining route. ID: ", routeId);
+    let totalRouteLength = 0;
 
     const path = `src/data/${routeId}/geojson/`
     // Load data files
@@ -39,9 +41,11 @@ function bundleRouteData(routeId) {
     const sequenceMap = new Map();
 
     sequenceData.sequence.forEach((step, stepIndex) => {
+        let stepLength = 0;
         let routeStepId = stepIndex + 1
         step.images = listImages(routeId, routeStepId);
         step.features.forEach(f => {
+
             const key = `${f.id}_${f.type}`;
 
             // only set if not yet present
@@ -50,7 +54,15 @@ function bundleRouteData(routeId) {
                     route_step: routeStepId
                 });
             }
+            // adding lengths
+            if (f.type === 'line') {
+                let thisLine = lines.features.find(line => line.properties.id === f.id);
+                stepLength += thisLine.segment_length_meters
+            }
         });
+        step.length_in_m = Math.round(stepLength);
+        totalRouteLength += stepLength;
+
     });
 
     const features = [];
@@ -69,12 +81,14 @@ function bundleRouteData(routeId) {
     });
 
     const bundledData = {
-        metadata: sequenceData.metadata,
+        metadata: {
+            ...sequenceData.metadata,
+            total_length_in_m: Math.round(totalRouteLength)
+        },
         sequence: sequenceData.sequence, // Keep sequence for reference
         settings: sequenceData.settings,
         features, // Let client sort if needed
     };
-    ;
 
     const outputPath = resolve(path, 'bundled_route_data.json');
     writeFileSync(outputPath, JSON.stringify(bundledData, null, 2), {encoding: 'utf8'});
@@ -155,7 +169,8 @@ export default function buildPlugins(options = {}) {
     const {routeLimitation = false} = options;
     console.log("Start building datasets with routelimitation: ", routeLimitation);
     console.log(routeLimitation);
-    return [bundleRouteDataAllRoutes(routeLimitation),
+    return [
+        bundleRouteDataAllRoutes(routeLimitation),
         minifyJsonFiles(routeLimitation),
         createMapIcons()
     ];
