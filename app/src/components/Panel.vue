@@ -1,3 +1,29 @@
+<template>
+  <div class="layout-container">
+    <!-- Header -->
+    <header v-if="!isTablet && routeStatus.routeData">
+      {{ routeStatus.routeMetadata.title }}
+    </header>
+
+    <!-- Content -->
+
+    <CardSlider v-if="isTablet && routeStatus.routeData" :cards="routeCards" :isMobile="true" />
+    <DetailInfoPanel v-if="!isTablet && routeStatus.routeData" ></DetailInfoPanel>
+
+    <!-- Desktop Content -->
+    <!-- Footer Navigation -->
+    <footer v-if="!isTablet" class="footer">
+      <div v-if="routeStatus.activeTopic === 'overview'">
+        <button @click="activateNextStop">Start route</button>
+      </div>
+      <div v-else>
+        <button @click="activatePreviousStop">Previous</button>
+        <button @click="activateOverview">Show full Route</button>
+        <button @click="activateNextStop">Next</button>
+      </div>
+    </footer>
+  </div>
+</template>
 <script>
 import {useIsTablet} from "../composables/useIsTablet.js";
 import {useRouteInfoStore} from "@/stores/routestatus.js";
@@ -71,33 +97,6 @@ export default {
 };
 </script>
 
-<template>
-  <div class="layout-container">
-    <!-- Header -->
-    <header v-if="!isTablet && routeStatus.routeData">
-      {{ routeStatus.routeMetadata.title }}
-    </header>
-
-    <!-- Content -->
-
-    <CardSlider v-if="isTablet && routeStatus.routeData" :cards="routeCards" :isMobile="true" />
-    <DetailInfoPanel v-if="!isTablet && routeStatus.routeData" ></DetailInfoPanel>
-
-    <!-- Desktop Content -->
-    <!-- Footer Navigation -->
-    <footer v-if="!isTablet" class="footer">
-      <div v-if="routeStatus.activeTopic === 'overview'">
-        <button @click="activateNextStop">Start route</button>
-      </div>
-      <div v-else>
-        <button @click="activatePreviousStop">Previous</button>
-        <button @click="activateOverview">Show full Route</button>
-        <button @click="activateNextStop">Next</button>
-      </div>
-    </footer>
-  </div>
-</template>
-
 <style scoped>
 
 .layout-container {
@@ -109,6 +108,7 @@ export default {
 @media (min-width: 1024px) {
 .layout-container {
   flex-direction: column;
+
 }
 }
 

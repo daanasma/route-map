@@ -42,23 +42,32 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     const settingsStore = useSettingsStore();
-    settingsStore.initializeFromStorage()
+
 
     // Controleer de parameter in de NIEUWE URL (to.query)
     if (to.query.debugmode === '1') {
+        console.log('debugmode param = 1')
         settingsStore.setDebugMode(true);
     } else if (to.query.debugmode === '0') {
         settingsStore.setDebugMode(false);
+                console.log('debugmode param = 0')
+
     }
+    else {
+        console.log('debugmode set from claimlord')
+        settingsStore.initializeFromStorage()
+    }
+
     // Als de parameter niet aanwezig is, behoudt de store de huidige (sessionStorage) status
 
-    // Optioneel: Verwijder de parameter uit de URL na verwerking
-    if (to.query.debugmode) {
-        const newQuery = {...to.query};
-        delete newQuery.debugmode;
-        next({path: to.path, query: newQuery, replace: true});
-    } else {
-        next();
-    }
+    // // Optioneel: Verwijder de parameter uit de URL na verwerking
+    // if (to.query.debugmode) {
+    //     const newQuery = {...to.query};
+    //     delete newQuery.debugmode;
+    //     next({path: to.path, query: newQuery, replace: true});
+    // } else {
+    //     next();
+    // }
+    next();
 });
 export default router;

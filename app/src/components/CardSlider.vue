@@ -118,10 +118,10 @@ const handleScrollStateChange = (isScrolled) => {
 };
 
 const expandCard = (card) => {
-  if (card.route_step === routeStatus.activeStep) {
-    expandedCard.value = card.properties.route_step;
+  if (card.route_step === routeStatus.activeStepId) {
+    expandedCard.value = card.route_step;
     expandedCardData.value = card;
-      DetailsBottomSheet.value.open();
+    DetailsBottomSheet.value.open();
     log("Card should expand now.")
   } else {
     goToCardById(card.route_step);
@@ -272,7 +272,7 @@ onUnmounted(() => {
   height: 100%;
   margin: 0 auto;
   overflow: hidden;
-  background-color: #f0f0f0;
+
 }
 
 .navigation-btn {
@@ -317,6 +317,8 @@ onUnmounted(() => {
   height: 100%;
   width: 100%;
   position: relative;
+  background-color: transparent;
+
 }
 
 /* Card */
@@ -338,7 +340,7 @@ onUnmounted(() => {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   margin: 1rem 3%;
   border-radius: 12px;
-
+  background-color: #ffffff; /* Use pure white (fully opaque) */
 }
 
 

@@ -73,7 +73,7 @@
       "route_step": 5,
       "features": [
         {
-          "id": 3,
+          "id": 4,
           "type": "point"
         }
       ],
@@ -97,7 +97,7 @@
       "route_step": 7,
       "features": [
         {
-          "id": 4,
+          "id": 5,
           "type": "point"
         }
       ],
@@ -121,7 +121,7 @@
       "route_step": 9,
       "features": [
         {
-          "id": 5,
+          "id": 6,
           "type": "point"
         }
       ],
@@ -144,12 +144,12 @@
     {
       "route_step": 11,
       "title": "MAar nog niet helemaal! ",
-      "summary": "of tock :) ",
+      "summary": "of toch :) ",
 
       "features": [
         {
-          "id": 6,
-          "type": "point"
+          "id": 7,
+          "type": "line"
         }
       ]
     }
