@@ -227,13 +227,13 @@ export function useMapLayers(map) {
                 map.value.addSource('routelines', {type: 'geojson', data: ArrayToGeoJSON(routeLines)});
                 getRouteLayerStyles().forEach(layer => {
                     map.value.addLayer(layer);
-                    loadedLayers.push(layer.id);
+                    loadedLayers.push({'part_of_step': true, 'layer_id': layer.id});
                 });
                 // Add Route points
                 map.value.addSource('routepoints', {type: 'geojson', data: ArrayToGeoJSON(routePoints)});
                 getRoutePointStyles().forEach(layer => {
                     map.value.addLayer(layer);
-                    loadedLayers.push(layer.id);
+                    loadedLayers.push({'part_of_step': true, 'layer_id': layer.id});
                 })
 
                 log('Maplayers: added all sources and layers -> route');
@@ -258,10 +258,12 @@ export function useMapLayers(map) {
                 getExtraPoiStyles().forEach(layer => {
                     log('Maplayers -> extra poi', layer)
                     map.value.addLayer(layer);
+                    loadedLayers.push({'part_of_step': false, 'layer_id': layer.id});
                 });
                 getExtraLineStyles().forEach(layer => {
                     log('Maplayers -> extra line', layer)
                     map.value.addLayer(layer);
+                    loadedLayers.push({'part_of_step': false, 'layer_id': layer.id});
                 });
                 log('Maplayers - added Non-route layers')
 
@@ -269,38 +271,38 @@ export function useMapLayers(map) {
                 log("Maplayers -> loaded layers:", loadedLayers)
                 log('MapLayers -> start adding event handlers')
 
-                loadedLayers.forEach(layer => {
-                    // Add interactivity (hover, click, etc.)
-                    map.value.on('mouseenter', layer, () => {
-                        map.value.getCanvas().style.cursor = 'pointer';
-                    });
-                    map.value.on('mouseleave', layer, () => {
-                        map.value.getCanvas().style.cursor = '';
-                    });
-
-                    map.value.on('click', layer, (e) => {
-                        log('Map: Clicked on', e.features[0]);
-                        // Checking if the click is near a point. If so, prioritize that.
-                        if (layer.includes('route-line')) {
-                            const featuresAtPoint = map.value.queryRenderedFeatures(e.point, {
-                                layers: ['route-point'],
-                                hitTolerance: 10
-                            });
-
-                            if (featuresAtPoint.length > 0) {
-                                log('Map: Clicked near a point, ignoring route click handler');
-                                return;
-                            }
-                            routeStatus.setActiveStep(e.features[0].properties['route_sequence_id']);
-                        }
-
-                        if (layer === 'route-point') {
-                            routeStatus.setActiveStep(e.features[0].properties['route_sequence_id']);
-                        }
-                    });
-
-                });
-
+                // loadedLayers.forEach(layer => {
+                //     // Add interactivity (hover, click, etc.)
+                //     map.value.on('mouseenter', layer, () => {
+                //         map.value.getCanvas().style.cursor = 'pointer';
+                //     });
+                //     map.value.on('mouseleave', layer, () => {
+                //         map.value.getCanvas().style.cursor = '';
+                //     });
+                //
+                //     map.value.on('click', layer, (e) => {
+                //         log('Map: Clicked on', e.features[0]);
+                //         // Checking if the click is near a point. If so, prioritize that.
+                //         if (layer.includes('route-line')) {
+                //             const featuresAtPoint = map.value.queryRenderedFeatures(e.point, {
+                //                 layers: ['route-point'],
+                //                 hitTolerance: 10
+                //             });
+                //
+                //             if (featuresAtPoint.length > 0) {
+                //                 log('Map: Clicked near a point, ignoring route click handler');
+                //                 return;
+                //             }
+                //             routeStatus.setActiveStep(e.features[0].properties['route_sequence_id']);
+                //         }
+                //
+                //         if (layer === 'route-point') {
+                //             routeStatus.setActiveStep(e.features[0].properties['route_sequence_id']);
+                //         }
+                //     });
+                //
+                // });
+                addMapHandlers(loadedLayers)
                 createMapLabels(); // Add LAbels
 
                 routeStatus.triggerMapRefresh()
@@ -308,6 +310,49 @@ export function useMapLayers(map) {
             })
         }
         ;
+    }
+
+    const addMapHandlers = (loadedLayers) => {
+        loadedLayers.forEach(layer => {
+            let partOfStep = layer.part_of_step
+            let layerId = layer.layer_id
+            // Add interactivity (hover, click, etc.)
+            map.value.on('mouseenter', layerId, () => {
+                map.value.getCanvas().style.cursor = 'pointer';
+            });
+            map.value.on('mouseleave', layerId, () => {
+                map.value.getCanvas().style.cursor = '';
+            });
+
+            map.value.on('click', layerId, (e) => {
+                log('Maplayers: Clicked on', e.features[0]);
+                // Checking if the click is near a point. If so, prioritize that.
+                if (partOfStep) {
+
+                    if (layerId.includes('line')) {
+                        const featuresAtPoint = map.value.queryRenderedFeatures(e.point, {
+                            layers: ['route-point'],
+                            hitTolerance: 10
+                        });
+
+                        if (featuresAtPoint.length > 0) {
+                            log('Map: Clicked near a point, ignoring route click handler');
+                            return;
+                        }
+                        routeStatus.setActiveStep(e.features[0].properties['route_sequence_id']);
+                    }
+                    if (layerId.includes('point')) {
+                        console.log("propz clicked", e.features[0].properties)
+                        routeStatus.setActiveStep(e.features[0].properties['route_sequence_id']);
+                    }
+            }
+                else {
+                    alert('Clicked: ' +  e.features[0].properties.title)
+                }
+            });
+
+
+        });
     }
 
     const createMapLabels = () => {
@@ -327,20 +372,6 @@ export function useMapLayers(map) {
     }
 
     // Get feature bounding box
-    const getFeatureBoundingBox = (feature) => {
-        let coordinates = feature.geometry.coordinates;
-        if (feature.type === "point") {
-            coordinates = [coordinates]
-        }
-        const bounds = new LngLatBounds();
-        coordinates.forEach((coord) => {
-            if (Array.isArray(coord) && coord.length === 2) {
-                bounds.extend(coord);
-            }
-        });
-        return bounds;
-    };
-
     // Return render function to be used in the component
     return {
         renderLayers,

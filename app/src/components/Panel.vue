@@ -3,7 +3,8 @@
     <!-- Header -->
     <header
         v-if="!isTablet && routeStatus.routeData"
-    > <button @click="activateOverview">
+    >
+      <button @click="activateOverview">
        {{ routeStatus.routeMetadata.title }}
     </button>
 

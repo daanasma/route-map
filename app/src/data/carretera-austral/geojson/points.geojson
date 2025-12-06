@@ -2,14 +2,13 @@
 "type": "FeatureCollection",
 "name": "stops",
 "features": [
-{ "type": "Feature", "properties":
-{ "id": 8, "description": "The entrance to Patagonia National Park", "title": "Valle Chacabuco", "to_publish": true, "poi_type": "national_park" }, "geometry": { "type": "Point", "coordinates": [ -72.485853343504331, -47.117102483333909 ] } },
 { "type": "Feature", "properties": { "id": 1, "description": "The southernmost town of the Carretera Austral, surrounded by pristine wilderness.", "title": "Villa O'Higgins", "to_publish": true, "poi_type": "town" }, "geometry": { "type": "Point", "coordinates": [ -72.561205492565051, -48.469739916356886 ] } },
 { "type": "Feature", "properties": { "id": 2, "description": "Taking the boat", "title": "Puerto Rio Bravo", "to_publish": true, "poi_type": "port" }, "geometry": { "type": "Point", "coordinates": [ -73.223578777736051, -47.967843944731719 ] } },
-{ "type": "Feature", "properties": { "id": 3, "description": "A ferry crossing on the Carretera Austral, connecting remote areas.", "title": "Puerto Yungay", "to_publish": true, "poi_type": "port" }, "geometry": { "type": "Point", "coordinates": [ -73.3263698408458, -47.93475752744542 ] } },
+{ "type": "Feature", "properties": { "id": 3, "description": "A ferry crossing on the Carretera Austral, connecting remote areas.", "title": "Puerto Yungay", "to_publish": true, "poi_type": "port" }, "geometry": { "type": "Point", "coordinates": [ -73.323429669722216, -47.935153314002108 ] } },
 { "type": "Feature", "properties": { "id": 4, "description": "A charming small town offering access to Patagonia National Park.", "title": "Cochrane", "to_publish": true, "poi_type": "town" }, "geometry": { "type": "Point", "coordinates": [ -72.574309024163597, -47.254029060902582 ] } },
 { "type": "Feature", "properties": { "id": 5, "description": "The gateway to Lago General Carrera, famous for its turquoise waters.", "title": "Puerto Bertrand", "to_publish": true, "poi_type": "town" }, "geometry": { "type": "Point", "coordinates": [ -72.828312794493556, -47.015094351910925 ] } },
 { "type": "Feature", "properties": { "id": 6, "description": "Known for the Marble Caves and a must-visit stop on the Carretera Austral.", "title": "Puerto Rio Tranquilo", "to_publish": true, "poi_type": "town" }, "geometry": { "type": "Point", "coordinates": [ -72.67557475429841, -46.624240573448994 ] } },
-{ "type": "Feature", "properties": { "id": 7, "description": "Stairway to Pacific Ocean", "title": "Caleta Tortel", "to_publish": true, "poi_type": "town" }, "geometry": { "type": "Point", "coordinates": [ -73.531786394655612, -47.795614838726664 ] } }
+{ "type": "Feature", "properties": { "id": 7, "description": "Stairway to Pacific Ocean", "title": "Caleta Tortel", "to_publish": true, "poi_type": "town" }, "geometry": { "type": "Point", "coordinates": [ -73.531786394655612, -47.795614838726664 ] } },
+{ "type": "Feature", "properties": { "id": 8, "description": "The entrance to Patagonia National Park", "title": "Valle Chacabuco", "to_publish": true, "poi_type": "national_park" }, "geometry": { "type": "Point", "coordinates": [ -72.485853343504331, -47.117102483333909 ] } }
 ]
 }

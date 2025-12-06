@@ -1,8 +1,11 @@
 <template>
   <div class="content-wrapper" ref="contentWrapper" @scroll="logScroll">
+    <div>breadcrumb</div>
     <div v-if="routeStatus.activeTopic === 'overview'">
       <h2>{{ routeStatus.routeMetadata.title }}</h2>
       <p>{{ routeStatus.routeMetadata.description }}</p>
+      <ElevationProfile :elevation-data="routeStatus.fullRouteElevation || []"
+      />
 
       <p><b>Total distance:</b> {{ routeStatus.routeLengthKm }}km</p>
       <p><b>Difficulty:</b> {{ routeStatus.routeMetadata.difficulty_level }}</p>
@@ -11,7 +14,6 @@
       <img :src="routeStatus.routeMetadata.banner" alt="Route Banner">
       <p>{{ routeStatus.routeMetadata.description_long }}</p>
 
-      <!--              <ElevationProfile :elevation-data="routeStatus.getFullRouteElevation" />-->
 
     </div>
 

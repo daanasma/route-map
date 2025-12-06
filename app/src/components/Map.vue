@@ -1,3 +1,8 @@
+<template>
+<div ref="mapContainer" class="map-container"></div>
+</template>
+
+
 <script>
 import {onMounted, ref, watch} from 'vue';
 import {useRoute} from 'vue-router';
@@ -12,12 +17,15 @@ import maplibre, {
 } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { log } from '../debug/debug.js';
+
 import {useRouteInfoStore} from '../stores/routestatus.js';
+
 import {useUpdateQueryParam} from '../composables/useQueryParams';
 import { useMapLayers, getFeaturesBoundingBox, fitMapToFeature} from '../composables/useMapLayers';
+import { useElevationHover } from '@/composables/useElevationHover';
+
 import mapConfig from "@/config/mapConfig.js";
 import baseMapConfig from "@/config/baseMapConfig.js";
-
 
 export default {
   name: 'Map',
@@ -26,9 +34,9 @@ export default {
     const route = useRoute(); // Get the current route (with query params)
     const map = ref(null); // The map instance
     const routeStatus = useRouteInfoStore();
-    let hoveredStateId = null;
+    const { hoveredPoint } = useElevationHover();
 
-
+    let hoverMarker = null;
 
     /**
      * Zoom the map to fit the entire route
@@ -67,16 +75,16 @@ export default {
           },
           trackUserLocation: true
         }));
-        map.addControl(new NavigationControl({
-          visualizePitch: true,
-          visualizeRoll: true,
-          showZoom: true,
-          showCompass: false,
+      map.addControl(new NavigationControl({
+        visualizePitch: true,
+        visualizeRoll: true,
+        showZoom: true,
+        showCompass: false,
 
-        }), 'bottom-right');
-        map.addControl(new AttributionControl({
-          compact: true,
-        }), "top-left");
+      }), 'bottom-right');
+      map.addControl(new AttributionControl({
+        compact: true,
+      }), "top-left");
 
     }
 
@@ -111,7 +119,6 @@ export default {
       })
     }
 
-
     // Initialize the map when the component is mounted
     onMounted(async () => {
       log('Map: mounted', mapContainer.value)
@@ -141,6 +148,26 @@ export default {
           if (thisRouteConfig.useHillshade) {
             addHillshadeLayer(map.value)
           }
+          // Add source and layer once when map loads
+map.value.addSource('hover-point', {
+  type: 'geojson',
+  data: {
+    type: 'FeatureCollection',
+    features: []
+  }
+});
+
+map.value.addLayer({
+  id: 'hover-point-layer',
+  type: 'circle',
+  source: 'hover-point',
+  paint: {
+    'circle-radius': 6,
+    'circle-color': '#000000',
+    'circle-stroke-width': 2,
+    'circle-stroke-color': '#ffffff'
+  }
+});
 
         })
       }
@@ -156,7 +183,6 @@ export default {
             }
           }
           else if (trig1 !== trig2) {
-            console.log('trigger map')
             if (newtopic === 'overview') {
               zoomToFullRoute()
             }
@@ -187,9 +213,29 @@ export default {
           }
         }
     )
+
+// Update on hover
+watch(hoveredPoint, (point) => {
+  if (point) {
+    map.value.getSource('hover-point').setData({
+      type: 'FeatureCollection',
+      features: [{
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [point.lng, point.lat]
+        }
+      }]
+    });
+  } else {
+    map.value.getSource('hover-point').setData({
+      type: 'FeatureCollection',
+      features: []
+    });
+  }
+});
+
     ;
-
-
     return {
       mapContainer,
     };
@@ -197,9 +243,6 @@ export default {
 };
 </script>
 
-<template>
-<div ref="mapContainer" class="map-container"></div>
-</template>
 
 <style scoped>
 .map-container {
