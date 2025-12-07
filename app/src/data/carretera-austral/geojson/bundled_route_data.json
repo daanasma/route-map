@@ -179,7 +179,7 @@
   "settings": {},
   "features": [
     {
-      "id": 100001,
+      "id": 1,
       "type": "point",
       "topic": "route",
       "properties": {
@@ -199,7 +199,7 @@
       }
     },
     {
-      "id": 100002,
+      "id": 2,
       "type": "point",
       "topic": "route",
       "properties": {
@@ -219,7 +219,7 @@
       }
     },
     {
-      "id": 100003,
+      "id": 3,
       "type": "point",
       "topic": "route",
       "properties": {
@@ -239,7 +239,7 @@
       }
     },
     {
-      "id": 100004,
+      "id": 4,
       "type": "point",
       "topic": "route",
       "properties": {
@@ -259,7 +259,7 @@
       }
     },
     {
-      "id": 100005,
+      "id": 5,
       "type": "point",
       "topic": "route",
       "properties": {
@@ -279,7 +279,7 @@
       }
     },
     {
-      "id": 100006,
+      "id": 6,
       "type": "point",
       "topic": "route",
       "properties": {
@@ -299,7 +299,7 @@
       }
     },
     {
-      "id": 100007,
+      "id": 7,
       "type": "point",
       "topic": "extra",
       "properties": {
@@ -319,7 +319,7 @@
       }
     },
     {
-      "id": 100008,
+      "id": 8,
       "type": "point",
       "topic": "extra",
       "properties": {
@@ -339,7 +339,7 @@
       }
     },
     {
-      "id": 200001,
+      "id": 1,
       "type": "line",
       "topic": "route",
       "properties": {
@@ -18740,7 +18740,7 @@
       }
     },
     {
-      "id": 200002,
+      "id": 2,
       "type": "line",
       "topic": "route",
       "properties": {
@@ -19045,7 +19045,7 @@
       }
     },
     {
-      "id": 200003,
+      "id": 3,
       "type": "line",
       "topic": "route",
       "properties": {
@@ -37122,7 +37122,7 @@
       }
     },
     {
-      "id": 200004,
+      "id": 4,
       "type": "line",
       "topic": "route",
       "properties": {
@@ -45227,7 +45227,7 @@
       }
     },
     {
-      "id": 200005,
+      "id": 5,
       "type": "line",
       "topic": "route",
       "properties": {
@@ -54228,7 +54228,7 @@
       }
     },
     {
-      "id": 200006,
+      "id": 6,
       "type": "line",
       "topic": "route",
       "properties": {
@@ -70729,7 +70729,7 @@
       }
     },
     {
-      "id": 200007,
+      "id": 7,
       "type": "line",
       "topic": "route",
       "properties": {

@@ -4,7 +4,9 @@
     <div v-if="routeStatus.activeTopic === 'overview'">
       <h2>{{ routeStatus.routeMetadata.title }}</h2>
       <p>{{ routeStatus.routeMetadata.description }}</p>
-      <ElevationProfile :elevation-data="routeStatus.fullRouteElevation || []"
+      <ElevationProfile
+      v-if="routeStatus.fullRouteElevation !== null"
+      :elevation-data="routeStatus.fullRouteElevation.data"
       />
 
       <p><b>Total distance:</b> {{ routeStatus.routeLengthKm }}km</p>

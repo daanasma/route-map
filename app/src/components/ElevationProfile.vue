@@ -1,25 +1,24 @@
 <template>
   <div ref="containerRef" class="chart-container">
 
-    <div v-if="summary" class="summary-bar">
-        <div title="Total distance of the route">
-            <span class="label">Dist:</span>
-            {{ (summary.totalDistance / 1000).toFixed(2) }} km
-        </div>
-        <div title="Total positive elevation gain">
-            <span class="label">Ascent:</span>
-            {{ summary.totalAscent.toFixed(0) }} m
-        </div>
-        <div title="Total negative elevation change">
-            <span class="label">Descent:</span>
-            {{ summary.totalDescent.toFixed(0) }} m
-        </div>
-        <div title="Highest point on the route">
-            <span class="label">Max Elev:</span>
-            {{ summary.maxElevation.toFixed(0) }} m
-        </div>
+  <div v-if="summary" class="summary-bar">
+    <div title="Total distance of the route">
+        <span class="label">Dist:</span>
+        {{ (summary.totalDistance / 1000)?.toFixed(2) || '0.00' }} km
     </div>
-
+    <div title="Total positive elevation gain">
+        <span class="label">Ascent:</span>
+        {{ summary.totalAscent?.toFixed(0) || 0 }} m
+    </div>
+    <div title="Total negative elevation change">
+        <span class="label">Descent:</span>
+        {{ summary.totalDescent?.toFixed(0) || 0 }} m
+    </div>
+    <div title="Highest point on the route">
+        <span class="label">Max Elev:</span>
+        {{ summary.maxElevation?.toFixed(0) || 0 }} m
+    </div>
+  </div>
     <svg ref="svgRef" class="chart" role="img" aria-label="Elevation profile chart"></svg>
 
     <div ref="tooltipRef" class="tooltip" role="tooltip" aria-live="polite"></div>
@@ -77,6 +76,7 @@ const props = defineProps({
   }
 });
 
+console.log('DATA ------------', props.elevationData)
 
 const svgRef = ref(null);
 const tooltipRef = ref(null);
@@ -89,47 +89,34 @@ const isZoomed = ref(false);
 // --- Computed Data & Calculations ---
 
 const processedData = computed(() => {
-    const data = (props.elevationData || []).filter(d => d.elevation != null);
-    if (data.length < 2) return data;
+  const data = Array.isArray(props.elevationData) ? props.elevationData : [];
 
-    let totalAscent = 0;
-    let totalDescent = 0;
+  if (!data.length) return { data: [], summary: {} };
 
-    const enrichedData = data.map((d, i) => {
-        let grade = 0;
-        if (i > 0) {
-            const prev = data[i - 1];
-            const distChange = d.distance_along_line - prev.distance_along_line;
-            const elevChange = d.elevation - prev.elevation;
+  // Filter out invalid points
+  const validData = data.filter(d => typeof d.elevation === 'number' && typeof d.distance_along_line === 'number');
 
-            if (distChange > 0) {
-                grade = (elevChange / distChange) * 100;
-            }
+  const elevations = validData.map(d => d.elevation);
+  const summary = {
+    totalDistance: validData.length ? validData[validData.length - 1].distance_along_line : 0,
+    minElevation: elevations.length ? Math.min(...elevations) : 0,
+    maxElevation: elevations.length ? Math.max(...elevations) : 0,
+    totalAscent: validData.reduce((acc, d, i, arr) => {
+      if (i === 0) return acc;
+      const delta = d.elevation - arr[i - 1].elevation;
+      return delta > 0 ? acc + delta : acc;
+    }, 0),
+    totalDescent: validData.reduce((acc, d, i, arr) => {
+      if (i === 0) return acc;
+      const delta = d.elevation - arr[i - 1].elevation;
+      return delta < 0 ? acc + Math.abs(delta) : acc;
+    }, 0)
+  };
 
-            if (elevChange > 0) {
-                totalAscent += elevChange;
-            } else {
-                totalDescent += Math.abs(elevChange);
-            }
-        }
-        return {
-            ...d,
-            grade: grade
-        };
-    });
-    return {
-        data: enrichedData,
-        summary: {
-            totalAscent: totalAscent,
-            totalDescent: totalDescent,
-            totalDistance: d3.max(data, d => d.distance_along_line) || 0,
-            maxElevation: d3.max(data, d => d.elevation) || 0,
-            minElevation: d3.min(data, d => d.elevation) || 0
-        }
-    };
+  return { data: validData, summary };
 });
 
-const summary = computed(() => processedData.value.summary || null);
+const summary = computed(() => processedData.value.summary || {});
 const chartData = computed(() => processedData.value.data || []);
 
 // --- D3 Drawing Logic ---
@@ -364,10 +351,22 @@ brushOverlay.on('mouseleave', () => {
     clearHoveredPoint();
 });
 };
+watch(
+  () => chartData.value,
+  (data) => {
+    if (data.length) {
+      drawChart();
+    }
+  },
+  { immediate: true }
+);
+
+watch(() => props.elevationData, () => {
+  if (props.elevationData?.length) drawChart();
+}, { deep: true });
 
 onMounted(async () => {
   await nextTick();
-  drawChart();
 
   if (containerRef.value) {
     resizeObserver = new ResizeObserver(() => {

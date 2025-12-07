@@ -24,6 +24,7 @@
 <script>
 import { ref } from "vue";
 import mapConfig from '@/config/mapConfig.js'
+import { log } from '../debug/debug.js';
 
 export default {
   setup() {

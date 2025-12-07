@@ -16,7 +16,8 @@
 ### Low Prio
 - change map attribution to be closed on load (hacky probably)
 - Add last update date for build of date -> increase build speed.
-- 
+- Change coordinate accuracy of route elevation data to decrease package size
+- add line_sequence_id to features within step in route_info (better sorting in store)
 
 ## Bugs
 ### High Prio
@@ -25,6 +26,13 @@
 - when moving a lot between screen sizes, the isTablet composable gets overwhelmed. shouldn't happen.
 - click on start and end let it scroll
 
+## Infra
+### High Prio
+- Lower package size (see logs after build. Web fonts, materialdesignicons)
+
+
+### Low Prio
+- Build only used icons? Or store directly in other place (cdn)
 
 
 ## V0.1.0

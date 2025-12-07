@@ -149,25 +149,6 @@ export default {
             addHillshadeLayer(map.value)
           }
           // Add source and layer once when map loads
-map.value.addSource('hover-point', {
-  type: 'geojson',
-  data: {
-    type: 'FeatureCollection',
-    features: []
-  }
-});
-
-map.value.addLayer({
-  id: 'hover-point-layer',
-  type: 'circle',
-  source: 'hover-point',
-  paint: {
-    'circle-radius': 6,
-    'circle-color': '#000000',
-    'circle-stroke-width': 2,
-    'circle-stroke-color': '#ffffff'
-  }
-});
 
         })
       }
@@ -200,6 +181,7 @@ map.value.addLayer({
             log('Map: map or routedata changed -> there is both a map and routedata so we can add the routeData')
             const { renderLayers } = useMapLayers(map);
             renderLayers();
+
           }}
     )
     watch(

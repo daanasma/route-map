@@ -25,7 +25,7 @@ function bundleRouteData(routeId) {
             const topic = routeStep ? 'route' : 'extra';
 
             return {
-                id: id + (type === 'point' ? 100000 : 200000),
+                id: id,
                 type,
                 topic,
                 properties: {

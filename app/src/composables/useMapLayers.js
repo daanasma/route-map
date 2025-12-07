@@ -303,13 +303,36 @@ export function useMapLayers(map) {
                 //
                 // });
                 addMapHandlers(loadedLayers)
-                createMapLabels(); // Add LAbels
-
+                createMapLabels();
+                addElevationPointer()
                 routeStatus.triggerMapRefresh()
                 log('Maplayers - Finished rendering layers!')
             })
+
         }
         ;
+    }
+
+    const addElevationPointer = () =>{
+        map.value.addSource('hover-point', {
+            type: 'geojson',
+            data: {
+                type: 'FeatureCollection',
+                features: []
+            }
+        });
+
+        map.value.addLayer({
+            id: 'hover-point-layer',
+            type: 'circle',
+            source: 'hover-point',
+            paint: {
+                'circle-radius': 6,
+                'circle-color': '#000000',
+                'circle-stroke-width': 2,
+                'circle-stroke-color': '#ffffff'
+            }
+        });
     }
 
     const addMapHandlers = (loadedLayers) => {
