@@ -25,9 +25,10 @@
       <p v-if="routeStatus.activeStepLengthKm > 0">
         Distance: {{ routeStatus.activeStepLengthKm }}km
       </p>
-      <!--        <ElevationProfile v-if="routeStatus.activeFeatures.type === 'line'"-->
-      <!--           :elevation-data="routeStatus.activeFeatures.elevation"-->
-      <!--        />-->
+      <ElevationProfile
+      v-if="segmentElevationData !== null"
+      :elevation-data="segmentElevationData"
+      />
 
       <v-carousel
           v-if="routeStatus.activeStepData.images?.length"
@@ -80,10 +81,11 @@
 
 <script>
 import {useRouteInfoStore} from '../stores/routestatus.js';
-import {ref, watch} from 'vue';
+import {computed, ref, watch} from 'vue';
 import ElevationProfile from '@/components/ElevationProfile.vue'; // Adjust path if needed
 import {log} from '@/debug/debug.js';
 import {useIsTablet} from "@/composables/useIsTablet.js";
+import {storeToRefs} from "pinia";
 
 export default {
   components: {ElevationProfile}, // Register the component
@@ -91,8 +93,23 @@ export default {
     const routeStatus = useRouteInfoStore();
     const contentWrapper = ref(null); // Ref to the content-wrapper element
     const {isTablet} = useIsTablet(); // Call the composable
+    const { activeStepId } = storeToRefs(routeStatus);
 
-    watch(
+  const segmentElevationData = computed(() => {
+    if (!activeStepId.value) return null;
+    const data = routeStatus.segmentElevation(activeStepId.value);
+
+    if (data.length === 0) return null;
+
+    // Reset distance to start from 0 for this segment
+    const startDistance = data[0].distance_along_line;
+    return data.map(point => ({
+      ...point,
+      distance_along_line: point.distance_along_line - startDistance
+    }));
+  });
+
+watch(
         () => routeStatus.activeStep, // Watch for changes in activeStep
         (newVal, oldVal) => {
           log(('DetailInfoPanel -> activestep', routeStatus.activeStep))
@@ -112,7 +129,8 @@ export default {
       isTablet,
       routeStatus,
       contentWrapper,
-      updateMapPoint
+      updateMapPoint,
+      segmentElevationData
     }
 
   },
