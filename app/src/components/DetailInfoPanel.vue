@@ -86,6 +86,7 @@ import ElevationProfile from '@/components/ElevationProfile.vue'; // Adjust path
 import {log} from '@/debug/debug.js';
 import {useIsTablet} from "@/composables/useIsTablet.js";
 import {storeToRefs} from "pinia";
+import { useSegmentElevation } from '@/composables/useElevationProfile.js';
 
 export default {
   components: {ElevationProfile}, // Register the component
@@ -95,19 +96,7 @@ export default {
     const {isTablet} = useIsTablet(); // Call the composable
     const { activeStepId } = storeToRefs(routeStatus);
 
-  const segmentElevationData = computed(() => {
-    if (!activeStepId.value) return null;
-    const data = routeStatus.segmentElevation(activeStepId.value);
-
-    if (data.length === 0) return null;
-
-    // Reset distance to start from 0 for this segment
-    const startDistance = data[0].distance_along_line;
-    return data.map(point => ({
-      ...point,
-      distance_along_line: point.distance_along_line - startDistance
-    }));
-  });
+  const { segmentElevationData } = useSegmentElevation();
 
 watch(
         () => routeStatus.activeStep, // Watch for changes in activeStep

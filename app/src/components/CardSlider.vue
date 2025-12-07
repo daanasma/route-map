@@ -93,6 +93,7 @@ import DetailInfoPanel from "@/components/DetailInfoPanel.vue";
 import BottomSheet from '@douxcode/vue-spring-bottom-sheet';
 import '@douxcode/vue-spring-bottom-sheet/dist/style.css';
 import { log } from '@/debug/debug.js';
+import {useSegmentElevation} from "@/composables/useElevationProfile.js";
 
 const props = defineProps({
   cards: {
@@ -101,10 +102,13 @@ const props = defineProps({
   },
   isMobile: Boolean,
 });
+
+const { segmentElevationData } = useSegmentElevation();
+const routeStatus = useRouteInfoStore();
+
 const instinctHeight = ref();
 
 const DetailsBottomSheet = ref(null)
-const routeStatus = useRouteInfoStore();
 const expandedCard = ref(null);
 
 const expandedCardData = ref(null);

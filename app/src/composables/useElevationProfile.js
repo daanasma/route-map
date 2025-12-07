@@ -1,4 +1,6 @@
 import { computed } from 'vue';
+import {storeToRefs} from "pinia";
+import {useRouteInfoStore} from "@/stores/routestatus.js";
 
 export function useElevationProfile(features) {
     return computed(() => {
@@ -33,4 +35,28 @@ export function useElevationProfile(features) {
 
         return { data: points, summary };
     });
+}
+
+
+export function useSegmentElevation() {
+  const routeStatus = useRouteInfoStore();
+  const { activeStepId } = storeToRefs(routeStatus);
+
+  const segmentElevationData = computed(() => {
+    if (!activeStepId.value) return null;
+    const data = routeStatus.segmentElevation(activeStepId.value);
+
+    if (data.length === 0) return null;
+
+    // Reset distance to start from 0 for this segment
+    const startDistance = data[0].distance_along_line;
+    return data.map(point => ({
+      ...point,
+      distance_along_line: point.distance_along_line - startDistance
+    }));
+  });
+
+  return {
+    segmentElevationData
+  };
 }
