@@ -363,7 +363,7 @@ watch(
 
 watch(() => props.elevationData, () => {
   if (props.elevationData?.length) drawChart();
-}, { deep: true });
+});
 
 onMounted(async () => {
   await nextTick();
@@ -386,7 +386,7 @@ let debounceTimeout = null;
 watch(() => [props.elevationData, props.pois, props.color, currentXDomain.value], () => {
   clearTimeout(debounceTimeout);
   debounceTimeout = setTimeout(drawChart, 150);
-}, { deep: true });
+});
 </script>
 
 <style scoped>

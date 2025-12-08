@@ -302,7 +302,7 @@ export function useMapLayers(map) {
                 //     });
                 //
                 // });
-                addMapHandlers(loadedLayers)
+                //addMapHandlers(loadedLayers)
                 createMapLabels();
                 addElevationPointer()
                 routeStatus.triggerMapRefresh()

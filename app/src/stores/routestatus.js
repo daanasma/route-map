@@ -152,11 +152,11 @@ export const useRouteInfoStore = defineStore('routeInfo', {
         // },
 
         // Access per-segment elevation simply by stepId
-        segmentElevation: (state) => (stepId) => {
-            const full = state.fullRouteElevation;
-            return full.byStep[stepId] || [];
-        },
-
+            segmentElevation: (state) => (stepId) => {
+                const full = state.fullRouteElevation;
+                if (!full || !full.byStep) return [];
+                return full.byStep[stepId] ?? [];
+            },
         // General purpose filter - returns actual features (not wrapped)
         getFilteredFeatures: (state) => (filterFn) => {
             if (!state.routeData?.features) return [];
@@ -197,7 +197,6 @@ export const useRouteInfoStore = defineStore('routeInfo', {
 
                 let rd = await response.json();
                 this.routeData = rd
-                await nextTick();
             } catch (error) {
                 console.error('Error loading route data:', error);
                 throw error;

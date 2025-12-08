@@ -1,6 +1,12 @@
 <template>
   <div class="content-wrapper" ref="contentWrapper" @scroll="logScroll">
-    <div>breadcrumb</div>
+    <div>
+  <v-breadcrumbs :items="items">
+    <template v-slot:prepend>
+  <v-icon icon="$home" />    </template>
+  </v-breadcrumbs>
+    </div>
+
     <div v-if="routeStatus.activeTopic === 'overview'">
       <h2>{{ routeStatus.routeMetadata.title }}</h2>
       <p>{{ routeStatus.routeMetadata.description }}</p>
@@ -30,7 +36,7 @@
       :elevation-data="segmentElevationData"
       />
 
-      <v-carousel
+      <v-carousel hide-delimiters
           v-if="routeStatus.activeStepData.images?.length"
           :key="routeStatus.activeStepData.route_step"
           :show-arrows="routeStatus.activeStepData.images.length > 1"
@@ -97,6 +103,23 @@ export default {
     const { activeStepId } = storeToRefs(routeStatus);
 
   const { segmentElevationData } = useSegmentElevation();
+  const items = [
+    {
+      title: 'Dashboard',
+      disabled: false,
+      href: 'breadcrumbs_dashboard',
+    },
+    {
+      title: 'Link 1',
+      disabled: false,
+      href: 'breadcrumbs_link_1',
+    },
+    {
+      title: 'Link 2',
+      disabled: true,
+      href: 'breadcrumbs_link_2',
+    },
+  ]
 
 watch(
         () => routeStatus.activeStep, // Watch for changes in activeStep
@@ -119,7 +142,8 @@ watch(
       routeStatus,
       contentWrapper,
       updateMapPoint,
-      segmentElevationData
+      segmentElevationData,
+      items
     }
 
   },

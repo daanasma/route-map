@@ -91,12 +91,12 @@ watch(
 
 .map-section {
   width: 100%;
-  height: 70%;
+  height: 80%;
 }
 
 @media (min-width: 1024px) {
   .map-section {
-    width: 70%;
+    width: 60%;
     height: 100%;
 
   }
@@ -104,12 +104,12 @@ watch(
 
 .content-section {
   width: 100%;
-  height: 30%;
+  height: 20%;
 }
 
 @media (min-width: 1024px) {
   .content-section {
-    width: 30%;
+    width: 40%;
     height: 100%;
   }
 }
