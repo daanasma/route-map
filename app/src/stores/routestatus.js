@@ -39,6 +39,7 @@ export const useRouteInfoStore = defineStore('routeInfo', {
         activeTopic: null,
         refreshMapTrigger: 0, // when increased, can be used to trigger manual refreshes.
         fullRouteElevation: null,
+        appVersion: __APP_VERSION__
     }),
 
     getters: {

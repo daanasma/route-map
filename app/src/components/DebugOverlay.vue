@@ -39,6 +39,7 @@ const storeState = computed(() => ({
   loading: routeInfoStore.loading,
   activeStepId: routeInfoStore.activeStepId,
   activeTopic: routeInfoStore.activeTopic,
+  appVersion: __APP_VERSION__,
 }));
 
 // showOverlay ref is niet langer nodig, we gebruiken isDebugMode en isCollapsed

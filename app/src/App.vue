@@ -4,6 +4,7 @@ import { useRoute } from 'vue-router';
 import { useRouteInfoStore } from './stores/routestatus.js';
 const route = useRoute();
 const routeStore = useRouteInfoStore();
+const version = __APP_VERSION__;
 import DebugOverlay from './components/DebugOverlay.vue';
 watch(
   () => route.params.map_id,

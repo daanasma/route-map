@@ -3,24 +3,26 @@
 ## Features
 ### High Prio
 - Add code list interfaces to interfaces (https://chatgpt.com/c/678ffdbc-9148-800b-9d8d-28eb345ab535)
-- Add feature Popup
-- include right icons in public for build
+- Add feature Popup On click (Showing title)
+- Add feature Highlight on activation
 - make styling of layers more flexible
-- rethink elevation inclusion in data. Not necessary for every use case -> more flexible
 - add click interaction with non-route elements
-- add highlight of active feature
-- remove summary or description from data fields
-- add extra data fields
-
+- Add info panel for individual features
+- Add breadcrumb for steps
+- Add breadcrumb for features
+- add some extra data fields (website / )
+- When return to full route, 'start route' should be 'go back to route'
 
 ### Low Prio
 - change map attribution to be closed on load (hacky probably)
-- Add last update date for build of date -> increase build speed.
 - Change coordinate accuracy of route elevation data to decrease package size
-- add line_sequence_id to features within step in route_info (better sorting in store)
+- Add only needed icons in public for build
+- Layout - spacing for breadcrumbs better on mobile
 
 ## Bugs
 ### High Prio
+- Click on features doesnt work anymore
+
 
 ### Low Prio
 - when moving a lot between screen sizes, the isTablet composable gets overwhelmed. shouldn't happen.
@@ -29,10 +31,14 @@
 ## Infra
 ### High Prio
 - Lower package size (see logs after build. Web fonts, materialdesignicons)
-
+- rethink elevation inclusion in data. Maybe not necessary for every use case -> more flexible
+- Version
 
 ### Low Prio
 - Build only used icons? Or store directly in other place (cdn)
+- Automate + make versioning system
+
+
 
 
 ## V0.1.0
