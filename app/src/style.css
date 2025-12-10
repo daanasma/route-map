@@ -25,14 +25,11 @@ html{
     overflow: hidden !important;
 }
 button {
-
   background-color: var(--background-color);
   color: white;
     border-radius: 0.375rem;
   padding: 0.5rem;
-
 }
-
 
 .bottom-sheet__content {
     color: #000;
@@ -48,6 +45,7 @@ h2 {
   color: #1f2937; /* text-gray-800 */
   margin-bottom: 1rem;
 }
+
 h3 {
   font-size: 1.25rem;
   font-weight: bold;

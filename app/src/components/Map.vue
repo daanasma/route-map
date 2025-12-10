@@ -9,19 +9,14 @@ import {useRoute} from 'vue-router';
 import maplibre, {
   AttributionControl,
   GeolocateControl,
-  GlobeControl,
-  LngLatBounds,
   NavigationControl,
-  Popup,
-  TerrainControl
 } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { log } from '../debug/debug.js';
 
 import {useRouteInfoStore} from '../stores/routestatus.js';
 
-import {useUpdateQueryParam} from '../composables/useQueryParams';
-import { useMapLayers, getFeaturesBoundingBox, fitMapToFeature} from '../composables/useMapLayers';
+import { useMapLayers, useMapHelpers, getFeaturesBoundingBox, setMap} from '../composables/useMapLayers';
 import { useElevationHover } from '@/composables/useElevationHover';
 
 import mapConfig from "@/config/mapConfig.js";
@@ -34,39 +29,8 @@ export default {
     const route = useRoute(); // Get the current route (with query params)
     const map = ref(null); // The map instance
     const routeStatus = useRouteInfoStore();
-    const { hoveredPoint } = useElevationHover();
-
-    let hoverMarker = null;
-
-    /**
-     * Zoom the map to fit the entire route
-     */
-
-    function fitMapToBounds(bounds, options) {
-      log("Map: fitting map to bounds", bounds)
-      map.value.fitBounds(bounds, options);
-    }
-    function fitMapToFeatureList(featureList) {
-      log("Fitting map to feature", featureList)
-        const bounds = getFeaturesBoundingBox(featureList);
-      fitMapToBounds(bounds, {
-        padding: 20,
-        maxZoom: mapConfig.configuredRoutes[routeStatus.mapId].maxZoomFocus}
-      )
-    }
-
-    function zoomToFullRoute() {
-      log('Map: zooming to full route.')
-      if (routeStatus.routeData) {
-        const bounds = getFeaturesBoundingBox(routeStatus.routeFeatures);
-        fitMapToBounds(bounds, {
-          padding: 20, // Add padding around the route
-          // maxZoom: 12  // Optional: Set a max zoom level
-        })
-        // Fit the map to the calculated bounds
-        log("Zoomed to full route!")
-      }
-    }
+    const { elevationTrackerPoint } = useElevationHover();
+    const {zoomToFullRoute, fitMapToFeatureList} = useMapHelpers()
 
     function addMapControls(map) {
       map.addControl(new GeolocateControl({
@@ -125,7 +89,7 @@ export default {
       if (mapContainer.value) {
         // Initialize the map
         let thisRouteConfig = mapConfig.configuredRoutes[routeStatus.mapId];
-      log("map: basemap", baseMapConfig.basemapMap[thisRouteConfig.basemap])
+      log("Map: basemap", baseMapConfig.basemapMap[thisRouteConfig.basemap])
 
         map.value = new maplibre.Map({
           container: mapContainer.value,
@@ -141,6 +105,7 @@ export default {
           renderMode: '2d' // fallback to canvas 2D
         });
         log("Map: created map")
+        setMap(map.value)
         map.value.style.cursor = 'pointer'
         addMapControls(map.value);// Add controls
         map.value.on('load', () => {
@@ -154,8 +119,9 @@ export default {
       }
     })
 
+    // watch changes in topic
     watch(
-        () => ([routeStatus.activeTopic, routeStatus.refreshMapTrigger]), // Watch the stopId in the Pinia store
+        () => ([routeStatus.activeTopic, routeStatus.refreshMapTrigger]),
         ([newtopic, trig1], [oldtopic, trig2]) => {
           if (oldtopic !== newtopic) {
             log(`Map: active topic changed to: ${newtopic}`);
@@ -174,6 +140,8 @@ export default {
           }
         }
     );
+
+    // watch changes in alldata (on load mainly)
     watch(
         () => ([routeStatus.routeData, map.value]),
         ([newData, newMap], oldValue) => {
@@ -184,6 +152,8 @@ export default {
 
           }}
     )
+    // watch changes in step id
+
     watch(
         () => (routeStatus.activeStepId),
         (newValue, oldValue) => {
@@ -197,7 +167,7 @@ export default {
     )
 
 // Update on hover
-watch(hoveredPoint, (point) => {
+watch(elevationTrackerPoint, (point) => {
   if (point) {
     map.value.getSource('hover-point').setData({
       type: 'FeatureCollection',

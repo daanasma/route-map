@@ -26,6 +26,7 @@ export default {
         'carretera-austral': {
             id: 'carretera-austral',
             theme: 'light',
+            panelRightSide: 333,
             isRoute: true,
             mainColor: '#065809',
             poiColor: "#2f2d2d",

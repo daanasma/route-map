@@ -35,8 +35,10 @@ export const useRouteInfoStore = defineStore('routeInfo', {
         theme: 'default',
         routeData: null,
         loading: false,
+        panelRightSide: true,
         activeStepId: null,  // Just store the ID, compute the rest
-        activeTopic: null,
+        activeFeatureId: null,
+        activeTopic: null, // overview - route - featuredetail
         refreshMapTrigger: 0, // when increased, can be used to trigger manual refreshes.
         fullRouteElevation: null,
         appVersion: __APP_VERSION__
@@ -60,6 +62,11 @@ export const useRouteInfoStore = defineStore('routeInfo', {
             return state.routeSequence.find(s => s.route_step === state.activeStepId);
         },
 
+        activeFeatureData: (state) => {
+            if (!state.activeFeatureId || !state.routeSequence) return null;
+            return state.getFilteredFeatures().find(s => s.id === state.activeFeatureId);
+        },
+
         activeStepLengthKm() {
             const meters = this.activeStepData?.length_in_m ?? 0;
             return metersToKm(meters);
@@ -72,7 +79,7 @@ export const useRouteInfoStore = defineStore('routeInfo', {
         },
 
         // Only line features, fully ordered by step and line within step
-    // Line features ordered by step and by the order in sequence[].features
+        // Line features ordered by step and by the order in sequence[].features
         orderedRouteFeatures: (state) => orderRouteFeatures(state.routeData),
 
         // Get features for active step
@@ -153,13 +160,13 @@ export const useRouteInfoStore = defineStore('routeInfo', {
         // },
 
         // Access per-segment elevation simply by stepId
-            segmentElevation: (state) => (stepId) => {
+        segmentElevation: (state) => (stepId) => {
                 const full = state.fullRouteElevation;
                 if (!full || !full.byStep) return [];
                 return full.byStep[stepId] ?? [];
             },
         // General purpose filter - returns actual features (not wrapped)
-        getFilteredFeatures: (state) => (filterFn) => {
+        getFilteredFeatures: (state) => (filterFn = () => true) => {
             if (!state.routeData?.features) return [];
 
             return state.routeData.features
@@ -180,9 +187,15 @@ export const useRouteInfoStore = defineStore('routeInfo', {
             this.mapId = id;
             if (id in mapConfig.configuredRoutes) {
                 this.setMapTheme(mapConfig.configuredRoutes[id].theme);
+                this.setMapPanelOrder()
+                // set
             }
         },
 
+        setMapPanelOrder() {
+            const rs = mapConfig.configuredRoutes[this.mapId].panelRightSide ?? true;
+            this.panelRightSide = rs;
+        },
         setMapTheme(theme) {
             this.theme = theme;
             document.documentElement.setAttribute("data-theme", theme);
@@ -209,12 +222,9 @@ export const useRouteInfoStore = defineStore('routeInfo', {
         },
 
         processElevationData() {
-            console.log('this.-------------------------------------------')
-            console.log('this.routeData', this.routeData)
         const features = orderRouteFeatures(this.routeData);
         if (!features.length) {
             this.fullRouteElevation = null;
-            alert('nofeat')
             return;
         }
 
@@ -284,6 +294,13 @@ export const useRouteInfoStore = defineStore('routeInfo', {
             this.activeStepId = stepId ? Number(stepId) : null;
             if (stepId) this.activeTopic = 'route';
         },
+
+        setActiveFeature(featureId) {
+            console.log('----- setting active feature', featureId)
+            //this.activeStepId = stepId ? Number(stepId) : null; //todo get the actual step id from this feature
+            this.activeFeatureId = featureId;
+            if (featureId) this.activeTopic = 'featuredetail';
+            },
 
         setActiveTopic(topic) {
             this.activeTopic = topic;

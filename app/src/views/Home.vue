@@ -1,15 +1,25 @@
 <template>
-  <div class="app-container">
+  <div v-if="routeStatus.panelRightSide"class="app-container">
     <!-- Map Component Section -->
-    <div class="map-section">
-      <Map/>
-    </div>
 
     <!-- Content Component Section -->
-    <div class="content-section">
-      <Content/>
-    </div>
+
+      <div class="map-section">
+        <Map/>
+      </div>
+      <div class="content-section">
+        <Content/>
+      </div>
   </div>
+  <div v-else class="app-container">
+      <div class="content-section">
+        <Content/>
+      </div>
+      <div class="map-section">
+        <Map/>
+      </div>
+    </div>
+
 </template>
 
 
@@ -23,48 +33,81 @@ import {useRouteInfoStore} from '../stores/routestatus.js';
 import {useUpdateQueryParam} from "@/composables/useQueryParams.js";
 
 const route = useRoute(); // Get the current route (with query params)
-const router = useRouter();
 
 const routeStatus = useRouteInfoStore();
-const {clearQueryParams, updateQueryParam} = useUpdateQueryParam();
+const {clearQueryParams, updateQueryParam, updateQueryParams} = useUpdateQueryParam();
 
 
 watch(
     () => (routeStatus.activeTopic), // Watch the stopId in the Pinia store
     (newValue, oldValue) => {
       if (oldValue !== newValue) {
-        log(`Home: refresh needed because active topic changed to: ${newValue}`);
+        log(`Home: Active topic changed to: ${newValue}`);
         if (newValue === 'overview') {
-          clearQueryParams()
+          updateQueryParams({
+            step: null,
+            feature: null
+          })
         }
       }
     }
 );
 
 watch(
-    () => route.query.step,
-    (newStepId) => {
-      if (newStepId) {
-        log(`Home: new route step! ${newStepId}`)
-        routeStatus.setActiveStep(newStepId); // Find the stop based on the stopId
-      }
-      else {
-        log(`Home: no new route step so going to overview!`)
+  () => route.query,
+  (query) => {
+    let hasSelection = false;
 
-        routeStatus.setActiveTopic('overview')
+    if (query.step) {
+      if (routeStatus.activeStepId !== query.step) {
+        routeStatus.setActiveStep(query.step);
       }
-    },
-    {immediate: true} // Call immediately on initial load
+      hasSelection = true;
+    } else if (routeStatus.activeStepId) {
+      routeStatus.setActiveStep(null);
+    }
+
+    if (query.feature) {
+      if (routeStatus.activeFeatureId !== query.feature) {
+        routeStatus.setActiveFeature(query.feature);
+      }
+      hasSelection = true;
+    } else if (routeStatus.activeFeatureId) {
+      routeStatus.setActiveFeature(null);
+    }
+
+    if (!hasSelection && routeStatus.activeTopic !== 'overview') {
+      routeStatus.setActiveTopic('overview');
+    }
+  },
+  { immediate: true }
 );
+
 watch(
     () => (routeStatus.activeStepId),
     (newValue, oldValue) => {
       log('Home: active step changed.')
       if (newValue) {
         log('Home: Updating query parameter. Step id:', newValue)
-        updateQueryParam('step', routeStatus.activeStepId)
-        // zoomToFeature(routeStatus.activeFeature)
-        //renderLayers(newValue)
+        updateQueryParam('step', newValue)
+        if (routeStatus.activeTopic !== 'featuredetail') {
+          updateQueryParam('feature', null)
+          routeStatus.setActiveFeature(null)
+        }
+      }
+    }
+)
+
+watch(
+    () => (routeStatus.activeFeatureId),
+    (newValue, oldValue) => {
+      log('Home: active feature changed.')
+      if (newValue) {
+        updateQueryParams({
+          'feature': newValue,
+          'step': routeStatus.activeStepId
+        })
+        log('Home: Updating query parameter feature. feature id:', newValue)
       }
     }
 )

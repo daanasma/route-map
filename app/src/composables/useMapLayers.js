@@ -6,13 +6,50 @@ import mapConfig from '../config/mapConfig.js';
 import {LngLatBounds} from "maplibre-gl"; // Import map configuration
 import { log } from '@/debug/debug.js';
 
-
+const mapRef = ref(null)
 const labelFont = {
     'text-color': '#000',
     'text-halo-color': '#fff',
     'text-halo-width': 2,
 }
 
+export function setMap(mapInstance) {
+  mapRef.value = mapInstance;
+}
+
+export function useMapHelpers() {
+  const routeStatus = useRouteInfoStore();
+
+    // function fitMapToFeatureList(featureList) {
+    //   if (!mapRef.value || !routeStatus.routeData) return;
+    //
+    //   log("Fitting map to feature", featureList)
+    //     const bounds = getFeaturesBoundingBox(featureList);
+    //   fitMapToBounds(bounds, {
+    //     padding: 20,
+    //     maxZoom: mapConfig.configuredRoutes[routeStatus.mapId].maxZoomFocus}
+    //   )
+    // }
+
+    function fitMapToFeatureList(features) {
+        if (!mapRef.value || !routeStatus.routeData) return;
+        const bounds = getFeaturesBoundingBox(features);
+        mapRef.value.fitBounds(bounds,
+            {
+                padding: mapConfig.fitBoundsPadding,
+                maxZoom: mapConfig.configuredRoutes[routeStatus.mapId].maxZoomFocus
+            });
+        log('Fit map to bounds of provided features list')
+    };
+
+    function zoomToFullRoute() {
+      log('Map: zooming to full route.')
+        fitMapToFeatureList(routeStatus.routeFeatures);
+        log("Zoomed to full route!")
+      };
+
+  return { zoomToFullRoute, fitMapToFeatureList };
+}
 const ArrayToGeoJSON = (features) => {
     return {
         type: 'FeatureCollection',
@@ -50,16 +87,6 @@ export function getFeaturesBoundingBox(featureArray) {
 }
 
     // Fit map to the active feature
-export function fitMapToFeature(features, map) {
-    const routeStatus = useRouteInfoStore();
-    const bounds = getFeaturesBoundingBox(features);
-    map.fitBounds(bounds,
-        {
-            padding: mapConfig.fitBoundsPadding,
-            maxZoom: mapConfig.configuredRoutes[routeStatus.mapId].maxZoomFocus
-        });
-    log('Fit map to bounds of provided features list')
-};
 
 export function useMapLayers(map) {
     const routeStatus = useRouteInfoStore();
@@ -269,40 +296,7 @@ export function useMapLayers(map) {
 
                 const layers = ['route-point', 'route-line-road', 'route-line-ferry', 'route-line'];
                 log("Maplayers -> loaded layers:", loadedLayers)
-                log('MapLayers -> start adding event handlers')
-
-                // loadedLayers.forEach(layer => {
-                //     // Add interactivity (hover, click, etc.)
-                //     map.value.on('mouseenter', layer, () => {
-                //         map.value.getCanvas().style.cursor = 'pointer';
-                //     });
-                //     map.value.on('mouseleave', layer, () => {
-                //         map.value.getCanvas().style.cursor = '';
-                //     });
-                //
-                //     map.value.on('click', layer, (e) => {
-                //         log('Map: Clicked on', e.features[0]);
-                //         // Checking if the click is near a point. If so, prioritize that.
-                //         if (layer.includes('route-line')) {
-                //             const featuresAtPoint = map.value.queryRenderedFeatures(e.point, {
-                //                 layers: ['route-point'],
-                //                 hitTolerance: 10
-                //             });
-                //
-                //             if (featuresAtPoint.length > 0) {
-                //                 log('Map: Clicked near a point, ignoring route click handler');
-                //                 return;
-                //             }
-                //             routeStatus.setActiveStep(e.features[0].properties['route_sequence_id']);
-                //         }
-                //
-                //         if (layer === 'route-point') {
-                //             routeStatus.setActiveStep(e.features[0].properties['route_sequence_id']);
-                //         }
-                //     });
-                //
-                // });
-                //addMapHandlers(loadedLayers)
+                addMapHandlers(loadedLayers)
                 createMapLabels();
                 addElevationPointer()
                 routeStatus.triggerMapRefresh()
@@ -336,6 +330,7 @@ export function useMapLayers(map) {
     }
 
     const addMapHandlers = (loadedLayers) => {
+        log('MapLayers -> start adding event handlers')
         loadedLayers.forEach(layer => {
             let partOfStep = layer.part_of_step
             let layerId = layer.layer_id
@@ -370,12 +365,15 @@ export function useMapLayers(map) {
                     }
             }
                 else {
-                    alert('Clicked: ' +  e.features[0].properties.title)
+                    console.log('---------------------------------------featuACTIE--', e.features[0])
+                    routeStatus.setActiveFeature(e.features[0].properties.id)
                 }
             });
 
 
         });
+        log('MapLayers -> finished adding event handlers')
+
     }
 
     const createMapLabels = () => {

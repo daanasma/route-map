@@ -1,19 +1,19 @@
 import { ref } from 'vue';
 
 // Shared reactive state (singleton)
-const hoveredPoint = ref(null);
+const elevationTrackerPoint = ref(null);
 
 export function useElevationHover() {
   const setHoveredPoint = (data) => {
-    hoveredPoint.value = data;
+    elevationTrackerPoint.value = data;
   };
 
   const clearHoveredPoint = () => {
-    hoveredPoint.value = null;
+    elevationTrackerPoint.value = null;
   };
 
   return {
-    hoveredPoint,
+    elevationTrackerPoint,
     setHoveredPoint,
     clearHoveredPoint
   };

@@ -20,8 +20,6 @@ watch(
 
 // Load data on app startup if `mapId` exists
 onMounted(() => {
-  performance.mark('app-mounted')
-  performance.measure('boot', 'app-start', 'app-mounted')
   if (routeStore.mapId) {
     routeStore.loadRouteData();
   }

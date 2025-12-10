@@ -38,6 +38,7 @@ const storeState = computed(() => ({
   routeData: routeInfoStore.routeData ? 'Loaded (' + routeInfoStore.routeData.sequence.length + ' steps)' : 'null',
   loading: routeInfoStore.loading,
   activeStepId: routeInfoStore.activeStepId,
+  activeFeatureId: routeInfoStore.activeFeatureId,
   activeTopic: routeInfoStore.activeTopic,
   appVersion: __APP_VERSION__,
 }));

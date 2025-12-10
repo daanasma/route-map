@@ -133,7 +133,7 @@ const logSnackbar = (message) => {
       logMessages.value.push({ text: message, visible: true });
       log(message);
 };
-    const removeMessage = (id) => {
+const removeMessage = (id) => {
       logMessages.value = logMessages.value.filter((msg) => msg.id !== id);
     };
 

@@ -1,13 +1,8 @@
 <template>
   <div class="layout-container">
     <!-- Header -->
-    <header
-        v-if="!isTablet && routeStatus.routeData"
-    >
-      <button @click="activateOverview">
-       {{ routeStatus.routeMetadata.title }}
-    </button>
-
+    <header v-if="!isTablet && routeStatus.routeData" >
+          <BreadCrumb></BreadCrumb>
     </header>
 
     <!-- Content -->
@@ -36,9 +31,11 @@ import {watch, ref} from "vue";
 import CardSlider from '../components/CardSlider.vue';
 import DetailInfoPanel from "../components/DetailInfoPanel.vue";
 import { log } from '../debug/debug.js';
+import BreadCrumb from "@/components/BreadCrumb.vue";
 
 export default {
   components: {
+    BreadCrumb,
     DetailInfoPanel,
     CardSlider,
   },
@@ -120,7 +117,7 @@ header {
   color: white;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: end;
   background-color: var(--background-color-contrast);
 }
 

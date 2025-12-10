@@ -26,6 +26,7 @@ const routes = [
         props: (route) => ({
             mapId: route.params.map_id,  // Pass map_id as a prop
             step: route.query.step,
+            feature: route.query.feature,
         }),
     },
     {

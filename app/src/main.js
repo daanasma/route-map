@@ -9,7 +9,7 @@ import App from './App.vue'
 import router from './router'
 import '@mdi/font/css/materialdesignicons.css' // Material Design Icons
 import { createVuetify } from 'vuetify'
-import { VBreadcrumbs , VBtn, VCarousel, VCarouselItem, VIcon, VSnackbar, VComponentIcon, VSvgIcon  } from 'vuetify/components'
+import { VBreadcrumbs , VBtn, VCarousel, VCarouselItem, VDivider, VIcon, VSnackbar, VComponentIcon, VSvgIcon  } from 'vuetify/components'
 import { Ripple } from 'vuetify/directives'
 
 import { createPinia } from 'pinia'
@@ -21,6 +21,7 @@ const vuetify = createVuetify({
     VBtn,
     VCarousel,
     VCarouselItem,
+    VDivider,
     VIcon,
     VSnackbar,
     VComponentIcon,

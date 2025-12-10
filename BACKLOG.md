@@ -10,22 +10,19 @@
 - Add info panel for individual features
 - Add breadcrumb for steps
 - Add breadcrumb for features
-- add some extra data fields (website / )
+- add some extra data fields
 - When return to full route, 'start route' should be 'go back to route'
 
 ### Low Prio
 - change map attribution to be closed on load (hacky probably)
 - Change coordinate accuracy of route elevation data to decrease package size
 - Add only needed icons in public for build
-- Layout - spacing for breadcrumbs better on mobile
 
 ## Bugs
 ### High Prio
-- Click on features doesnt work anymore
 
 
 ### Low Prio
-- when moving a lot between screen sizes, the isTablet composable gets overwhelmed. shouldn't happen.
 - click on start and end let it scroll
 
 ## Infra
@@ -37,6 +34,17 @@
 ### Low Prio
 - Build only used icons? Or store directly in other place (cdn)
 - Automate + make versioning system
+
+## V0.2.0
+
+### Features
+
+### Bugfixes
+**Click on features doesnt work anymore**
+  - the addHandlers function was commented out
+
+**when moving a lot between screen sizes, the isTablet composable gets overwhelmed. shouldn't happen.**
+  - Could not reproduce
 
 
 
