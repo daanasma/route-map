@@ -130,12 +130,17 @@ export default {
             }
           }
           else if (trig1 !== trig2) {
+            log(`Map: Refresh trigger detected`);
             if (newtopic === 'overview') {
               zoomToFullRoute()
             }
-            else {
-                          fitMapToFeatureList(routeStatus.activeStepFeatures)
-
+            else if (newtopic === 'route') {
+              fitMapToFeatureList(routeStatus.activeStepFeatures)
+            }
+            else if (newtopic === 'featuredetail') {
+              console.log('routeStatus.activeFeatureData', routeStatus.activeFeatureData)
+              console.log('routeStatus.activeFeatureId', routeStatus.activeFeatureId )
+              fitMapToFeatureList(routeStatus.activeFeatureData)
             }
           }
         }
@@ -157,11 +162,22 @@ export default {
     watch(
         () => (routeStatus.activeStepId),
         (newValue, oldValue) => {
+          log('Map: active route step changed.', oldValue, 'new', newValue)
+          if (newValue && routeStatus.activeTopic === 'route') {
+            log('Map: zooming to active route step. Step id:', newValue, routeStatus.activeStepFeatures)
+            fitMapToFeatureList(routeStatus.activeStepFeatures)
+          }
+        }
+    )
+
+
+        watch(
+        () => (routeStatus.activeFeatureId),
+        (newValue, oldValue) => {
           log('Map: active feature changed.', oldValue, 'new', newValue)
           if (newValue) {
-            log('Map: zooming to active feature. Step feature:', newValue)
-            log('routeStatus.activeStepFeatures', routeStatus.activeStepFeatures)
-            fitMapToFeatureList(routeStatus.activeStepFeatures)
+            log('Map: zooming to active feature. Step feature:', newValue, routeStatus.activeFeatureData)
+            fitMapToFeatureList(routeStatus.activeFeatureData)
           }
         }
     )

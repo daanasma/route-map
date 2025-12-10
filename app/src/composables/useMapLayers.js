@@ -19,18 +19,6 @@ export function setMap(mapInstance) {
 
 export function useMapHelpers() {
   const routeStatus = useRouteInfoStore();
-
-    // function fitMapToFeatureList(featureList) {
-    //   if (!mapRef.value || !routeStatus.routeData) return;
-    //
-    //   log("Fitting map to feature", featureList)
-    //     const bounds = getFeaturesBoundingBox(featureList);
-    //   fitMapToBounds(bounds, {
-    //     padding: 20,
-    //     maxZoom: mapConfig.configuredRoutes[routeStatus.mapId].maxZoomFocus}
-    //   )
-    // }
-
     function fitMapToFeatureList(features) {
         if (!mapRef.value || !routeStatus.routeData) return;
         const bounds = getFeaturesBoundingBox(features);
@@ -343,9 +331,16 @@ export function useMapLayers(map) {
             });
 
             map.value.on('click', layerId, (e) => {
-                log('Maplayers: Clicked on', e.features[0]);
+                let theFeat = e.features[0];
+
+                log('Maplayers: Clicked on', theFeat);
                 // Checking if the click is near a point. If so, prioritize that.
                 if (partOfStep) {
+                    let featureStepId = theFeat.properties['route_sequence_id']
+                    let newStep = true;
+                    if (String(routeStatus.activeStepId) === String(featureStepId)) {
+                        newStep = false
+                    }
 
                     if (layerId.includes('line')) {
                         const featuresAtPoint = map.value.queryRenderedFeatures(e.point, {
@@ -357,16 +352,20 @@ export function useMapLayers(map) {
                             log('Map: Clicked near a point, ignoring route click handler');
                             return;
                         }
-                        routeStatus.setActiveStep(e.features[0].properties['route_sequence_id']);
+                        if (newStep) {
+                            routeStatus.setActiveStep(featureStepId)
+                        };
                     }
                     if (layerId.includes('point')) {
-                        console.log("propz clicked", e.features[0].properties)
-                        routeStatus.setActiveStep(e.features[0].properties['route_sequence_id']);
+                        console.log("propz clicked", theFeat.properties)
+                        if (newStep) { routeStatus.setActiveStep(featureStepId) };
+                    }
+                    if (!newStep) {
+                        routeStatus.setActiveFeature(theFeat.properties.id)
                     }
             }
                 else {
-                    console.log('---------------------------------------featuACTIE--', e.features[0])
-                    routeStatus.setActiveFeature(e.features[0].properties.id)
+                    routeStatus.setActiveFeature(theFeat.properties.id)
                 }
             });
 

@@ -89,11 +89,15 @@ watch(
       log('Home: active step changed.')
       if (newValue) {
         log('Home: Updating query parameter. Step id:', newValue)
-        updateQueryParam('step', newValue)
+        let newAf = route.query.feature
         if (routeStatus.activeTopic !== 'featuredetail') {
-          updateQueryParam('feature', null)
-          routeStatus.setActiveFeature(null)
+          newAf = null
         }
+        updateQueryParams({
+          'feature': newAf,
+          'step': routeStatus.activeStepId
+        })
+
       }
     }
 )

@@ -29,6 +29,7 @@ function orderRouteFeatures(routeData) {
     return ordered;
 }
 
+
 export const useRouteInfoStore = defineStore('routeInfo', {
     state: () => ({
         mapId: null,
@@ -64,7 +65,7 @@ export const useRouteInfoStore = defineStore('routeInfo', {
 
         activeFeatureData: (state) => {
             if (!state.activeFeatureId || !state.routeSequence) return null;
-            return state.getFilteredFeatures().find(s => s.id === state.activeFeatureId);
+            return state.getFilteredFeatures().filter(s => String(s.id) === String(state.activeFeatureId));
         },
 
         activeStepLengthKm() {
@@ -92,72 +93,6 @@ export const useRouteInfoStore = defineStore('routeInfo', {
             });
         },
 
-        // Full route elevation with cumulative distance, grade, ascent/descent, min/max
-
-        // fullRouteElevation: (state) => {
-        //     const features = state.orderedRouteFeatures;
-        //     if (!features.length) return { data: [], summary: {}, byStep: {} };
-        //
-        //     let accumulatedDistance = 0;
-        //     let totalAscent = 0;
-        //     let totalDescent = 0;
-        //     let minElevation = Infinity;
-        //     let maxElevation = -Infinity;
-        //
-        //     const byStep = {};
-        //     const data = [];
-        //
-        //     features.forEach(feature => {
-        //         const stepId = feature.properties?.route_sequence_id;
-        //         const elevations = feature.elevation || [];
-        //
-        //         elevations.forEach((point, idx) => {
-        //             const prevPoint = data[data.length - 1];
-        //             const distance = point.distance_along_line + accumulatedDistance;
-        //             let grade = 0;
-        //
-        //             if (prevPoint) {
-        //                 const distChange = distance - prevPoint.distance_along_line;
-        //                 const elevChange = point.elevation - prevPoint.elevation;
-        //                 if (distChange > 0) grade = (elevChange / distChange) * 100;
-        //                 if (elevChange > 0) totalAscent += elevChange;
-        //                 else totalDescent += Math.abs(elevChange);
-        //             }
-        //
-        //             const enrichedPoint = {
-        //                 ...point,
-        //                 stepId,
-        //                 distance_along_line: distance,
-        //                 grade
-        //             };
-        //
-        //             if (!byStep[stepId]) byStep[stepId] = [];
-        //             byStep[stepId].push(enrichedPoint);
-        //
-        //             data.push(enrichedPoint);
-        //
-        //             if (point.elevation != null) {
-        //                 minElevation = Math.min(minElevation, point.elevation);
-        //                 maxElevation = Math.max(maxElevation, point.elevation);
-        //             }
-        //         });
-        //
-        //         if (elevations.length > 0) {
-        //             accumulatedDistance = data[data.length - 1].distance_along_line;
-        //         }
-        //     });
-        //     return {
-        //         data,
-        //         summary: {
-        //             totalDistance: accumulatedDistance,
-        //             totalAscent,
-        //             totalDescent,
-        //             minElevation,
-        //             maxElevation
-        //         },
-        //         byStep
-        //     };
-        // },
 
         // Access per-segment elevation simply by stepId
         segmentElevation: (state) => (stepId) => {
@@ -296,7 +231,7 @@ export const useRouteInfoStore = defineStore('routeInfo', {
         },
 
         setActiveFeature(featureId) {
-            console.log('----- setting active feature', featureId)
+            log('Store: setting active feature', featureId)
             //this.activeStepId = stepId ? Number(stepId) : null; //todo get the actual step id from this feature
             this.activeFeatureId = featureId;
             if (featureId) this.activeTopic = 'featuredetail';

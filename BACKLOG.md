@@ -20,7 +20,7 @@
 
 ## Bugs
 ### High Prio
-
+- The Ids for the features are ambiguous (points / lines mixed)
 
 ### Low Prio
 - click on start and end let it scroll
