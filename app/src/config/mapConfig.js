@@ -81,6 +81,9 @@ export default {
         default: 'star',
         castle: 'castle',
         religious_christian: 'religious-christian',
+        campsite: 'campsite',
+        restaurant: 'restaurant',
+        supermarket: 'grocery'
     },
     // Default map center [longitude, latitude]
 

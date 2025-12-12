@@ -238,26 +238,8 @@ export function useMapLayers(map) {
             log("Start rendering all layers. lines:", routeLines, 'points:', routePoints);
             // Add route source and layers
             map.value.on('load', () => {
-                // Add Route lines
-                map.value.addSource('routelines', {type: 'geojson', data: ArrayToGeoJSON(routeLines)});
-                getRouteLayerStyles().forEach(layer => {
-                    map.value.addLayer(layer);
-                    loadedLayers.push({'part_of_step': true, 'layer_id': layer.id});
-                });
-                // Add Route points
-                map.value.addSource('routepoints', {type: 'geojson', data: ArrayToGeoJSON(routePoints)});
-                getRoutePointStyles().forEach(layer => {
-                    map.value.addLayer(layer);
-                    loadedLayers.push({'part_of_step': true, 'layer_id': layer.id});
-                })
 
-                log('Maplayers: added all sources and layers -> route');
-
-                map.value.addSource('extrapoints', {type: 'geojson', data: ArrayToGeoJSON(extraPoints)});
-                map.value.addSource('extralines', {type: 'geojson', data: ArrayToGeoJSON(extraLines)});
-
-
-                // Add icons to map
+                                // Add icons to map
                 [mapConfig.poiColor, mapConfig.mainColor].forEach((color) => {
                     Object.values(mapConfig.iconMap).forEach(async (icon) => {
                         let label = `${icon}_${color}`
@@ -270,7 +252,13 @@ export function useMapLayers(map) {
                     });
                 })
                 log('Maplayers: Added all icons to map')
-                getExtraPoiStyles().forEach(layer => {
+
+                map.value.addSource('routelines', {type: 'geojson', data: ArrayToGeoJSON(routeLines)});
+                map.value.addSource('routepoints', {type: 'geojson', data: ArrayToGeoJSON(routePoints)});
+                map.value.addSource('extrapoints', {type: 'geojson', data: ArrayToGeoJSON(extraPoints)});
+                map.value.addSource('extralines', {type: 'geojson', data: ArrayToGeoJSON(extraLines)});
+
+                                getExtraPoiStyles().forEach(layer => {
                     log('Maplayers -> extra poi', layer)
                     map.value.addLayer(layer);
                     loadedLayers.push({'part_of_step': false, 'layer_id': layer.id});
@@ -281,6 +269,23 @@ export function useMapLayers(map) {
                     loadedLayers.push({'part_of_step': false, 'layer_id': layer.id});
                 });
                 log('Maplayers - added Non-route layers')
+
+
+                // Add Route lines
+                getRouteLayerStyles().forEach(layer => {
+                    map.value.addLayer(layer);
+                    loadedLayers.push({'part_of_step': true, 'layer_id': layer.id});
+                });
+                // Add Route points
+                getRoutePointStyles().forEach(layer => {
+                    map.value.addLayer(layer);
+                    loadedLayers.push({'part_of_step': true, 'layer_id': layer.id});
+                })
+
+                log('Maplayers: added all sources and layers -> route');
+
+
+
 
                 const layers = ['route-point', 'route-line-road', 'route-line-ferry', 'route-line'];
                 log("Maplayers -> loaded layers:", loadedLayers)

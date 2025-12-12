@@ -230,7 +230,7 @@ export const useRouteInfoStore = defineStore('routeInfo', {
             if (stepId) this.activeTopic = 'route';
         },
 
-        setActiveFeature(featureId) {
+        setActiveFeature(featureId, layertype) {
             log('Store: setting active feature', featureId)
             //this.activeStepId = stepId ? Number(stepId) : null; //todo get the actual step id from this feature
             this.activeFeatureId = featureId;

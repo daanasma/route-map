@@ -82,8 +82,34 @@
       </div>
 
       <div v-if="routeStatus.activeTopic === 'featuredetail' " class="">
-        <h2 v-if="!isTablet">feature activated!</h2>
+        <h2 v-if="!isTablet">{{ routeStatus.activeFeatureData[0].properties.title }}</h2>
+        <h4>{{ routeStatus.activeFeatureData[0].properties.poi_type }}</h4>
         {{routeStatus.activeFeatureData}}
+
+        <div class="content-actual-content">
+          <h3>
+            Summary
+          </h3>
+
+          <p>{{ routeStatus.activeFeatureData[0].properties.description }}</p>
+
+        <v-divider :thickness="1"></v-divider>
+
+          <div>
+            <div>
+              <h3>
+                Lorum Ipsum?
+              </h3>
+
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+              industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+              scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into
+              electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of
+              Aldus PageMaker including versions of Lorem Ipsum.
+            </div>
+          </div>
+        </div>
+
       </div>
 
     </div>

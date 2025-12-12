@@ -16,7 +16,7 @@
       "title": "Villa o Higgins",
       "features": [
         {
-          "id": 1,
+          "id": "villa-o-higgins",
           "type": "point"
         }
       ],
@@ -26,11 +26,11 @@
       "route_step": 2,
       "features": [
         {
-          "id": 7,
+          "id": "voh-town-ride",
           "type": "line"
         },
 		        {
-          "id": 1,
+          "id": "voh-to-yungay",
           "type": "line"
         }
 
@@ -43,15 +43,15 @@
       "route_step": 3,
       "features": [
         {
-          "id": 2,
+          "id": "puerto-rio-bravo",
           "type": "point"
         },
         {
-          "id": 2,
+          "id": "yungay-ferry",
           "type": "line"
         },
         {
-          "id": 3,
+          "id": "puerto-yungay",
           "type": "point"
         }
       ],
@@ -63,7 +63,7 @@
       "route_step": 4,
       "features": [
         {
-          "id": 3,
+          "id": "bravo-to-cochrane",
           "type": "line"
         }
       ],
@@ -76,12 +76,12 @@
       "route_step": 5,
       "features": [
         {
-          "id": 4,
+          "id": "cochrane",
           "type": "point"
         }
       ],
-      "title": "Route step 5",
-      "summary": "Still no fish.."
+      "title": "Cochrane",
+      "summary": "Cochrane, a sleepy village where you can get some good food."
 
     },
 
@@ -89,61 +89,49 @@
       "route_step": 6,
       "features": [
         {
-          "id": 4,
+          "id": "cochrane-to-bertrand",
           "type": "line"
         }
       ],
-      "title": "sdfq",
-      "description": "qsdfsdf"
+      "title": "From Cochrane to Puerto Bertrand",
+      "description": "Incredible cycling along the banks of Rio Baker. The blueness of this water is out of this world."
     },
     {
       "route_step": 7,
       "features": [
         {
-          "id": 5,
+          "id": "puerto-bertrand",
           "type": "point"
         }
       ],
-      "title": "Jeweet",
-      "summary": "Stap xx.."
+      "title": "Puerto Bertrand",
+      "summary": "Some good snacks here. Don't forget to go down to the river."
 
     },
     {
       "route_step": 8,
       "features": [
         {
-          "id": 5,
+          "id": "bertrand-to-tranquilo",
           "type": "line"
         }
       ],
-            "title": "zellufff",
-      "summary": "Stap qsdfqsdfqsdfxx.."
+      "title": "50 shades of Blue",
+      "summary": "Connecting Puerto Bertrand to Puerto Rio Tranquilo, there is a lot to see. Glaciers, lush forest and A LOT of water!"
 
     },
     {
       "route_step": 9,
       "features": [
         {
-          "id": 6,
+          "id": "puerto-rio-tranquilo",
           "type": "point"
         }
       ],
-      "title": "zelluqdfqsdfqsdffff",
-      "summary": "Stap qsdfqsdfqsdfsqdfsqdfqsdfsfdxx.."
+      "title": "Puerto Rio Tranquilo",
+      "summary": "This sleepy village is famous for its boat tours to the Marble caves. It's also the access gate to the Valle Exploradores, a narrow and little known valley with some of the best scenery this region has to offer."
 
-    },
-    {
-      "route_step": 10,
-      "title": "We zijn er bijna! ",
-      "summary": "Final description",
-      "features": [
-                {
-          "id": 6,
-          "type": "line"
-        }
-
-      ]
     }
-  ],
+	],
   "settings": {}
 }

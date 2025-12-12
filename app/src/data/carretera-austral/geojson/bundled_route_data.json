@@ -9,7 +9,7 @@
     "version": "1.0",
     "created": "2025-01-01",
     "last_edit": "2025-11-28",
-    "total_length_in_m": 429598
+    "total_length_in_m": 343202
   },
   "sequence": [
     {
@@ -17,7 +17,7 @@
       "title": "Villa o Higgins",
       "features": [
         {
-          "id": 1,
+          "id": "villa-o-higgins",
           "type": "point"
         }
       ],
@@ -32,11 +32,11 @@
       "route_step": 2,
       "features": [
         {
-          "id": 7,
+          "id": "voh-town-ride",
           "type": "line"
         },
         {
-          "id": 1,
+          "id": "voh-to-yungay",
           "type": "line"
         }
       ],
@@ -51,15 +51,15 @@
       "route_step": 3,
       "features": [
         {
-          "id": 2,
+          "id": "puerto-rio-bravo",
           "type": "point"
         },
         {
-          "id": 2,
+          "id": "yungay-ferry",
           "type": "line"
         },
         {
-          "id": 3,
+          "id": "puerto-yungay",
           "type": "point"
         }
       ],
@@ -74,7 +74,7 @@
       "route_step": 4,
       "features": [
         {
-          "id": 3,
+          "id": "bravo-to-cochrane",
           "type": "line"
         }
       ],
@@ -89,12 +89,12 @@
       "route_step": 5,
       "features": [
         {
-          "id": 4,
+          "id": "cochrane",
           "type": "point"
         }
       ],
-      "title": "Route step 5",
-      "summary": "Still no fish..",
+      "title": "Cochrane",
+      "summary": "Cochrane, a sleepy village where you can get some good food.",
       "images": [
         "carretera-austral/img/steps/5/baker.jpg"
       ],
@@ -104,12 +104,12 @@
       "route_step": 6,
       "features": [
         {
-          "id": 4,
+          "id": "cochrane-to-bertrand",
           "type": "line"
         }
       ],
-      "title": "sdfq",
-      "description": "qsdfsdf",
+      "title": "From Cochrane to Puerto Bertrand",
+      "description": "Incredible cycling along the banks of Rio Baker. The blueness of this water is out of this world.",
       "images": [
         "carretera-austral/img/steps/6/lago_carrera.jpg"
       ],
@@ -119,12 +119,12 @@
       "route_step": 7,
       "features": [
         {
-          "id": 5,
+          "id": "puerto-bertrand",
           "type": "point"
         }
       ],
-      "title": "Jeweet",
-      "summary": "Stap xx..",
+      "title": "Puerto Bertrand",
+      "summary": "Some good snacks here. Don't forget to go down to the river.",
       "images": [
         "carretera-austral/img/steps/7/boat.jpg"
       ],
@@ -134,12 +134,12 @@
       "route_step": 8,
       "features": [
         {
-          "id": 5,
+          "id": "bertrand-to-tranquilo",
           "type": "line"
         }
       ],
-      "title": "zellufff",
-      "summary": "Stap qsdfqsdfqsdfxx..",
+      "title": "50 shades of Blue",
+      "summary": "Connecting Puerto Bertrand to Puerto Rio Tranquilo, there is a lot to see. Glaciers, lush forest and A LOT of water!",
       "images": [
         "carretera-austral/img/steps/8/baker.jpg"
       ],
@@ -149,41 +149,26 @@
       "route_step": 9,
       "features": [
         {
-          "id": 6,
+          "id": "puerto-rio-tranquilo",
           "type": "point"
         }
       ],
-      "title": "zelluqdfqsdfqsdffff",
-      "summary": "Stap qsdfqsdfqsdfsqdfsqdfqsdfsfdxx..",
+      "title": "Puerto Rio Tranquilo",
+      "summary": "This sleepy village is famous for its boat tours to the Marble caves. It's also the access gate to the Valle Exploradores, a narrow and little known valley with some of the best scenery this region has to offer.",
       "images": [
         "carretera-austral/img/steps/9/confluencia.jpg"
       ],
       "length_in_m": 0
-    },
-    {
-      "route_step": 10,
-      "title": "We zijn er bijna! ",
-      "summary": "Final description",
-      "features": [
-        {
-          "id": 6,
-          "type": "line"
-        }
-      ],
-      "images": [
-        "carretera-austral/img/steps/10/boat.jpg"
-      ],
-      "length_in_m": 86396
     }
   ],
   "settings": {},
   "features": [
     {
-      "id": 1,
+      "id": "villa-o-higgins",
       "type": "point",
       "topic": "route",
       "properties": {
-        "id": 1,
+        "id": "villa-o-higgins",
         "description": "The southernmost town of the Carretera Austral, surrounded by pristine wilderness.",
         "title": "Villa O'Higgins",
         "to_publish": true,
@@ -199,11 +184,11 @@
       }
     },
     {
-      "id": 2,
+      "id": "puerto-rio-bravo",
       "type": "point",
       "topic": "route",
       "properties": {
-        "id": 2,
+        "id": "puerto-rio-bravo",
         "description": "Taking the boat",
         "title": "Puerto Rio Bravo",
         "to_publish": true,
@@ -219,11 +204,11 @@
       }
     },
     {
-      "id": 3,
+      "id": "puerto-yungay",
       "type": "point",
       "topic": "route",
       "properties": {
-        "id": 3,
+        "id": "puerto-yungay",
         "description": "A ferry crossing on the Carretera Austral, connecting remote areas.",
         "title": "Puerto Yungay",
         "to_publish": true,
@@ -239,11 +224,11 @@
       }
     },
     {
-      "id": 4,
+      "id": "cochrane",
       "type": "point",
       "topic": "route",
       "properties": {
-        "id": 4,
+        "id": "cochrane",
         "description": "A charming small town offering access to Patagonia National Park.",
         "title": "Cochrane",
         "to_publish": true,
@@ -259,11 +244,11 @@
       }
     },
     {
-      "id": 5,
+      "id": "puerto-bertrand",
       "type": "point",
       "topic": "route",
       "properties": {
-        "id": 5,
+        "id": "puerto-bertrand",
         "description": "The gateway to Lago General Carrera, famous for its turquoise waters.",
         "title": "Puerto Bertrand",
         "to_publish": true,
@@ -279,11 +264,11 @@
       }
     },
     {
-      "id": 6,
+      "id": "puerto-rio-tranquilo",
       "type": "point",
       "topic": "route",
       "properties": {
-        "id": 6,
+        "id": "puerto-rio-tranquilo",
         "description": "Known for the Marble Caves and a must-visit stop on the Carretera Austral.",
         "title": "Puerto Rio Tranquilo",
         "to_publish": true,
@@ -299,11 +284,11 @@
       }
     },
     {
-      "id": 7,
+      "id": "caleta-tortel",
       "type": "point",
       "topic": "extra",
       "properties": {
-        "id": 7,
+        "id": "caleta-tortel",
         "description": "Stairway to Pacific Ocean",
         "title": "Caleta Tortel",
         "to_publish": true,
@@ -319,11 +304,11 @@
       }
     },
     {
-      "id": 8,
+      "id": "pn-patagonia-entrance",
       "type": "point",
       "topic": "extra",
       "properties": {
-        "id": 8,
+        "id": "pn-patagonia-entrance",
         "description": "The entrance to Patagonia National Park",
         "title": "Valle Chacabuco",
         "to_publish": true,
@@ -339,16 +324,56 @@
       }
     },
     {
-      "id": 1,
+      "id": "camping-rio-chirifo",
+      "type": "point",
+      "topic": "extra",
+      "properties": {
+        "id": "camping-rio-chirifo",
+        "description": "A budget campside with views over the lake",
+        "title": "Camping Rio Chirifo",
+        "to_publish": true,
+        "poi_type": "campsite",
+        "route_sequence_id": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -72.67347465932708,
+          -46.62813688601185
+        ]
+      }
+    },
+    {
+      "id": "supermarket-rio-tranquilo",
+      "type": "point",
+      "topic": "extra",
+      "properties": {
+        "id": "supermarket-rio-tranquilo",
+        "description": "A supermarket with a lot of stuff",
+        "title": "Supermercado Rio Tranquilo",
+        "to_publish": true,
+        "poi_type": "supermarket",
+        "route_sequence_id": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -72.6753007016371,
+          -46.62647840854408
+        ]
+      }
+    },
+    {
+      "id": "voh-to-yungay",
       "type": "line",
       "topic": "route",
       "properties": {
-        "id": 1,
         "transport_type": "road",
-        "title": "VOH -> ferry",
+        "title": "The Glaciar Rainforest",
         "description": "Travel along a winding road departing from the remote town of Villa O'Higgins, surrounded by untouched Patagonian wilderness. The journey offers dramatic landscapes with rugged mountains and pristine valleys.",
         "to_publish": true,
         "subtype": "asphalt",
+        "id": "voh-to-yungay",
         "route_sequence_id": 2
       },
       "elevation": [
@@ -18740,16 +18765,16 @@
       }
     },
     {
-      "id": 2,
+      "id": "yungay-ferry",
       "type": "line",
       "topic": "route",
       "properties": {
-        "id": 2,
         "transport_type": "ferry",
         "title": "Taking the ferry.",
         "description": "Board the ferry to cross scenic waterways. The tranquil ferry ride provides stunning views of the surrounding fjords and glacial landscapes, a unique way to experience the heart of Patagonia.",
         "to_publish": true,
         "subtype": null,
+        "id": "yungay-ferry",
         "route_sequence_id": 3
       },
       "elevation": [
@@ -19045,16 +19070,16 @@
       }
     },
     {
-      "id": 3,
+      "id": "bravo-to-cochrane",
       "type": "line",
       "topic": "route",
       "properties": {
-        "id": 3,
         "transport_type": "road",
         "title": "Long ride to Cochrane",
         "description": "A long but rewarding stretch through the breathtaking Chilean wilderness. This segment features rolling hills, dense forests, and panoramic views of distant mountains as you approach the charming town of Cochrane.",
         "to_publish": true,
         "subtype": "gravel",
+        "id": "bravo-to-cochrane",
         "route_sequence_id": 4
       },
       "elevation": [
@@ -37122,16 +37147,16 @@
       }
     },
     {
-      "id": 4,
+      "id": "cochrane-to-bertrand",
       "type": "line",
       "topic": "route",
       "properties": {
-        "id": 4,
         "transport_type": "road",
         "title": "Towards Puerto Bertrand",
         "description": "Travel through an enchanting landscape of crystal-clear rivers and lush greenery. This section guides you toward the vibrant blue waters of Puerto Bertrand, a beautiful lake region surrounded by impressive natural scenery.",
         "to_publish": true,
         "subtype": "gravel",
+        "id": "cochrane-to-bertrand",
         "route_sequence_id": 6
       },
       "elevation": [
@@ -45227,16 +45252,16 @@
       }
     },
     {
-      "id": 5,
+      "id": "bertrand-to-tranquilo",
       "type": "line",
       "topic": "route",
       "properties": {
-        "id": 5,
         "transport_type": "road",
         "title": "On the blue shores",
         "description": "A scenic journey along the shimmering blue shores of glacial lakes. This segment features gentle curves and spectacular vistas, with serene waters reflecting the towering peaks and rugged terrain.",
         "to_publish": true,
         "subtype": "gravel",
+        "id": "bertrand-to-tranquilo",
         "route_sequence_id": 8
       },
       "elevation": [
@@ -54228,17 +54253,17 @@
       }
     },
     {
-      "id": 6,
+      "id": "valle-exploradores",
       "type": "line",
-      "topic": "route",
+      "topic": "extra",
       "properties": {
-        "id": 6,
         "transport_type": "road",
         "title": "The Explorers Valley",
         "description": "A journey to the majestic Valle de Exploradores",
         "to_publish": true,
         "subtype": "gravel",
-        "route_sequence_id": 10
+        "id": "valle-exploradores",
+        "route_sequence_id": null
       },
       "elevation": [
         {
@@ -70729,16 +70754,16 @@
       }
     },
     {
-      "id": 7,
+      "id": "voh-town-ride",
       "type": "line",
       "topic": "route",
       "properties": {
-        "id": 7,
         "transport_type": "road",
         "title": "Cruising Villa o higgins",
         "description": "Cycling through Villa o Higgins",
         "to_publish": true,
         "subtype": "gravel",
+        "id": "voh-town-ride",
         "route_sequence_id": 2
       },
       "elevation": [
