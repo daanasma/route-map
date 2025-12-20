@@ -151,6 +151,14 @@
         {
           "id": "puerto-rio-tranquilo",
           "type": "point"
+        },
+        {
+          "id": "supermarket-rio-tranquilo",
+          "type": "point"
+        },
+        {
+          "id": "camping-rio-chirifo",
+          "type": "point"
         }
       ],
       "title": "Puerto Rio Tranquilo",
@@ -326,14 +334,14 @@
     {
       "id": "camping-rio-chirifo",
       "type": "point",
-      "topic": "extra",
+      "topic": "route",
       "properties": {
         "id": "camping-rio-chirifo",
         "description": "A budget campside with views over the lake",
         "title": "Camping Rio Chirifo",
         "to_publish": true,
         "poi_type": "campsite",
-        "route_sequence_id": null
+        "route_sequence_id": 9
       },
       "geometry": {
         "type": "Point",
@@ -346,14 +354,14 @@
     {
       "id": "supermarket-rio-tranquilo",
       "type": "point",
-      "topic": "extra",
+      "topic": "route",
       "properties": {
         "id": "supermarket-rio-tranquilo",
         "description": "A supermarket with a lot of stuff",
         "title": "Supermercado Rio Tranquilo",
         "to_publish": true,
         "poi_type": "supermarket",
-        "route_sequence_id": null
+        "route_sequence_id": 9
       },
       "geometry": {
         "type": "Point",

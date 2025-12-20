@@ -7,9 +7,7 @@ import {nextTick} from "vue";
 
 const {getFilePath} = useCorrectBasePath();
 
-function orderRouteFeatures(routeData) {
-    console.log('ORDERING -------------', routeData)
-    console.log('ORDERING -------------', (!routeData?.features || !routeData?.sequence))
+function orderRouteLineFeatures(routeData) {
     if (!routeData?.features || !routeData?.sequence) return [];
 
     const routeFeatures = routeData.features.filter(f => f.topic === 'route');
@@ -25,7 +23,7 @@ function orderRouteFeatures(routeData) {
                 if (feat) ordered.push(feat);
             });
     });
-    console.log('orrdered - ', ordered)
+    log('Store: Ordered route data - ', ordered)
     return ordered;
 }
 
@@ -56,7 +54,6 @@ export const useRouteInfoStore = defineStore('routeInfo', {
             if (!state.routeData?.sequence) return null;
             return Math.max(...state.routeData.sequence.map(s => s.route_step));
         },
-
         // Get current step data from sequence
         activeStepData: (state) => {
             if (!state.activeStepId || !state.routeSequence) return null;
@@ -78,10 +75,6 @@ export const useRouteInfoStore = defineStore('routeInfo', {
             if (!state.routeData?.features) return [];
             return state.routeData.features.filter(f => f.topic === 'route');
         },
-
-        // Only line features, fully ordered by step and line within step
-        // Line features ordered by step and by the order in sequence[].features
-        orderedRouteFeatures: (state) => orderRouteFeatures(state.routeData),
 
         // Get features for active step
         activeStepFeatures: (state) => {
@@ -157,7 +150,7 @@ export const useRouteInfoStore = defineStore('routeInfo', {
         },
 
         processElevationData() {
-        const features = orderRouteFeatures(this.routeData);
+        const features = orderRouteLineFeatures(this.routeData);
         if (!features.length) {
             this.fullRouteElevation = null;
             return;
@@ -226,15 +219,19 @@ export const useRouteInfoStore = defineStore('routeInfo', {
     },
 
         setActiveStep(stepId) {
+            const oldStep = this.activeStepId;
             this.activeStepId = stepId ? Number(stepId) : null;
-            if (stepId) this.activeTopic = 'route';
+            if (stepId && (Number(stepId) !== Number(oldStep))) {
+                console.log('------updating active topic to route. ', oldStep, '-->', stepId)
+                this.setActiveTopic('route')
+            };
         },
 
-        setActiveFeature(featureId, layertype) {
+        setActiveFeature(featureId,) {
             log('Store: setting active feature', featureId)
             //this.activeStepId = stepId ? Number(stepId) : null; //todo get the actual step id from this feature
             this.activeFeatureId = featureId;
-            if (featureId) this.activeTopic = 'featuredetail';
+            if (featureId) this.setActiveTopic('featuredetail');
             },
 
         setActiveTopic(topic) {

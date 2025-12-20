@@ -29,13 +29,11 @@ const routeStatus = useRouteInfoStore();
 
 function selectStepBreadcrumb() {
   routeStatus.setActiveTopic('route')
-    alert(routeStatus.activeTopic)
 
 };
 
 function selectFeatureDetailBreadcrumb() {
   routeStatus.setActiveTopic('featuredetail')
-  alert(routeStatus.activeTopic)
 };
 
 const breadcrumbItems = computed(() => {
@@ -60,9 +58,9 @@ const breadcrumbItems = computed(() => {
 
     if (['featuredetail'].includes(topic)) {
       kruimel.push( {
-        title: 'feature title',
+        title: routeStatus.activeFeatureData[0].properties.title,
         disabled: true,
-        onClick: () => selectFeatureDetailBreadcrumb
+        onClick: () => selectFeatureDetailBreadcrumb()
       })
     }
     return kruimel

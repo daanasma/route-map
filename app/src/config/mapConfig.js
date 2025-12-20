@@ -20,6 +20,8 @@ const lineOpacity = [
 const sizeMapMarkers = 0.25;
 const mainColor = '#065809';
 const poiColor = "#2f2d2d";
+const highLightColor = "#912828";
+const hoverColor = "#512a65";
 
 export default {
     configuredRoutes: {
@@ -30,10 +32,12 @@ export default {
             isRoute: true,
             mainColor: '#065809',
             poiColor: "#2f2d2d",
+            highlightColor: "#912828",
+            hoverColor: "#512a65",
             basemap: `maptiler-topo-4`,
             center: [-72.4200, -47.4800],
             zoom: 7,
-            maxZoomFocus: 13,
+            maxZoomFocus: 15,
             useHillshade: false
         },
         'paris-roubaix': {
@@ -64,8 +68,10 @@ export default {
 
     // Default map style URL (could be a custom Mapbox or MapLibre style URL)
     basemap: 'https://tiles.openfreemap.org/styles/positron',
-    mainColor: mainColor,
+    mainColor:mainColor,
     poiColor: poiColor,
+    highLightColor:highLightColor,
+    hoverColor:hoverColor,
     sizeMapMarkers,
     iconMap: { //https://labs.mapbox.com/maki-icons/
         national_park: 'park-alt1',

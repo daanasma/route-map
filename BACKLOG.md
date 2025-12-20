@@ -6,10 +6,10 @@
 - Add feature Popup On click (Showing title)
 - Add feature Highlight on activation
 - make styling of layers more flexible
-- add click interaction with non-route elements
-- Add info panel for individual features
-- Add breadcrumb for steps
-- Add breadcrumb for features
+OK add click interaction with non-route elements 
+OK Add info panel for individual features 
+OK Add breadcrumb for steps
+OK Add breadcrumb for features
 - add some extra data fields
 - When return to full route, 'start route' should be 'go back to route'
 
@@ -24,7 +24,9 @@
 
 ### Low Prio
 - click on start and end let it scroll
-
+- build: icons (and probably data) get build to public in one build, but not to dist. they need another run of build.
+- hover point should only work after map load. Else it gives console errorz
+- 
 ## Infra
 ### High Prio
 - Lower package size (see logs after build. Web fonts, materialdesignicons)

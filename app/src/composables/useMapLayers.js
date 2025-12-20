@@ -4,7 +4,7 @@ import {ref} from 'vue';
 import {useRouteInfoStore} from '../stores/routestatus.js';
 import mapConfig from '../config/mapConfig.js';
 import {LngLatBounds} from "maplibre-gl"; // Import map configuration
-import { log } from '@/debug/debug.js';
+import {log} from '@/debug/debug.js';
 
 const mapRef = ref(null)
 const labelFont = {
@@ -14,11 +14,12 @@ const labelFont = {
 }
 
 export function setMap(mapInstance) {
-  mapRef.value = mapInstance;
+    mapRef.value = mapInstance;
 }
 
 export function useMapHelpers() {
-  const routeStatus = useRouteInfoStore();
+    const routeStatus = useRouteInfoStore();
+
     function fitMapToFeatureList(features) {
         if (!mapRef.value || !routeStatus.routeData) return;
         const bounds = getFeaturesBoundingBox(features);
@@ -31,13 +32,14 @@ export function useMapHelpers() {
     };
 
     function zoomToFullRoute() {
-      log('Map: zooming to full route.')
+        log('Map: zooming to full route.')
         fitMapToFeatureList(routeStatus.routeFeatures);
         log("Zoomed to full route!")
-      };
+    };
 
-  return { zoomToFullRoute, fitMapToFeatureList };
+    return {zoomToFullRoute, fitMapToFeatureList};
 }
+
 const ArrayToGeoJSON = (features) => {
     return {
         type: 'FeatureCollection',
@@ -74,7 +76,7 @@ export function getFeaturesBoundingBox(featureArray) {
     return bounds;
 }
 
-    // Fit map to the active feature
+// Fit map to the active feature
 
 export function useMapLayers(map) {
     const routeStatus = useRouteInfoStore();
@@ -82,38 +84,39 @@ export function useMapLayers(map) {
     const startedLayerLoad = ref(false);
     let hoveredStateId = null;
 
+
     const getRouteLayerStyles = () =>
         Object.entries(mapConfig.layerConfigs.line)
             .map(([id, config]) => {
-            const parts = id.replace('route-line-', '').split('-'); // e.g. "road-asphalt"
-            const transport_type = parts[0];
-            const subtype = parts[1];
+                const parts = id.replace('route-line-', '').split('-'); // e.g. "road-asphalt"
+                const transport_type = parts[0];
+                const subtype = parts[1];
 
-            // Build filter
-            let filter;
-            if (transport_type === 'default') {
-                filter = ['!', ['match', ['get', 'transport_type'], ['ferry', 'road'], true, false]];
-            } else if (subtype) {
-                filter = ['all', ['==', ['get', 'transport_type'], transport_type], ['==', ['get', 'subtype'], subtype]];
-            } else {
-                filter = ['==', ['get', 'transport_type'], transport_type];
-            }
-            return {
-                id,
-                type: 'line',
-                source: 'routelines',
-                filter,
-                paint: {
-                    'line-color': config.color,
-                    'line-width': config.width,
-                    ...(config.dasharray && {'line-dasharray': config.dasharray}),
-                    ...(config.opacity !== undefined && {'line-opacity': config.opacity}),
-                },
-            };
-        });
+                // Build filter
+                let filter;
+                if (transport_type === 'default') {
+                    filter = ['!', ['match', ['get', 'transport_type'], ['ferry', 'road'], true, false]];
+                } else if (subtype) {
+                    filter = ['all', ['==', ['get', 'transport_type'], transport_type], ['==', ['get', 'subtype'], subtype]];
+                } else {
+                    filter = ['==', ['get', 'transport_type'], transport_type];
+                }
+                return {
+                    id,
+                    type: 'line',
+                    source: 'routelines',
+                    filter,
+                    paint: {
+                        'line-color': config.color,
+                        'line-width': config.width,
+                        ...(config.dasharray && {'line-dasharray': config.dasharray}),
+                        ...(config.opacity !== undefined && {'line-opacity': config.opacity}),
+                    },
+                };
+            });
 
 
-    const getRoutePointStyles = () => [
+    const getRoutePointStyles = (variation) => [
         {
             id: 'route-point',
             type: 'symbol',
@@ -138,6 +141,7 @@ export function useMapLayers(map) {
             paint: labelFont
         },
     ];
+
     const getExtraPoiStyles = () => [
         {
             id: 'extra-poi',
@@ -155,6 +159,68 @@ export function useMapLayers(map) {
             },
         },
     ];
+
+    const getPoiStyles = (variation) => {
+        const poiConfig = {
+            routepoints: {
+                source: 'routepoints',
+                iconColor: mapConfig.mainColor,
+                iconSize: mapConfig.sizeMapMarkers,
+                showLabel: true,
+                textSize: 12,
+            },
+            extra: {
+                source: 'extrapoints',
+                iconColor: mapConfig.poiColor,
+                iconSize: mapConfig.sizeMapMarkers,
+                showLabel: false,
+            },
+            selectedroute: {
+                source: 'routepoints',
+                iconColor: 'yellow',
+                iconSize: mapConfig.sizeMapMarkers * 1.5,
+                showLabel: true,
+                textSize: 14,
+            },
+            selectedextra: {
+                source: 'routepoints',
+                iconColor: 'yellow',
+                iconSize: mapConfig.sizeMapMarkers * 1.5,
+                showLabel: true,
+                textSize: 14,
+            },
+        };
+
+        const cfg = poiConfig[variation] || poiConfig.route; // fallback
+
+        return [
+            {
+                id: `${variation}-poi`,
+                type: 'symbol',
+                source: cfg.source,
+                layout: {
+                    'icon-image': [
+                        'match',
+                        ['get', 'poi_type'],
+                        ...Object.entries(mapConfig.iconMap).flatMap(([key, value]) => [key, `${value}_${cfg.iconColor}`]),
+                        `${mapConfig.iconMap.default}_${cfg.iconColor}`,
+                    ],
+                    'icon-size': cfg.iconSize,
+                    ...(cfg.showLabel
+                        ? {
+                            'text-field': ['get', 'title'],
+                            'text-font': ['Noto Sans Regular'],
+                            'text-size': cfg.textSize,
+                            'text-offset': [3.5, -2.5],
+                            'text-anchor': 'top',
+                        }
+                        : {}),
+                },
+                paint: cfg.showLabel ? labelFont : undefined,
+            },
+        ];
+    };
+
     const getExtraLineStyles = () => {
         let cfg = mapConfig.layerConfigs.line;
         return [
@@ -222,8 +288,10 @@ export function useMapLayers(map) {
 
     // Function to add the layers to the map
     const renderLayers = () => {
-    if (!routeStatus?.routeData) {  return;}
-    const loadedLayers = [];
+        if (!routeStatus?.routeData) {
+            return;
+        }
+        const loadedLayers = [];
         const routeLines = routeStatus.getFilteredFeatures(feature => feature.topic === 'route'
             && feature.type === 'line')
         const routePoints = routeStatus.getFilteredFeatures(feature => feature.topic === 'route'
@@ -239,8 +307,11 @@ export function useMapLayers(map) {
             // Add route source and layers
             map.value.on('load', () => {
 
-                                // Add icons to map
-                [mapConfig.poiColor, mapConfig.mainColor].forEach((color) => {
+                // Add icons to map
+                [mapConfig.poiColor,
+                    mapConfig.mainColor,
+                    mapConfig.hoverColor,
+                    mapConfig.highLightColor].forEach((color) => {
                     Object.values(mapConfig.iconMap).forEach(async (icon) => {
                         let label = `${icon}_${color}`
                         let iconUrl = `../icons/${color.replace('#', 'c')}/${icon}.png`
@@ -258,7 +329,7 @@ export function useMapLayers(map) {
                 map.value.addSource('extrapoints', {type: 'geojson', data: ArrayToGeoJSON(extraPoints)});
                 map.value.addSource('extralines', {type: 'geojson', data: ArrayToGeoJSON(extraLines)});
 
-                                getExtraPoiStyles().forEach(layer => {
+                getExtraPoiStyles().forEach(layer => {
                     log('Maplayers -> extra poi', layer)
                     map.value.addLayer(layer);
                     loadedLayers.push({'part_of_step': false, 'layer_id': layer.id});
@@ -277,14 +348,12 @@ export function useMapLayers(map) {
                     loadedLayers.push({'part_of_step': true, 'layer_id': layer.id});
                 });
                 // Add Route points
-                getRoutePointStyles().forEach(layer => {
+                getPoiStyles('routepoints').forEach(layer => {
                     map.value.addLayer(layer);
                     loadedLayers.push({'part_of_step': true, 'layer_id': layer.id});
                 })
 
                 log('Maplayers: added all sources and layers -> route');
-
-
 
 
                 const layers = ['route-point', 'route-line-road', 'route-line-ferry', 'route-line'];
@@ -300,7 +369,7 @@ export function useMapLayers(map) {
         ;
     }
 
-    const addElevationPointer = () =>{
+    const addElevationPointer = () => {
         map.value.addSource('hover-point', {
             type: 'geojson',
             data: {
@@ -325,9 +394,8 @@ export function useMapLayers(map) {
     const addMapHandlers = (loadedLayers) => {
         log('MapLayers -> start adding event handlers')
         loadedLayers.forEach(layer => {
-            let partOfStep = layer.part_of_step
             let layerId = layer.layer_id
-            // Add interactivity (hover, click, etc.)
+            // Hover effects
             map.value.on('mouseenter', layerId, () => {
                 map.value.getCanvas().style.cursor = 'pointer';
             });
@@ -335,18 +403,18 @@ export function useMapLayers(map) {
                 map.value.getCanvas().style.cursor = '';
             });
 
+            // click handler
             map.value.on('click', layerId, (e) => {
                 let theFeat = e.features[0];
-
-                log('Maplayers: Clicked on', theFeat);
-                // Checking if the click is near a point. If so, prioritize that.
-                if (partOfStep) {
+                log(`Maplayers: (pos: ${layer.part_of_step}) Clicked on`, theFeat);
+                if (layer.part_of_step) {
                     let featureStepId = theFeat.properties['route_sequence_id']
                     let newStep = true;
                     if (String(routeStatus.activeStepId) === String(featureStepId)) {
                         newStep = false
                     }
 
+                    // Checking if the click is near a point. If so, prioritize that.
                     if (layerId.includes('line')) {
                         const featuresAtPoint = map.value.queryRenderedFeatures(e.point, {
                             layers: ['route-point'],
@@ -359,17 +427,23 @@ export function useMapLayers(map) {
                         }
                         if (newStep) {
                             routeStatus.setActiveStep(featureStepId)
-                        };
+                        }
+                        ;
                     }
+                    // For point clicks
                     if (layerId.includes('point')) {
-                        console.log("propz clicked", theFeat.properties)
-                        if (newStep) { routeStatus.setActiveStep(featureStepId) };
+                        console.log("Point clicked. properties:", theFeat.properties)
+                        if (newStep) {
+                            routeStatus.setActiveStep(featureStepId)
+                        }
+                        ;
                     }
+
                     if (!newStep) {
                         routeStatus.setActiveFeature(theFeat.properties.id)
                     }
-            }
-                else {
+                } else {
+                    routeStatus.setActiveStep(null);
                     routeStatus.setActiveFeature(theFeat.properties.id)
                 }
             });

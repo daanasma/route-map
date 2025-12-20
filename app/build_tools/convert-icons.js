@@ -9,8 +9,7 @@ import mapConfig from "../src/config/mapConfig.js";
  * Function to convert SVG files to PNG with a white background and a dark green circular border,
  * and store them in the specified directory.
  */
-function convertSvgsToPng(outlineColor) {
-    return new Promise((resolve, reject) => {
+async function convertSvgsToPng(outlineColor) {
         const svgDir = './node_modules/@mapbox/maki/icons'; // SVG directory (Maki icons)
         const outputDir = `./public/icons/${outlineColor.replace('#', 'c')}`; // Output directory for PNG files
         const size = 26; // Size of the circle (diameter in pixels)
@@ -20,55 +19,50 @@ function convertSvgsToPng(outlineColor) {
         const borderWidth = 2; // Width of the dark green circle border
         console.log("Start making icons for ", outlineColor)
 
-        // Ensure the output directory exists asynchronously
-        fsPromises.mkdir(outputDir, {recursive: true})
-            .then(() => {
-                console.log(`Directory created or already exists: ${outputDir}`);
 
-                // Read all SVG files in the directory
-                const svgFiles = readdirSync(svgDir).filter(file => file.endsWith('.svg'));
+    console.log("Start making icons for", outlineColor);
 
-                // Process each SVG file and convert to PNG with a white background and dark green circular border
-                Promise.all(svgFiles.map(async (file) => {
-                    const inputPath = path.join(svgDir, file);
-                    const outputPath = path.join(outputDir, file.replace('.svg', '.png'));
+    // Ensure output directory exists
+    await fsPromises.mkdir(outputDir, { recursive: true });
+    console.log(`Directory ready: ${outputDir}`);
 
-                    try {
-                        // Read the SVG as a buffer
-                        let originalSvgContent = await fsPromises.readFile(inputPath, 'utf8');
+    // Get unique icon names
+    const iconIds = Array.from(new Set(Object.values(mapConfig.iconMap)));
+    const svgFiles = iconIds.map(id => `${id}.svg`);
 
-// Remove any XML declaration
-                        originalSvgContent = originalSvgContent.replace(/<\?xml.*?\?>/g, '').trim();
+    // Validate existence
+    for (const file of svgFiles) {
+        const fullPath = path.join(svgDir, file);
+        try {
+            await fsPromises.access(fullPath);
+        } catch {
+            throw new Error(`Maki icon not found: ${file}`);
+        }
+    }
 
-// Construct a new SVG with the background and embedded icon
-                        const combinedSvg = `
-  <svg width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="${size / 2}" cy="${size / 2}" r="${size / 2 - borderWidth / 2}" fill="none" stroke="${borderColor}" stroke-width="${borderWidth}" />
-    <circle cx="${size / 2}" cy="${size / 2}" r="${size / 2 - borderWidth}" fill="${backgroundColor}" />
-    <g transform="translate(${(size - iconSize) / 2}, ${(size - iconSize) / 2})">
-      ${originalSvgContent} 
-    </g>
-  </svg>`;
+    // Convert all icons
+    await Promise.all(svgFiles.map(async (file) => {
+        const inputPath = path.join(svgDir, file);
+        const outputPath = path.join(outputDir, file.replace('.svg', '.png'));
 
-                        await sharp(Buffer.from(combinedSvg), {density: 300}) // Use higher density
-                            .sharpen()
-                            .toFile(outputPath);
+        let originalSvgContent = await fsPromises.readFile(inputPath, 'utf8');
+        originalSvgContent = originalSvgContent.replace(/<\?xml.*?\?>/g, '').trim();
 
-                    // console.log(`Converted: ${file} -> ${outputPath}`);
-                    } catch (error) {
-                        console.error(`Error converting ${file}:`, error);
-                    }
-                })).then(() => {
-                    resolve(); // Resolve after all conversions are done
-                }).catch((error) => {
-                    reject(error); // Reject the promise if any error occurs
-                });
-            })
-            .catch((err) => {
-                console.error('Error creating directory:', err);
-                reject(err); // Reject if directory creation fails
-            });
-    });
+        const combinedSvg = `
+          <svg width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="${size / 2}" cy="${size / 2}" r="${size / 2 - borderWidth / 2}" fill="none" stroke="${borderColor}" stroke-width="${borderWidth}" />
+            <circle cx="${size / 2}" cy="${size / 2}" r="${size / 2 - borderWidth}" fill="${backgroundColor}" />
+            <g transform="translate(${(size - iconSize) / 2}, ${(size - iconSize) / 2})">
+              ${originalSvgContent} 
+            </g>
+          </svg>`;
+
+        await sharp(Buffer.from(combinedSvg), { density: 300 })
+            .sharpen()
+            .toFile(outputPath);
+    }));
+
+    console.log(`All icons created for ${outlineColor}`);
 }
 
 function createMapIcons() {
@@ -76,8 +70,10 @@ function createMapIcons() {
         name: 'convert-all-svgs',
         apply: 'build',
         async writeBundle() {
-            convertSvgsToPng(mapConfig.mainColor);
-            convertSvgsToPng(mapConfig.poiColor)
+            await convertSvgsToPng(mapConfig.mainColor);
+            await convertSvgsToPng(mapConfig.poiColor)
+            await convertSvgsToPng(mapConfig.hoverColor)
+            await convertSvgsToPng(mapConfig.highLightColor)
         }
     }
 }

@@ -33,7 +33,6 @@
           "id": "voh-to-yungay",
           "type": "line"
         }
-
       ],
       "title": "Villa O Higgins towards the ferry",
       "summary": "Riding towards the ferry. Some parts asphalt, some parts gravel but great views overalss."
@@ -125,6 +124,14 @@
       "features": [
         {
           "id": "puerto-rio-tranquilo",
+          "type": "point"
+        },
+        {
+          "id": "supermarket-rio-tranquilo",
+          "type": "point"
+        },
+        {
+          "id": "camping-rio-chirifo",
           "type": "point"
         }
       ],

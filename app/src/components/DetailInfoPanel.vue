@@ -23,8 +23,8 @@
 
       <div v-if="routeStatus.activeTopic === 'route' " class="">
         <h2 v-if="!isTablet">{{ routeStatus.activeStepData.title }}</h2>
-            <li v-for="item in featureParts" :key="item.id">
-              feat: {{ item.properties.title }}
+            <li v-for="item in featureParts.features" :key="item.id">
+              feat: {{item.type}} - {{ item.id }}
             </li>
 
         <p v-if="routeStatus.activeStepLengthKm > 0">
@@ -84,7 +84,6 @@
       <div v-if="routeStatus.activeTopic === 'featuredetail' " class="">
         <h2 v-if="!isTablet">{{ routeStatus.activeFeatureData[0].properties.title }}</h2>
         <h4>{{ routeStatus.activeFeatureData[0].properties.poi_type }}</h4>
-        {{routeStatus.activeFeatureData}}
 
         <div class="content-actual-content">
           <h3>
@@ -138,7 +137,7 @@ const {segmentElevationData} = useSegmentElevation();
 const isScrolled = ref(false);
 
 const featureParts = computed (() => {
-  const af = routeStatus.activeFeatureData;
+  const af = routeStatus.activeStepData;
   console.log('-------------af ', af)
   return af
 })
