@@ -126,7 +126,7 @@ export default {
             }
         },
         'point': {
-            'route-point': {
+            'routepoints': {
                 radius: 8,
                 color: '#065809',
             }

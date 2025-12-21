@@ -116,50 +116,6 @@ export function useMapLayers(map) {
             });
 
 
-    const getRoutePointStyles = (variation) => [
-        {
-            id: 'route-point',
-            type: 'symbol',
-            source: 'routepoints',
-            layout: {
-                'icon-image': [
-                    'match',
-                    ['get', 'poi_type'],  // Get the 'poi_type' property from GeoJSON
-                    ...Object.entries(mapConfig.iconMap)
-                        .flatMap(([key, value]) => [key, `${value}_${mapConfig.mainColor}`]), // Append string dynamically
-                    `${mapConfig.iconMap.default}_${mapConfig.mainColor}`, // Default icon if no match is found
-                ],
-
-                'icon-size': mapConfig.sizeMapMarkers,
-                // Label properties
-                'text-field': ['get', 'title'],  // Or any other property
-                'text-font': ['Noto Sans Regular'],
-                'text-size': 12,
-                'text-offset': [3.5, -2.5],       // Push label above icon
-                'text-anchor': 'top',          // Anchor label above point
-            },
-            paint: labelFont
-        },
-    ];
-
-    const getExtraPoiStyles = () => [
-        {
-            id: 'extra-poi',
-            type: 'symbol',
-            source: 'extrapoints',
-            layout: {
-                'icon-image': [
-                    'match',
-                    ['get', 'poi_type'],  // Get the 'poi_type' property from GeoJSON
-                    ...Object.entries(mapConfig.iconMap)
-                        .flatMap(([key, value]) => [key, `${value}_${mapConfig.poiColor}`]), // Append string dynamically
-                    `${mapConfig.iconMap.default}_${mapConfig.poiColor}`, // Default icon if no match is found
-                ],
-                'icon-size': mapConfig.sizeMapMarkers, // Adjust size if necessary
-            },
-        },
-    ];
-
     const getPoiStyles = (variation) => {
         const poiConfig = {
             routepoints: {
@@ -169,7 +125,7 @@ export function useMapLayers(map) {
                 showLabel: true,
                 textSize: 12,
             },
-            extra: {
+            extrapoints: {
                 source: 'extrapoints',
                 iconColor: mapConfig.poiColor,
                 iconSize: mapConfig.sizeMapMarkers,
@@ -193,32 +149,34 @@ export function useMapLayers(map) {
 
         const cfg = poiConfig[variation] || poiConfig.route; // fallback
 
-        return [
-            {
-                id: `${variation}-poi`,
-                type: 'symbol',
-                source: cfg.source,
-                layout: {
-                    'icon-image': [
-                        'match',
-                        ['get', 'poi_type'],
-                        ...Object.entries(mapConfig.iconMap).flatMap(([key, value]) => [key, `${value}_${cfg.iconColor}`]),
-                        `${mapConfig.iconMap.default}_${cfg.iconColor}`,
-                    ],
-                    'icon-size': cfg.iconSize,
-                    ...(cfg.showLabel
-                        ? {
-                            'text-field': ['get', 'title'],
-                            'text-font': ['Noto Sans Regular'],
-                            'text-size': cfg.textSize,
-                            'text-offset': [3.5, -2.5],
-                            'text-anchor': 'top',
-                        }
-                        : {}),
-                },
-                paint: cfg.showLabel ? labelFont : undefined,
-            },
-        ];
+      const layer = {
+        id: `${variation}-poi`,
+        type: 'symbol',
+        source: cfg.source,
+        layout: {
+          'icon-image': [
+            'match',
+            ['get', 'poi_type'],
+            ...Object.entries(mapConfig.iconMap).flatMap(([key, value]) => [key, `${value}_${cfg.iconColor}`]),
+            `${mapConfig.iconMap.default}_${cfg.iconColor}`,
+          ],
+          'icon-size': cfg.iconSize,
+          ...(cfg.showLabel
+            ? {
+                'text-field': ['get', 'title'],
+                'text-font': ['Noto Sans Regular'],
+                'text-size': cfg.textSize,
+                'text-offset': [3.5, -2.5],
+                'text-anchor': 'top',
+              }
+            : {}),
+        },
+      };
+
+      // only add paint if it exists
+      if (cfg.paint) layer.paint = cfg.paint;
+
+      return [layer];
     };
 
     const getExtraLineStyles = () => {
@@ -329,7 +287,7 @@ export function useMapLayers(map) {
                 map.value.addSource('extrapoints', {type: 'geojson', data: ArrayToGeoJSON(extraPoints)});
                 map.value.addSource('extralines', {type: 'geojson', data: ArrayToGeoJSON(extraLines)});
 
-                getExtraPoiStyles().forEach(layer => {
+                getPoiStyles('extrapoints').forEach(layer => {
                     log('Maplayers -> extra poi', layer)
                     map.value.addLayer(layer);
                     loadedLayers.push({'part_of_step': false, 'layer_id': layer.id});
@@ -356,7 +314,7 @@ export function useMapLayers(map) {
                 log('Maplayers: added all sources and layers -> route');
 
 
-                const layers = ['route-point', 'route-line-road', 'route-line-ferry', 'route-line'];
+                const layers = ['routepoints', 'route-line-road', 'route-line-ferry', 'route-line'];
                 log("Maplayers -> loaded layers:", loadedLayers)
                 addMapHandlers(loadedLayers)
                 createMapLabels();
@@ -417,7 +375,7 @@ export function useMapLayers(map) {
                     // Checking if the click is near a point. If so, prioritize that.
                     if (layerId.includes('line')) {
                         const featuresAtPoint = map.value.queryRenderedFeatures(e.point, {
-                            layers: ['route-point'],
+                            layers: ['routepoints'],
                             hitTolerance: 10
                         });
 
