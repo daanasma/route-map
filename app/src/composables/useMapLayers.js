@@ -385,13 +385,13 @@ export function useMapLayers(map) {
                 getFocusedLineStyles().forEach(layer => {
                     log('Maplayers -> Adding Focused lines', layer)
                     map.value.addLayer(layer);
-                    loadedLayers.push({'part_of_step': false, 'layer_id': layer.id});
+                    //loadedLayers.push({'part_of_step': false, 'layer_id': layer.id});
                 });
 
                 getFocusedPointStyles().forEach(layer => {
                     log('Maplayers -> Adding Focused points', layer)
                     map.value.addLayer(layer);
-                    loadedLayers.push({'part_of_step': false, 'layer_id': layer.id});
+                    //loadedLayers.push({'part_of_step': false, 'layer_id': layer.id});
                 });
 
                 log('Maplayers - added Focus layers')

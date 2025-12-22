@@ -28,8 +28,8 @@ import {computed} from "vue";
 const routeStatus = useRouteInfoStore();
 
 function selectStepBreadcrumb() {
+  routeStatus.setActiveFeature(null);
   routeStatus.setActiveTopic('route')
-
 };
 
 function selectFeatureDetailBreadcrumb() {

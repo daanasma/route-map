@@ -261,6 +261,7 @@ export const useRouteInfoStore = defineStore('routeInfo', {
 
         setActiveTopic(topic) {
             this.activeTopic = topic;
+            log('Store: Finished setting active topic to ', topic)
         },
 
         nextStep() {

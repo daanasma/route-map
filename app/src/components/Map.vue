@@ -134,6 +134,9 @@ export default {
             if (newtopic === 'overview') {
               zoomToFullRoute()
             }
+            else if (newtopic === 'route' && oldtopic == 'featuredetail') {
+              fitMapToFeatureList(routeStatus.activeStepFeatures)
+            }
           }
           else if (trig1 !== trig2) {
             log(`Map: Refresh trigger detected`);

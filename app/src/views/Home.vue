@@ -106,13 +106,13 @@ watch(
     () => (routeStatus.activeFeatureId),
     (newValue, oldValue) => {
       log('Home: active feature changed.')
-      if (newValue) {
+      // if (newValue) {
         updateQueryParams({
           'feature': newValue,
           'step': routeStatus.activeStepId
         })
         log('Home: Updating query parameter feature. feature id:', newValue)
-      }
+      // }
     }
 )
 
