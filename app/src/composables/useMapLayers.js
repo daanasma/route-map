@@ -17,6 +17,27 @@ export function setMap(mapInstance) {
     mapRef.value = mapInstance;
 }
 
+export function setFeatureHighlights (map) {
+    const routeStatus = useRouteInfoStore();
+
+    const idsToSelect = routeStatus.featuresToFocus.map(f => f.id);
+    let filter;
+    if (idsToSelect.length) {
+        filter = ['in', 'id', ...idsToSelect];
+    }
+    else {
+        filter = ['==', ['id'], -1]
+    }
+    //todo add points here :)
+    ['focused-line', 'focused-point'].forEach(item => {
+        map.value.setFilter(
+            item,
+            filter
+        );
+    })
+}
+
+
 export function useMapHelpers() {
     const routeStatus = useRouteInfoStore();
 
@@ -29,6 +50,9 @@ export function useMapHelpers() {
                 maxZoom: mapConfig.configuredRoutes[routeStatus.mapId].maxZoomFocus
             });
         log('Fit map to bounds of provided features list')
+
+        setFeatureHighlights(mapRef); // todo this shouldnt be here :)
+
     };
 
     function zoomToFullRoute() {
@@ -37,7 +61,10 @@ export function useMapHelpers() {
         log("Zoomed to full route!")
     };
 
-    return {zoomToFullRoute, fitMapToFeatureList};
+    return {
+        zoomToFullRoute,
+        fitMapToFeatureList
+    };
 }
 
 const ArrayToGeoJSON = (features) => {
@@ -115,7 +142,42 @@ export function useMapLayers(map) {
                 };
             });
 
-
+    const getFocusedPointStyles = () => {
+        return [
+            {
+                id: 'focused-point',
+                type: 'circle',
+                source: 'allpoints',
+                filter: ['==', ['id'], -1], // nothing selected initially
+            paint: {
+                'circle-radius': [
+                    'interpolate',
+                    ['linear'],
+                    ['zoom'],
+                    8,  18,
+                    12, 28,
+                    16, 38
+                ],
+                'circle-opacity': [
+                    'interpolate',
+                    ['linear'],
+                    ['zoom'],
+                    8,  0.35,
+                    12, 0.55,
+                    16, 0.65
+                ],
+                'circle-blur': [
+                    'interpolate',
+                    ['linear'],
+                    ['zoom'],
+                    8,  0.6,
+                    16, 0.9
+                ],
+                'circle-color': mapConfig.highLightColor
+                }
+            }
+        ]
+    };
     const getPoiStyles = (variation) => {
         const poiConfig = {
             routepoints: {
@@ -124,26 +186,14 @@ export function useMapLayers(map) {
                 iconSize: mapConfig.sizeMapMarkers,
                 showLabel: true,
                 textSize: 12,
+                paint: labelFont,
             },
             extrapoints: {
                 source: 'extrapoints',
                 iconColor: mapConfig.poiColor,
                 iconSize: mapConfig.sizeMapMarkers,
                 showLabel: false,
-            },
-            selectedroute: {
-                source: 'routepoints',
-                iconColor: 'yellow',
-                iconSize: mapConfig.sizeMapMarkers * 1.5,
-                showLabel: true,
-                textSize: 14,
-            },
-            selectedextra: {
-                source: 'routepoints',
-                iconColor: 'yellow',
-                iconSize: mapConfig.sizeMapMarkers * 1.5,
-                showLabel: true,
-                textSize: 14,
+                paint: labelFont,
             },
         };
 
@@ -167,16 +217,58 @@ export function useMapLayers(map) {
                 'text-font': ['Noto Sans Regular'],
                 'text-size': cfg.textSize,
                 'text-offset': [3.5, -2.5],
-                'text-anchor': 'top',
+                'text-anchor': 'top'
               }
             : {}),
-        },
+        }
+
       };
 
       // only add paint if it exists
       if (cfg.paint) layer.paint = cfg.paint;
-
       return [layer];
+    };
+
+    const getFocusedLineStyles = () => {
+        let cfg = mapConfig.layerConfigs.line;
+        return [
+            {
+                id: 'focused-line',
+                type: 'line',
+                source: 'alllines',
+                filter: ['==', ['id'], -1], // matches nothing initially
+            paint: {
+                'line-color': mapConfig.highLightColor,
+
+                'line-width': [
+                    'interpolate',
+                    ['linear'],
+                    ['zoom'],
+                    8,  9,
+                    12, 10,
+                    16, 15
+                ],
+
+                'line-opacity': [
+                    'interpolate',
+                    ['linear'],
+                    ['zoom'],
+                    8,  0.35,
+                    12, 0.55,
+                    16, 0.7
+                ],
+
+                // soft glow effect
+                'line-blur': [
+                    'interpolate',
+                    ['linear'],
+                    ['zoom'],
+                    8,  0.8,
+                    16, 1.5
+                ]
+            }
+            }
+        ]
     };
 
     const getExtraLineStyles = () => {
@@ -259,6 +351,9 @@ export function useMapLayers(map) {
         const extraLines = routeStatus.getFilteredFeatures(feature => feature.topic === 'extra'
             && feature.type === 'line')
 
+        const allLines = routeStatus.getFilteredFeatures(feature => feature.type === 'line')
+        const allPoints = routeStatus.getFilteredFeatures(feature => feature.type === 'point')
+
         if (!startedLayerLoad.value) {
             startedLayerLoad.value = true;
             log("Start rendering all layers. lines:", routeLines, 'points:', routePoints);
@@ -266,10 +361,8 @@ export function useMapLayers(map) {
             map.value.on('load', () => {
 
                 // Add icons to map
-                [mapConfig.poiColor,
-                    mapConfig.mainColor,
-                    mapConfig.hoverColor,
-                    mapConfig.highLightColor].forEach((color) => {
+                [mapConfig.poiColor,mapConfig.mainColor,mapConfig.hoverColor,mapConfig.highLightColor]
+                    .forEach((color) => {
                     Object.values(mapConfig.iconMap).forEach(async (icon) => {
                         let label = `${icon}_${color}`
                         let iconUrl = `../icons/${color.replace('#', 'c')}/${icon}.png`
@@ -286,6 +379,23 @@ export function useMapLayers(map) {
                 map.value.addSource('routepoints', {type: 'geojson', data: ArrayToGeoJSON(routePoints)});
                 map.value.addSource('extrapoints', {type: 'geojson', data: ArrayToGeoJSON(extraPoints)});
                 map.value.addSource('extralines', {type: 'geojson', data: ArrayToGeoJSON(extraLines)});
+                map.value.addSource('alllines', {type: 'geojson', data: ArrayToGeoJSON(allLines)});
+                map.value.addSource('allpoints', {type: 'geojson', data: ArrayToGeoJSON(allPoints)});
+
+                getFocusedLineStyles().forEach(layer => {
+                    log('Maplayers -> Adding Focused lines', layer)
+                    map.value.addLayer(layer);
+                    loadedLayers.push({'part_of_step': false, 'layer_id': layer.id});
+                });
+
+                getFocusedPointStyles().forEach(layer => {
+                    log('Maplayers -> Adding Focused points', layer)
+                    map.value.addLayer(layer);
+                    loadedLayers.push({'part_of_step': false, 'layer_id': layer.id});
+                });
+
+                log('Maplayers - added Focus layers')
+
 
                 getPoiStyles('extrapoints').forEach(layer => {
                     log('Maplayers -> extra poi', layer)
@@ -428,7 +538,6 @@ export function useMapLayers(map) {
         log('Maplayers - Added labels to map')
     }
 
-    // Get feature bounding box
     // Return render function to be used in the component
     return {
         renderLayers,

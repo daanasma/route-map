@@ -16,7 +16,13 @@ import { log } from '../debug/debug.js';
 
 import {useRouteInfoStore} from '../stores/routestatus.js';
 
-import { useMapLayers, useMapHelpers, getFeaturesBoundingBox, setMap} from '../composables/useMapLayers';
+import {
+  useMapLayers,
+  useMapHelpers,
+  getFeaturesBoundingBox,
+  setMap,
+  setFeatureHighlights
+} from '../composables/useMapLayers';
 import { useElevationHover } from '@/composables/useElevationHover';
 
 import mapConfig from "@/config/mapConfig.js";
@@ -177,7 +183,7 @@ export default {
           log('Map: active feature changed.', oldValue, 'new', newValue)
           if (newValue) {
             log('Map: zooming to active feature. Step feature:', newValue, routeStatus.activeFeatureData)
-            fitMapToFeatureList(routeStatus.activeFeatureData)
+            fitMapToFeatureList(routeStatus.activeFeatureData);
           }
         }
     )

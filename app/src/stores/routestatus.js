@@ -54,6 +54,7 @@ export const useRouteInfoStore = defineStore('routeInfo', {
             if (!state.routeData?.sequence) return null;
             return Math.max(...state.routeData.sequence.map(s => s.route_step));
         },
+
         // Get current step data from sequence
         activeStepData: (state) => {
             if (!state.activeStepId || !state.routeSequence) return null;
@@ -76,16 +77,39 @@ export const useRouteInfoStore = defineStore('routeInfo', {
             return state.routeData.features.filter(f => f.topic === 'route');
         },
 
-        // Get features for active step
-        activeStepFeatures: (state) => {
-            if (!state.activeStepId) return [];
-            return state.routeFeatures.filter(f => {
-                const stepIds = f.properties?.route_sequence_id;
-                if (Array.isArray(stepIds)) return stepIds.includes(state.activeStepId);
-                return stepIds === state.activeStepId;
-            });
+        //todo clean this.
+
+        // Get features for active step -> previous version (allowed for a feature that belongs to multiple steps)
+        // activeStepFeatures: (state) => {
+        //     if (!state.activeStepId) return [];
+        //     return state.routeFeatures.filter(f => {
+        //         const stepIds = f.properties?.route_sequence_id;
+        //         if (Array.isArray(stepIds)) return stepIds.includes(state.activeStepId);
+        //         return stepIds === state.activeStepId;
+        //     });
+        // },
+
+        stepFeatures: (state) => (stepId) => {
+            return state.routeFeatures.filter(
+                f => f.properties?.route_sequence_id === stepId
+            );
         },
 
+        activeStepFeatures: (state) => {
+            if (!state.activeStepId) return [];
+            return state.stepFeatures(state.activeStepId);
+        },
+
+        featuresToFocus: (state) => {
+            let relevantTopic = ['route', 'featuredetail'].includes(state.activeTopic);
+            if (!relevantTopic) return [] // no highlighted features
+            if (state.activeTopic === 'route') {
+                return state.activeStepFeatures
+            }
+            else if (state.activeTopic === 'featuredetail') {
+                return state.activeFeatureData
+            }
+        },
 
         // Access per-segment elevation simply by stepId
         segmentElevation: (state) => (stepId) => {
@@ -93,6 +117,7 @@ export const useRouteInfoStore = defineStore('routeInfo', {
                 if (!full || !full.byStep) return [];
                 return full.byStep[stepId] ?? [];
             },
+
         // General purpose filter - returns actual features (not wrapped)
         getFilteredFeatures: (state) => (filterFn = () => true) => {
             if (!state.routeData?.features) return [];
