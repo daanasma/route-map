@@ -180,7 +180,7 @@ export function useMapLayers(map) {
     };
     const getPoiStyles = (variation) => {
         const poiConfig = {
-            routepoints: {
+            'routepoints': {
                 source: 'routepoints',
                 iconColor: mapConfig.mainColor,
                 iconSize: mapConfig.sizeMapMarkers,
@@ -188,7 +188,7 @@ export function useMapLayers(map) {
                 textSize: 12,
                 paint: labelFont,
             },
-            extrapoints: {
+            'extrapoints': {
                 source: 'extrapoints',
                 iconColor: mapConfig.poiColor,
                 iconSize: mapConfig.sizeMapMarkers,
@@ -200,7 +200,7 @@ export function useMapLayers(map) {
         const cfg = poiConfig[variation] || poiConfig.route; // fallback
 
       const layer = {
-        id: `${variation}-poi`,
+        id: variation,
         type: 'symbol',
         source: cfg.source,
         layout: {
@@ -400,7 +400,7 @@ export function useMapLayers(map) {
                 getPoiStyles('extrapoints').forEach(layer => {
                     log('Maplayers -> extra poi', layer)
                     map.value.addLayer(layer);
-                    loadedLayers.push({'part_of_step': false, 'layer_id': layer.id});
+                    loadedLayers.push({'part_of_step': false, 'layer_id': 'extrapoints'});
                 });
                 getExtraLineStyles().forEach(layer => {
                     log('Maplayers -> extra line', layer)
@@ -418,7 +418,7 @@ export function useMapLayers(map) {
                 // Add Route points
                 getPoiStyles('routepoints').forEach(layer => {
                     map.value.addLayer(layer);
-                    loadedLayers.push({'part_of_step': true, 'layer_id': layer.id});
+                    loadedLayers.push({'part_of_step': true, 'layer_id': 'routepoints'});
                 })
 
                 log('Maplayers: added all sources and layers -> route');

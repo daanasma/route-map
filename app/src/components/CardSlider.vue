@@ -262,9 +262,8 @@ watch(
     () => routeStatus.activeStepId, // Watch for changes in activeFeature
     (newVal, oldVal) => {
       if (newVal !== oldVal) {
-        if (!isLastCard | !isFirstCard) {
+        if (!isLastCard.value | !isFirstCard.value) {
           goToCardById(newVal); // Scroll to the new kid
-
         }
       }
     },
@@ -290,6 +289,7 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('keydown', navigateCardsWithKeyArrows);
 });
+
 </script>
 
 <style scoped>
