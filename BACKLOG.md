@@ -4,19 +4,25 @@
 ### High Prio
 - Add code list interfaces to interfaces (https://chatgpt.com/c/678ffdbc-9148-800b-9d8d-28eb345ab535)
 - Add feature Popup On click (Showing title)
-- Add feature Highlight on activation
-- make styling of layers more flexible
+OK Add feature Highlight on activation
+OK make styling of layers more flexible
 OK add click interaction with non-route elements 
 OK Add info panel for individual features 
 OK Add breadcrumb for steps
 OK Add breadcrumb for features
 - add some extra data fields
 - When return to full route, 'start route' should be 'go back to route'
+- Add feature view to mobile
+- Step: make better linking to features
+- features: make boolean for 'identifyable'
+- add control to zoom to full map
+- 
+
 
 ### Low Prio
 - change map attribution to be closed on load (hacky probably)
 - Change coordinate accuracy of route elevation data to decrease package size
-- Add only needed icons in public for build
+OK Add only needed icons in public for build
 
 ## Bugs
 ### High Prio
@@ -26,7 +32,8 @@ OK Add breadcrumb for features
 - click on start and end let it scroll
 - build: icons (and probably data) get build to public in one build, but not to dist. they need another run of build.
 - hover point should only work after map load. Else it gives console errorz
-- 
+
+
 ## Infra
 ### High Prio
 - Lower package size (see logs after build. Web fonts, materialdesignicons)

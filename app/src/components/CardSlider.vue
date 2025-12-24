@@ -348,6 +348,7 @@ onUnmounted(() => {
   width: 100%;
   position: relative;
   background-color: transparent;
+  align-items: center;     /* vertical */
 
 }
 
