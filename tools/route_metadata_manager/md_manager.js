@@ -251,27 +251,42 @@ function openFeatureModal(stepIdx) {
     list.innerHTML = `
                 <h4>Points (${pointsData.length} available)</h4>
                 ${pointsData.map(p => `
-                    <div class="feature-item" onclick="toggleFeatureSelection(${p.id}, 'point', this)">
-                        <input type="checkbox" id="point_${p.id}">
-                        <div class="feature-item-content">
-                            <strong>${p.name}</strong>
-                            <small>ID: ${p.id}</small>
-                            ${p.description ? `<div><small>${p.description}</small></div>` : ''}
-                        </div>
+                  <div class="feature-item"
+                       data-id="${p.id}"
+                       data-type="point">
+                    <input type="checkbox" id="point_${p.id}">
+                    <div class="feature-item-content">
+                      <strong>${p.title}</strong>
+                      <small>ID: ${p.id}</small>
+                      ${p.description ? `<div><small>${p.description}</small></div>` : ''}
                     </div>
+                  </div>
                 `).join('')}
                 <h4>Lines (${linesData.length} available)</h4>
                 ${linesData.map(l => `
-                    <div class="feature-item" onclick="toggleFeatureSelection(${l.id}, 'line', this)">
+                    <div class="feature-item" 
+                     data-id="${l.id}"
+                       data-type="line">
                         <input type="checkbox" id="line_${l.id}">
                         <div class="feature-item-content">
-                            <strong>${l.name}</strong>
+                            <strong>${l.title}</strong>
                             <small>ID: ${l.id}</small>
                             ${l.description ? `<div><small>${l.description}</small></div>` : ''}
                         </div>
                     </div>
                 `).join('')}
             `;
+
+
+    list.querySelectorAll('.feature-item').forEach(el => {
+          el.addEventListener('click', () => {
+            toggleFeatureSelection(
+              el.dataset.id,
+              el.dataset.type,
+              el
+            );
+          });
+        });
 
     modal.style.display = 'block';
 }
@@ -281,11 +296,13 @@ function closeFeatureModal() {
 }
 
 function toggleFeatureSelection(featureId, featureType, element) {
+    console.log('toggle feature selection!')
     const checkbox = document.getElementById(`${featureType}_${featureId}`);
     checkbox.checked = !checkbox.checked;
     element.classList.toggle('selected');
 
     if (checkbox.checked) {
+		console.log('checked checkbox', featureId)
         selectedFeatures.push({id: featureId, type: featureType});
     } else {
         selectedFeatures = selectedFeatures.filter(
@@ -296,9 +313,11 @@ function toggleFeatureSelection(featureId, featureType, element) {
 
 function addSelectedFeatures() {
     if (currentStepForFeatures === null) return;
-
     const step = data.sequence[currentStepForFeatures];
+	console.log('step', step)
+	console.log(selectedFeatures)
     selectedFeatures.forEach(feature => {
+		console.log('feature', feature)
         const exists = step.features.some(
             f => f.id === feature.id && f.type === feature.type
         );

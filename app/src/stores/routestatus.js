@@ -8,11 +8,13 @@ import {nextTick} from "vue";
 const {getFilePath} = useCorrectBasePath();
 
 function orderRouteLineFeatures(routeData) {
+    console.log('routeData', routeData)
     if (!routeData?.features || !routeData?.sequence) return [];
 
     const routeFeatures = routeData.features.filter(f => f.topic === 'route');
     const featureById = {};
     routeFeatures.forEach(f => { featureById[f.id] = f; });
+    console.log('routeFeatures', routeFeatures)
 
     const ordered = [];
     routeData.sequence.forEach(step => {
@@ -156,6 +158,7 @@ export const useRouteInfoStore = defineStore('routeInfo', {
 
         async loadRouteData() {
             this.loading = true;
+            log('loading for ')
             try {
                 const response = await fetch(
                     getFilePath(`map/${this.mapId}/geojson/bundled_route_data.json`)
@@ -191,6 +194,7 @@ export const useRouteInfoStore = defineStore('routeInfo', {
         const data = [];
 
         features.forEach(feature => {
+            log('feat', feature)
             const stepId = feature.properties?.route_sequence_id;
             const elevations = feature.elevation || [];
 
@@ -241,6 +245,8 @@ export const useRouteInfoStore = defineStore('routeInfo', {
             },
             byStep
         };
+                log('Processed elevation data.')
+
     },
 
         setActiveStep(stepId) {

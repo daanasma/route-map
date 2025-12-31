@@ -31,7 +31,7 @@
           Distance: {{ routeStatus.activeStepLengthKm }}km
         </p>
         <ElevationProfile
-        v-if="segmentElevationData !== null"
+        v-if="segmentElevationData !== null && routeStatus.activeStepData.show_elevation_profile"
         :elevation-data="segmentElevationData"
         />
 

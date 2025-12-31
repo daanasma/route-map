@@ -104,8 +104,11 @@ function bundleRouteDataAllRoutes(routeLimitation) {
                 Object.entries(mapConfig.configuredRoutes).forEach(([key, value]) => {
                     let routeId = key
                     console.log("Start possibly bundling: ", routeId)
-                    if ((!routeLimitation) || (routeLimitation == routeId)) {
-                        console.log('-> Yes.Bundle it')
+                    if (
+                      routeLimitation == null ||
+                      routeLimitation === routeId ||
+                      (Array.isArray(routeLimitation) && routeLimitation.includes(routeId))
+                    ) {                        console.log('-> Yes.Bundle it')
                         bundleRouteData(routeId)
                     } else {
                         console.log("-> Skipping this route for now.")
@@ -124,7 +127,11 @@ function minifyJsonFiles(routeLimitation) {
         apply: 'build',
         writeBundle() {
             Object.entries(mapConfig.configuredRoutes).forEach(([routeId]) => {
-                if (!routeLimitation || routeLimitation === routeId) {
+                if (
+                      routeLimitation == null ||
+                      routeLimitation === routeId ||
+                      (Array.isArray(routeLimitation) && routeLimitation.includes(routeId))
+                    ) {
                     const dir = `./src/data/${routeId}/geojson`;
                     const outputDir = `./dist/map/${routeId}/geojson`;
 
@@ -168,7 +175,6 @@ function listImages(routeId, id) {
 export default function buildPlugins(options = {}) {
     const {routeLimitation = false} = options;
     console.log("Start building datasets with routelimitation: ", routeLimitation);
-    console.log(routeLimitation);
     return [
         bundleRouteDataAllRoutes(routeLimitation),
         minifyJsonFiles(routeLimitation),

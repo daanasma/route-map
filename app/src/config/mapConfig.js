@@ -40,6 +40,21 @@ export default {
             maxZoomFocus: 15,
             useHillshade: false
         },
+        'leuven-city': {
+            id: 'leuven-city',
+            theme: 'light',
+            panelRightSide: 333,
+            isRoute: true,
+            mainColor: '#065809',
+            poiColor: "#2f2d2d",
+            highlightColor: "#912828",
+            hoverColor: "#512a65",
+            basemap: `maptiler-topo-4`,
+            center: [ 4.69, 50.88],
+            zoom: 14,
+            maxZoomFocus: 18,
+            useHillshade: false
+        },
         'paris-roubaix': {
             id: 'paris-roubaix',
             theme: 'light',

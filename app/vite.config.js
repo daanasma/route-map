@@ -5,7 +5,7 @@ import minifyBundleDistJson from './build-tools.js';
 import buildPlugins from "./build-tools.js";
 import { execSync } from 'child_process';
 const buildId = Date.now();
-const routeLimitation = 'carretera-austral'
+const routeLimitation = ['leuven-city', 'carretera-austral']
 
 
 export default defineConfig({

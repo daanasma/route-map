@@ -342,7 +342,6 @@ onUnmounted(() => {
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
-
   gap: 0.5rem;
   height: 100%;
   width: 100%;
@@ -355,7 +354,6 @@ onUnmounted(() => {
 /* Card */
 .card {
   display: flex;
-
   flex-shrink: 0;
   scroll-snap-align: center;
   height: 86%;

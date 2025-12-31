@@ -11,6 +11,8 @@ import maplibre, {
   GeolocateControl,
   NavigationControl,
 } from 'maplibre-gl';
+import ZoomToRouteControl from '../utils/maplibre/ZoomToRouteControl';
+
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { log } from '../debug/debug.js';
 
@@ -55,6 +57,8 @@ export default {
       map.addControl(new AttributionControl({
         compact: true,
       }), "top-left");
+
+      map.addControl(new ZoomToRouteControl(zoomToFullRoute), 'top-right');
 
     }
 
