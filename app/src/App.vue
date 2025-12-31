@@ -1,3 +1,14 @@
+<template>
+  <div >
+
+    <router-view /> <!-- Renders the current route (either Home or About) -->
+    <div v-if="routeStore.loading">Loading route data...</div>
+    <div v-else-if="routeStore.error">Error: {{ routeStore.error }}</div>
+      <DebugOverlay />
+  </div>
+</template>
+
+
 <script setup>
 import { onMounted , watch} from 'vue';
 import { useRoute } from 'vue-router';
@@ -27,15 +38,6 @@ onMounted(() => {
 
 </script>
 
-<template>
-  <div >
-
-    <router-view /> <!-- Renders the current route (either Home or About) -->
-    <div v-if="routeStore.loading">Loading route data...</div>
-    <div v-else-if="routeStore.error">Error: {{ routeStore.error }}</div>
-      <DebugOverlay />
-  </div>
-</template>
 
 <style scoped>
 

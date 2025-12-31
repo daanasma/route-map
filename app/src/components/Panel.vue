@@ -1,16 +1,18 @@
 <template>
   <div class="layout-container">
     <!-- Header -->
-    <header v-if="!isTablet && routeStatus.routeData" >
-          <BreadCrumb></BreadCrumb>
+    <header v-if="!isTablet && routeStatus.routeData">
+      <BreadCrumb />
     </header>
 
     <!-- Content -->
+    <CardSlider
+      v-if="isTablet && routeStatus.routeData"
+      :cards="routeCards"
+      :isMobile="true"
+    />
+    <DetailInfoPanel v-if="!isTablet && routeStatus.routeData" />
 
-    <CardSlider v-if="isTablet && routeStatus.routeData" :cards="routeCards" :isMobile="true" />
-    <DetailInfoPanel v-if="!isTablet && routeStatus.routeData" ></DetailInfoPanel>
-
-    <!-- Desktop Content -->
     <!-- Footer Navigation -->
     <footer v-if="!isTablet" class="footer">
       <div v-if="routeStatus.activeTopic === 'overview'">
@@ -24,82 +26,62 @@
     </footer>
   </div>
 </template>
-<script>
-import {useIsTablet} from "../composables/useIsTablet.js";
-import {useRouteInfoStore} from "@/stores/routestatus.js";
-import {watch, ref} from "vue";
+
+<script setup>
+import { ref, watch } from 'vue';
+import { useIsTablet } from '../composables/useIsTablet.js';
+import { useRouteInfoStore } from '@/stores/routestatus.js';
 import CardSlider from '../components/CardSlider.vue';
-import DetailInfoPanel from "../components/DetailInfoPanel.vue";
+import DetailInfoPanel from '../components/DetailInfoPanel.vue';
+import BreadCrumb from '@/components/BreadCrumb.vue';
 import { log } from '../debug/debug.js';
-import BreadCrumb from "@/components/BreadCrumb.vue";
 
-export default {
-  components: {
-    BreadCrumb,
-    DetailInfoPanel,
-    CardSlider,
-  },
-  setup() {
-    const {isTablet} = useIsTablet(); // Call the composable
-    const routeStatus = useRouteInfoStore();
+const { isTablet } = useIsTablet();
+const routeStatus = useRouteInfoStore();
+const routeCards = ref([]);
 
-
-    // const cards = ref(Array.from({ length: 5 }, (_, i) => ({ id: i + 1 })));
-    const routeCards = ref([]);
-
-    const activatePreviousStop = () => {
-      log('Swipe or Button: Previous Stop activated!');
-      routeStatus.previousStep()
-    };
-    const activateNextStop = () => {
-      log("Swipe or Button: Next Stop activated!");
-      routeStatus.nextStep()
-    };
-
-    const activateOverview = () => {
-      routeStatus.setActiveTopic('overview')
-      routeStatus.triggerMapRefresh()
-    }
-
-
-    watch(
-        () => (routeStatus.stopId), // Watch the stopId in the Pinia store
-        (newStopId, oldStopId) => {
-          log(`Panel: Stop ID changed from ${oldStopId} to ${newStopId}`);
-
-          // Handle any side effects or actions you need based on stopId change
-        }
-    );
-
-    watch(
-        () => (routeStatus.activeTopic), // Watch the stopId in the Pinia store
-        (newTopic, oldTopic) => {
-          log(`Panel: active topic changed from ${oldTopic} to ${newTopic}`);
-        },
-        // {immediate: true} // todo check impact of this
-    );
-    watch(
-        () => (routeStatus.routeData), // Watch the stopId in the Pinia store
-        (newValue, oldValue) => {
-          log('Panel: routedata: Loaded routecards to create panel.:', newValue);
-          routeCards.value = routeStatus.routeSequence
-        }
-    );
-
-    return {
-      isTablet,
-      routeStatus,
-      activatePreviousStop,
-      activateNextStop,
-      activateOverview,
-      routeCards,
-    };
-  },
+const activatePreviousStop = () => {
+  log('Swipe or Button: Previous Stop activated!');
+  routeStatus.previousStep();
 };
+
+const activateNextStop = () => {
+  log('Swipe or Button: Next Stop activated!');
+  routeStatus.nextStep();
+};
+
+const activateOverview = () => {
+  routeStatus.setActiveTopic('overview');
+  routeStatus.triggerMapRefresh();
+};
+
+// Watch stopId changes
+watch(
+  () => routeStatus.stopId,
+  (newStopId, oldStopId) => {
+    log(`Panel: Stop ID changed from ${oldStopId} to ${newStopId}`);
+  }
+);
+
+// Watch activeTopic changes
+watch(
+  () => routeStatus.activeTopic,
+  (newTopic, oldTopic) => {
+    log(`Panel: active topic changed from ${oldTopic} to ${newTopic}`);
+  }
+);
+
+// Watch routeData changes
+watch(
+  () => routeStatus.routeData,
+  (newValue) => {
+    log('Panel: routedata: Loaded routecards to create panel:', newValue);
+    routeCards.value = routeStatus.routeSequence;
+  }
+);
 </script>
 
 <style scoped>
-
 .layout-container {
   display: flex;
   flex-direction: row;
@@ -107,9 +89,9 @@ export default {
 }
 
 @media (min-width: 1024px) {
-.layout-container {
-  flex-direction: column;
-}
+  .layout-container {
+    flex-direction: column;
+  }
 }
 
 header {
@@ -121,23 +103,6 @@ header {
   background-color: var(--background-color-contrast);
 }
 
-.main-content {
-  flex-grow: 1;
-  background-color: #f3f4f6; /* bg-gray-100 */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 0;
-  height: calc(100dvh - 8rem);
-}
-
-
-p {
-  color: #4b5563; /* text-gray-600 */
-  margin-bottom: 0.5rem;
-}
-
-
 footer {
   height: 4rem;
   background-color: var(--background-color-contrast);
@@ -146,6 +111,4 @@ footer {
   align-items: center;
   justify-content: space-around;
 }
-
-
 </style>

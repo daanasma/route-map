@@ -1,229 +1,219 @@
 <template>
-<div ref="mapContainer" class="map-container"></div>
+  <div ref="mapContainer" class="map-container"></div>
 </template>
 
-
-<script>
-import {onMounted, ref, watch} from 'vue';
-import {useRoute} from 'vue-router';
+<script setup>
+import { onMounted, ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import maplibre, {
   AttributionControl,
   GeolocateControl,
   NavigationControl,
 } from 'maplibre-gl';
 import ZoomToRouteControl from '../utils/maplibre/ZoomToRouteControl';
-
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { log } from '../debug/debug.js';
-
-import {useRouteInfoStore} from '../stores/routestatus.js';
-
+import { useRouteInfoStore } from '../stores/routestatus.js';
 import {
   useMapLayers,
   useMapHelpers,
-  getFeaturesBoundingBox,
   setMap,
-  setFeatureHighlights
 } from '../composables/useMapLayers';
 import { useElevationHover } from '@/composables/useElevationHover';
+import mapConfig from '@/config/mapConfig.js';
+import baseMapConfig from '@/config/baseMapConfig.js';
 
-import mapConfig from "@/config/mapConfig.js";
-import baseMapConfig from "@/config/baseMapConfig.js";
+const mapContainer = ref(null);
+const route = useRoute();
+const map = ref(null);
+const routeStatus = useRouteInfoStore();
+const { elevationTrackerPoint } = useElevationHover();
+const { zoomToFullRoute, fitMapToFeatureList } = useMapHelpers();
 
-export default {
-  name: 'Map',
-  setup() {
-    const mapContainer = ref(null);
-    const route = useRoute(); // Get the current route (with query params)
-    const map = ref(null); // The map instance
-    const routeStatus = useRouteInfoStore();
-    const { elevationTrackerPoint } = useElevationHover();
-    const {zoomToFullRoute, fitMapToFeatureList} = useMapHelpers()
-
-    function addMapControls(map) {
-      map.addControl(new GeolocateControl({
-          positionOptions: {
-            enableHighAccuracy: true
-          },
-          trackUserLocation: true
-        }));
-      map.addControl(new NavigationControl({
-        visualizePitch: true,
-        visualizeRoll: true,
-        showZoom: true,
-        showCompass: false,
-
-      }), 'bottom-right');
-      map.addControl(new AttributionControl({
-        compact: true,
-      }), "top-left");
-
-      map.addControl(new ZoomToRouteControl(zoomToFullRoute), 'top-right');
-
-    }
-
-    function addHillshadeLayer(map) {
-      if (!map) return
-
-      // avoid adding it twice
-      if (map.getLayer('hillshade')) return
-
-      // add raster-dem source
-      map.addSource('hillshadeSource', {
-        type: 'raster-dem',
-        tiles: ['https://tiles.mapterhorn.com/{z}/{x}/{y}.webp'],
-        encoding: 'terrarium', // or 'mapbox' depending on source
-        tileSize: 512,
-        attribution: '<a href="https://mapterhorn.com/attribution">© Mapterhorn</a>',
-        maxzoom: 14 // stop requesting tiles beyond zoom 14
-      })
-
-      // add hillshade layer
-      map.addLayer({
-        id: 'hillshade',
-        type: 'hillshade',
-        source: 'hillshadeSource',
-        paint: {
-          'hillshade-exaggeration': 1, // adjust vertical exaggeration
-          'hillshade-shadow-color': '#000000',
-          'hillshade-highlight-color': '#FFFFFF',
-          'hillshade-accent-color': '#000000',
-          'hillshade-illumination-direction': 335
-        },
-      })
-    }
-
-    // Initialize the map when the component is mounted
-    onMounted(async () => {
-      log('Map: mounted', mapContainer.value)
-      if (mapContainer.value) {
-        // Initialize the map
-        let thisRouteConfig = mapConfig.configuredRoutes[routeStatus.mapId];
-      log("Map: basemap", baseMapConfig.basemapMap[thisRouteConfig.basemap])
-
-        map.value = new maplibre.Map({
-          container: mapContainer.value,
-          //style: mapStyleOutdoors,
-          style: baseMapConfig.basemapMap[thisRouteConfig.basemap].url,
-          center: thisRouteConfig.center, // Coordinates for Valencia, Spain
-          zoom: thisRouteConfig.zoom,
-          scrollZoom: {
-            speed: 2, // Default is 1. Increase for faster zoom, decrease for slower zoom
-            smooth: true, // Enables smooth zooming
-          },
-          attributionControl: false,
-          renderMode: '2d' // fallback to canvas 2D
-        });
-        log("Map: created map")
-        setMap(map.value)
-        map.value.style.cursor = 'pointer'
-        addMapControls(map.value);// Add controls
-        map.value.on('load', () => {
-          map.value.resize()
-          if (thisRouteConfig.useHillshade) {
-            addHillshadeLayer(map.value)
-          }
-          // Add source and layer once when map loads
-
-        })
-      }
+function addMapControls(mapInstance) {
+  mapInstance.addControl(
+    new GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: true,
+      },
+      trackUserLocation: true,
     })
+  );
 
-    // watch changes in topic
-    watch(
-        () => ([routeStatus.activeTopic, routeStatus.refreshMapTrigger]),
-        ([newtopic, trig1], [oldtopic, trig2]) => {
-          if (oldtopic !== newtopic) {
-            log(`Map: active topic changed to: ${newtopic}`);
-            if (newtopic === 'overview') {
-              zoomToFullRoute()
-            }
-            else if (newtopic === 'route' && oldtopic == 'featuredetail') {
-              fitMapToFeatureList(routeStatus.activeStepFeatures)
-            }
-          }
-          else if (trig1 !== trig2) {
-            log(`Map: Refresh trigger detected`);
-            if (newtopic === 'overview') {
-              zoomToFullRoute()
-            }
-            else if (newtopic === 'route') {
-              fitMapToFeatureList(routeStatus.activeStepFeatures)
-            }
-            else if (newtopic === 'featuredetail') {
-              console.log('routeStatus.activeFeatureData', routeStatus.activeFeatureData)
-              console.log('routeStatus.activeFeatureId', routeStatus.activeFeatureId )
-              fitMapToFeatureList(routeStatus.activeFeatureData)
-            }
-          }
-        }
-    );
+  mapInstance.addControl(
+    new NavigationControl({
+      visualizePitch: true,
+      visualizeRoll: true,
+      showZoom: true,
+      showCompass: false,
+    }),
+    'bottom-right'
+  );
 
-    // watch changes in alldata (on load mainly)
-    watch(
-        () => ([routeStatus.routeData, map.value]),
-        ([newData, newMap], oldValue) => {
-          if (newData && newMap) {
-            log('Map: map or routedata changed -> there is both a map and routedata so we can add the routeData')
-            const { renderLayers } = useMapLayers(map);
-            renderLayers();
+  mapInstance.addControl(
+    new AttributionControl({
+      compact: true,
+    }),
+    'top-left'
+  );
 
-          }}
-    )
-    // watch changes in step id
+  mapInstance.addControl(new ZoomToRouteControl(zoomToFullRoute), 'top-right');
+}
 
-    watch(
-        () => (routeStatus.activeStepId),
-        (newValue, oldValue) => {
-          log('Map: active route step changed.', oldValue, 'new', newValue)
-          if (newValue && routeStatus.activeTopic === 'route') {
-            log('Map: zooming to active route step. Step id:', newValue, routeStatus.activeStepFeatures)
-            fitMapToFeatureList(routeStatus.activeStepFeatures)
-          }
-        }
-    )
+function addHillshadeLayer(mapInstance) {
+  if (!mapInstance || mapInstance.getLayer('hillshade')) return;
 
+  mapInstance.addSource('hillshadeSource', {
+    type: 'raster-dem',
+    tiles: ['https://tiles.mapterhorn.com/{z}/{x}/{y}.webp'],
+    encoding: 'terrarium',
+    tileSize: 512,
+    attribution: '<a href="https://mapterhorn.com/attribution">© Mapterhorn</a>',
+    maxzoom: 14,
+  });
 
-        watch(
-        () => (routeStatus.activeFeatureId),
-        (newValue, oldValue) => {
-          log('Map: active feature changed.', oldValue, 'new', newValue)
-          if (newValue) {
-            log('Map: zooming to active feature. Step feature:', newValue, routeStatus.activeFeatureData)
-            fitMapToFeatureList(routeStatus.activeFeatureData);
-          }
-        }
-    )
+  mapInstance.addLayer({
+    id: 'hillshade',
+    type: 'hillshade',
+    source: 'hillshadeSource',
+    paint: {
+      'hillshade-exaggeration': 1,
+      'hillshade-shadow-color': '#000000',
+      'hillshade-highlight-color': '#FFFFFF',
+      'hillshade-accent-color': '#000000',
+      'hillshade-illumination-direction': 335,
+    },
+  });
+}
 
-// Update on hover
-watch(elevationTrackerPoint, (point) => {
-  if (point) {
-    map.value.getSource('hover-point').setData({
-      type: 'FeatureCollection',
-      features: [{
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: [point.lng, point.lat]
-        }
-      }]
-    });
-  } else {
-    map.value.getSource('hover-point').setData({
-      type: 'FeatureCollection',
-      features: []
-    });
-  }
+function initializeMap() {
+  if (!mapContainer.value) return;
+
+  const thisRouteConfig = mapConfig.configuredRoutes[routeStatus.mapId];
+  log('Map: basemap', baseMapConfig.basemapMap[thisRouteConfig.basemap]);
+
+  map.value = new maplibre.Map({
+    container: mapContainer.value,
+    style: baseMapConfig.basemapMap[thisRouteConfig.basemap].url,
+    center: thisRouteConfig.center,
+    zoom: thisRouteConfig.zoom,
+    scrollZoom: {
+      speed: 2,
+      smooth: true,
+    },
+    attributionControl: false,
+    renderMode: '2d',
+  });
+
+  log('Map: created map');
+  setMap(map.value);
+  map.value.style.cursor = 'pointer';
+  addMapControls(map.value);
+
+  map.value.on('load', () => {
+    map.value.resize();
+    if (thisRouteConfig.useHillshade) {
+      addHillshadeLayer(map.value);
+    }
+  });
+}
+
+onMounted(() => {
+  log('Map: mounted', mapContainer.value);
+  initializeMap();
 });
 
-    ;
-    return {
-      mapContainer,
-    };
-  },
-};
-</script>
+// Watch active topic and refresh trigger
+watch(
+  () => [routeStatus.activeTopic, routeStatus.refreshMapTrigger],
+  ([newTopic, newTrigger], [oldTopic, oldTrigger]) => {
+    const topicChanged = oldTopic !== newTopic;
+    const triggerChanged = newTrigger !== oldTrigger;
 
+    if (topicChanged) {
+      log(`Map: active topic changed to: ${newTopic}`);
+
+      if (newTopic === 'overview') {
+        zoomToFullRoute();
+      } else if (newTopic === 'route' && oldTopic === 'featuredetail') {
+        fitMapToFeatureList(routeStatus.activeStepFeatures);
+      }
+    } else if (triggerChanged) {
+      log('Map: Refresh trigger detected');
+
+      if (newTopic === 'overview') {
+        zoomToFullRoute();
+      } else if (newTopic === 'route') {
+        fitMapToFeatureList(routeStatus.activeStepFeatures);
+      } else if (newTopic === 'featuredetail') {
+        log('routeStatus.activeFeatureData', routeStatus.activeFeatureData);
+        fitMapToFeatureList(routeStatus.activeFeatureData);
+      }
+    }
+  }
+);
+
+// Watch route data and map initialization
+watch(
+  () => [routeStatus.routeData, map.value],
+  ([newData, newMap]) => {
+    if (newData && newMap) {
+      log('Map: map or routedata changed -> there is both a map and routedata so we can add the routeData');
+      const { renderLayers } = useMapLayers(map);
+      renderLayers();
+    }
+  }
+);
+
+// Watch active step changes
+watch(
+  () => routeStatus.activeStepId,
+  (newValue, oldValue) => {
+    log('Map: active route step changed.', oldValue, 'new', newValue);
+
+    if (newValue && routeStatus.activeTopic === 'route') {
+      log('Map: zooming to active route step. Step id:', newValue, routeStatus.activeStepFeatures);
+      fitMapToFeatureList(routeStatus.activeStepFeatures);
+    }
+  }
+);
+
+// Watch active feature changes
+watch(
+  () => routeStatus.activeFeatureId,
+  (newValue, oldValue) => {
+    log('Map: active feature changed.', oldValue, 'new', newValue);
+
+    if (newValue) {
+      log('Map: zooming to active feature. Step feature:', newValue, routeStatus.activeFeatureData);
+      fitMapToFeatureList(routeStatus.activeFeatureData);
+    }
+  }
+);
+
+// Watch elevation hover point
+watch(elevationTrackerPoint, (point) => {
+  if (!map.value) return;
+
+  const hoverSource = map.value.getSource('hover-point');
+  if (!hoverSource) return;
+
+  hoverSource.setData({
+    type: 'FeatureCollection',
+    features: point
+      ? [
+          {
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [point.lng, point.lat],
+            },
+          },
+        ]
+      : [],
+  });
+});
+</script>
 
 <style scoped>
 .map-container {
