@@ -83,10 +83,10 @@ export default {
 
     // Default map style URL (could be a custom Mapbox or MapLibre style URL)
     basemap: 'https://tiles.openfreemap.org/styles/positron',
-    mainColor:mainColor,
-    poiColor: poiColor,
-    highLightColor:highLightColor,
-    hoverColor:hoverColor,
+    mainColor,
+    poiColor,
+    highLightColor,
+    hoverColor,
     sizeMapMarkers,
     iconMap: { //https://labs.mapbox.com/maki-icons/
         national_park: 'park-alt1',
@@ -106,11 +106,9 @@ export default {
         restaurant: 'restaurant',
         supermarket: 'grocery'
     },
-    // Default map center [longitude, latitude]
 
-    // Default map zoom level
 
-    // Layer configurations (you can expand this with more options in the future)
+    // Layer configurations (expand this with more options in the future)
     layerConfigs: {
         'line': {
             'route-line-ferry': {
@@ -147,7 +145,6 @@ export default {
             }
         }
     },
-
-    // Other configuration values, such as bounds, padding, etc.
-    fitBoundsPadding: 20,
+    // Other configuration values
+    fitBoundsPadding: 20
 };
