@@ -3,11 +3,11 @@ const lineWidth = [
     'interpolate',
     ['linear'],
     ['zoom'],
-    8, 3,
-    10, 4,
-    13, 8,
-    16, 12,
-    19, 12
+    8, 2,
+    10, 3,
+    13, 6,
+    16, 8,
+    19, 10
 ]
 const lineOpacity = [
     'interpolate',

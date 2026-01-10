@@ -36,7 +36,7 @@
         :key="card.route_step"
         :data-key="card.route_step"
         :class="['card', { expanded: expandedCard === card.route_step }]"
-        @click="expandCard(card)"
+        @click="showRouteStepBottomPanel(card)"
         class="content-card"
       >
         <div class="text-center">
@@ -74,7 +74,8 @@
     @click="DetailsBottomSheet.snapToPoint(2)"
   >
     <template #header>
-      <h2>{{ expandedCardData?.title || 'Details' }}</h2>
+      <h2 v-if="routeStatus.activeTopic === 'route'">{{ routeStatus.activeStepData?.title || 'Details' }}</h2>
+      <h2 v-if="routeStatus.activeTopic === 'featuredetail'">{{ routeStatus.activeFeatureData[0]?.properties.title || 'Details' }}</h2>
     </template>
 
     <DetailInfoPanel @scrollStateChanged="handleScrollStateChange" />
@@ -111,24 +112,17 @@ const instinctHeight = ref();
 const DetailsBottomSheet = ref(null)
 const expandedCard = ref(null);
 
-const expandedCardData = ref(null);
 const currentCard = ref(null);
 const cardsContainer = ref(null);
 const isFirstCard = ref(false);
 const isLastCard = ref(false);
 const startY = ref(0);
 
-const minHeight = 30;
-const currentCardHeight = ref(70);
-const cardTransition = ref('height 0.3s ease');
-const dragThreshold = 150;
-const showOverlay = ref(true);
 const overlayCollapsable = ref(true);
 const snackbar = ref(false);
 const logMessages = ref([]);
-const maxHeight = ref(50)
 
-  let scrollTimeout = null;
+let scrollTimeout = null;
 const logSnackbar = (message) => {
       logMessages.value.push({ text: message, visible: true });
       log(message);
@@ -137,21 +131,27 @@ const removeMessage = (id) => {
       logMessages.value = logMessages.value.filter((msg) => msg.id !== id);
     };
 
-
 const handleScrollStateChange = (isScrolled) => {
   overlayCollapsable.value = !isScrolled
 };
 
-const expandCard = (card) => {
+const showRouteStepBottomPanel = (card) => {
   if (card.route_step === routeStatus.activeStepId) {
     expandedCard.value = card.route_step;
-    expandedCardData.value = card;
     DetailsBottomSheet.value?.open();
     log("Card should expand now.")
   } else {
     goToCardById(card.route_step);
   }
 };
+
+const showFeatureBottomPanel = (featureId) => {
+  if (routeStatus.activeTopic === 'featuredetail') {
+    alert(featureId)
+    DetailsBottomSheet.value?.open();
+
+  }
+}
 
 const closeExpandedCard = () => {
   DetailsBottomSheet.value?.close()
@@ -246,6 +246,7 @@ const preventScroll = (event) => {
     event.preventDefault(); // Prevent Safari from overriding touch behavior
   }
 };
+
 const navigateCardsWithKeyArrows = (event) => {
   if (event.key === 'ArrowLeft' && !isFirstCard.value) {
     scrollWithButton(-1);
@@ -254,7 +255,7 @@ const navigateCardsWithKeyArrows = (event) => {
   } else if (event.key === 'ArrowDown' && expandedCard.value) {
     closeExpandedCard();
   } else if (event.key === 'ArrowUp' && !expandedCard.value) {
-    expandCard(props.cards[currentCard.value - 1]);
+    showRouteStepBottomPanel(props.cards[currentCard.value - 1]);
   }
 };
 
@@ -270,13 +271,21 @@ watch(
     { immediate: true } // Ensure it triggers immediately when the component is mounted
   );
 
+watch(
+    () => routeStatus.activeFeatureId, // Watch for changes in activeFeature
+    (newVal, oldVal) => {
+      if (newVal !== oldVal) {
+        if (!isLastCard.value | !isFirstCard.value) {
+          showFeatureBottomPanel(newVal); // Scroll to the new kid
+        }
+      }
+    },
+    { immediate: true } // Ensure it triggers immediately when the component is mounted
+  );
+
 
 onMounted(() => {
   log("Cardslider - mounted", routeStatus)
-  // if (cardsContainer.value) {
-  //   cardsContainer.value.addEventListener("touchmove", preventScroll, { passive: false });
-  // }
-
   if (routeStatus.activeStepId) {
     goToCardById(routeStatus.activeStepId);
   }
