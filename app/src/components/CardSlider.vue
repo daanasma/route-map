@@ -147,9 +147,7 @@ const showRouteStepBottomPanel = (card) => {
 
 const showFeatureBottomPanel = (featureId) => {
   if (routeStatus.activeTopic === 'featuredetail') {
-    alert(featureId)
     DetailsBottomSheet.value?.open();
-
   }
 }
 
