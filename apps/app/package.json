@@ -16,13 +16,7 @@
     "maplibre-gl": "^5.13.0",
     "@vueuse/core": "^14.1.0",
     "@douxcode/vue-spring-bottom-sheet": "^2.5.0",
-    "@mdi/font": "^7.4.47",
-    "d3-array": "^3.2.4",
-    "d3-axis": "^3.0.0",
-    "d3-brush": "^3.0.0",
-    "d3-scale": "^4.0.2",
-    "d3-selection": "^3.0.0",
-    "d3-shape": "^3.2.0"
+    "@mdi/font": "^7.4.47"
   },
   "devDependencies": {
     "@mapbox/maki": "^8.2.0",
