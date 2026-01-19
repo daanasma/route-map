@@ -1,8 +1,8 @@
-import {useCorrectBasePath} from '@/composables/useCorrectBasePath.js';
-import mapConfig from '@/config/mapConfig.js'
+import {useCorrectBasePath} from 'app/src/composables/useCorrectBasePath.js';
+import mapConfig from 'app/src/config/mapConfig.js'
 import {defineStore} from 'pinia';
-import {log} from '@/debug/debug.js';
-import {metersToKm} from '@/utils/length.js';
+import {log} from 'app/src/debug/debug.js';
+import {metersToKm} from 'app/src/utils/length.js';
 import {nextTick} from "vue";
 
 const {getFilePath} = useCorrectBasePath();

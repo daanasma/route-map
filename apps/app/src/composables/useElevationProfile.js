@@ -1,6 +1,6 @@
 import { computed } from 'vue';
 import {storeToRefs} from "pinia";
-import {useRouteInfoStore} from "@/stores/routestatus.js";
+import {useRouteInfoStore} from "@repo/common";
 
 export function useElevationProfile(features) {
     return computed(() => {

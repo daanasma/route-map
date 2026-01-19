@@ -119,7 +119,7 @@
 
 
 <script setup>
-import {useRouteInfoStore} from '../stores/routestatus.js';
+import {useRouteInfoStore} from "@repo/common";
 import {computed, ref, watch} from 'vue';
 import ElevationProfile from '@/components/ElevationProfile.vue';
 import {log} from '@/debug/debug.js';

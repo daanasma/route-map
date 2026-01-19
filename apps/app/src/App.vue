@@ -4,7 +4,7 @@
     <router-view /> <!-- Renders the current route (either Home or About) -->
     <div v-if="routeStore.loading">Loading route data...</div>
     <div v-else-if="routeStore.error">Error: {{ routeStore.error }}</div>
-      <DebugOverlay />
+      <DebugOverlay :app-version="version" />
   </div>
 </template>
 
@@ -12,11 +12,12 @@
 <script setup>
 import { onMounted , watch} from 'vue';
 import { useRoute } from 'vue-router';
-import { useRouteInfoStore } from './stores/routestatus.js';
+import { useRouteInfoStore } from '../../../packages/common/src/stores/routestatus.js';
 const route = useRoute();
 const routeStore = useRouteInfoStore();
 const version = __APP_VERSION__;
-import DebugOverlay from './components/DebugOverlay.vue';
+import { DebugOverlay } from '@repo/common';
+
 watch(
   () => route.params.map_id,
   (newMapId) => {

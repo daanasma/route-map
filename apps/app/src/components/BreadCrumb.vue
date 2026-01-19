@@ -20,7 +20,7 @@
 </template>
 
 <script setup>
-import {useRouteInfoStore} from "@/stores/routestatus.js";
+import {useRouteInfoStore} from "@repo/common";
 import { useMapHelpers} from '../composables/useMapLayers';
 
 import {computed} from "vue";

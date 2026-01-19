@@ -2,7 +2,7 @@ import {createRouter, createWebHistory} from "vue-router";
 import Home from '../views/Home.vue';  // Now the Home page is in the views folder
 import About from '../views/About.vue';  // About page in the views folder
 import DemoList from '../views/DemoList.vue';
-import {useSettingsStore} from '../stores/settings';
+import {useSettingsStore} from '@repo/common';
 
 const routes = [
     {

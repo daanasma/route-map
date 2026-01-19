@@ -1,4 +1,4 @@
-import { useSettingsStore } from '../stores/settings.js';
+import { useSettingsStore } from '../../../../packages/common/src/stores/settings.js';
 
 export function log(...args) {
   const settingsStore = useSettingsStore();

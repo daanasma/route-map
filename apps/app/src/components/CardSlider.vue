@@ -89,7 +89,7 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted, watch } from 'vue';
-import { useRouteInfoStore } from '@/stores/routestatus.js';
+import { useRouteInfoStore } from '@repo/common/stores/routestatus.js';
 import DetailInfoPanel from "@/components/DetailInfoPanel.vue";
 import BottomSheet from '@douxcode/vue-spring-bottom-sheet';
 import '@douxcode/vue-spring-bottom-sheet/dist/style.css';

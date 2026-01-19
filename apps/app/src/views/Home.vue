@@ -29,7 +29,7 @@ import Map from '../components/Map.vue';
 import Content from '../components/Panel.vue';
 import {watch, onMounted} from "vue";
 import {useRoute, useRouter} from "vue-router";
-import {useRouteInfoStore} from '../stores/routestatus.js';
+import {useRouteInfoStore} from "@repo/common";
 import {useUpdateQueryParam} from "@/composables/useQueryParams.js";
 
 const route = useRoute(); // Get the current route (with query params)

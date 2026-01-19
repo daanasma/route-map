@@ -30,7 +30,7 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { useIsTablet } from '../composables/useIsTablet.js';
-import { useRouteInfoStore } from '@/stores/routestatus.js';
+import { useRouteInfoStore } from '@repo/common/stores/routestatus.js';
 import CardSlider from '../components/CardSlider.vue';
 import DetailInfoPanel from '../components/DetailInfoPanel.vue';
 import BreadCrumb from '@/components/BreadCrumb.vue';

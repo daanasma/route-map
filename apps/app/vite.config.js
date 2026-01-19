@@ -17,7 +17,8 @@ export default defineConfig({
     },
     resolve: {
         alias: {
-            "@": fileURLToPath(new URL("./src", import.meta.url)), // Ensure this points to your src directory
+            "@": fileURLToPath(new URL("./src", import.meta.url)),
+            "@repo/common": fileURLToPath(new URL("../../packages/common/src", import.meta.url))
         },
     },
     server: {

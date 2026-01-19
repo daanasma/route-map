@@ -1,7 +1,7 @@
 // src/composables/useMapLayers.js
 
 import {ref} from 'vue';
-import {useRouteInfoStore} from '../stores/routestatus.js';
+import {useRouteInfoStore} from "@repo/common";
 import mapConfig from '../config/mapConfig.js';
 import {LngLatBounds} from "maplibre-gl"; // Import map configuration
 import {log} from '@/debug/debug.js';

@@ -13,7 +13,7 @@ import maplibre, {
 import ZoomToRouteControl from '../utils/maplibre/ZoomToRouteControl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { log } from '../debug/debug.js';
-import { useRouteInfoStore } from '../stores/routestatus.js';
+import { useRouteInfoStore } from '../../../../packages/common/src/stores/routestatus.js';
 import {
   useMapLayers,
   useMapHelpers,

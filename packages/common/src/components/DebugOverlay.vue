@@ -16,9 +16,16 @@
 </template>
 
 <script setup>
-import { useRouteInfoStore } from '../../../../packages/common/src/stores/routestatus.js';
-import { useSettingsStore } from '../../../../packages/common/src/stores/settings.js';
+import { useRouteInfoStore } from '../stores/routestatus.js';
+import { useSettingsStore } from '../stores/settings.js';
 import { computed, ref } from 'vue';
+
+const props = defineProps({
+  appVersion: {
+    type: String,
+    default: '0.0.0'
+  }
+});
 
 const routeInfoStore = useRouteInfoStore();
 const settingsStore = useSettingsStore();
@@ -40,7 +47,7 @@ const storeState = computed(() => ({
   activeStepId: routeInfoStore.activeStepId,
   activeFeatureId: routeInfoStore.activeFeatureId,
   activeTopic: routeInfoStore.activeTopic,
-  appVersion: __APP_VERSION__,
+  appVersion: props.appVersion,
 }));
 
 // showOverlay ref is niet langer nodig, we gebruiken isDebugMode en isCollapsed
