@@ -1,0 +1,24 @@
+{
+  "private": true,
+  "version": "0.2.0",
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:app": "npm --workspace apps/app run dev",
+    "dev:admin": "npm --workspace apps/admin run dev",
+    "build:app": "npm --workspace apps/app run build",
+    "build:admin": "npm --workspace apps/admin run build",
+    "preview:app": "npm --workspace apps/app run preview",
+    "preview:admin": "npm --workspace apps/admin run preview"
+  },
+  "devDependencies": {
+    "vite": "^7.2.6",
+    "@vitejs/plugin-vue": "^6.0.2",
+    "sass-embedded": "^1.93.3",
+    "sharp": "^0.34.5",
+    "unocss": "^66.5.10-beta.1"
+  }
+}

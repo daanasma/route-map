@@ -1,0 +1,152 @@
+{
+  "metadata": {
+    "title": "Carretera Austral",
+    "description": "A multi day adventure through the pristine Chilean Patagonia.",
+    "description_long": "The Carretera Austral (officially Chile's Route 7) is a legendary, partially paved highway in Southern Chile that stretches over 1,240 km (770 mi) through the rugged and remote landscapes of Chilean Patagonia. It is celebrated as one of the world's most spectacular road trips, offering access to fjords, glaciers, dense temperate rainforests, and national parks that were once virtually inaccessible by land. ",
+    "banner": "carretera-austral/img/overview/voh_air_view.jpg",
+    "circular": false,
+    "difficulty_level": "Extreme",
+    "version": "1.0",
+    "created": "2025-01-01",
+    "last_edit": "2025-11-28"
+  },
+  "sequence": [
+    {
+      "route_step": 1,
+      "title": "Villa o Higgins",
+      "features": [
+        {
+          "id": "villa-o-higgins",
+          "type": "point"
+        }
+      ],
+      "summary": "Villa O Higgins is the starting point of this adventure.",
+	  "show_elevation_profile": false
+    },
+    {
+      "route_step": 2,
+      "features": [
+        {
+          "id": "voh-town-ride",
+          "type": "line"
+        },
+		        {
+          "id": "voh-to-yungay",
+          "type": "line"
+        }
+      ],
+      "title": "Villa O Higgins towards the ferry",
+      "summary": "Riding towards the ferry. Some parts asphalt, some parts gravel but great views overalss.",
+	  "show_elevation_profile": true
+
+    },
+    {
+      "route_step": 3,
+      "features": [
+        {
+          "id": "puerto-rio-bravo",
+          "type": "point"
+        },
+        {
+          "id": "yungay-ferry",
+          "type": "line"
+        },
+        {
+          "id": "puerto-yungay",
+          "type": "point"
+        }
+      ],
+      "title": "Ferry",
+      "summary": "on a boat motherfucker.",
+	  "show_elevation_profile": false
+
+    },
+    {
+      "route_step": 4,
+      "features": [
+        {
+          "id": "bravo-to-cochrane",
+          "type": "line"
+        }
+      ],
+      "title": "Route step 4",
+      "summary": "Cruising some more. Try to fish.",
+	  "show_elevation_profile": true
+
+
+    },
+    {
+      "route_step": 5,
+      "features": [
+        {
+          "id": "cochrane",
+          "type": "point"
+        }
+      ],
+      "title": "Cochrane",
+      "summary": "Cochrane, a sleepy village where you can get some good food.",
+	  "show_elevation_profile": false
+
+    },
+
+    {
+      "route_step": 6,
+      "features": [
+        {
+          "id": "cochrane-to-bertrand",
+          "type": "line"
+        }
+      ],
+      "title": "From Cochrane to Puerto Bertrand",
+      "description": "Incredible cycling along the banks of Rio Baker. The blueness of this water is out of this world.",
+	  "show_elevation_profile": true
+    },
+    {
+      "route_step": 7,
+      "features": [
+        {
+          "id": "puerto-bertrand",
+          "type": "point"
+        }
+      ],
+      "title": "Puerto Bertrand",
+      "summary": "Some good snacks here. Don't forget to go down to the river.",
+	  "show_elevation_profile": false
+
+    },
+    {
+      "route_step": 8,
+      "features": [
+        {
+          "id": "bertrand-to-tranquilo",
+          "type": "line"
+        }
+      ],
+      "title": "50 shades of Blue",
+      "summary": "Connecting Puerto Bertrand to Puerto Rio Tranquilo, there is a lot to see. Glaciers, lush forest and A LOT of water!",
+	  "show_elevation_profile": true
+
+    },
+    {
+      "route_step": 9,
+      "features": [
+        {
+          "id": "puerto-rio-tranquilo",
+          "type": "point"
+        },
+        {
+          "id": "supermarket-rio-tranquilo",
+          "type": "point"
+        },
+        {
+          "id": "camping-rio-chirifo",
+          "type": "point"
+        }
+      ],
+      "title": "Puerto Rio Tranquilo",
+      "summary": "This sleepy village is famous for its boat tours to the Marble caves. It's also the access gate to the Valle Exploradores, a narrow and little known valley with some of the best scenery this region has to offer.",
+	  "show_elevation_profile": false
+    }
+	],
+  "settings": {}
+}
