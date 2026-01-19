@@ -45,8 +45,8 @@ import { scaleLinear } from 'd3-scale';
 import { line, area, curveMonotoneX, curveLinear } from 'd3-shape';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { max, min, bisector } from 'd3-array';
-import mapConfig from "@/config/mapConfig.js";
-import { useElevationHover } from '@/composables/useElevationHover';
+import mapConfig from "app/src/config/mapConfig.js";
+import { useElevationHover } from 'app/src/composables/useElevationHover.js';
 
 const { setHoveredPoint, clearHoveredPoint } = useElevationHover();
 const d3 = {
@@ -75,7 +75,6 @@ const props = defineProps({
     default: true
   }
 });
-
 console.log('DATA ------------', props.elevationData)
 
 const svgRef = ref(null);

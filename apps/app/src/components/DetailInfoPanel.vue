@@ -121,10 +121,10 @@
 <script setup>
 import {useRouteInfoStore} from "@repo/common";
 import {computed, ref, watch} from 'vue';
-import ElevationProfile from '@/components/ElevationProfile.vue';
 import {log} from '@/debug/debug.js';
 import {useIsTablet} from "@/composables/useIsTablet.js";
 import { useSegmentElevation } from '@/composables/useElevationProfile.js';
+import {ElevationProfile} from '@repo/common';
 
 const emit = defineEmits(['scrollStateChanged']);
 
