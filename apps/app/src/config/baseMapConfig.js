@@ -5,6 +5,10 @@ export default {
             'type': 'json',
             'url': `https://api.maptiler.com/maps/topo-v4/style.json?key=${maptilerKey}`
         },
+        'tracestrack-carto-osm': {
+            'type': 'json',
+            'url': `https://api.maptiler.com/maps/topo-v4/style.json?key=${maptilerKey}`
+        },
         'openfreemap-liberty': {
             'type': 'json',
             'url': `https://tiles.openfreemap.org/styles/liberty`
