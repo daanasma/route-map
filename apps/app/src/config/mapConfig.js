@@ -49,7 +49,7 @@ export default {
             poiColor: "#2f2d2d",
             highlightColor: "#912828",
             hoverColor: "#512a65",
-            basemap: `maptiler-topo-4`,
+            basemap: `osm-be-raster`,
             center: [ 4.69, 50.88],
             zoom: 14,
             maxZoomFocus: 18,
